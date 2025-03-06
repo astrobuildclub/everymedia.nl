@@ -27,7 +27,7 @@ export const blockWorkRelated = defineType({
       title: 'title',
       intro: 'intro',
     },
-    prepare({title, intro, media}) {
+    prepare({title, intro}) {
       return {
         title: title || 'Untitled Related Work',
         subtitle: intro || 'No intro',
