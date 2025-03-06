@@ -1,9 +1,11 @@
 // ./schemas/blockTypes/blockWorkRelated.ts
 import {defineType, defineField} from 'sanity'
+import {CaseIcon} from '@sanity/icons'
 
 export const blockWorkRelated = defineType({
   name: 'blockWorkRelated',
   type: 'object',
+  icon: CaseIcon,
   title: 'Related Work',
   fields: [
     defineField({name: 'title', type: 'string', title: 'Title', initialValue: 'Related Work'}),
@@ -20,4 +22,16 @@ export const blockWorkRelated = defineType({
       of: [{type: 'reference', to: [{type: 'project'}]}],
     }),
   ],
+  preview: {
+    select: {
+      title: 'title',
+      intro: 'intro',
+    },
+    prepare({title, intro, media}) {
+      return {
+        title: title || 'Untitled Related Work',
+        subtitle: intro || 'No intro',
+      }
+    },
+  },
 })

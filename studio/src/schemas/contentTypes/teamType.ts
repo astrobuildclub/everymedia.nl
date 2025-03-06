@@ -1,10 +1,12 @@
 // ./schemas/contentTypes/teamType.ts
 import {defineType, defineField} from 'sanity'
+import {UserIcon} from '@sanity/icons'
 
 export const teamType = defineType({
   name: 'team',
   type: 'document',
-  title: 'Team Member',
+  icon: UserIcon,
+  title: 'People',
   fields: [
     defineField({name: 'name', type: 'string', title: 'Name'}),
     defineField({name: 'slug', type: 'slug', title: 'Slug', options: {source: 'name'}}),

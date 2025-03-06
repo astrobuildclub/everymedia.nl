@@ -1,12 +1,11 @@
 // ./schemas/blockTypes/blockMultiCol.ts
 import {defineType, defineField} from 'sanity'
-import {blockText} from './blockText'
-import {blockImage} from './blockImage'
-import {blockVideo} from './blockVideo'
+import {InlineIcon} from '@sanity/icons'
 
 export const blockMultiCol = defineType({
   name: 'blockMultiCol',
   type: 'object',
+  icon: InlineIcon,
   title: 'Multi Column Block',
   fields: [
     defineField({name: 'title', type: 'string', title: 'Title'}),

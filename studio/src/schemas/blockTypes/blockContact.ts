@@ -1,10 +1,14 @@
 // ./schemas/blockTypes/blockContact.ts
 import {defineType, defineField} from 'sanity'
+import {UserIcon} from '@sanity/icons'
+
+// https://www.sanity.io/plugins/sanity-plugin-link-field
 import {linkField} from 'sanity-plugin-link-field'
 
 export const blockContact = defineType({
   name: 'blockContact',
   type: 'object',
+  icon: UserIcon,
   title: 'Contact Block',
   fields: [
     defineField({name: 'title', type: 'string', title: 'Title'}),

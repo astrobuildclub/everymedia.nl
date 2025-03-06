@@ -1,11 +1,13 @@
 // ./schemas/blockTypes/blockCards.ts
 import {defineType, defineField} from 'sanity'
-import {cardRichText} from '../options/richTextOptions'
+import {ProjectsIcon} from '@sanity/icons'
+import {richTextSimple} from '../options/richTextOptions'
 
 export const blockCards = defineType({
   name: 'blockCards',
   type: 'object',
-  title: 'Cards Block',
+  icon: ProjectsIcon,
+  title: 'Cards',
   fields: [
     defineField({name: 'title', type: 'string', title: 'Title'}),
     defineField({name: 'intro', type: 'text', title: 'Intro'}),
@@ -31,7 +33,7 @@ export const blockCards = defineType({
               name: 'body',
               type: 'array',
               title: 'Body',
-              of: cardRichText,
+              of: richTextSimple,
             }),
           ],
         },

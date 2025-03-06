@@ -31,7 +31,7 @@ export const captionRichText = [
 ]
 
 // Caption versie met alleen bold & italic
-export const cardRichText = [
+export const richTextSimple = [
   defineArrayMember({
     type: 'block',
     styles: [{title: 'Normal', value: 'normal'}], // Geen koppen, alleen standaard tekst

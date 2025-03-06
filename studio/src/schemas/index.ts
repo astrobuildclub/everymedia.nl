@@ -7,6 +7,7 @@ import {projectType} from './contentTypes/projectType'
 import {audienceType} from './contentTypes/audienceType'
 import {teamType} from './contentTypes/teamType'
 import {faqType} from './contentTypes/faqType'
+import {siteSettingsType} from './contentTypes/siteSettings'
 
 // Pagebuilder block types
 import {blockText} from './blockTypes/blockText'
@@ -14,7 +15,7 @@ import {blockIntro} from './blockTypes/blockIntro'
 import {blockImage} from './blockTypes/blockImage'
 import {blockVideo} from './blockTypes/blockVideo'
 import {blockTestimonial} from './blockTypes/blockTestimonial'
-import {blockImageGallery} from './blockTypes/blockImageGallery'
+import {blockMediaGallery} from './blockTypes/blockMediaGallery'
 import {blockMultiCol} from './blockTypes/blockMultiCol'
 import {blockWorkSelection} from './blockTypes/blockWorkSelection'
 import {blockWorkRelated} from './blockTypes/blockWorkRelated'
@@ -27,6 +28,7 @@ import {blockEpisodes} from './blockTypes/blockEpisodes'
 // Alle schema's exporteren
 export const schemas: SchemaTypeDefinition[] = [
   // Content types
+  siteSettingsType,
   pageType,
   projectType,
   audienceType,
@@ -39,7 +41,7 @@ export const schemas: SchemaTypeDefinition[] = [
   blockImage,
   blockVideo,
   blockTestimonial,
-  blockImageGallery,
+  blockMediaGallery,
   blockMultiCol,
   blockWorkSelection,
   blockWorkRelated,

@@ -1,11 +1,13 @@
 // ./schemas/contentTypes/faqType.ts
 import {defineType, defineField} from 'sanity'
-import {cardRichText} from '../options/richTextOptions'
+import {FeedbackIcon} from '@sanity/icons'
+import {richTextSimple} from '../options/richTextOptions'
 
 export const faqType = defineType({
   name: 'faq',
   type: 'document',
   title: 'FAQ',
+  icon: FeedbackIcon,
   fields: [
     defineField({name: 'title', type: 'string', title: 'Title'}),
     defineField({name: 'question', type: 'string', title: 'Question'}),
@@ -13,7 +15,7 @@ export const faqType = defineType({
       name: 'answer',
       type: 'array',
       title: 'Answer',
-      of: cardRichText,
+      of: richTextSimple,
     }),
   ],
 })

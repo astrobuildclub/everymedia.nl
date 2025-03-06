@@ -1,9 +1,11 @@
 import {defineType, defineField} from 'sanity'
+import {CaseIcon} from '@sanity/icons'
 
 export const projectType = defineType({
   name: 'project',
   type: 'document',
-  title: 'Project',
+  icon: CaseIcon,
+  title: 'Projects',
   groups: [
     {
       name: 'seo',
