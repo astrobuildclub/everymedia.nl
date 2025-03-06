@@ -1,19 +1,56 @@
 import {defineType, defineField} from 'sanity'
-import {blockText} from '../blockTypes/blockText'
-import {blockCards} from '../blockTypes/blockCards'
-import {blockFaqs} from '../blockTypes/blockFaqs'
-import {blockContact} from '../blockTypes/blockContact'
+import {richTextSimple} from '../options/richTextOptions'
+import {UsersIcon} from '@sanity/icons'
+
+// Pagebuilder Blocks
+// blockCards (for the grid layout of cards)
+// blockWorkSelection (manual selection of work items from a reference list)
 
 export const audienceType = defineType({
   name: 'audience',
   type: 'document',
+  icon: UsersIcon,
+  title: 'Audiences',
+  groups: [
+    {name: 'hero', title: 'Hero'},
+    {name: 'content', title: 'Content'},
+    {name: 'seo', title: 'SEO'},
+  ],
   fields: [
-    defineField({name: 'title', type: 'string'}),
-    defineField({name: 'slug', type: 'slug', options: {source: 'title'}}),
+    defineField({
+      name: 'title',
+      type: 'string',
+      group: 'hero',
+    }),
+    defineField({
+      name: 'slug',
+      type: 'slug',
+      options: {source: 'title'},
+      group: 'hero',
+    }),
+    defineField({
+      name: 'subtitle',
+      type: 'string',
+      group: 'hero',
+    }),
+    defineField({
+      name: 'intro',
+      type: 'array',
+      of: richTextSimple,
+      group: 'hero',
+    }),
+
     defineField({
       name: 'pagebuilder',
       type: 'array',
-      of: [{type: 'blockText'}, {type: 'blockCards'}, {type: 'blockFaqs'}, {type: 'blockContact'}],
+      title: 'Content',
+      of: [
+        {type: 'blockText'},
+        {type: 'blockCards'},
+        {type: 'blockWorkSelection'},
+        {type: 'blockFaqs'},
+        {type: 'blockContact'},
+      ],
       validation: (Rule) =>
         Rule.custom((blocks: {_key: string; _type: string}[] | undefined) => {
           const faqBlocks = (blocks || []).filter((block) => block._type === 'blockFaqs')
@@ -29,6 +66,13 @@ export const audienceType = defineType({
 
           return true
         }),
+      group: 'content',
+    }),
+    defineField({
+      title: 'SEO',
+      name: 'seo',
+      type: 'seoMetaFields',
+      group: 'seo',
     }),
   ],
 })

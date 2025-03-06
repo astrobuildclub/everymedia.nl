@@ -1,10 +1,12 @@
-// ./schemas/blockTypes/blockImageGallery.ts
+// ./schemas/blockTypes/blockMediaGallery.ts
 import {defineType, defineField} from 'sanity'
+import {ThLargeIcon} from '@sanity/icons'
 
-export const blockImageGallery = defineType({
-  name: 'blockImageGallery',
+export const blockMediaGallery = defineType({
+  name: 'blockMediaGallery',
   type: 'object',
-  title: 'Image Gallery',
+  icon: ThLargeIcon,
+  title: 'Media Gallery',
   fields: [
     defineField({name: 'title', type: 'string', title: 'Title'}),
     defineField({

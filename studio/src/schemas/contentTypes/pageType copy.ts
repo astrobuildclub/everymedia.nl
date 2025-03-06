@@ -1,6 +1,6 @@
 // pageType.ts
-
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {richTextSimple} from '../options/richTextOptions'
 
 export const pageType = defineType({
   name: 'page',

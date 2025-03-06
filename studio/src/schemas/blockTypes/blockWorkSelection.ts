@@ -1,9 +1,11 @@
 // ./schemas/blockTypes/blockWorkSelection.ts
 import {defineType, defineField} from 'sanity'
+import {CaseIcon} from '@sanity/icons'
 
 export const blockWorkSelection = defineType({
   name: 'blockWorkSelection',
   type: 'object',
+  icon: CaseIcon,
   title: 'Work Selection',
   fields: [
     defineField({name: 'title', type: 'string', title: 'Title', initialValue: 'Selected Projects'}),
