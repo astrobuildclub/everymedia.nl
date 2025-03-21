@@ -1,0 +1,64 @@
+---
+import type { SanityImageType } from "../utils";
+import SanityImage from "./commons/SanityImage.astro";
+
+interface Props {
+  data: {
+    title: string | undefined;
+    subtitle: string | undefined;
+    heroVideo: string | undefined;
+    heroImage: SanityImageType | undefined;
+    select: "heroVideo" | "heroImage" | undefined;
+  };
+}
+const { title, heroVideo, subtitle, heroImage, select } =
+  Astro.props.data || {};
+---
+
+<section class="bg-(--neutrals-black) relative min-h-dvh">
+  <div class="z-5 h-full grid grid-cols-2 absolute top-0 w-full">
+    {
+      title && (
+        <div class="px-(--space-3xs) grid">
+          <h1 class="text-(length:--type-size) text-white font-bold self-end sticky bottom-0 uppercase font-(family-name:--font-heading) leading-[100%]">
+            {title}
+          </h1>
+        </div>
+      )
+    }
+    {
+      subtitle && (
+        <div class="px-(--space-3xs) grid">
+          <h1 class="text-(length:--type-size) text-white font-bold self-end sticky bottom-0 uppercase font-(family-name:--font-heading) leading-[100%]">
+            {subtitle}
+          </h1>
+        </div>
+      )
+    }
+  </div>
+  {
+    select === "heroVideo" && heroVideo && (
+      <div class="h-full w-full absolute top-0">
+        <video
+          class="object-cover h-full w-full"
+          autoplay
+          loop
+          playsinline
+          muted
+          preload="auto"
+          poster="https://picsum.photos/696/391"
+        >
+          <source src={heroVideo} type="video/mp4" />
+          {`Your browser does not support the video tag.`}
+        </video>
+      </div>
+    )
+  }
+  {
+    select === "heroImage" && heroImage && (
+      <div class="h-full w-full absolute top-0">
+        <SanityImage src={heroImage} className=" h-full w-full object-cover md:object-top"/>
+      </div>
+    )
+  }
+</section>

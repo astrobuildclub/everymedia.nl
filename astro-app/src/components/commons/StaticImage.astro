@@ -1,0 +1,15 @@
+---
+interface Props {
+  src: string | undefined;
+  alt?: string | undefined;
+  className?: string;
+  width?: number;
+  height?: number;
+}
+const { src, alt, ...props } = Astro.props || {};
+if (!src) {
+  return null;
+}
+---
+
+<img src={src} alt={alt || "Image"} {...props} />

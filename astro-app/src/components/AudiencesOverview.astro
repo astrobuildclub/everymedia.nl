@@ -1,0 +1,70 @@
+---
+import { PortableText } from "astro-portabletext";
+import SanityImage from "./commons/SanityImage.astro";
+import type { AudienceType } from "../utils/sanity/types/audienceType";
+import type { ButtonType } from "../utils";
+import SanityButton from "./commons/SanityButton.astro";
+
+interface Props {
+  audiences: AudienceType[];
+}
+const { audiences = [] } = Astro.props || {};
+const cta: ButtonType = {
+  _type: "cta",
+  variant: "white",
+  buttonText: "Lees meer",
+};
+---
+
+<div id="sectionPin" class="min-h-full">
+  <div class="min-h-dvh h-screen w-screen sticky top-0 overflow-x-hidden">
+    {
+      audiences?.length > 0 && (
+        <div class="pin-wrap gap-(--space-xs) p-(--space-xs) !px-(--space-xs) !pt-0 min-h-full grid">
+          {audiences?.map((item) => (
+            <div class="audience rounded-(--space-2xs) overflow-hidden min-h-[90svh] md:min-h-[50vh]  sticky top-(--space-xs) h-full">
+              <div class=" p-[1.688rem] md:p-9 rounded-md bg-[rgba(0,0,0,0.40)] backdrop-blur-2xl inset-x-9 bottom-9 md:max-w-1/2 absolute z-2  flex flex-col items-start">
+                {item?.title && (
+                  <h3 class="font-(family-name:--font-primary) text-2xl font-semibold mb-3 leading-[112%] tracking-[-2%] text-gray-50">
+                    {item?.title}
+                  </h3>
+                )}
+                {item?.intro && (
+                  <div class="text-(length:--fs--2) leading-[150%] mb-6 text-gray-50 font-medium tracking-[0.016rem] font-(family-name:--font-primary)">
+                    <PortableText value={item?.intro} />
+                  </div>
+                )}
+                {cta?.buttonText && (
+                  <div>
+                    <SanityButton block={cta} />
+                  </div>
+                )}
+              </div>
+
+              {item?.select === "heroImage" && item?.heroImage && (
+                <SanityImage
+                  src={item?.heroImage}
+                  className=" object-cover  z-1 w-full h-full"
+                />
+              )}
+              {item?.select === "heroVideo" && item?.heroVideo && (
+                <video
+                  class="object-cover z-1 w-full h-full"
+                  autoplay
+                  loop
+                  playsinline
+                  muted
+                  preload="auto"
+                  poster="https://picsum.photos/696/391"
+                >
+                  <source src={item?.heroVideo} type="video/mp4" />
+                  {`Your browser does not support the video tag.`}
+                </video>
+              )}
+            </div>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</div>

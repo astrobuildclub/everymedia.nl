@@ -1,0 +1,143 @@
+---
+import { cn } from "../lib/helperFunctions";
+import { routes } from "../lib/router";
+import type { HeaderType } from "../utils";
+import SanityImage from "./commons/SanityImage.astro";
+
+interface Props {
+  header: HeaderType | undefined;
+  isHeroVideo: boolean | undefined;
+}
+
+const { header, isHeroVideo } = Astro.props || {};
+const { logo, navItems } = header || {};
+---
+
+<header
+  id="site-header"
+  class={cn(
+    "py-3 px-4.5 lg:px-6 absolute top-0 right-0 left-0 z-10",
+    isHeroVideo ? "bg-transparent" : "bg-(--dark-blue)"
+  )}
+>
+  <div class="flex justify-between items-center">
+    <a href={routes.home()} >
+      <SanityImage
+        src={logo}
+        className="max-w-[5.563rem] sm:max-w-[8.25rem] h-[1rem] sm:h-[1.5rem]"
+      />
+    </a>
+
+    <div class="flex gap-2">
+      <div class="hidden lg:flex items-center gap-2">
+        <button
+          class="text-white focus:outline-none uppercase w-10 h-10 flex justify-center items-center rounded-full cursor-pointer text-xs font-medium"
+          style="background-color: var(--white-clr); font-family: var(--font-mono);"
+        >
+          {`IG`}
+        </button>
+        <button
+          class="text-white focus:outline-none uppercase w-10 h-10 flex justify-center items-center rounded-full cursor-pointer text-xs font-medium"
+          style="background-color: var(--white-clr); font-family: var(--font-mono);"
+        >
+          {`LI`}
+        </button>
+      </div>
+
+      <button
+        class="text-white focus:outline-none open-menu uppercase py-[0.75rem] px-[1.5rem] rounded-4xl cursor-pointer text-xs w-[5rem] text-center"
+        style="background-color: var(--charcoal-gray); font-family: var(--font-mono);"
+      >
+        {`Menu`}
+      </button>
+      <button
+        class="hidden close-menu uppercase py-[0.75rem] px-[1.5rem] rounded-4xl text-gray-900 cursor-pointer text-xs w-[5rem] text-center"
+        style="background-color: white; font-family: var(--font-mono);"
+      >
+        {`Close`}
+      </button>
+
+      <nav
+        id="menu"
+        class="hidden absolute top-full left-0 w-full shadow-md z-1 h-screen overflow-y-auto flex justify-center items-center"
+        style="background-color: var(--dark-blue);"
+      >
+        <div class="flex flex-col justify-center items-center space-y-2 px-4.5">
+          {
+            navItems?.map((item) => (
+              <div class="text-center">
+                {item.headline && (
+                  <div
+                    class="text-gray-50 font-medium leading-[150%] tracking-[3%] text-xs uppercase cursor-pointer"
+                    style="font-family: var(--font-mono);"
+                  >
+                    {item?.headline}
+                  </div>
+                )}
+                {item?.labelLinks?.length > 0 &&
+                  item?.labelLinks?.map((labelItem) => (
+                    <div
+                      class="text-white hover:opacity-50 transition-all duration-300 ease-in-out uppercase font-extrabold leading-[90%] cursor-pointer"
+                      style="font-size: var(--fs-9); font-family: var(--font-heading);"
+                    >
+                      {labelItem?.label}
+                    </div>
+                  ))}
+              </div>
+            ))
+          }
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const openMenu = document.querySelector(".open-menu");
+    const closeMenu = document.querySelector(".close-menu");
+    const menu = document.getElementById("menu");
+    const header = document.getElementById("site-header");
+
+    function handleOpenMenu() {
+      menu?.classList.remove("hidden");
+      openMenu?.classList.add("hidden");
+      closeMenu?.classList.remove("hidden");
+      
+      // Prevent scrolling more effectively
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.overflowY = 'scroll';
+
+      // Add 'bg-blue' when menu opens and 'isHeroVideo' is true
+      if (header?.classList.contains("bg-transparent")) {
+        header?.classList.replace("bg-transparent", "bg-(--dark-blue)");
+      }
+    }
+
+    function handleCloseMenu() {
+      menu?.classList.add("hidden");
+      openMenu?.classList.remove("hidden");
+      closeMenu?.classList.add("hidden");
+      
+      // Restore scrolling
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.overflowY = '';
+
+      // Revert back to 'bg-transparent' when menu closes
+      if (header?.classList.contains("bg-(--dark-blue)")) {
+        header?.classList.replace("bg-(--dark-blue)", "bg-transparent");
+      }
+    }
+
+    openMenu?.addEventListener("click", handleOpenMenu);
+    closeMenu?.addEventListener("click", handleCloseMenu);
+
+    // Cleanup event listeners on page unload
+    window.addEventListener("beforeunload", () => {
+      openMenu?.removeEventListener("click", handleOpenMenu);
+      closeMenu?.removeEventListener("click", handleCloseMenu);
+    });
+  });
+</script>

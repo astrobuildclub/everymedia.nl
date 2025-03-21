@@ -1,0 +1,49 @@
+---
+import { PortableText } from "astro-portabletext";
+import type { BlockContactType } from "../../utils";
+import SanityImage from "../commons/SanityImage.astro";
+import SanityButton from "../commons/SanityButton.astro";
+
+interface Props {
+  data: BlockContactType;
+}
+const { title, cta, image, intro } = Astro.props.data || {};
+---
+
+<section class="min-h-svh px-(--space-s) pt-[8rem] pb-[6rem]">
+  <div class="grid md:grid-cols-2 items-center justify-center gap-6">
+    <div class="rounded-4xl w-full">
+      <SanityImage
+        src={image}
+        className="rounded-4xl  w-full h-full object-cover"
+      />
+    </div>
+    <div class="md:px-[2rem] lg:px-[4.5rem]">
+      {
+        title && (
+          <h2 class="text-(length:--fs-4) leading-[112%] tracking-[-2%] uppercase font-bold text-(--off-black) font-(family-name:--font-heading) mb-6">
+            {title}
+          </h2>
+        )
+      }
+      {
+        intro && (
+          <div class="leading-[150%] font-normal tracking-[0.016rem] text-black text-sm font-(family-name:--font-primary) [&>p>strong]:font-(family-name:--font-body) [&>p>strong]:text-(length:--fs-1) [&>p>strong]:leading-[120%] [&>p>strong]:font-bold flex flex-col gap-4.5">
+            <PortableText value={intro} />
+          </div>
+        )
+      }
+      {
+        cta?.length > 0 && (
+          <ul class="mt-6 flex gap-2 flex-wrap">
+            {cta?.map((i) => (
+              <li class="">
+                <SanityButton block={i} />
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+  </div>
+</section>

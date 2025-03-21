@@ -1,0 +1,29 @@
+---
+import type { PagebuilderType } from "../../utils";
+import BlockAudiencesOverviewSection from "../blocks/BlockAudiencesOverviewSection.astro";
+import BlockContact from "../blocks/BlockContact.astro";
+import BlockFeetSection from "../blocks/BlockFeetSection.astro";
+
+interface Props {
+  data: PagebuilderType;
+}
+const { data } = Astro.props || {};
+---
+
+{
+  data._type === "blockAudiencesOverviewSection" && (
+    <BlockAudiencesOverviewSection data={data} />
+  )
+}
+{
+  data._type === "blockFeetSection" && (
+    <BlockFeetSection data={data} />
+  )
+}
+{
+  data._type === "blockContact" && (
+    <BlockContact data={data} />
+  )
+}
+
+

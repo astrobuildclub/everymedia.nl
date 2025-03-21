@@ -1,0 +1,25 @@
+---
+import { useSanityImage } from "../../lib/sanity";
+import type { SanityImageType } from "../../utils";
+
+interface Props {
+  src: SanityImageType | undefined;
+  className?: string;
+}
+const { src,  ...props } = Astro.props || {};
+const { caption, alt,hasCaption } = src || {};
+
+const image = useSanityImage(src);
+if (!image?.src) {
+  return null;
+}
+---
+
+{hasCaption ? (
+  <div class="image-container">
+    <img src={image?.src} alt={alt || "Image"} {...props} />
+    {caption && <p class="image-caption">{caption}</p>}
+  </div>
+) : (
+  <img src={image?.src} alt={alt || "Image"} {...props} />
+)}
