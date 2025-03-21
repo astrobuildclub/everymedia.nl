@@ -1,0 +1,24 @@
+---
+import { PortableText } from "astro-portabletext";
+import type { BlockAudiencesOverviewSectionType } from "../../utils";
+import AudiencesOverview from "../AudiencesOverview.astro";
+
+interface Props {
+  data: BlockAudiencesOverviewSectionType;
+}
+const { title, audiences } = Astro.props.data || {};
+---
+
+<section
+  class="min-h-dvh text-(--clr-secondary) bg-black py-[4.5rem] md:py-[6rem]"
+>
+  {
+    title && (
+      <div class="font-(family-name:--font-heading) font-bold leading-[112%] tracking-[-2%] uppercase text-gray-50 text-(length:--fs-4) px-(--space-xs) mb-2 md:mb-6">
+        <PortableText value={title} />
+      </div>
+    )
+  }
+
+  {audiences?.length > 0 && <AudiencesOverview audiences={audiences} />}
+</section>

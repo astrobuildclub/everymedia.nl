@@ -1,0 +1,125 @@
+---
+import { PortableText } from "astro-portabletext";
+import type { BlockFeetSectionType, ButtonType } from "../../utils";
+import ProjectGridHomepage from "../ProjectGridHomepage.astro";
+import SanityButton from "../commons/SanityButton.astro";
+import { cn } from "../../lib/helperFunctions";
+
+interface Props {
+  data: BlockFeetSectionType;
+}
+const {
+  title,
+  body,
+  connectWithUs = [],
+  subTitle,
+  allProjects = [],
+} = Astro.props.data || {};
+const cta: ButtonType = {
+  _type: "cta",
+  variant: "black",
+  buttonText: "meer werk",
+};
+---
+
+<section class="-mt-(--type-pos)">
+  <div class="relative grid grid-cols-2">
+    {
+      title && (
+        <div class=" md:row-span-2 row-start-1 px-(--space-3xs)">
+          <div class="md:-top-6 md:sticky">
+            <div class="text-(length:--type-size) text-(--charcoal-gray) font-bold font-(family-name:--font-heading) uppercase leading-[100%]">
+              <PortableText value={title} />
+            </div>
+          </div>
+        </div>
+      )
+    }
+    <div class=" md:col-start-2 md:row-span-1 md:row-start-1">
+      <h1
+        class="px-(--space-3xs) text-(length:--type-size) font-bold text-(--charcoal-gray) font-(family-name:--font-heading) uppercase leading-[100%]"
+      >
+        Media
+      </h1>
+    </div>
+    {
+      connectWithUs?.length > 0 && (
+        <div class=" md:bottom-0 col-span-full md:col-span-1 md:sticky grid row-span-1 md:row-start-3 -z-10">
+          <div class="section-footer p-(--space-xs) gap-(--space-xs) md:row-span-2 md:sticky md:bottom-0 order-4 grid-cols-4 hidden md:grid self-end pb-[4.5rem] md:pb-[6rem]">
+            {connectWithUs?.map((item) => (
+              <div
+                class={cn(
+                  "",
+                  item?.select === "body"
+                    ? "col-span-4 md:col-span-2"
+                    : "col-span-2 md:col-span-1"
+                )}
+              >
+                {item?.title && (
+                  <div>
+                    {item?.title && (
+                      <div class="text-xs text-neutral-600 leading-[150%] font-medium uppercase tracking-[3%] font-(family-name:--font-mono) mb-2">
+                        {item?.title}
+                      </div>
+                    )}
+                    {item?.select === "body" && item?.body && (
+                      <div class="text-(length:--fs--2)  text-balance leading-[150%] font-normal text-(--dim-gray) font-(family-name:--font-body)">
+                        <PortableText value={item?.body} />
+                      </div>
+                    )}
+                    {item?.select === "labelLinks" &&
+                      item?.labelLinks?.length > 0 && (
+                        <ul class="text-(length:--fs--2)  leading-(--leading-tight) font-medium m-0 p-0">
+                          {item?.labelLinks?.map((item) => (
+                            <li class="text-(length:--fs--2)  text-balance leading-[150%] font-normal text-(--dim-gray) font-(family-name:--font-primary)">
+                              {item?.label}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )
+    }
+    <div
+      class="col2 col-span-full md:col-span-1 row-start-2 row-span-2 grid py-(--space-s) p-(--space-xs) pb-[4.5rem] md:pb-[6rem]"
+    >
+      <div class="flex flex-col gap-4.5 mb-9">
+        {
+          subTitle && (
+            <div class="text-(length:--fs-0) leading-[133%] text-pretty text-(--neutrals-black) font-medium">
+              <PortableText value={subTitle} />
+            </div>
+          )
+        }
+        {
+          body && (
+            <div class="text-(length:--fs--1) leading-[133%] text-pretty font-normal text-(--neutrals-black)">
+              <PortableText value={body} />
+            </div>
+          )
+        }
+      </div>
+      {
+        allProjects?.length > 0 && (
+          <div>
+            <ProjectGridHomepage projects={allProjects} />
+          </div>
+        )
+      }
+      {
+        cta?.buttonText && (
+          <div>
+            <div>
+              <SanityButton block={cta} className="rounded-full" />
+            </div>
+          </div>
+        )
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,296 @@
+@import "tailwindcss";
+
+:root {
+  --debug: red;
+  /* 	--clr-primary: color(display-p3 0.03285 0.21589 0.9631); */
+  --clr-bg: #fff;
+  --clr-text: #111;
+  /*   	--clr-primary: color(display-p3 0.149 0.01937 0.29742); */
+  --clr-primary: hsl(240, 90%, 59%);
+
+  --charcoal-gray: #28252b;
+  --neutrals-black: #000000;
+  --white-clr: #ffffff1a;
+  --off-black: #111111;
+  --dim-gray: #333333;
+  --dark-blue: #1119d3;
+
+  /* dark */
+  --clr-primary-a50: oklch(from var(--clr-primary) l c h / calc(alpha - 0.5));
+  --clr-primary-a50: oklch(from var(--clr-primary) l c h / calc(alpha - 0.5));
+  /* 	--clr-secondary: color(display-p3 0.75128 0.86735 0.97458); */
+  --clr-secondary: hsl(240, 90%, 99%);
+  /* light */
+  --font-heading: "Barlow Condensed", Serif;
+  --font-body:
+    "Barlow", Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans",
+    Arial, sans-serif;
+  --font-primary: "Antarctica VAR";
+  --font-mono: "DM Mono", monospace;
+  --gutter: 1rem;
+  --type-size: 21vw;
+  --type-pos: calc(var(--type-size) * 1);
+  --type-translate: 200%;
+  --leading-tight: 112.5%;
+
+  /* @link https://utopia.fyi/type/calculator?c=320,18,1.2,1920,24,1.333,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
+
+  /* Step -2: 12.5px → 13.5068px */
+  --fs--2: clamp(0.7813rem, 0.7687rem + 0.0629vw, 0.8442rem);
+  /* Step -1: 15px → 18.0045px */
+  --fs--1: clamp(0.9375rem, 0.8999rem + 0.1878vw, 1.1253rem);
+  /* Step 0: 18px → 24px */
+  --fs-0: clamp(1.125rem, 1.05rem + 0.375vw, 1.5rem);
+  /* Step 1: 21.6px → 31.992px */
+  --fs-1: clamp(1.35rem, 1.2201rem + 0.6495vw, 1.9995rem);
+  /* Step 2: 25.92px → 42.6453px */
+  --fs-2: clamp(1.62rem, 1.4109rem + 1.0453vw, 2.6653rem);
+  /* Step 3: 31.104px → 56.8462px */
+  --fs-3: clamp(1.944rem, 1.6222rem + 1.6089vw, 3.5529rem);
+  /* Step 4: 37.3248px → 75.776px */
+  --fs-4: clamp(2.3328rem, 1.8522rem + 2.4032vw, 4.736rem);
+  /* Step 5: 44.7898px → 101.0094px */
+  --fs-5: clamp(2.7994rem, 2.0966rem + 3.5137vw, 6.3131rem);
+  /* Step 6: 53.7477px → 134.6456px */
+  --fs-6: clamp(3.3592rem, 2.348rem + 5.0561vw, 8.4153rem);
+  /* Step 7: 64.4973px → 179.4826px */
+  --fs-7: clamp(4.0311rem, 2.5938rem + 7.1866vw, 11.2177rem);
+  /* Step 8: 77.3967px → 239.2503px */
+  --fs-8: clamp(4.8373rem, 2.8141rem + 10.1158vw, 14.9531rem);
+  /* Step 9: 53px → 101px */
+  --fs-9: clamp(3.313rem, 4vw + 2rem, 6.313rem);
+  /* Step 10: 64px → 350px */
+  --fs-10: clamp(4rem, 2.5rem + 9.6875vw, 21.875rem);
+
+  /* @link https://utopia.fyi/space/calculator?c=320,18,1.2,1920,24,1.333,8,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
+
+  /* Space 3xs: 5px → 6px */
+  --space-3xs: clamp(0.3125rem, 0.3rem + 0.0625vw, 0.375rem);
+  /* Space 2xs: 9px → 12px */
+  --space-2xs: clamp(0.5625rem, 0.525rem + 0.1875vw, 0.75rem);
+  /* Space xs: 14px → 18px */
+  --space-xs: clamp(0.875rem, 0.825rem + 0.25vw, 1.125rem);
+  /* Space s: 18px → 24px */
+  --space-s: clamp(1.125rem, 1.05rem + 0.375vw, 1.5rem);
+  /* Space m: 27px → 36px */
+  --space-m: clamp(1.6875rem, 1.575rem + 0.5625vw, 2.25rem);
+  /* Space l: 36px → 48px */
+  --space-l: clamp(2.25rem, 2.1rem + 0.75vw, 3rem);
+  /* Space l: 18px → 48px */
+  /* --space-em: clamp(1.125rem, 5vw, 3rem); */
+  /* Space xl: 54px → 72px */
+  --space-xl: clamp(3.375rem, 3.15rem + 1.125vw, 4.5rem);
+  /* Space 2xl: 72px → 96px */
+  --space-2xl: clamp(4.5rem, 4.2rem + 1.5vw, 6rem);
+  /* Space 3xl: 108px → 144px */
+  --space-3xl: clamp(6.75rem, 6.3rem + 2.25vw, 9rem);
+
+  /* Space sm: 12px → 25px */
+  --space-sm: clamp(0.75rem, 0.723rem + 0.0846vw, 1.5625rem);
+
+  /* One-up pairs */
+  /* Space 3xs-2xs: 5px → 12px */
+  --space-3xs-2xs: clamp(0.3125rem, 0.225rem + 0.4375vw, 0.75rem);
+  /* Space 2xs-xs: 9px → 18px */
+  --space-2xs-xs: clamp(0.5625rem, 0.45rem + 0.5625vw, 1.125rem);
+  /* Space xs-s: 14px → 24px */
+  --space-xs-s: clamp(0.875rem, 0.75rem + 0.625vw, 1.5rem);
+  /* Space s-m: 18px → 36px */
+  --space-s-m: clamp(1.125rem, 0.9rem + 1.125vw, 2.25rem);
+  /* Space m-l: 27px → 48px */
+  --space-m-l: clamp(1.6875rem, 1.425rem + 1.3125vw, 3rem);
+  /* Space l-xl: 36px → 72px */
+  --space-l-xl: clamp(2.25rem, 1.8rem + 2.25vw, 4.5rem);
+  /* Space xl-2xl: 54px → 96px */
+  --space-xl-2xl: clamp(3.375rem, 2.85rem + 2.625vw, 6rem);
+  /* Space 2xl-3xl: 72px → 144px */
+  --space-2xl-3xl: clamp(4.5rem, 3.6rem + 4.5vw, 9rem);
+
+  /* Custom pairs */
+  /* Space s-l: 18px → 48px */
+  --space-s-l: clamp(1.125rem, 0.75rem + 1.875vw, 3rem);
+}
+
+pre {
+  display: none;
+}
+/* barlow-condensed-latin-400-normal */
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src:
+    url(https://cdn.jsdelivr.net/fontsource/fonts/barlow-condensed@latest/latin-400-normal.woff2)
+      format("woff2"),
+    url(https://cdn.jsdelivr.net/fontsource/fonts/barlow-condensed@latest/latin-400-normal.woff)
+      format("woff");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+
+/* barlow-condensed-latin-500-normal */
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src:
+    url(https://cdn.jsdelivr.net/fontsource/fonts/barlow-condensed@latest/latin-500-normal.woff2)
+      format("woff2"),
+    url(https://cdn.jsdelivr.net/fontsource/fonts/barlow-condensed@latest/latin-500-normal.woff)
+      format("woff");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+
+/* barlow-condensed-latin-800-normal */
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 800;
+  src:
+    url(https://cdn.jsdelivr.net/fontsource/fonts/barlow-condensed@latest/latin-800-normal.woff2)
+      format("woff2"),
+    url(https://cdn.jsdelivr.net/fontsource/fonts/barlow-condensed@latest/latin-800-normal.woff)
+      format("woff");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Sofia Sans Extra Condensed Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 1 1000;
+  src: url(https://cdn.jsdelivr.net/fontsource/fonts/sofia-sans-extra-condensed:vf@latest/latin-wght-normal.woff2)
+    format("woff2-variations");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Antarctica VAR";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 1 1000;
+  src: url("https://db.onlinewebfonts.com/t/e781d1cba25f85543d695ab1c049cbf2.eot");
+  src:
+    url("https://db.onlinewebfonts.com/t/e781d1cba25f85543d695ab1c049cbf2.eot?#iefix")
+      format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/e781d1cba25f85543d695ab1c049cbf2.woff2")
+      format("woff2"),
+    url("https://db.onlinewebfonts.com/t/e781d1cba25f85543d695ab1c049cbf2.woff")
+      format("woff"),
+    url("https://db.onlinewebfonts.com/t/e781d1cba25f85543d695ab1c049cbf2.ttf")
+      format("truetype"),
+    url("https://db.onlinewebfonts.com/t/e781d1cba25f85543d695ab1c049cbf2.svg#Antarctica VAR")
+      format("svg");
+}
+
+body {
+  font-family: var(--font-body);
+  /* 	background: var(--clr-secondary); */
+  color: var(--clr-primary);
+  font-size: var(--fs-0);
+  line-height: 112.5%;
+  will-change: transform;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* Modern scroll-driven animatie */
+@supports (animation-timeline: --section-pin-tl) {
+  .audience {
+    position: relative;
+  }
+
+  #sectionPin {
+    --margin: var(--space-xl);
+    --gutter: var(--space-xl);
+    --debug: green;
+
+    /* Stretch it out, so that we create room for the horizontal scroll animation */
+    height: 500vh;
+    overflow: visible;
+    /* To make position sticky work … */
+    view-timeline-name: --section-pin-tl;
+    view-timeline-axis: block;
+  }
+
+
+  .pin-wrap {
+    display: flex;
+    /* Flex-indeling voor de animatie */
+    animation: move linear forwards;
+    animation-timeline: --section-pin-tl;
+    animation-range: contain 0% contain 100%;
+    will-change: transform;
+    gap: var(--gutter);
+  }
+
+  .pin-wrap {
+    height: 100vh;
+    width: calc(300vmax - var(--margin) * 2);
+    /* length of scroll */
+    /* Hook animation */
+    will-change: transform;
+    animation: linear move forwards;
+
+    /* Link animation to view-timeline */
+    animation-timeline: --section-pin-tl;
+    animation-range: contain 0% contain 100%;
+  }
+
+  .pin-wrap {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: var(--margin) var(--margin);
+  }
+
+  .pin-wrap > * {
+    min-width: 100vmax;
+    min-width: calc(100vmax - var(--margin) * 2);
+    width: calc(100vmax - var(--margin) * 2);
+    padding: 0 0vmax;
+  }
+}
+
+@keyframes move {
+  to {
+    /* Move horizontally so that right edge is aligned against the viewport */
+    transform: translateX(calc(-100% + 100vw));
+  }
+}
+
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}

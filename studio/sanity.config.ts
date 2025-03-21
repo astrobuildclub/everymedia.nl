@@ -1,32 +1,35 @@
-import {defineConfig} from 'sanity'
-import {structureTool} from 'sanity/structure'
-import {visionTool} from '@sanity/vision'
-import {structure} from './src/structure'
-import {schemas} from './src/schemas'
-import {linkField} from 'sanity-plugin-link-field' // https://www.sanity.io/plugins/sanity-plugin-link-field
-import {seoMetaFields} from 'sanity-plugin-seo' // https://www.sanity.io/plugins/seo-pane
-import {schemaMarkup} from '@operationnation/sanity-plugin-schema-markup' // https://www.sanity.io/plugins/sanity-plugin-schema-markup
-
-// Environment variables for project configuration
-const projectId = process.env.SANITY_STUDIO_PROJECT_ID || 'your-projectID'
-const dataset = process.env.SANITY_STUDIO_DATASET || 'production'
+import { defineConfig } from 'sanity'
+import { structureTool } from 'sanity/structure'
+import { visionTool } from '@sanity/vision'
+import { schemaTypes } from './schemaTypes'
+import { linkField } from 'sanity-plugin-link-field'
+import { schemaMarkup } from '@operationnation/sanity-plugin-schema-markup'
+import { seoMetaFields } from 'sanity-plugin-seo'
+import { noteField } from 'sanity-plugin-note-field';
+import { linkableSchemaTypes } from './schemaTypes/contentTypes'
+import { deskStructure } from './deskStructure/deskStructure'
 
 export default defineConfig({
-  name: 'every-media',
+  name: 'default',
   title: 'Every Media',
-  projectId,
-  dataset,
+
+  projectId: 'mqkdg673',
+  dataset: 'production',
+
   plugins: [
     structureTool({
-      structure: (S, context) => structure(S, context),
+      structure:deskStructure
     }),
-
     visionTool(),
-    linkField(),
-    seoMetaFields(),
+    linkField({
+      linkableSchemaTypes: linkableSchemaTypes
+    }),
     schemaMarkup(),
+    seoMetaFields(),
+    noteField(),
   ],
+
   schema: {
-    types: schemas,
+    types: schemaTypes,
   },
 })

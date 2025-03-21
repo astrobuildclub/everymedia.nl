@@ -1,0 +1,80 @@
+---
+import { PortableText } from "astro-portabletext";
+import type { ProjectType } from "../utils";
+import SanityImage from "./commons/SanityImage.astro";
+
+interface Props {
+  projects: ProjectType[];
+}
+const { projects = [] } = Astro.props || {};
+---
+
+<div>
+  {
+    projects?.length > 0 && (
+      <div class="projects grid gap-(--space-3xs)">
+        {projects?.map((item) => (
+          <div>
+            {item?.title && (
+              <div class="project__meta  mb-6">
+                <div>
+                  {item?.select === "heroImage" && item?.heroImage && (
+                    <div class="rounded-xl mb-3 w-full">
+                      <SanityImage
+                        src={item?.heroImage}
+                        className=" rounded-xl aspect-[696/391] w-full"
+                      />
+                    </div>
+                  )}
+                  {item?.select === "heroVideo" && item?.heroVideo && (
+                    <div class=" rounded-xl mb-3 w-full">
+                      <video
+                        class="rounded-xl aspect-[696/391] w-full"
+                        autoplay
+                        loop
+                        playsinline
+                        muted
+                        preload="auto"
+                        poster="https://picsum.photos/696/391"
+                      >
+                        <source src={item?.heroVideo} type="video/mp4" />
+                        {`Your browser does not support the video tag.`}
+                      </video>
+                    </div>
+                  )}
+                </div>
+                <div class="project__meta  mb-6">
+                  <div class="meta baseline justify-between flex items-center mb-1.5">
+                    <h4 style="font-family: var(--font-mono);" class=" text-gray-600 font-medium  tracking-[3%] uppercase text-xs">
+                      {`Client`}
+                    </h4>
+                    <p style="font-family: var(--font-mono);" class="text-[0.651rem] text-gray-700 bg-gray-200 rounded-full tracking-[3%] font-medium uppercase py-[0.313rem] px-[0.563rem] leading-[100%]">
+                      {`Award Plain Text`}
+                    </p>
+                  </div>
+                  <div class="flex flex-col gap-1.5">
+                    {item?.title && (
+                      <h3 class="tighter font-bold font-(family-name:--font-heading)) text-(length:--fs-2)  tracking-[-0.025em] leading-[1] text-gray-900 uppercase">
+                        {item?.title}
+                      </h3>
+                    )}
+                    {item?.subtitle && (
+                      <span class="text-black tracking-[-2%] leading-[112%] font-medium text-(length:--fs--1)">
+                        {item?.subtitle}
+                      </span>
+                    )}
+                    {item?.intro && (
+                      <div class="text-gray-800 font-normal text-(length:--fs--2) leading-[150%]">
+                        <PortableText value={item?.intro} />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    )
+  }
+</div>

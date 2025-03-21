@@ -1,0 +1,54 @@
+---
+import type { FooterType } from "../utils";
+import { PortableText } from "astro-portabletext";
+
+interface Props {
+  footer: FooterType | undefined;
+}
+
+const { footerLinks = [], title } = Astro.props?.footer || {};
+---
+
+<footer
+  class="px-(--space-s) pt-[6.75rem] lg:pt-[11rem] pb-[2.25rem] md:pb-[4.5rem] w-full text-(--clr-secondary) bg-(--dark-blue)"
+>
+  <div class="flex flex-col align-bottom justify-between">
+    {
+      title && (
+        <div class="text-[18vw] lg:text-[20vw] w-full leading-[100%] uppercase font-extrabold text-center text-white font-(family-name:--font-heading) text-nowrap">
+          <PortableText value={title} />
+        </div>
+      )
+    }
+    {
+      footerLinks?.length > 0 && (
+        <div class="gap-(--space-xs) grid-cols-1 md:grid-cols-[3.5fr_1fr_1fr_1fr] grid self-end items-start mt-10 xl:ml-8">
+          {footerLinks?.map((item) => (
+            <div>
+              {item?.title && (
+                <div class="text-xs text-gray-50 font-medium uppercase tracking-[3%] font-(family-name:--font-mono) leading-[150%] mb-4.5 opacity-50 block cursor-default">
+                  {item?.title}
+                </div>
+              )}
+              {item?.select === "body" && item?.body && (
+                <div class="text-(length:--fs--2)  text-balance leading-[150%] font-normal text-white font-(family-name:--font-primary)">
+                  <PortableText value={item?.body} />
+                </div>
+              )}
+              {item?.select === "labelLinks" &&
+                item?.labelLinks?.length > 0 && (
+                  <ul class="text-(length:--fs--2)  leading-(--leading-tight) font-medium m-0 p-0">
+                    {item?.labelLinks?.map((item) => (
+                      <li class="text-(length:--fs--2)  text-balance leading-[150%] font-normal text-white font-(family-name:--font-primary) hover:opacity-50 cursor-pointer transition-all w-fit">
+                        {item?.label}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+            </div>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</footer>

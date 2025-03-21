@@ -1,0 +1,93 @@
+---
+import type { SeoType } from "../../utils/sanity/types/seoType";
+
+interface Props {
+  seo: SeoType;
+}
+
+const {
+  additionalMetaTags = [],
+  metaDescription,
+  metaTitle,
+  nofollowAttributes,
+  openGraph,
+  seoKeywords,
+  twitter,
+} = Astro.props.seo || {};
+---
+
+<title>{metaTitle || "EVERY MEDIA"}</title>
+<meta name="description" content={metaDescription || "Welcome to My Website"} />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8" />
+
+<!-- Open Graph Meta Tags -->
+<meta property="og:title" content={openGraph?.title || "EVERY MEDIA"} />
+<meta
+  property="og:description"
+  content={openGraph?.description || "Welcome to My Website"}
+/>
+{
+  openGraph?.image?.asset?.url && (
+    <meta property="og:image" content={openGraph?.image?.asset?.url} />
+  )
+}
+<meta property="og:site_name" content={openGraph?.siteName || ""} />
+<meta property="og:url" content={openGraph?.url || ""} />
+
+<!-- Twitter Meta Tags -->
+<meta
+  name="twitter:card"
+  content={twitter?.cardType || "summary_large_image"}
+/>
+<meta name="twitter:creator" content={twitter?.creator || ""} />
+<meta name="twitter:site" content={twitter?.site || ""} />
+<meta name="twitter:title" content={metaTitle || "EVERY MEDIA"} />
+<meta
+  name="twitter:description"
+  content={metaDescription || "Welcome to My Website"}
+/>
+{
+  openGraph?.image?.asset?.url && (
+    <meta name="twitter:image" content={openGraph?.image?.asset?.url} />
+  )
+}
+
+<!-- Keywords -->
+{
+  seoKeywords && seoKeywords?.length > 0 && (
+    <meta name="keywords" content={seoKeywords?.join(", ")} />
+  )
+}
+
+<!-- Nofollow Attributes -->
+{
+  nofollowAttributes && (
+    <meta
+      name="robots"
+      content={nofollowAttributes ? "noindex, nofollow" : "index, follow"}
+    />
+  )
+}
+
+<!-- Additional Meta Tags -->
+
+{
+  additionalMetaTags?.length > 0 &&
+    additionalMetaTags?.map((tag) =>
+      tag?.metaAttributes?.map((attr) =>
+        attr?.attributeType === "string" ? (
+          <meta
+            name={attr?.attributeKey}
+            content={attr?.attributeValueString}
+          />
+        ) : attr?.attributeType === "image" &&
+          attr?.attributeValueImage?.asset?.url ? (
+          <meta
+            name={attr?.attributeKey}
+            content={attr?.attributeValueImage?.asset?.url}
+          />
+        ) : null
+      )
+    )
+}

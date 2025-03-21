@@ -1,14 +1,31 @@
 ---
-import Card from "../components/Card.astro";
-import Welcome from "../components/Welcome.astro";
+import Pagebuilder from "../components/commons/Pagebuilder.astro";
+import HeroPage from "../components/HeroPage.astro";
 import Layout from "../layouts/Layout.astro";
-import { getPosts } from "../utils/sanity";
+import { getPage, type PageType } from "../utils";
 
-const posts = await getPosts();
+const pageData = await getPage<PageType>("/");
+
+const {
+  pagebuilder,
+  seo,
+  layoutProps,
+  subtitle,
+  heroVideo,
+  title,
+  heroImage,
+  select,
+  variants,
+} = pageData || {};
+const heroPage = { title, subtitle, heroVideo, heroImage, select };
+const isHeroVideo = heroVideo || heroImage ? true : false;
+
 ---
 
-<Layout title="Welcome to Astro.">
-  <section>
-    {posts.length ? posts.map((post) => <Card post={post} />) : <Welcome />}
-  </section>
+<Layout seo={seo || {}} layoutProps={layoutProps} isHeroVideo={isHeroVideo}>
+  {variants === "homepage" && <HeroPage data={heroPage} />}
+  {
+    Array.isArray(pagebuilder) &&
+      pagebuilder?.map((i) => <Pagebuilder data={i} />)
+  }
 </Layout>
