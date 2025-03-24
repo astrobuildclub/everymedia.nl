@@ -9,7 +9,7 @@ export const blockFaqs = defineType({
       name: 'title',
       title: 'Title',
       type: 'string',
-      validation: (Rule) => Rule.required(),
+      initialValue: 'Frequently Asked Questions',
     }),
     defineField({
       name: 'faqs',
@@ -19,9 +19,19 @@ export const blockFaqs = defineType({
         {
           type: 'reference',
           to: [{ type: 'faq' }],
+          options: {
+            disableNew: true,
+            filter: ({ document }) => {
+                return {
+                    filter: 'language == $language',
+                    params: {
+                        language: document.language
+                    },
+                };
+            },
+        },
         },
       ],
-      validation: (Rule) => Rule.min(1).error('At least one FAQ must be selected.'),
     }),
   ],
 });

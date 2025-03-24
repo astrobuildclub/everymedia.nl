@@ -1,6 +1,8 @@
 import { defineType, defineField } from 'sanity'
 import { richTextSimple } from '../options/richTextOptions'
 import { DocumentIcon } from '@sanity/icons'
+import { isUniqueWithinLocale } from '../utils/IsUniqueWithinLocale'
+import { supportedLanguages } from '../utils/supportedLanguage'
 
 export const pageType = defineType({
   name: 'page',
@@ -14,6 +16,13 @@ export const pageType = defineType({
   ],
   fields: [
     defineField({
+      name: 'language',
+      type: 'string',
+      readOnly: true,
+      hidden: true,
+      group: "hero",
+    }),
+    defineField({
       name: 'pageTitle',
       type: 'string',
       description: "This field is only used for CMS.",
@@ -22,7 +31,11 @@ export const pageType = defineType({
     defineField({
       name: 'slug',
       type: 'slug',
-      options: { source: 'pageTitle'},
+      options: {
+        source: 'pageTitle',
+        maxLength: 200,
+        isUnique: isUniqueWithinLocale,
+      },
       group: 'hero',
     }),
     defineField({
@@ -89,21 +102,21 @@ export const pageType = defineType({
       type: 'array',
       title: 'Pagebuilder',
       of: [
-        // {type: 'blockText'},
-        { type: 'blockImage' },
-        // {type: 'blockVideo'},
-        // {type: 'blockMultiCol'},
-        // {type: 'blockMediaGallery'},
-        // {type: 'blockTestimonial'},
-        { type: 'blockCards' },
-        { type: 'blockFaqs' },
-        { type: 'blockEpisodes' },
-        // {type: 'blockLogos'},
-        // {type: 'blockWorkSelection'},
-        // {type: 'blockWorkRelated'},
-        { type: 'blockContact' },
-        { type: 'blockAudiencesOverviewSection' },
+        // { type: 'blockText' },
+        // { type: 'blockImage' },
+        // { type: 'blockVideo' },
+        // { type: 'blockMultiCol' },
+        // { type: 'blockMediaGallery' },
+        // { type: 'blockTestimonial' },
+        // { type: 'blockCards' },
+        // { type: 'blockFaqs' },
+        // { type: 'blockEpisodes' },
+        // { type: 'blockLogos' },
+        // { type: 'blockWorkSelection' },
+        // { type: 'blockWorkRelated' },
         { type: 'blockFeetSection' },
+        { type: 'blockAudiencesOverviewSection' },
+        { type: 'blockContact' },
       ],
       group: 'content',
     }),
@@ -116,13 +129,15 @@ export const pageType = defineType({
   ],
   preview: {
     select: {
-      title: 'pageTitle',
+      title: "pageTitle",
+      language: "language"
     },
-    prepare(selection) {
-      const { title, } = selection
+    prepare({ title, language }) {
+      const baseLanguage = supportedLanguages?.find((lan) => lan?.id === language)?.title || "Unknown"
       return {
-        title: title || "No Title",
-      }
+        title: title || "Page",
+        subtitle: `${baseLanguage} Language`,
+      };
     },
   },
 })

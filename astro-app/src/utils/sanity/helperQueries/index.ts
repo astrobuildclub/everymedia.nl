@@ -19,7 +19,7 @@ ${seofields}
   /*  Layout Props */
 }
 
-export const layoutProps = /* groq */ `*[_type == "siteSettings"][0]{
+export const layoutProps = /* groq */ `*[_type == "siteSettings" && language == $language][0]{
 _id,
 _type,
 header{

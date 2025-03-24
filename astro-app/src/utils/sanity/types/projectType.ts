@@ -11,6 +11,7 @@ export interface ProjectType extends SanityDocument {
     seo: SeoType
     pagebuilder: PagebuilderType[]
     layoutProps: LayoutPropsType
+    language: string;
     title: string;
     subtitle: string
     intro: RichTextSimpleType

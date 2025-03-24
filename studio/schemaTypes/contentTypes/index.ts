@@ -18,4 +18,16 @@ export const contentTypes = [
     footerType
 ];
 
-export const linkableSchemaTypes = ["page", "audience", "project"]
+export const linkableSchemaTypes = [
+    "page",
+    "audience",
+    "project"
+]
+export const translateLanguagesSchema = [
+    "page",
+    "audience",
+    "faq",
+    "project",
+    "team",
+    "siteSettings",
+]

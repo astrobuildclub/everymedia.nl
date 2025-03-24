@@ -1,6 +1,7 @@
-import {defineType, defineField} from 'sanity'
-import {FeedbackIcon} from '@sanity/icons'
+import { defineType, defineField } from 'sanity'
+import { FeedbackIcon } from '@sanity/icons'
 import { richTextSimple } from '../options/richTextOptions'
+import { supportedLanguages } from '../utils/supportedLanguage'
 
 
 export const faqType = defineType({
@@ -9,8 +10,14 @@ export const faqType = defineType({
   title: 'FAQ',
   icon: FeedbackIcon,
   fields: [
-    defineField({name: 'title', type: 'string', title: 'Title'}),
-    defineField({name: 'question', type: 'string', title: 'Question'}),
+    defineField({
+      name: 'language',
+      type: 'string',
+      readOnly: true,
+      hidden: true,
+    }),
+    defineField({ name: 'title', type: 'string', title: 'Title' }),
+    defineField({ name: 'question', type: 'string', title: 'Question' }),
     defineField({
       name: 'answer',
       type: 'array',
@@ -18,4 +25,17 @@ export const faqType = defineType({
       of: richTextSimple,
     }),
   ],
+  preview: {
+    select: {
+      title: "pageTitle",
+      language: "language"
+    },
+    prepare({ title, language }) {
+      const baseLanguage = supportedLanguages?.find((lan) => lan?.id === language)?.title || "Unknown"
+      return {
+        title: title || "FAQ",
+        subtitle: `${baseLanguage} Language`,
+      };
+    },
+  },
 })

@@ -13,8 +13,8 @@ const { block, className = "" } = Astro.props;
 const { variant, link, buttonText: label } = block || {};
 
 const buttonVariants: Record<ButtonVariantType, string> = {
-  white: "button font-(family-name:--font-body) text-(length:--fs--1) leading-[120%]  font-bold  p-(--space-s) py-(--space-xs) rounded-full bg-gray-50 text-gray-900 border  hover:bg-transparent hover:border-gray-50 hover:text-gray-50 transition-all cursor-pointer w-fit",
-  black: "block bg-(--off-black) text-white font-bold text-center text-lg py-[1.5rem] px-[2.25rem]  w-fit leading-[120%] border hover:border-(--off-black) transition hover:bg-transparent hover:text-(--off-black) cursor-pointer w-fit",
+  white: "white-btn",
+  black: "black-btn",
 };
 
 const variantClasses = buttonVariants[variant] || "";

@@ -13,6 +13,7 @@ export interface PageType extends SanityDocument {
     seo: SeoType
     pagebuilder: PagebuilderType[]
     layoutProps: LayoutPropsType
+    language: string;
     variants: "homepage" | "audience" | "project" | "page"
     title: string;
     subtitle: string

@@ -41,6 +41,7 @@ export interface FooterType {
 export interface LayoutPropsType {
     _id?: string
     _type?: 'siteSettings',
+    language: string;
     header: HeaderType
     footer: FooterType
 }

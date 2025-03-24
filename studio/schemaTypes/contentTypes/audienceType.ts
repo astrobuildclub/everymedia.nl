@@ -1,6 +1,8 @@
 import { defineType, defineField } from 'sanity'
 import { UsersIcon } from '@sanity/icons'
 import { richTextSimple } from '../options/richTextOptions'
+import { isUniqueWithinLocale } from '../utils/IsUniqueWithinLocale'
+import { supportedLanguages } from '../utils/supportedLanguage'
 
 
 export const audienceType = defineType({
@@ -15,6 +17,13 @@ export const audienceType = defineType({
   ],
   fields: [
     defineField({
+      name: 'language',
+      type: 'string',
+      readOnly: true,
+      hidden: true,
+      group: "hero",
+    }),
+    defineField({
       name: 'pageTitle',
       type: 'string',
       description: "This field is only used for CMS.",
@@ -23,7 +32,11 @@ export const audienceType = defineType({
     defineField({
       name: 'slug',
       type: 'slug',
-      options: { source: 'pageTitle', },
+      options: {
+        source: 'pageTitle',
+        maxLength: 200,
+        isUnique: isUniqueWithinLocale,
+      },
       group: 'hero',
     }),
     defineField({
@@ -68,19 +81,19 @@ export const audienceType = defineType({
       group: 'hero',
       hidden: ({ parent }) => parent?.select !== 'heroImage',
     }),
-    defineField({
-      name: 'pagebuilder',
-      type: 'array',
-      title: 'Content',
-      of: [
-        // {type: 'blockText'},
-        { type: 'blockCards' },
-        // {type: 'blockWorkSelection'},
-        { type: 'blockFaqs' },
-        { type: 'blockContact' },
-      ],
-      group: 'content',
-    }),
+    // defineField({
+    //   name: 'pagebuilder',
+    //   type: 'array',
+    //   title: 'Content',
+    //   of: [
+    //     {type: 'blockText'},
+    //     { type: 'blockCards' },
+    //     {type: 'blockWorkSelection'},
+    //     { type: 'blockFaqs' },
+    //     { type: 'blockContact' },
+    //   ],
+    //   group: 'content',
+    // }),
     defineField({
       title: 'SEO',
       name: 'seo',
@@ -90,13 +103,15 @@ export const audienceType = defineType({
   ],
   preview: {
     select: {
-      title: 'pageTitle',
+      title: "pageTitle",
+      language: "language"
     },
-    prepare(selection) {
-      const { title, } = selection
+    prepare({ title, language }) {
+      const baseLanguage = supportedLanguages?.find((lan) => lan?.id === language)?.title || "Unknown"
       return {
-        title: title || "No Title",
-      }
+        title: title || "Audience",
+        subtitle: `${baseLanguage} Language`,
+      };
     },
   },
 })

@@ -10,7 +10,7 @@ _type,
 title[]{
 ${richTextSimpleFields}
 },
-audiences[]->{
+audiences[@->language == ^.^.language]->{
 ${audienceFields}
 }
 `;
@@ -53,7 +53,7 @@ export const blockFeetSectionFields = /* groq */ `
   connectWithUs[]{
   ${connectWithUsFields}
   },
-  "allProjects":*[_type in ["project"] && defined(slug.current) ]{
+  "allProjects":*[_type in ["project"] && defined(slug.current) && language == ^.^.language ]{
   ${projectFields}
   },
 `;

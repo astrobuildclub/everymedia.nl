@@ -10,134 +10,248 @@ interface Props {
 }
 
 const { header, isHeroVideo } = Astro.props || {};
-const { logo, navItems } = header || {};
+const { logo, navItems = []} = header || {};
 ---
 
 <header
   id="site-header"
-  class={cn(
-    "py-3 px-4.5 lg:px-6 absolute top-0 right-0 left-0 z-10",
-    isHeroVideo ? "bg-transparent" : "bg-(--dark-blue)"
-  )}
+  class={cn("", isHeroVideo ? "bg-transparent" : "menu-background")}
 >
-  <div class="flex justify-between items-center">
-    <a href={routes.home()} >
-      <SanityImage
-        src={logo}
-        className="max-w-[5.563rem] sm:max-w-[8.25rem] h-[1rem] sm:h-[1.5rem]"
-      />
+  <div class="container">
+    <a href={routes.home()}>
+      <SanityImage src={logo} className="" />
     </a>
 
-    <div class="flex gap-2">
-      <div class="hidden lg:flex items-center gap-2">
-        <button
-          class="text-white focus:outline-none uppercase w-10 h-10 flex justify-center items-center rounded-full cursor-pointer text-xs font-medium"
-          style="background-color: var(--white-clr); font-family: var(--font-mono);"
-        >
+    <div class="menu-container">
+      <div class="social-buttons">
+        <button>
           {`IG`}
         </button>
-        <button
-          class="text-white focus:outline-none uppercase w-10 h-10 flex justify-center items-center rounded-full cursor-pointer text-xs font-medium"
-          style="background-color: var(--white-clr); font-family: var(--font-mono);"
-        >
+        <button>
           {`LI`}
         </button>
       </div>
-
-      <button
-        class="text-white focus:outline-none open-menu uppercase py-[0.75rem] px-[1.5rem] rounded-4xl cursor-pointer text-xs w-[5rem] text-center"
-        style="background-color: var(--charcoal-gray); font-family: var(--font-mono);"
-      >
+      <button class="menu-buttons open-menu open-menu-button">
         {`Menu`}
       </button>
-      <button
-        class="hidden close-menu uppercase py-[0.75rem] px-[1.5rem] rounded-4xl text-gray-900 cursor-pointer text-xs w-[5rem] text-center"
-        style="background-color: white; font-family: var(--font-mono);"
-      >
+      <button class="close-menu close-button close-menu-button hidden">
         {`Close`}
       </button>
-
-      <nav
-        id="menu"
-        class="hidden absolute top-full left-0 w-full shadow-md z-1 h-screen overflow-y-auto flex justify-center items-center"
-        style="background-color: var(--dark-blue);"
-      >
-        <div class="flex flex-col justify-center items-center space-y-2 px-4.5">
-          {
-            navItems?.map((item) => (
-              <div class="text-center">
-                {item.headline && (
-                  <div
-                    class="text-gray-50 font-medium leading-[150%] tracking-[3%] text-xs uppercase cursor-pointer"
-                    style="font-family: var(--font-mono);"
-                  >
-                    {item?.headline}
-                  </div>
-                )}
-                {item?.labelLinks?.length > 0 &&
-                  item?.labelLinks?.map((labelItem) => (
-                    <div
-                      class="text-white hover:opacity-50 transition-all duration-300 ease-in-out uppercase font-extrabold leading-[90%] cursor-pointer"
-                      style="font-size: var(--fs-9); font-family: var(--font-heading);"
-                    >
-                      {labelItem?.label}
-                    </div>
-                  ))}
-              </div>
-            ))
-          }
-        </div>
-      </nav>
+      {
+        navItems?.length > 0 && (
+          <nav id="menu" class="show-nav nav hidden">
+            <div class="nav-items">
+              {navItems?.map((item) => (
+                <div class="nav-item">
+                  {item.headline && (
+                    <div class="headline ">{item?.headline}</div>
+                  )}
+                  {item?.labelLinks?.length > 0 &&
+                    item?.labelLinks?.map((labelItem) => (
+                      <div class="label">{labelItem?.label}</div>
+                    ))}
+                </div>
+              ))}
+            </div>
+          </nav>
+        )
+      }
     </div>
   </div>
 </header>
 
+<style>
+  header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    padding: 0.75rem 1.125rem;
+    @media (min-width: 1023px) {
+      padding: 0.75rem 1.5rem;
+    }
+
+    &.bg-transparent {
+      background-color: transparent;
+    }
+    &.menu-background {
+      background-color: var(--dark-blue);
+    }
+    .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    a {
+      img {
+        max-width: 5.563rem;
+        height: 1rem;
+        @media (min-width: 639px) {
+          max-width: 8.25rem;
+          height: 1.5rem;
+        }
+      }
+    }
+    .hidde-button {
+      display: none;
+    }
+    .menu-container {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .social-buttons {
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+      @media (min-width: 1023px) {
+        display: flex;
+      }
+
+      button {
+        width: 2.5rem;
+        height: 2.5rem;
+        background-color: var(--white-clr);
+        color: white;
+        border: none;
+        outline: none;
+        text-transform: uppercase;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        font-size: 0.75rem;
+        font-weight: 500;
+        font-family: var(--font-mono);
+        cursor: pointer;
+      }
+    }
+
+    .menu-buttons {
+      text-transform: uppercase;
+      padding: 0.75rem 1.5rem;
+      border-radius: 1.875rem;
+      cursor: pointer;
+      font-size: 0.75rem;
+      text-align: center;
+      font-family: var(--font-mono);
+      border: none;
+      outline: none;
+      line-height: 100%;
+
+      &.open-menu {
+        background-color: var(--charcoal-gray);
+        color: white;
+        width: 5rem;
+      }
+    }
+    .close-menu {
+      background-color: white;
+      color: var(--color-gray-900);
+      width: 5rem;
+      text-transform: uppercase;
+      padding-block: 0.75rem;
+      padding-inline: 1.5rem;
+      cursor: pointer;
+      border-radius: 1.875rem;
+      cursor: pointer;
+      font-size: 0.75rem;
+      line-height: 100%;
+      text-align: center;
+      font-family: var(--font-mono);
+      border: none;
+      outline: none;
+    }
+    .show-nav {
+      display: none;
+    }
+    .hidden {
+      display: none !important;
+    }
+
+    .nav {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: var(--dark-blue);
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      overflow-y: auto;
+      z-index: 1;
+
+      .nav-items {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 1.125rem;
+
+        .nav-item {
+          text-align: center;
+
+          .headline {
+            color: white;
+            font-size: 0.75rem;
+            line-height: 150%;
+            letter-spacing: 3%;
+            font-weight: 500;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-family: var(--font-mono);
+          }
+
+          .label {
+            color: white;
+            font-size: var(--fs-9);
+            font-family: var(--font-heading);
+            line-height: 90%;
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: opacity 0.3s ease-in-out;
+            &:hover {
+              opacity: 0.5;
+            }
+          }
+        }
+      }
+    }
+  }
+</style>
+
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const openMenu = document.querySelector(".open-menu");
-    const closeMenu = document.querySelector(".close-menu");
-    const menu = document.getElementById("menu");
-    const header = document.getElementById("site-header");
+  const openMenuButton = document.querySelector(".open-menu-button");
+  const menuBackground = document.querySelector("header");
+  const closeMenuButton = document.querySelector(".close-menu-button");
+  const menu = document.querySelector("#menu");
 
-    function handleOpenMenu() {
-      menu?.classList.remove("hidden");
-      openMenu?.classList.add("hidden");
-      closeMenu?.classList.remove("hidden");
-      
-      // Prevent scrolling more effectively
-      document.body.style.position = 'fixed';
-      document.body.style.width = '100%';
-      document.body.style.overflowY = 'scroll';
+  openMenuButton?.addEventListener("click", () => {
+    menu?.classList.remove("hidden");
+    openMenuButton?.classList.add("hidden");
+    menuBackground?.classList.add("menu-background");
+    closeMenuButton?.classList.remove("hidden");
+    // Prevent scrolling more effectively
+    document.body.style.position = "fixed";
+    document.body.style.width = "100%";
+    document.body.style.overflowY = "scroll";
+  });
 
-      // Add 'bg-blue' when menu opens and 'isHeroVideo' is true
-      if (header?.classList.contains("bg-transparent")) {
-        header?.classList.replace("bg-transparent", "bg-(--dark-blue)");
-      }
-    }
-
-    function handleCloseMenu() {
-      menu?.classList.add("hidden");
-      openMenu?.classList.remove("hidden");
-      closeMenu?.classList.add("hidden");
-      
-      // Restore scrolling
-      document.body.style.position = '';
-      document.body.style.width = '';
-      document.body.style.overflowY = '';
-
-      // Revert back to 'bg-transparent' when menu closes
-      if (header?.classList.contains("bg-(--dark-blue)")) {
-        header?.classList.replace("bg-(--dark-blue)", "bg-transparent");
-      }
-    }
-
-    openMenu?.addEventListener("click", handleOpenMenu);
-    closeMenu?.addEventListener("click", handleCloseMenu);
-
-    // Cleanup event listeners on page unload
-    window.addEventListener("beforeunload", () => {
-      openMenu?.removeEventListener("click", handleOpenMenu);
-      closeMenu?.removeEventListener("click", handleCloseMenu);
-    });
+  closeMenuButton?.addEventListener("click", () => {
+    menu?.classList.add("hidden");
+    menuBackground?.classList.remove("menu-background");
+    closeMenuButton?.classList.add("hidden");
+    openMenuButton?.classList.remove("hidden");
+    document.body.style.position = "";
+    document.body.style.width = "";
+    document.body.style.overflowY = "";
   });
 </script>

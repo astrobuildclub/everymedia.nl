@@ -1,11 +1,7 @@
-@import "tailwindcss";
-
 :root {
   --debug: red;
-  /* 	--clr-primary: color(display-p3 0.03285 0.21589 0.9631); */
   --clr-bg: #fff;
   --clr-text: #111;
-  /*   	--clr-primary: color(display-p3 0.149 0.01937 0.29742); */
   --clr-primary: hsl(240, 90%, 59%);
 
   --charcoal-gray: #28252b;
@@ -14,17 +10,21 @@
   --off-black: #111111;
   --dim-gray: #333333;
   --dark-blue: #1119d3;
+  --blue-gray-200: #e5e7eb;
+  --blue-gray-700: #4b5563;
+  --blue-gray-800: #374151;
+  --blue-gray-900: #111827;
+  --gray-800: #1f2937;
+  --gray-50: #f9fafb;
 
   /* dark */
   --clr-primary-a50: oklch(from var(--clr-primary) l c h / calc(alpha - 0.5));
   --clr-primary-a50: oklch(from var(--clr-primary) l c h / calc(alpha - 0.5));
-  /* 	--clr-secondary: color(display-p3 0.75128 0.86735 0.97458); */
   --clr-secondary: hsl(240, 90%, 99%);
   /* light */
   --font-heading: "Barlow Condensed", Serif;
-  --font-body:
-    "Barlow", Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans",
-    Arial, sans-serif;
+  --font-body: "Barlow", Inter, Roboto, "Helvetica Neue", "Arial Nova",
+    "Nimbus Sans", Arial, sans-serif;
   --font-primary: "Antarctica VAR";
   --font-mono: "DM Mono", monospace;
   --gutter: 1rem;
@@ -109,6 +109,8 @@
   /* Custom pairs */
   /* Space s-l: 18px → 48px */
   --space-s-l: clamp(1.125rem, 0.75rem + 1.875vw, 3rem);
+
+  --spacing: .25rem;
 }
 
 pre {
@@ -125,10 +127,9 @@ pre {
       format("woff2"),
     url(https://cdn.jsdelivr.net/fontsource/fonts/barlow-condensed@latest/latin-400-normal.woff)
       format("woff");
-  unicode-range:
-    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
-    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
-    U+2215, U+FEFF, U+FFFD;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 /* barlow-condensed-latin-500-normal */
@@ -142,10 +143,9 @@ pre {
       format("woff2"),
     url(https://cdn.jsdelivr.net/fontsource/fonts/barlow-condensed@latest/latin-500-normal.woff)
       format("woff");
-  unicode-range:
-    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
-    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
-    U+2215, U+FEFF, U+FFFD;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 /* barlow-condensed-latin-800-normal */
@@ -159,10 +159,9 @@ pre {
       format("woff2"),
     url(https://cdn.jsdelivr.net/fontsource/fonts/barlow-condensed@latest/latin-800-normal.woff)
       format("woff");
-  unicode-range:
-    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
-    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
-    U+2215, U+FEFF, U+FFFD;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -172,10 +171,9 @@ pre {
   font-weight: 1 1000;
   src: url(https://cdn.jsdelivr.net/fontsource/fonts/sofia-sans-extra-condensed:vf@latest/latin-wght-normal.woff2)
     format("woff2-variations");
-  unicode-range:
-    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
-    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
-    U+2215, U+FEFF, U+FFFD;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -206,9 +204,83 @@ body {
   will-change: transform;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  margin: 0;
 }
 
+h1,h2,h3,h4,h5,h6,p{
+	margin: 0;
+}
+
+ul,ol{
+	list-style-type: none;
+}
+
+.hero {
+  background: var(--clr-primary);
+}
+
+.em-title {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 100%;
+}
+
+.project__thumb {
+  background: var(--clr-primary);
+}
+
+pre {
+  font-size: 0.675rem;
+  padding: 0em;
+  background: var(--clr-primary);
+  color: var(--clr-secondary);
+}
+
+.white-btn {
+  font-family: var(--font-body);
+  font-size: var(--fs--1);
+  line-height: 120%;
+  font-weight: bold;
+  padding: var(--space-s);
+  padding-top: var(--space-xs);
+  padding-bottom: var(--space-xs);
+  border-radius: 9999px;
+  background-color: var(--gray-50);
+  color: var(--blue-gray-900);
+  border: 1px solid currentColor;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.white-btn:hover {
+  background-color: transparent;
+  border-color: var(--gray-50);
+  color: var(--gray-50);
+}
+
+.black-btn {
+  display: block;
+  background-color: var(--off-black);
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  font-size: 1.125rem;
+  padding: 1.5rem 2.25rem;
+  width: fit-content;
+  line-height: 120%;
+  border: 1px solid transparent;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.black-btn:hover {
+  background-color: transparent;
+  border-color: var(--off-black);
+  color: var(--off-black);
+}
 
 /* Modern scroll-driven animatie */
 @supports (animation-timeline: --section-pin-tl) {
@@ -229,6 +301,15 @@ body {
     view-timeline-axis: block;
   }
 
+  .pin-wrap-sticky {
+    /* Stick to Top */
+    height: 100vh;
+    width: 100vw;
+    position: sticky;
+    top: 0;
+    width: 100vw;
+    overflow-x: hidden;
+  }
 
   .pin-wrap {
     display: flex;
