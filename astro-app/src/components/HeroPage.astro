@@ -15,32 +15,28 @@ const { title, heroVideo, subtitle, heroImage, select } =
   Astro.props.data || {};
 ---
 
-<section class="bg-(--neutrals-black) relative min-h-dvh">
-  <div class="z-5 h-full grid grid-cols-2 absolute top-0 w-full">
+<section class="hero-section">
+  <div class="hero-title">
     {
       title && (
-        <div class="px-(--space-3xs) grid">
-          <h1 class="text-(length:--type-size) text-white font-bold self-end sticky bottom-0 uppercase font-(family-name:--font-heading) leading-[100%]">
-            {title}
-          </h1>
+        <div class="title__wrapper">
+          <h1 class="em-title">{title}</h1>
         </div>
       )
     }
     {
       subtitle && (
-        <div class="px-(--space-3xs) grid">
-          <h1 class="text-(length:--type-size) text-white font-bold self-end sticky bottom-0 uppercase font-(family-name:--font-heading) leading-[100%]">
-            {subtitle}
-          </h1>
+        <div class="title__wrapper">
+          <h1 class="em-title">{subtitle}</h1>
         </div>
       )
     }
   </div>
   {
     select === "heroVideo" && heroVideo && (
-      <div class="h-full w-full absolute top-0">
+      <div class="video__wrapper ">
         <video
-          class="object-cover h-full w-full"
+          class=""
           autoplay
           loop
           playsinline
@@ -56,9 +52,62 @@ const { title, heroVideo, subtitle, heroImage, select } =
   }
   {
     select === "heroImage" && heroImage && (
-      <div class="h-full w-full absolute top-0">
-        <SanityImage src={heroImage} className=" h-full w-full object-cover md:object-top"/>
+      <div class="video__wrapper ">
+        <SanityImage src={heroImage} className="" />
       </div>
     )
   }
 </section>
+
+<style>
+  .hero-section {
+    position: relative;
+    min-height: 100dvh;
+
+    .hero-title {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      z-index: 5;
+
+      .title__wrapper {
+        display: grid;
+        padding-left: var(--space-3xs);
+        padding-right: var(--space-3xs);
+
+        .em-title {
+          font-size: var(--type-size);
+          font-weight: bold;
+          color: white;
+          align-self: flex-end;
+          position: sticky;
+          bottom: 0;
+          margin-bottom: 0 !important;
+        }
+      }
+    }
+
+    .video__wrapper {
+      position: absolute;
+      top: calc(var(--spacing) * 0);
+      width: 100%;
+      height: 100%;
+
+      video,
+      .sanity-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .sanity-image {
+        @media (min-width: 767px) {
+          object-position: top;
+        }
+      }
+    }
+  }
+</style>

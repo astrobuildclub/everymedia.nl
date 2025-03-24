@@ -10,13 +10,11 @@ export const blockContact = defineType({
             name: 'title',
             title: 'Title',
             type: 'string',
-            validation: (Rule) => Rule.required(),
         }),
         defineField({
             name: 'image',
             title: 'Image',
             type: 'sanityImage',
-            validation: (Rule) => Rule.required(),
         }),
         defineField({
             name: 'intro',

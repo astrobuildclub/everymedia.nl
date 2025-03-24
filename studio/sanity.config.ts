@@ -1,13 +1,15 @@
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
+import { documentInternationalization } from '@sanity/document-internationalization'
 import { visionTool } from '@sanity/vision'
 import { schemaTypes } from './schemaTypes'
 import { linkField } from 'sanity-plugin-link-field'
 import { schemaMarkup } from '@operationnation/sanity-plugin-schema-markup'
 import { seoMetaFields } from 'sanity-plugin-seo'
 import { noteField } from 'sanity-plugin-note-field';
-import { linkableSchemaTypes } from './schemaTypes/contentTypes'
+import { linkableSchemaTypes, translateLanguagesSchema } from './schemaTypes/contentTypes'
 import { deskStructure } from './deskStructure/deskStructure'
+import { supportedLanguages } from './schemaTypes/utils/supportedLanguage'
 
 export default defineConfig({
   name: 'default',
@@ -17,6 +19,12 @@ export default defineConfig({
   dataset: 'production',
 
   plugins: [
+    documentInternationalization({
+      supportedLanguages: supportedLanguages,
+      schemaTypes: translateLanguagesSchema,
+      weakReferences: false,
+      languageField: "language"
+    }),
     structureTool({
       structure:deskStructure
     }),
@@ -31,5 +39,8 @@ export default defineConfig({
 
   schema: {
     types: schemaTypes,
+    templates: (prev) => {
+      return prev.filter((template) => !translateLanguagesSchema.map((type) => type).includes(template.id))
+    }
   },
 })

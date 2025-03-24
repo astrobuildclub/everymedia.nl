@@ -9,16 +9,43 @@ interface Props {
 const { title, audiences } = Astro.props.data || {};
 ---
 
-<section
-  class="min-h-dvh text-(--clr-secondary) bg-black py-[4.5rem] md:py-[6rem]"
->
-  {
-    title && (
-      <div class="font-(family-name:--font-heading) font-bold leading-[112%] tracking-[-2%] uppercase text-gray-50 text-(length:--fs-4) px-(--space-xs) mb-2 md:mb-6">
-        <PortableText value={title} />
-      </div>
-    )
-  }
+<section class="audiences-overview">
+  {title && (
+    <div class="audiences-title">
+      <PortableText value={title} />
+    </div>
+  )}
 
   {audiences?.length > 0 && <AudiencesOverview audiences={audiences} />}
 </section>
+
+<style>
+
+.audiences-overview {
+  min-height: 100dvh;
+  color: var(--clr-secondary);
+  background-color: black;
+  padding: 6rem 0;
+
+
+  @media (min-width: 767px) {
+    padding: 4.5rem 0;
+  }
+}
+
+.audiences-title {
+  font-family: var(--font-heading);
+  font-weight: bold;
+  line-height: 112%;
+  letter-spacing: -2%;
+  text-transform: uppercase;
+  color: var(--color-gray-50);
+  font-size: var(--fs-4);
+  padding-left: var(--space-xs);
+  margin-bottom: 1.5rem;
+
+  @media (max-width: 767px) {
+    margin-bottom: 0.5rem;
+  }
+}
+</style>

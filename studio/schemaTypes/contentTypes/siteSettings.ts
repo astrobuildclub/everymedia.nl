@@ -1,5 +1,6 @@
 import { defineField, defineType } from 'sanity'
 import { CogIcon } from '@sanity/icons'
+import { supportedLanguages } from '../utils/supportedLanguage';
 
 export const siteSettingsType = defineType({
   name: 'siteSettings',
@@ -16,6 +17,12 @@ export const siteSettingsType = defineType({
     { name: 'footer', title: 'Footer' },
   ],
   fields: [
+    defineField({
+      name: 'pageTitle',
+      type: 'string',
+      description: "This field is only used for CMS.",
+      group: 'website',
+    }),
     defineField({
       name: "header",
       title: "Header",
@@ -61,17 +68,10 @@ export const siteSettingsType = defineType({
     defineField({
       name: 'language',
       type: 'string',
-      title: 'Language',
-      group: 'website',
-      options: {
-        list: [
-          { title: 'English', value: 'en-EN' },
-          { title: 'Dutch', value: 'nl-NL' },
-          // Add more languages as needed
-        ],
-      },
+      readOnly: true,
+      hidden: true,
+      group: "website",
     }),
-
     defineField({
       name: 'timezone',
       type: 'string',
@@ -262,4 +262,17 @@ export const siteSettingsType = defineType({
       group: 'contact',
     }),
   ],
+  preview: {
+    select: {
+      title: "pageTitle",
+      language: "language"
+    },
+    prepare({ title, language }) {
+      const baseLanguage = supportedLanguages?.find((lan) => lan?.id === language)?.title || "Unknown"
+      return {
+        title: title || "Site Settings",
+        subtitle: `${baseLanguage} Language`,
+      };
+    },
+  },
 })

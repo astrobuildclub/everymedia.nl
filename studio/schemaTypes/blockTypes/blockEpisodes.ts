@@ -9,7 +9,6 @@ export const blockEpisodes = defineType({
             name: 'title',
             title: 'Title',
             type: 'string',
-            validation: (Rule) => Rule.required(),
         }),
         defineField({
             name: 'description',
@@ -30,7 +29,6 @@ export const blockEpisodes = defineType({
                             name: 'title',
                             title: 'Title',
                             type: 'string',
-                            validation: (Rule) => Rule.required(),
                         }),
                         defineField({
                             name: 'description',
@@ -41,15 +39,7 @@ export const blockEpisodes = defineType({
                             name: 'embedUrl',
                             title: 'Embed URL',
                             type: 'url',
-                            validation: (Rule) =>
-                                Rule.uri({
-                                    scheme: ['http', 'https'],
-                                    allowRelative: false,
-                                }).custom((url) => {
-                                    return url.includes('youtube.com') || url.includes('vimeo.com')
-                                        ? true
-                                        : 'Must be a YouTube or Vimeo URL';
-                                }),
+                            description: 'Examples; https://vimeo.com/857258584 and https://youtube.com/watch?v=oYxohKbeMZw',
                         }),
                         defineField({
                             name: 'thumbType',
@@ -75,11 +65,6 @@ export const blockEpisodes = defineType({
                             title: 'Thumbnail URL',
                             type: 'url',
                             hidden: ({ parent }) => parent?.thumbType !== 'url',
-                            validation: (Rule) =>
-                                Rule.uri({
-                                    scheme: ['http', 'https'],
-                                    allowRelative: false,
-                                }),
                         }),
                     ],
                 },

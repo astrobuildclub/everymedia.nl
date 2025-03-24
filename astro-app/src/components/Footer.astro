@@ -9,39 +9,31 @@ interface Props {
 const { footerLinks = [], title } = Astro.props?.footer || {};
 ---
 
-<footer
-  class="px-(--space-s) pt-[6.75rem] lg:pt-[11rem] pb-[2.25rem] md:pb-[4.5rem] w-full text-(--clr-secondary) bg-(--dark-blue)"
->
-  <div class="flex flex-col align-bottom justify-between">
+<footer class="footer">
+  <div class="footer-content">
     {
       title && (
-        <div class="text-[18vw] lg:text-[20vw] w-full leading-[100%] uppercase font-extrabold text-center text-white font-(family-name:--font-heading) text-nowrap">
+        <div class="footer-heading">
           <PortableText value={title} />
         </div>
       )
     }
     {
       footerLinks?.length > 0 && (
-        <div class="gap-(--space-xs) grid-cols-1 md:grid-cols-[3.5fr_1fr_1fr_1fr] grid self-end items-start mt-10 xl:ml-8">
+        <div class="footer-links">
           {footerLinks?.map((item) => (
-            <div>
-              {item?.title && (
-                <div class="text-xs text-gray-50 font-medium uppercase tracking-[3%] font-(family-name:--font-mono) leading-[150%] mb-4.5 opacity-50 block cursor-default">
-                  {item?.title}
-                </div>
-              )}
+            <div class="footer-item">
+              {item?.title && <div class="footer-title">{item?.title}</div>}
               {item?.select === "body" && item?.body && (
-                <div class="text-(length:--fs--2)  text-balance leading-[150%] font-normal text-white font-(family-name:--font-primary)">
+                <div class="footer-body">
                   <PortableText value={item?.body} />
                 </div>
               )}
               {item?.select === "labelLinks" &&
                 item?.labelLinks?.length > 0 && (
-                  <ul class="text-(length:--fs--2)  leading-(--leading-tight) font-medium m-0 p-0">
-                    {item?.labelLinks?.map((item) => (
-                      <li class="text-(length:--fs--2)  text-balance leading-[150%] font-normal text-white font-(family-name:--font-primary) hover:opacity-50 cursor-pointer transition-all w-fit">
-                        {item?.label}
-                      </li>
+                  <ul class="footer-links-list">
+                    {item?.labelLinks?.map((link) => (
+                      <li>{link?.label}</li>
                     ))}
                   </ul>
                 )}
@@ -52,3 +44,115 @@ const { footerLinks = [], title } = Astro.props?.footer || {};
     }
   </div>
 </footer>
+
+<style>
+  footer {
+    padding-left: var(--space-s);
+    padding-right: var(--space-s);
+    padding-top: 6.75rem;
+    padding-bottom: 2.25rem;
+    /* width: 100%; */
+    color: var(--clr-secondary);
+    background-color: var(--dark-blue);
+
+    @media (min-width: 1023px) {
+      padding-top: 11rem;
+    }
+
+    @media (min-width: 767px) {
+      padding-bottom: 4.5rem;
+    }
+
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      vertical-align: bottom;
+
+      .footer-heading {
+        text-align: center;
+        h2 {
+          font-size: 20vw;
+          font-weight: 800;
+          text-transform: uppercase;
+          text-align: center;
+          color: white;
+          white-space: nowrap;
+          line-height: 100%;
+          font-family: var(--font-heading);
+          width: 100%;
+          @media (max-width: 1023px) {
+            font-size: 18vw;
+          }
+        }
+      }
+
+      .footer-links {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--space-xs);
+        margin-top: 2.5rem;
+        align-self: flex-end;
+
+        @media (min-width: 767px) {
+          grid-template-columns: 3.5fr 1fr 1fr 1fr;
+        }
+
+        @media (min-width: 1279px) {
+          margin-left: 2rem;
+        }
+
+        .footer-item {
+          .footer-title {
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 3%;
+            font-family: var(--font-mono);
+            line-height: 150%;
+            margin-bottom: 1.125rem;
+            opacity: 0.5;
+            display: block;
+            cursor: default;
+            color: var(--gray-50);
+          }
+
+          .footer-body {
+            font-size: var(--fs--2);
+            font-weight: 400;
+            color: white;
+            text-wrap: balance;
+            font-family: var(--font-primary);
+            line-height: 150%;
+            text-rendering: optimizeLegibility;
+          }
+
+          .footer-links-list {
+            font-size: var(--fs--2);
+            font-weight: 500;
+            line-height: var(--leading-tight);
+            margin: 0;
+            padding: 0;
+
+            li {
+              font-size: var(--fs--2);
+              font-weight: 400;
+              text-wrap: balance;
+              color: white;
+              font-family: var(--font-primary);
+              line-height: 150%;
+              text-rendering: optimizeLegibility;
+              cursor: pointer;
+              transition: all 0.3s;
+              width: fit-content;
+
+              &:hover {
+                opacity: 0.5;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+</style>

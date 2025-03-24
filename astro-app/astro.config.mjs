@@ -1,13 +1,27 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
-import tailwindcss from "@tailwindcss/vite";
+
+
+const defaultLanguage = { id: 'en', title: 'English' };
+
+const supportedLanguages = [
+  defaultLanguage,
+  // { id: 'nl', title: 'Dutch' },
+];
+
+const supportedLocales = supportedLanguages.map((item) => item.id);
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [react()],
+  integrations: [
+    react(),
+  ],
   vite: {
-    // @ts-ignore
-    plugins: [tailwindcss()],
+    plugins: [],
+  },
+  i18n: {
+    locales: supportedLocales,
+    defaultLocale: defaultLanguage.id,
   },
 });

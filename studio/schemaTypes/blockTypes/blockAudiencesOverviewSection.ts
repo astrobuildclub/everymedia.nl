@@ -3,7 +3,7 @@
 import { defineField, defineType } from "sanity";
 import { richTextSimple } from "../options/richTextOptions";
 
-export const blockAudiencesOverviewSectionType = defineType({
+export const blockAudiencesOverviewSection = defineType({
     name: "blockAudiencesOverviewSection",
     title: "Block Audiences Overview Section",
     type: "object",
@@ -23,6 +23,14 @@ export const blockAudiencesOverviewSectionType = defineType({
                 to: [{ type: 'audience' }],
                 options: {
                     disableNew: true,
+                    filter: ({ document }) => {
+                        return {
+                            filter: 'language == $language',
+                            params: {
+                                language: document.language
+                            },
+                        };
+                    },
                 },
             }],
         },

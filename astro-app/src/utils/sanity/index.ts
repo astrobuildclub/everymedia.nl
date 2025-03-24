@@ -1,3 +1,3 @@
-export * from "./getPage"
 export * from "./helperQueries"
 export * from "./types"
+export * from "./queries"

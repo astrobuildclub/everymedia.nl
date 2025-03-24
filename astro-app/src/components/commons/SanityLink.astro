@@ -9,12 +9,14 @@ interface Props {
 
 const { href, className } = Astro.props || {};
 ---
+
 <Link
   link={href as any}
   hrefResolver={({ internalLink }) =>
     resolveLink({
       type: internalLink?._type,
       slug: internalLink?.slug?.current,
+      language: internalLink?.language,
     })}
   className={className}
 >

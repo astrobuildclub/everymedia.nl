@@ -10,17 +10,17 @@ export const blockCards =  defineType({
             name: 'title',
             title: 'Title',
             type: 'string',
-            validation: (Rule) => Rule.required(),
         }),
         defineField({
             name: 'intro',
             title: 'Introduction',
-            type: 'string',
+            type: 'text',
         }),
         defineField({
             name: 'colsAmount',
             title: 'Columns Amount',
             type: 'number',
+            description: 'Number of cards per row (2 to 5)',
             validation: (Rule) => Rule.required().min(2).max(5),
         }),
         defineField({
@@ -37,7 +37,6 @@ export const blockCards =  defineType({
                             name: 'title',
                             title: 'Card Title',
                             type: 'string',
-                            validation: (Rule) => Rule.required(),
                         }),
                         defineField({
                             name: 'subtitle',

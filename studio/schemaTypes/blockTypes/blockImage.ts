@@ -14,7 +14,6 @@ export const blockImage = defineType({
       name: 'image',
       title: 'Image',
       type: 'sanityImage',
-      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'size',

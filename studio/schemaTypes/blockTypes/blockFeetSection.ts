@@ -2,7 +2,7 @@ import { defineField, defineType } from "sanity";
 import { richTextSimple } from "../options/richTextOptions";
 import { WarningOutlineIcon } from '@sanity/icons'
 
-export const blockFeetSectionType = defineType({
+export const blockFeetSection = defineType({
     name: "blockFeetSection",
     title: "Block Feet Section",
     type: "object",
@@ -49,7 +49,6 @@ export const blockFeetSectionType = defineType({
                             name: 'title',
                             title: 'Title',
                             type: 'string',
-                            validation: (Rule) => Rule.required(),
                         }),
                         defineField({
                             name: 'select',

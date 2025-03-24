@@ -1,5 +1,5 @@
 export const linkFields = /* groq */ `
 _type,
 ...,
-internalLink->{_type,slug,pageTitle}
+internalLink->{_type,slug,pageTitle,language}
 `;
