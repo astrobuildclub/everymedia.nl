@@ -12,6 +12,7 @@ export const blockContact = defineType({
   title: 'Contact Block',
   fields: [
     defineField({name: 'title', type: 'string', title: 'Title'}),
+    defineField({name: 'image', type: 'image', title: 'Image'}),
     defineField({name: 'intro', type: 'array', title: 'Intro', of: [{type: 'block'}]}),
     defineField({
       name: 'cta',
@@ -23,7 +24,7 @@ export const blockContact = defineType({
           title: 'CTA Button',
           fields: [
             defineField({name: 'buttonText', type: 'string', title: 'Button Text'}),
-            defineField({name: 'link', type: 'link', title: 'Link'}), // Gebruik Sanity Plugin Link Field
+            defineField({name: 'link', type: 'link', title: 'Link'}), // Use Sanity Plugin Link Field
           ],
         },
       ],

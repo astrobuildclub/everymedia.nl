@@ -10,44 +10,42 @@ import {faqType} from './contentTypes/faqType'
 import {siteSettingsType} from './contentTypes/siteSettings'
 
 // Pagebuilder block types
-import {blockText} from './blockTypes/blockText'
-import {blockIntro} from './blockTypes/blockIntro'
+import {blockCards} from './blockTypes/blockCards'
+import {blockContact} from './blockTypes/blockContact'
+import {blockEpisodes} from './blockTypes/blockEpisodes'
+import {blockFaqs} from './blockTypes/blockFaqs'
 import {blockImage} from './blockTypes/blockImage'
-import {blockVideo} from './blockTypes/blockVideo'
-import {blockTestimonial} from './blockTypes/blockTestimonial'
+import {blockIntro} from './blockTypes/blockIntro'
+import {blockLogos} from './blockTypes/blockLogos'
 import {blockMediaGallery} from './blockTypes/blockMediaGallery'
 import {blockMultiCol} from './blockTypes/blockMultiCol'
-import {blockWorkSelection} from './blockTypes/blockWorkSelection'
+import {blockTestimonial} from './blockTypes/blockTestimonial'
+import {blockText} from './blockTypes/blockText'
+import {blockVideo} from './blockTypes/blockVideo'
 import {blockWorkRelated} from './blockTypes/blockWorkRelated'
-import {blockContact} from './blockTypes/blockContact'
-import {blockCards} from './blockTypes/blockCards'
-import {blockFaqs} from './blockTypes/blockFaqs'
-import {blockLogos} from './blockTypes/blockLogos'
-import {blockEpisodes} from './blockTypes/blockEpisodes'
+import {blockWorkSelection} from './blockTypes/blockWorkSelection'
 
 // Alle schema's exporteren
 export const schemas: SchemaTypeDefinition[] = [
-  // Content types
-  siteSettingsType,
   pageType,
-  projectType,
   audienceType,
-  teamType,
+  projectType,
   faqType,
+  teamType,
+  siteSettingsType,
 
-  // Pagebuilder block types
-  blockText,
-  blockIntro,
+  blockCards,
+  blockContact,
+  blockEpisodes,
+  blockFaqs,
   blockImage,
-  blockVideo,
-  blockTestimonial,
+  blockIntro,
+  blockLogos,
   blockMediaGallery,
   blockMultiCol,
-  blockWorkSelection,
+  blockTestimonial,
+  blockText,
+  blockVideo,
   blockWorkRelated,
-  blockContact,
-  blockCards,
-  blockFaqs,
-  blockLogos,
-  blockEpisodes,
+  blockWorkSelection,
 ]
