@@ -41,10 +41,9 @@ ${richTextSimpleFields}
 
 export const blockFeetSectionFields = /* groq */ `
   _type,
-  title[]{
-  ${richTextSimpleFields}
-  },
-  subTitle[]{
+  title,
+  subtitle,
+  intro[]{
   ${richTextSimpleFields}
   },
   body[]{
@@ -53,9 +52,12 @@ export const blockFeetSectionFields = /* groq */ `
   connectWithUs[]{
   ${connectWithUsFields}
   },
-  "allProjects":*[_type in ["project"] && defined(slug.current) && language == ^.^.language ]{
+  selectedProjects[@->language == ^.^.language]->{
   ${projectFields}
   },
+  cta{
+  ${ctaFields}
+  }
 `;
 
 {

@@ -20,6 +20,9 @@ export const richTextSimple = [
           name: 'link',
           title: 'Link',
           type: 'link',
+          options: {
+            aiAssist: { exclude: true },
+          },
         },
       ],
     },

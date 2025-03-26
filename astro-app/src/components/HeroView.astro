@@ -1,0 +1,26 @@
+---
+import type { RichTextSimpleType, SanityImageType } from "../utils";
+import HeroAudience from "./HeroAudience.astro";
+import HeroHomePage from "./HeroHomePage.astro";
+import HeroPage from "./HeroPage.astro";
+import HeroProject from "./HeroProject.astro";
+
+interface Props {
+  data: {
+    title: string | undefined;
+    subtitle: string | undefined;
+    heroVideo: string | undefined;
+    heroImage: SanityImageType | undefined;
+    select: "heroVideo" | "heroImage" | undefined;
+    intro: RichTextSimpleType | undefined
+  };
+  variants: "homepage" | "audience" | "project" | "page" | undefined
+}
+
+const { data, variants } = Astro.props || {};
+---
+
+{variants === "homepage" && <HeroHomePage data={data} />}
+{variants === "audience" && <HeroAudience data={data} />}
+{variants === "project" && <HeroProject data={data} />}
+{variants === "page" && <HeroPage data={data} />}

@@ -51,6 +51,7 @@ _type,
 slug,
 _id,
 title,
+language,
 subtitle,
 intro[]{
 ${richTextSimpleFields}
@@ -75,6 +76,7 @@ _type,
 slug,
 _id,
 title,
+language,
 subtitle,
 intro[]{
 ${richTextSimpleFields}

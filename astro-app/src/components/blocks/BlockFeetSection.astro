@@ -1,6 +1,6 @@
 ---
 import { PortableText } from "astro-portabletext";
-import type { BlockFeetSectionType, ButtonType } from "../../utils";
+import type { BlockFeetSectionType } from "../../utils";
 import ProjectGridHomepage from "../ProjectGridHomepage.astro";
 import SanityButton from "../commons/SanityButton.astro";
 import { cn } from "../../lib/helperFunctions";
@@ -10,16 +10,13 @@ interface Props {
 }
 const {
   title,
+  intro,
   body,
   connectWithUs = [],
-  subTitle,
-  allProjects = [],
+  subtitle,
+  selectedProjects = [],
+  cta,
 } = Astro.props.data || {};
-const cta: ButtonType = {
-  _type: "cta",
-  variant: "black",
-  buttonText: "meer werk",
-};
 ---
 
 <section>
@@ -28,17 +25,19 @@ const cta: ButtonType = {
       title && (
         <div class="title-container">
           <div class="sticky-title">
-            <div class="title">
-              <PortableText value={title} />
-            </div>
+            <div class="title">{title}</div>
           </div>
         </div>
       )
     }
 
-    <div class="media-header">
-      <p>{`Media`}</p>
-    </div>
+    {
+      subtitle && (
+        <div class="media-header">
+          <p>{subtitle}</p>
+        </div>
+      )
+    }
 
     {
       connectWithUs?.length > 0 && (
@@ -79,9 +78,9 @@ const cta: ButtonType = {
     <div class="content">
       <div class="content-box">
         {
-          subTitle && (
+          intro && (
             <div class="sub-title">
-              <PortableText value={subTitle} />
+              <PortableText value={intro} />
             </div>
           )
         }
@@ -95,9 +94,9 @@ const cta: ButtonType = {
       </div>
 
       {
-        allProjects?.length > 0 && (
+        selectedProjects?.length > 0 && (
           <div class="projects">
-            <ProjectGridHomepage projects={allProjects} />
+            <ProjectGridHomepage projects={selectedProjects} />
           </div>
         )
       }

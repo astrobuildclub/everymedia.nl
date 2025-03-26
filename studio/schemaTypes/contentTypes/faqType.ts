@@ -27,7 +27,7 @@ export const faqType = defineType({
   ],
   preview: {
     select: {
-      title: "pageTitle",
+      title: "question",
       language: "language"
     },
     prepare({ title, language }) {

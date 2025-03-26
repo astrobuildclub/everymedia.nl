@@ -1,11 +1,11 @@
 ---
 import Pagebuilder from "../components/commons/Pagebuilder.astro";
-import HeroPage from "../components/HeroPage.astro";
+import HeroView from "../components/HeroView.astro";
 import Layout from "../layouts/Layout.astro";
-import type { PageType } from "../utils";
+import { type PageType } from "../utils";
 import { getPage } from "../utils/sanity/getPage";
 
-const pageData = await getPage<PageType>("/","en");
+const pageData = await getPage<PageType>("/", "en");
 
 const {
   pagebuilder,
@@ -17,14 +17,14 @@ const {
   heroImage,
   select,
   variants,
+  intro
 } = pageData || {};
-const heroPage = { title, subtitle, heroVideo, heroImage, select };
+const heroPage = { title, subtitle, heroVideo, heroImage, select,intro};
 const isHeroVideo = heroVideo || heroImage ? true : false;
-
 ---
 
 <Layout seo={seo || {}} layoutProps={layoutProps} isHeroVideo={isHeroVideo}>
-  {variants === "homepage" && <HeroPage data={heroPage} />}
+  <HeroView variants={variants} data={heroPage} />
   {
     Array.isArray(pagebuilder) &&
       pagebuilder?.map((i) => <Pagebuilder data={i} />)

@@ -7,7 +7,7 @@ const defaultLanguage = { id: 'en', title: 'English' };
 
 const supportedLanguages = [
   defaultLanguage,
-  // { id: 'nl', title: 'Dutch' },
+  { id: 'nl', title: 'Dutch' },
 ];
 
 const supportedLocales = supportedLanguages.map((item) => item.id);
