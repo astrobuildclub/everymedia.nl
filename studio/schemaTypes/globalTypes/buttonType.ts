@@ -23,6 +23,9 @@ export const buttonType = defineType({
             name: 'link',
             title: 'Link',
             type: 'link',
+            options: {
+                aiAssist: { exclude: true },
+            },
         })
     ],
     preview: {

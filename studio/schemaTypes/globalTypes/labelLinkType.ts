@@ -14,6 +14,9 @@ export const labelLinkType = defineType({
             name: 'link',
             title: 'Link',
             type: 'link',
+            options: {
+                aiAssist: { exclude: true },
+            },
         })
     ],
     preview: {

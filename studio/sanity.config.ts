@@ -10,6 +10,7 @@ import { noteField } from 'sanity-plugin-note-field';
 import { linkableSchemaTypes, translateLanguagesSchema } from './schemaTypes/contentTypes'
 import { deskStructure } from './deskStructure/deskStructure'
 import { supportedLanguages } from './schemaTypes/utils/supportedLanguage'
+import { assist } from '@sanity/assist'
 
 export default defineConfig({
   name: 'default',
@@ -35,6 +36,14 @@ export default defineConfig({
     schemaMarkup(),
     seoMetaFields(),
     noteField(),
+    assist({
+      translate: {
+        document: {
+          documentTypes: translateLanguagesSchema,
+          languageField: 'language',
+        },
+      },
+    }),
   ],
 
   schema: {

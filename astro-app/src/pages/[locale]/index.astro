@@ -1,0 +1,56 @@
+---
+import groq from "groq";
+import Pagebuilder from "../../components/commons/Pagebuilder.astro";
+import HeroView from "../../components/HeroView.astro";
+import Layout from "../../layouts/Layout.astro";
+import { fetchDataFromSanity } from "../../lib/sanity";
+import { type PageType } from "../../utils";
+import { getPage } from "../../utils/sanity/getPage";
+
+export async function getStaticPaths() {
+  const pageSlugQuery = groq`
+*[_type == "page" && defined(slug.current) &&  (slug.current in ["/"])]{
+"slug":slug.current,
+language
+}
+`;
+  const allSlugs =
+    (await fetchDataFromSanity<Pick<PageType, "slug" | "language">[]>({
+      query: { groqQuery: pageSlugQuery },
+    })) || [];
+
+  const paths =
+    allSlugs.map((item) => ({
+      params: { locale: item?.language },
+    })) || [];
+
+  return paths;
+}
+
+const { locale } = Astro.params;
+
+const pageData = await getPage<PageType>("/", locale);
+
+const {
+  pagebuilder,
+  seo,
+  layoutProps,
+  subtitle,
+  heroVideo,
+  title,
+  heroImage,
+  select,
+  variants,
+  intro
+} = pageData || {};
+const heroPage = { title, subtitle, heroVideo, heroImage, select,intro};
+const isHeroVideo = heroVideo || heroImage ? true : false;
+---
+
+<Layout seo={seo || {}} layoutProps={layoutProps} isHeroVideo={isHeroVideo}>
+  <HeroView variants={variants} data={heroPage} />
+  {
+    Array.isArray(pagebuilder) &&
+      pagebuilder?.map((i) => <Pagebuilder data={i} />)
+  }
+</Layout>

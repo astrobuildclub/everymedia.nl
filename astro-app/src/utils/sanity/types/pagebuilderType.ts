@@ -8,7 +8,6 @@ export type PagebuilderType =
     | BlockContactType
 
 
-
 {
     /*  Connect With Us */
 }
@@ -27,11 +26,13 @@ export interface ConnectWithUsType {
 
 export interface BlockFeetSectionType {
     _type: "blockFeetSection";
-    title?: RichTextSimpleType;
-    subTitle?: RichTextSimpleType;
+    title?: string;
+    subtitle?: string;
+    intro?: RichTextSimpleType;
     body?: RichTextSimpleType;
     connectWithUs?: ConnectWithUsType[];
-    allProjects: ProjectType[]
+    selectedProjects: ProjectType[]
+    cta:ButtonType
 }
 
 {
@@ -53,5 +54,5 @@ export interface BlockContactType {
 export interface BlockAudiencesOverviewSectionType {
     _type: "blockAudiencesOverviewSection";
     title?: RichTextSimpleType;
-    audiences:AudienceType[]
+    audiences: AudienceType[]
 }
