@@ -5,5 +5,5 @@ export default defineCliConfig({
     projectId: 'mqkdg673',
     dataset: 'production'
   },
-  studioHost: 'everymedia'
+  studioHost: 'every-media'
 })
