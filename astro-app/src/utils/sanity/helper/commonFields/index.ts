@@ -91,3 +91,18 @@ ${imageFields}
 },
 },
 `;
+
+{
+    /* Faq */
+}
+
+export const faqFields = /* groq */ `
+_type,
+_id,
+language,
+title,
+question,
+answer[]{
+${richTextSimpleFields}
+},
+`;

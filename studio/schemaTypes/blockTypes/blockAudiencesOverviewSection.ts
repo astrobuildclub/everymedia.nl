@@ -2,6 +2,7 @@
 
 import { defineField, defineType } from "sanity";
 import { richTextSimple } from "../options/richTextOptions";
+import { toPlainText } from "@portabletext/react";
 
 export const blockAudiencesOverviewSection = defineType({
     name: "blockAudiencesOverviewSection",
@@ -35,5 +36,16 @@ export const blockAudiencesOverviewSection = defineType({
             }],
         },
     ],
+    preview: {
+        select: {
+            title: 'title',
+        },
+        prepare({ title, }) {
+            const gettitle = title ? toPlainText(title) : null
+            return {
+                title: gettitle || 'Block Audiences Overview Section',
+            }
+        },
+    },
 })
 

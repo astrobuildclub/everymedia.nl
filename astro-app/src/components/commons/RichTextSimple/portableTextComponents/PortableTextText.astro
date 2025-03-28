@@ -1,0 +1,8 @@
+---
+import type { Props as $, TextNode } from "astro-portabletext/types";
+export type Props = $<TextNode>;
+
+const { node } = Astro.props;
+---
+
+{node.text}

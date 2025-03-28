@@ -12,15 +12,27 @@ interface Props {
     heroVideo: string | undefined;
     heroImage: SanityImageType | undefined;
     select: "heroVideo" | "heroImage" | undefined;
-    intro: RichTextSimpleType | undefined
+    intro: RichTextSimpleType | undefined;
   };
-  variants: "homepage" | "audience" | "project" | "page" | undefined
+  variants: "homepage" | "audience" | "project" | "page" | undefined;
 }
 
 const { data, variants } = Astro.props || {};
 ---
 
-{variants === "homepage" && <HeroHomePage data={data} />}
-{variants === "audience" && <HeroAudience data={data} />}
-{variants === "project" && <HeroProject data={data} />}
-{variants === "page" && <HeroPage data={data} />}
+{
+  (() => {
+    switch (variants) {
+      case "homepage":
+        return <HeroHomePage data={data} />;
+      case "audience":
+        return <HeroAudience data={data} />;
+      case "project":
+        return <HeroProject data={data} />;
+      case "page":
+        return <HeroPage data={data} />;
+      default:
+        return null;
+    }
+  })()
+}

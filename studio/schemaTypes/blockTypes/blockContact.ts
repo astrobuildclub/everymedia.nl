@@ -29,4 +29,14 @@ export const blockContact = defineType({
             of: [{ type: "cta" }],
         }),
     ],
+    preview: {
+        select: {
+            title: 'title',
+        },
+        prepare({ title }) {
+            return {
+                title: title || 'Block Contact',
+            }
+        },
+    },
 });

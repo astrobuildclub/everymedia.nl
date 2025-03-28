@@ -1,7 +1,7 @@
 import { defineType, defineField } from 'sanity';
 import { richTextSimple } from '../options/richTextOptions';
 
-export const blockCards =  defineType({
+export const blockCards = defineType({
     name: 'blockCards',
     title: 'Block Cards',
     type: 'object',
@@ -59,4 +59,14 @@ export const blockCards =  defineType({
             type: 'string',
         }),
     ],
+    preview: {
+        select: {
+            title: 'title',
+        },
+        prepare({ title, }) {
+            return {
+                title: title || 'Block Cards',
+            }
+        },
+    },
 });

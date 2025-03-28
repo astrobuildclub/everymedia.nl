@@ -1,13 +1,15 @@
 ---
+import { cn } from "../../lib/helperFunctions";
 import { useSanityImage } from "../../lib/sanity";
 import type { SanityImageType } from "../../utils";
 
 interface Props {
   src: SanityImageType | undefined;
   className?: string;
+  captionClassName?: string;
 }
-const { src,  ...props } = Astro.props || {};
-const { caption, alt,hasCaption } = src || {};
+const { src, className, captionClassName, ...props } = Astro.props || {};
+const { caption, alt, hasCaption } = src || {};
 
 const image = useSanityImage(src);
 if (!image?.src) {
@@ -15,37 +17,29 @@ if (!image?.src) {
 }
 ---
 
-{hasCaption ? (
-  <div class="left-side-image-section">
-    <img src={image?.src} alt={alt || "Image"} {...props} class="contact-left-image"/>
-    {caption && <p class="image-under-title">{caption}</p>}
-  </div>
-) : (
-  <img src={image?.src} alt={alt || "Image"} {...props} />
-)}
-
-
-<style>
-    .left-side-image-section{
-        display: grid;
-        grid-template-columns: 1;
-        gap: 1.5rem;
-        order: 1;
-        @media (max-width: 767px) {
-          order: 2;
-        }
-           
-          .contact-left-image{
-              aspect-ratio: 696/696 !important;
-              object-fit: cover !important;
-              border-radius: 2rem !important;
-          }
-
-          .image-under-title{
-             color: var(--gray-700);
-             font-family: var(--font-body);
-             line-height: 160%;
-             font-size: var(--fs--2);
-          }
-    }
-</style>
+{
+  (() => {
+    return hasCaption ? (
+      <figure>
+        <img
+          src={image?.src}
+          alt={alt || "Image"}
+          class={cn(className)}
+          {...props}
+        />
+        {caption && (
+          <figcaption class={cn(captionClassName)}>{caption}</figcaption>
+        )}
+      </figure>
+    ) : (
+      <figure>
+        <img
+          src={image?.src}
+          alt={alt || "Image"}
+          class={cn(className)}
+          {...props}
+        />
+      </figure>
+    );
+  })()
+}

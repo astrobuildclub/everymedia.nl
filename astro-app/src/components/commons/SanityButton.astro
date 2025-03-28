@@ -5,10 +5,10 @@ import SanityLink from "./SanityLink.astro";
 
 interface Props {
   block: ButtonType;
-  className?: string;
+  class?: string;
 }
 
-const { block, className = "" } = Astro.props;
+const { block, class: className } = Astro.props;
 
 const { variant, link, buttonText: label } = block || {};
 
@@ -21,13 +21,15 @@ const variantClasses = buttonVariants[variant] || "";
 ---
 
 {
-  link ? (
-    <SanityLink href={link} className={cn(variantClasses, className)}>
-      <span>{label}</span>
-    </SanityLink>
-  ) : (
-    <button class={cn(variantClasses, className)}>
-      <span>{label}</span>
-    </button>
-  )
+  (() => {
+    return link ? (
+      <SanityLink href={link} class={cn(variantClasses, className)}>
+        <span>{label}</span>
+      </SanityLink>
+    ) : (
+      <button class={cn(variantClasses, className)}>
+        <span>{label}</span>
+      </button>
+    );
+  })()
 }

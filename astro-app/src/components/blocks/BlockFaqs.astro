@@ -1,0 +1,180 @@
+---
+import { PortableText } from "astro-portabletext";
+import type { BlockFaqsType } from "../../utils";
+import { PlusCircle } from "../icons/plusCircle";
+import { MinusCircle } from "../icons/minusCircle";
+
+interface Props {
+  data: BlockFaqsType;
+}
+const { title, faqs } = Astro.props.data || {};
+---
+
+{
+  (() => {
+    return (
+      <section class="faq-section">
+        {title && <h2 class="faq-title">{title}</h2>}
+        {faqs?.length > 0 && (
+          <ul class="faq-list">
+            {faqs?.map((item, index) => {
+                const { question, answer } = item || {};
+              return (
+                <li class="faq-item" id={`faq-item-${index}`}>
+                  <button class="faq-question" data-index={index}>
+                    <h3 class="faq-question-title">{question}</h3>
+                    <span class="faq-icon open" data-index={index}>
+                      <PlusCircle />
+                    </span>
+                    <span
+                      class="faq-icon close"
+                      data-index={index}
+                      style="display: none;"
+                    >
+                      <MinusCircle />
+                    </span>
+                  </button>
+                  {answer && (
+                    <div id={`faq-answer-${index}`} class="faq-answer">
+                      <PortableText value={answer} />
+                    </div>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </section>
+    );
+  })()
+}
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".faq-question").forEach((button) => {
+      button.addEventListener("click", (event) => {
+        const target = event.currentTarget as HTMLButtonElement;
+        const index = target.getAttribute("data-index");
+        const answer = document.getElementById(
+          `faq-answer-${index}`
+        ) as HTMLElement;
+        const plusIcon = target.querySelector(".open") as HTMLElement;
+        const minusIcon = target.querySelector(".close") as HTMLElement;
+        const parentItem = target.closest(".faq-item");
+        const questionTitle = target.querySelector(".faq-question-title");
+
+        if (answer.classList.contains("open")) {
+          answer.style.height = answer.scrollHeight + "px";
+          setTimeout(() => {
+            answer.style.height = "0px";
+          }, 10);
+          setTimeout(() => answer.classList.remove("open"), 300);
+
+          plusIcon.style.display = "inline-block";
+          minusIcon.style.display = "none";
+          parentItem?.classList.remove("faq-item-active");
+          questionTitle?.classList.remove("faq-question-title-active");
+        } else {
+          answer.classList.add("open");
+          answer.style.height = "auto";
+          let height = answer.scrollHeight + "px";
+          answer.style.height = "0px";
+          setTimeout(() => {
+            answer.style.height = height;
+          }, 10);
+
+          plusIcon.style.display = "none";
+          minusIcon.style.display = "inline-block";
+          parentItem?.classList.add("faq-item-active");
+          questionTitle?.classList.add("faq-question-title-active");
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .faq-section {
+    padding: var(--space-xl-2xl) var(--space-s);
+    display: grid;
+    gap: var(--grid-gutter);
+  }
+
+  .faq-title {
+    font-size: 0.75rem;
+    color: var(--gray-700);
+    font-weight: 500;
+    line-height: 150%;
+    letter-spacing: 0.36px;
+    text-transform: uppercase;
+    font-family: var(--font-mono);
+  }
+
+  .faq-list {
+    border: 1px solid black;
+    padding-left: 0;
+    margin: 0;
+  }
+
+  .faq-item {
+    padding: var(--space-s-m);
+    border-bottom: 1px solid black;
+  }
+
+  .faq-item:nth-last-child(1) {
+    border: none;
+  }
+
+  .faq-item-active {
+    background-color: black;
+  }
+
+  .faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    width: 100%;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .faq-question-title {
+    font-size: var(--fs--1);
+    color: #222;
+    font-weight: 700;
+    line-height: 120%;
+    font-family: var(--font-body);
+    text-align: left;
+  }
+
+  .faq-question-title-active {
+    color: white;
+  }
+
+  .faq-icon.open {
+    display: inline-block;
+  }
+
+  .faq-icon.close {
+    display: none;
+  }
+
+  .faq-answer {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.3s ease-in-out;
+    color: white;
+    font-family: var(--font-body);
+    line-height: 133%;
+    font-size: var(--fs--1);
+
+    transition: all 0.2s ease-in-out;
+    text-align: left;
+  }
+
+  .faq-answer.open {
+    margin-top: 0.75rem;
+  }
+</style>

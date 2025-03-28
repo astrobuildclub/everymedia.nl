@@ -1,4 +1,4 @@
-import { audienceFields, ctaFields, labelLinkFields, projectFields, richTextSimpleFields } from "../commonFields";
+import { audienceFields, ctaFields, faqFields, labelLinkFields, projectFields, richTextSimpleFields } from "../commonFields";
 import { imageFields } from "../imageFields";
 
 {
@@ -76,4 +76,75 @@ export const blockContactFields = /* groq */ `
   cta[]{
   ${ctaFields}
   }
+`;
+
+{
+  /* Card */
+}
+
+export const cardFields = /* groq */ `
+  _type,
+  title,
+  subtitle,
+  body[]{
+  ${richTextSimpleFields}
+  }
+`;
+
+{
+  /* Block Cards */
+}
+
+export const blockCardsFields = /* groq */ `
+  _type,
+  title,
+  intro,
+  colsAmount,
+  footnote,
+  cards[]{
+  ${cardFields}
+  }
+`;
+
+{
+  /* Block Faqs */
+}
+
+export const blockFaqsFields = /* groq */ `
+  _type,
+  title,
+  faqs[@->language == ^.^.language]->{
+  ${faqFields}
+  }
+`;
+
+{
+  /* Block Work Selection */
+}
+
+export const blockWorkSelectionFields = /* groq */ `
+  _type,
+  title,
+  intro,
+  selectedProjects[@->language == ^.^.language]->{
+  ${projectFields}
+  },
+  cta{
+  ${ctaFields}
+  }
+`;
+
+{
+  /* Block Text */
+}
+
+export const blockTextFields = /* groq */ `
+  _type,
+  hideTitle,
+  hideTitle == false =>{
+  title,
+  },
+  content[]{
+  ${richTextSimpleFields}
+  },
 `;

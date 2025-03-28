@@ -3,6 +3,7 @@ import { cn } from "../lib/helperFunctions";
 import { routes } from "../lib/router";
 import type { HeaderType } from "../utils";
 import SanityImage from "./commons/SanityImage.astro";
+import SanityLink from "./commons/SanityLink.astro";
 
 interface Props {
   header: HeaderType | undefined;
@@ -10,55 +11,63 @@ interface Props {
 }
 
 const { header, isHeroVideo } = Astro.props || {};
-const { logo, navItems = []} = header || {};
+const { logo, navItems = [] } = header || {};
 ---
 
-<header
-  id="site-header"
-  class={cn("", isHeroVideo ? "bg-transparent" : "menu-background")}
->
-  <div class="container">
-    <a href={routes.home()}>
-      <SanityImage src={logo} className="" />
-    </a>
+{
+  (() => {
+    return (
+      <header
+        id="site-header"
+        class={cn("", isHeroVideo ? "bg-transparent" : "menu-background")}
+      >
+        <div class="container">
+          <SanityLink href={routes.home()}>
+            <SanityImage src={logo} />
+          </SanityLink>
 
-    <div class="menu-container">
-      <div class="social-buttons">
-        <button>
-          {`IG`}
-        </button>
-        <button>
-          {`LI`}
-        </button>
-      </div>
-      <button class="menu-buttons open-menu open-menu-button">
-        {`Menu`}
-      </button>
-      <button class="close-menu close-button close-menu-button hidden">
-        {`Close`}
-      </button>
-      {
-        navItems?.length > 0 && (
-          <nav id="menu" class="show-nav nav hidden">
-            <div class="nav-items">
-              {navItems?.map((item) => (
-                <div class="nav-item">
-                  {item.headline && (
-                    <div class="headline ">{item?.headline}</div>
-                  )}
-                  {item?.labelLinks?.length > 0 &&
-                    item?.labelLinks?.map((labelItem) => (
-                      <div class="label">{labelItem?.label}</div>
-                    ))}
-                </div>
-              ))}
+          <div class="menu-container">
+            <div class="social-buttons">
+              <button>{`IG`}</button>
+              <button>{`LI`}</button>
             </div>
-          </nav>
-        )
-      }
-    </div>
-  </div>
-</header>
+            <button class="menu-buttons open-menu open-menu-button">
+              {`Menu`}
+            </button>
+            <button class="close-menu close-button close-menu-button hidden">
+              {`Close`}
+            </button>
+            {navItems?.length > 0 && (
+              <nav id="menu" class="show-nav nav hidden">
+                <div class="nav-items">
+                  {navItems?.map((item) => {
+                    const { headline, labelLinks } = item || {};
+                    return (
+                      <div class="nav-item">
+                        {headline && <div class="headline ">{headline}</div>}
+                        {labelLinks?.length > 0 &&
+                          labelLinks?.map((item) => {
+                            const { label, link } = item || {};
+                            return (
+                              <div>
+                                <SanityLink class="label" href={link}>
+                                  {label}
+                                </SanityLink>
+                              </div>
+                            );
+                          })}
+                      </div>
+                    );
+                  })}
+                </div>
+              </nav>
+            )}
+          </div>
+        </div>
+      </header>
+    );
+  })()
+}
 
 <style>
   header {
@@ -218,6 +227,7 @@ const { logo, navItems = []} = header || {};
             text-transform: uppercase;
             cursor: pointer;
             transition: opacity 0.3s ease-in-out;
+            text-decoration: none;
             &:hover {
               opacity: 0.5;
             }

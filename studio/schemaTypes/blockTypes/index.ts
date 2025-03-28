@@ -5,6 +5,9 @@ import { blockEpisodes } from "./blockEpisodes";
 import { blockFaqs } from "./blockFaqs";
 import { blockFeetSection } from "./blockFeetSection";
 import { blockImage } from "./blockImage";
+import { blockText } from "./blockText";
+import { blockWorkSelection } from "./blockWorkSelection";
+
 
 export const blockTypes = [
     blockAudiencesOverviewSection,
@@ -14,4 +17,6 @@ export const blockTypes = [
     blockFaqs,
     blockFeetSection,
     blockImage,
+    blockText,
+    blockWorkSelection
 ];

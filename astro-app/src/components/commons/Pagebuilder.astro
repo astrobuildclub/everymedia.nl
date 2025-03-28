@@ -1,8 +1,12 @@
 ---
 import type { PagebuilderType } from "../../utils";
 import BlockAudiencesOverviewSection from "../blocks/BlockAudiencesOverviewSection.astro";
+import BlockCards from "../blocks/BlockCards.astro";
 import BlockContact from "../blocks/BlockContact.astro";
+import BlockFaqs from "../blocks/BlockFaqs.astro";
 import BlockFeetSection from "../blocks/BlockFeetSection.astro";
+import BlockText from "../blocks/BlockText.astro";
+import BlockWorkSelection from "../blocks/BlockWorkSelection.astro";
 
 interface Props {
   data: PagebuilderType;
@@ -10,20 +14,25 @@ interface Props {
 const { data } = Astro.props || {};
 ---
 
-{
-  data._type === "blockAudiencesOverviewSection" && (
-    <BlockAudiencesOverviewSection data={data} />
-  )
+ {
+  (() => {
+    switch (data._type) {
+      case "blockAudiencesOverviewSection":
+        return <BlockAudiencesOverviewSection data={data} />;
+      case "blockFeetSection":
+        return <BlockFeetSection data={data} />;
+      case "blockContact":
+        return <BlockContact data={data} />;
+      case "blockCards":
+        return <BlockCards data={data} />;
+      case "blockFaqs":
+        return <BlockFaqs data={data} />;
+      case "blockWorkSelection":
+        return <BlockWorkSelection data={data} />;
+      case "blockText":
+        return <BlockText data={data} />;
+      default:
+        return null;
+    }
+  })()
 }
-{
-  data._type === "blockFeetSection" && (
-    <BlockFeetSection data={data} />
-  )
-}
-{
-  data._type === "blockContact" && (
-    <BlockContact data={data} />
-  )
-}
-
-

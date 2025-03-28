@@ -2,10 +2,11 @@
 import Pagebuilder from "../components/commons/Pagebuilder.astro";
 import HeroView from "../components/HeroView.astro";
 import Layout from "../layouts/Layout.astro";
+import { defaultLanguage } from "../lib/helperFunctions";
 import { type PageType } from "../utils";
 import { getPage } from "../utils/sanity/getPage";
 
-const pageData = await getPage<PageType>("/", "en");
+const pageData = await getPage<PageType>("/", defaultLanguage?.id);
 
 const {
   pagebuilder,

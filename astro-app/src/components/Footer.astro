@@ -1,6 +1,7 @@
 ---
 import type { FooterType } from "../utils";
 import { PortableText } from "astro-portabletext";
+import SanityLink from "./commons/SanityLink.astro";
 
 interface Props {
   footer: FooterType | undefined;
@@ -9,41 +10,55 @@ interface Props {
 const { footerLinks = [], title } = Astro.props?.footer || {};
 ---
 
-<footer class="footer">
-  <div class="footer-content">
-    {
-      title && (
-        <div class="footer-heading">
-          <PortableText value={title} />
-        </div>
-      )
-    }
-    {
-      footerLinks?.length > 0 && (
-        <div class="footer-links">
-          {footerLinks?.map((item) => (
-            <div class="footer-item">
-              {item?.title && <div class="footer-title">{item?.title}</div>}
-              {item?.select === "body" && item?.body && (
-                <div class="footer-body">
-                  <PortableText value={item?.body} />
-                </div>
-              )}
-              {item?.select === "labelLinks" &&
-                item?.labelLinks?.length > 0 && (
-                  <ul class="footer-links-list">
-                    {item?.labelLinks?.map((link) => (
-                      <li>{link?.label}</li>
-                    ))}
-                  </ul>
-                )}
+{
+  (() => {
+    return (
+      <footer class="footer">
+        <div class="footer-content">
+          {title && (
+            <div class="footer-heading">
+              <PortableText value={title} />
             </div>
-          ))}
+          )}
+          {footerLinks?.length > 0 && (
+            <div class="footer-links">
+              {footerLinks?.map((item) => {
+                const { title, body, labelLinks, select } = item || {};
+                return (
+                  <div class="footer-item">
+                    {title && <div class="footer-title">{title}</div>}
+                    {select === "body" && body && (
+                      <div class="footer-body">
+                        <PortableText value={body} />
+                      </div>
+                    )}
+                    {select === "labelLinks" && labelLinks?.length > 0 && (
+                      <ul class="footer-links-list">
+                        {labelLinks?.map((item) => {
+                          const { label, link } = item || {};                          
+                          return (
+                            <li>
+                              <SanityLink
+                                href={link}
+                                class="footer-labelLink"
+                              >
+                                {label}
+                              </SanityLink>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
-      )
-    }
-  </div>
-</footer>
+      </footer>
+    );
+  })()
+}
 
 <style>
   footer {
@@ -134,7 +149,7 @@ const { footerLinks = [], title } = Astro.props?.footer || {};
             margin: 0;
             padding: 0;
 
-            li {
+            .footer-labelLink {
               font-size: var(--fs--2);
               font-weight: 400;
               text-wrap: balance;
@@ -145,7 +160,7 @@ const { footerLinks = [], title } = Astro.props?.footer || {};
               cursor: pointer;
               transition: all 0.3s;
               width: fit-content;
-
+              text-decoration: none;
               &:hover {
                 opacity: 0.5;
               }

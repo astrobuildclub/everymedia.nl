@@ -15,49 +15,47 @@ const { title, heroVideo, subtitle, heroImage, select } =
   Astro.props.data || {};
 ---
 
-<section class="hero-section">
-  <div class="hero-title">
-    {
-      title && (
-        <div class="title__wrapper">
-          <h1 class="em-title">{title}</h1>
+{
+  (() => {
+    return (
+      <section class="hero-section">
+        <div class="hero-title">
+          {title && (
+            <div class="title__wrapper">
+              <h1 class="em-title">{title}</h1>
+            </div>
+          )}
+          {subtitle && (
+            <div class="title__wrapper">
+              <h1 class="em-title">{subtitle}</h1>
+            </div>
+          )}
         </div>
-      )
-    }
-    {
-      subtitle && (
-        <div class="title__wrapper">
-          <h1 class="em-title">{subtitle}</h1>
-        </div>
-      )
-    }
-  </div>
-  {
-    select === "heroVideo" && heroVideo && (
-      <div class="video__wrapper ">
-        <video
-          class=""
-          autoplay
-          loop
-          playsinline
-          muted
-          preload="auto"
-          poster="https://picsum.photos/696/391"
-        >
-          <source src={heroVideo} type="video/mp4" />
-          {`Your browser does not support the video tag.`}
-        </video>
-      </div>
-    )
-  }
-  {
-    select === "heroImage" && heroImage && (
-      <div class="video__wrapper ">
-        <SanityImage src={heroImage} className="" />
-      </div>
-    )
-  }
-</section>
+        {select === "heroVideo" && heroVideo && (
+          <div class="video__wrapper ">
+            <video
+              class=""
+              autoplay
+              loop
+              playsinline
+              muted
+              preload="auto"
+              poster="https://picsum.photos/696/391"
+            >
+              <source src={heroVideo} type="video/mp4" />
+              {`Your browser does not support the video tag.`}
+            </video>
+          </div>
+        )}
+        {select === "heroImage" && heroImage && (
+          <div class="video__wrapper ">
+            <SanityImage src={heroImage} />
+          </div>
+        )}
+      </section>
+    );
+  })()
+}
 
 <style>
   .hero-section {

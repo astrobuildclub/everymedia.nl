@@ -10,3 +10,9 @@ export const generateFormattedIndex = (index: number) => {
   const formattedIndex = updatedCount < 10 ? `0${updatedCount}` : updatedCount;
   return formattedIndex;
 };
+
+export const defaultLanguage =  { id: 'nl', title: 'Dutch' };
+
+export const supportedLanguages = [
+  defaultLanguage,
+];

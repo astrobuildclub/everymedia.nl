@@ -1,27 +1,36 @@
 // @ts-check
 import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
+import { defaultLanguage, supportedLanguages } from "./src/lib/helperFunctions";
+import sanityIntegration from "@sanity/astro";
+import { apiVersion, dataset, projectId, useCdn } from "./src/lib/sanity";
 
-
-const defaultLanguage = { id: 'en', title: 'English' };
-
-const supportedLanguages = [
-  defaultLanguage,
-  { id: 'nl', title: 'Dutch' },
-];
-
-const supportedLocales = supportedLanguages.map((item) => item.id);
+const locales = supportedLanguages.map((item) => item.id);
+const defaultLocale = defaultLanguage.id;
 
 // https://astro.build/config
 export default defineConfig({
   integrations: [
     react(),
+    sanityIntegration({
+      projectId: projectId,
+      dataset: dataset,
+      apiVersion: apiVersion,
+      useCdn: useCdn,
+    }),
   ],
   vite: {
     plugins: [],
   },
+  image: {
+    remotePatterns: [
+      {
+        protocol: "https",
+      },
+    ],
+  },
   i18n: {
-    locales: supportedLocales,
-    defaultLocale: defaultLanguage.id,
+    locales: locales,
+    defaultLocale: defaultLocale,
   },
 });
