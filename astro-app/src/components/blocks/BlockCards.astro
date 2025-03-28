@@ -1,0 +1,201 @@
+---
+import { PortableText } from "astro-portabletext";
+import type { BlockCardsType } from "../../utils";
+import { generateFormattedIndex } from "../../lib/helperFunctions";
+
+interface Props {
+  data: BlockCardsType;
+}
+const { title, intro, cards, colsAmount, footnote } = Astro.props.data || {};
+
+const gridStyle = {
+  gridTemplateColumns: `repeat(${colsAmount}, 1fr)`,
+};
+---
+
+{
+  () => {
+    return (
+      <section class="block-cards-section">
+        <div class="block-cards-title-section">
+          {title && <h2 class="intro-title">{title}</h2>}
+          {intro && <p class="intro-desc">{intro}</p>}
+        </div>
+
+        {cards?.length > 0 && (
+          <div class="cards-grid" style={gridStyle}>
+            {cards?.map((item, index) => {
+              const { title, subtitle, body } = item || {};
+              return (
+                <article class="card">
+                  <div class="card-header-title">
+                    <span class="card-numb">
+                      {`${generateFormattedIndex(index)}.`}
+                    </span>
+                    {title && <h3 class="card-title">{title}</h3>}
+                  </div>
+                  <div class="card-bottom-desc">
+                    {subtitle && <h4 class="card-about-details">{subtitle}</h4>}
+                    {body && (
+                      <div class="card-sub-details">
+                        <PortableText value={body} />
+                      </div>
+                    )}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        )}
+
+        {footnote && <p class="footnote">{footnote}</p>}
+      </section>
+    );
+  }
+}
+
+<style>
+  .block-cards-section {
+    padding: var(--space-2xl) var(--space-s);
+    display: grid;
+    grid-template-columns: 1;
+    grid-column-start: 1;
+    gap: var(--space-s-m);
+
+    .block-cards-title-section {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-s);
+      max-width: 66rem;
+      width: 100%;
+      .intro-title {
+        color: var(--gray-700);
+        font-weight: 500;
+        font-size: var(--fs--2);
+        font-family: var(--font-mono);
+        line-height: 150%;
+        letter-spacing: 0.405px;
+        text-transform: uppercase;
+      }
+      .intro-desc {
+        color: black;
+        font-family: var(--font-body);
+        font-size: var(--fs-0);
+        font-weight: 700;
+        line-height: 112%;
+      }
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr) !important;
+      border: 1px solid black;
+
+      @media (max-width: 767px) {
+        grid-template-columns: repeat(1, 1fr) !important;
+      }
+
+      .card {
+        padding: var(--space-m);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-shrink: 0;
+        gap: 2.5rem;
+        /* border: 1px solid black; */
+        background-image: white;
+        @media (max-width: 767px) {
+          gap: 2.25rem;
+        }
+
+        &:nth-child(1) {
+          border-right: 1px solid black;
+          border-bottom: 1px solid black;
+          @media (max-width: 767px) {
+            border-right: none;
+          }
+        }
+        &:nth-child(2) {
+          border-right: 1px solid black;
+          border-bottom: 1px solid black;
+          @media (max-width: 767px) {
+            border-right: none;
+          }
+        }
+        &:nth-child(3) {
+          border-bottom: 1px solid black;
+        }
+        &:nth-child(4) {
+          border-right: 1px solid black;
+          @media (max-width: 767px) {
+            border-right: none;
+            border-bottom: 1px solid black;
+          }
+        }
+        &:nth-child(5) {
+          border-right: 1px solid black;
+          @media (max-width: 767px) {
+            border-right: none;
+          }
+        }
+
+        .card-header-title {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+
+          .card-numb {
+            font-size: 0.75rem;
+            color: var(--gray-700);
+            font-weight: 500;
+            line-height: 150%;
+            letter-spacing: 0.36px;
+            text-transform: uppercase;
+            font-family: var(--font-mono);
+          }
+          .card-title {
+            font-size: var(--fs-1);
+            color: black;
+            font-weight: 700;
+            line-height: 120%;
+            font-family: var(--font-body);
+          }
+        }
+
+        .card-bottom-desc {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          margin-top: 11rem;
+          @media (max-width: 1023px) {
+            margin-top: 5rem;
+          }
+          @media (max-width: 767px) {
+            margin-top: 0rem;
+          }
+          .card-about-details {
+            font-size: var(--fs--1);
+            color: black;
+            font-weight: 500;
+            line-height: 150%;
+            letter-spacing: 0.25px;
+            font-family: var(--font-primary);
+          }
+
+          .card-sub-details {
+            font-size: var(--fs--2);
+            color: var(--gray-700);
+            font-family: var(--font-body);
+            line-height: 150%;
+          }
+        }
+      }
+    }
+
+    .footnote {
+      font-size: var(--fs--1);
+      color: black;
+    }
+  }
+</style>

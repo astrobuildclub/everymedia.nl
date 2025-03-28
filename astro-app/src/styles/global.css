@@ -298,6 +298,10 @@ pre {
   color: var(--off-black);
 }
 
+figure{
+    margin: 0 !important;
+}
+
 /* Modern scroll-driven animatie */
 @supports (animation-timeline: --section-pin-tl) {
   .audience {

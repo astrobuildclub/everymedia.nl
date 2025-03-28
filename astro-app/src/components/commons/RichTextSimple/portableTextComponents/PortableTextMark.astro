@@ -1,0 +1,61 @@
+---
+import type { Props as $, Mark } from "astro-portabletext/types";
+import SanityLink from "../../SanityLink.astro";
+import type { LinkProps } from "sanity-plugin-link-field/component";
+
+export type Props = $<Mark>;
+
+const props = Astro.props;
+const { node, index, isInline, ...attrs } = props || {};
+const markTypeIs = (markType: string) => markType === node.markType;
+---
+
+{
+    markTypeIs("code") ? (
+        <code {...attrs}>
+            <slot />
+        </code>
+    ) : markTypeIs("em") ? (
+        <em {...attrs}>
+            <slot />
+        </em>
+    ) : markTypeIs("link") ? (
+        <SanityLink
+            href={(node as unknown as Mark<LinkProps>).markDef}
+        >
+            <slot />
+        </SanityLink>
+    ) : markTypeIs("strike-through") ? (
+        <del {...attrs}>
+            <slot />
+        </del>
+    ) : markTypeIs("strong") ? (
+        <strong {...attrs} class="strong-text">
+            <slot />
+        </strong>
+    ) : markTypeIs("underline") ? (
+        <span style="text-decoration: underline;" {...attrs}>
+            <slot />
+        </span>
+    ) : null
+}
+
+<style>
+    em {
+        background: rgb(57, 47, 79);
+        border-radius: 0.25rem;
+        color: white;
+        display: block;
+        padding: 0.5rem;
+    }
+    .strong-text {
+        font-size: var(--fs-0);
+        color: black;
+        font-weight: 500;
+        line-height: 133%;
+        letter-spacing: -0.03px;
+        font-family: var(--font-primary);
+        /* padding-bottom: 2.5rem !important; */
+        display: block;
+    }
+</style>

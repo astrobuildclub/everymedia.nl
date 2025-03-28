@@ -1,4 +1,5 @@
 import type { AudienceType } from "./audienceType";
+import type { FaqType } from "./faqType";
 import type { ButtonType, LabelLinkType, RichTextSimpleType, SanityImageType } from "./global";
 import type { ProjectType } from "./projectType";
 
@@ -6,6 +7,11 @@ export type PagebuilderType =
     | BlockFeetSectionType
     | BlockAudiencesOverviewSectionType
     | BlockContactType
+    | BlockCardsType
+    | BlockFaqsType
+    | BlockWorkSelectionType
+    | BlockTextType
+
 
 
 {
@@ -46,6 +52,64 @@ export interface BlockContactType {
     image: SanityImageType
     cta: ButtonType[]
 }
+
+{
+    /*  Card */
+}
+
+export interface CardType {
+    _type: "card";
+    title?: string;
+    subtitle?: string;
+    body: RichTextSimpleType
+}
+
+{
+    /*  Block Cards */
+}
+
+export interface BlockCardsType {
+    _type: "blockCards";
+    title?: string;
+    intro?: string;
+    colsAmount?: string;
+    footnote?: string;
+    cards: CardType[]
+}
+
+{
+    /*  Block Faqs */
+}
+
+export interface BlockFaqsType {
+    _type: "blockFaqs";
+    title?: string;
+    faqs: FaqType[]
+}
+
+{
+    /*  Block Work Selection */
+}
+
+export interface BlockWorkSelectionType {
+    _type: "blockWorkSelection";
+    title?: string;
+    intro?: string;
+    selectedProjects: ProjectType[]
+    cta:ButtonType
+}
+
+{
+    /*  Block Text */
+}
+
+export interface BlockTextType {
+    _type: "blockText";
+    title?: string;
+    content?: RichTextSimpleType;
+    hideTitle:boolean
+}
+
 
 {
     /*  Block Audiences Overview Section */

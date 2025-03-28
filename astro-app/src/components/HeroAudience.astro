@@ -18,52 +18,52 @@ const { title, heroVideo, subtitle, heroImage, select, intro } =
   Astro.props.data || {};
 ---
 
-<section class="audience-section">
-  <div class="container">
-    <div class="audience-hero-title">
-      <div class="audience-hero-title-inner">
-        {title && <h1 class="audience-banner-title">{title}</h1>}
-        <div class="desc-with-icon">
-          {subtitle && <p class="audience-banner-desc">{subtitle}</p>}
-          <DownArrow className="skip-icon" />
-        </div>
-      </div>
-      {
-        intro && (
-          <div class="banner-sub-desc">
-            <PortableText value={intro} />
+{
+  (() => {
+    return (
+      <section class="audience-section">
+        <div class="container">
+          <div class="audience-hero-title">
+            <div class="audience-hero-title-inner">
+              {title && <h1 class="audience-banner-title">{title}</h1>}
+              <div class="desc-with-icon">
+                {subtitle && <p class="audience-banner-desc">{subtitle}</p>}
+                <DownArrow className="skip-icon" />
+              </div>
+            </div>
+            {intro && (
+              <div class="banner-sub-desc">
+                <PortableText value={intro} />
+              </div>
+            )}
           </div>
-        )
-      }
-    </div>
-    {
-      select === "heroVideo" && heroVideo && (
-        <div class="audience-bg">
-          <video
-            class=""
-            autoplay
-            loop
-            playsinline
-            muted
-            preload="auto"
-            poster="https://picsum.photos/696/391"
-          >
-            <source src={heroVideo} type="video/mp4" />
-            {`Your browser does not support the video tag.`}
-          </video>
+          {select === "heroVideo" && heroVideo && (
+            <div class="audience-bg">
+              <video
+                class=""
+                autoplay
+                loop
+                playsinline
+                muted
+                preload="auto"
+                poster="https://picsum.photos/696/391"
+              >
+                <source src={heroVideo} type="video/mp4" />
+                {`Your browser does not support the video tag.`}
+              </video>
+            </div>
+          )}
+          {select === "heroImage" && heroImage && (
+            <div class="">
+              <SanityImage src={heroImage} className="sanity-image audience-bg" />
+            </div>
+          )}
         </div>
-      )
-    }
-    {
-      select === "heroImage" && heroImage && (
-        <div class="audience-bg">
-          <SanityImage src={heroImage} className="sanity-image" />
-        </div>
-      )
-    }
-  </div>
-  <DownArrow className="skip-icon-mobie" />
-</section>
+        <DownArrow className="skip-icon-mobie" />
+      </section>
+    );
+  })()
+}
 
 <style>
   .audience-section {
@@ -140,6 +140,7 @@ const { title, heroVideo, subtitle, heroImage, select, intro } =
         top: calc(var(--spacing) * 0);
         width: 100%;
         height: 100%;
+        object-fit: cover;
 
         video {
           width: 100%;
@@ -152,6 +153,7 @@ const { title, heroVideo, subtitle, heroImage, select, intro } =
         top: calc(var(--spacing) * 0);
         width: 100%;
         height: 100%;
+        object-fit: cover;
 
         .sanity-image {
           width: 100%;

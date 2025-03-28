@@ -4,6 +4,7 @@ import type { BlockFeetSectionType } from "../../utils";
 import ProjectGridHomepage from "../ProjectGridHomepage.astro";
 import SanityButton from "../commons/SanityButton.astro";
 import { cn } from "../../lib/helperFunctions";
+import SanityLink from "../commons/SanityLink.astro";
 
 interface Props {
   data: BlockFeetSectionType;
@@ -19,98 +20,93 @@ const {
 } = Astro.props.data || {};
 ---
 
-<section>
-  <div class="block-feet-section">
-    {
-      title && (
-        <div class="title-container">
-          <div class="sticky-title">
-            <div class="title">{title}</div>
-          </div>
-        </div>
-      )
-    }
+{
+  (() => {
+    return (
+      <section>
+        <div class="block-feet-section">
+          {title && (
+            <div class="title-container">
+              <div class="sticky-title">
+                <div class="title">{title}</div>
+              </div>
+            </div>
+          )}
 
-    {
-      subtitle && (
-        <div class="media-header">
-          <p>{subtitle}</p>
-        </div>
-      )
-    }
+          {subtitle && (
+            <div class="media-header">
+              <p>{subtitle}</p>
+            </div>
+          )}
 
-    {
-      connectWithUs?.length > 0 && (
-        <div class="connect-section">
-          {connectWithUs?.map((item) => (
-            <div
-              class={cn(
-                "",
-                item?.select === "body"
-                  ? "connect-item full-span"
-                  : "connect-item half-span"
-              )}
-            >
-              {item?.title && (
-                <div>
-                  <div class="connect-title">{item?.title}</div>
-                  {item?.select === "body" && item?.body && (
-                    <div class="connect-body">
-                      <PortableText value={item?.body} />
-                    </div>
-                  )}
-                  {item?.select === "labelLinks" &&
-                    item?.labelLinks?.length > 0 && (
-                      <ul class="label-links">
-                        {item?.labelLinks?.map((item) => (
-                          <li>{item?.label}</li>
-                        ))}
-                      </ul>
+          {connectWithUs?.length > 0 && (
+            <div class="connect-section">
+              {connectWithUs?.map((item) => {
+                const { body, title, select, labelLinks } = item || {};
+                return (
+                  <div
+                    class={cn(
+                      "",
+                      select === "body"
+                        ? "connect-item full-span"
+                        : "connect-item half-span"
                     )}
+                  >
+                    <div>
+                      {title && <div class="connect-title">{title}</div>}
+                      {select === "body" && body && (
+                        <div class="connect-body">
+                          <PortableText value={body} />
+                        </div>
+                      )}
+                      {select === "labelLinks" && labelLinks?.length > 0 && (
+                        <ul class="label-links">
+                          {labelLinks?.map((item) => {
+                            const { link, label } = item || {};
+                            return (
+                              <li>
+                                <SanityLink href={link} class="label-link">{label}</SanityLink>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          <div class="content">
+            <div class="content-box">
+              {intro && (
+                <div class="sub-title">
+                  <PortableText value={intro} />
+                </div>
+              )}
+              {body && (
+                <div class="body-text">
+                  <PortableText value={body} />
                 </div>
               )}
             </div>
-          ))}
+            {selectedProjects?.length > 0 && (
+              <div class="projects">
+                <ProjectGridHomepage projects={selectedProjects} />
+              </div>
+            )}
+
+            {cta?.buttonText && (
+              <div class="cta-button">
+                <SanityButton block={cta} class="button" />
+              </div>
+            )}
+          </div>
         </div>
-      )
-    }
-
-    <div class="content">
-      <div class="content-box">
-        {
-          intro && (
-            <div class="sub-title">
-              <PortableText value={intro} />
-            </div>
-          )
-        }
-        {
-          body && (
-            <div class="body-text">
-              <PortableText value={body} />
-            </div>
-          )
-        }
-      </div>
-
-      {
-        selectedProjects?.length > 0 && (
-          <div class="projects">
-            <ProjectGridHomepage projects={selectedProjects} />
-          </div>
-        )
-      }
-
-      {
-        cta?.buttonText && (
-          <div class="cta-button">
-            <SanityButton block={cta} className="button" />
-          </div>
-        )
-      }
-    </div>
-  </div>
-</section>
+      </section>
+    );
+  })()
+}
 
 <style>
   section {
@@ -219,11 +215,12 @@ const {
             margin: 0;
             padding: 0;
 
-            li {
+            .label-link {
               font-size: var(--fs--2);
               line-height: 150%;
               color: var(--dim-gray);
               font-family: var(--font-primary);
+              text-decoration: none;
             }
           }
         }

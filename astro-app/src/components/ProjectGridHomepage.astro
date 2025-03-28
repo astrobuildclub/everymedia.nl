@@ -9,60 +9,66 @@ interface Props {
 const { projects = [] } = Astro.props || {};
 ---
 
-<div>
-  {
-    projects?.length > 0 && (
-      <div class="projectsinner-section">
-        {projects?.map((item) => (
-          <div>
-            {item?.title && (
-              <div class="project__meta">
-                <div>
-                  {item?.select === "heroImage" && item?.heroImage && (
-                    <div class="media-container">
-                      <SanityImage src={item?.heroImage} className="media" />
+{
+  (() => {
+    return (
+      <div>
+        {projects?.length > 0 && (
+          <div class="projectsinner-section">
+            {projects?.map((item) => {
+              const { title, heroImage, select, heroVideo, subtitle, intro } =
+                item || {};
+              return (
+                <article>
+                  <div class="project__meta">
+                    <div>
+                      {select === "heroImage" && heroImage && (
+                        <div class="media-container">
+                          <SanityImage src={heroImage} className="media" />
+                        </div>
+                      )}
+                      {select === "heroVideo" && heroVideo && (
+                        <div class="media-container">
+                          <video
+                            class="media"
+                            autoplay
+                            loop
+                            playsinline
+                            muted
+                            preload="auto"
+                            poster="https://picsum.photos/696/391"
+                          >
+                            <source src={heroVideo} type="video/mp4" />
+                            {`Your browser does not support the video tag.`}
+                          </video>
+                        </div>
+                      )}
                     </div>
-                  )}
-                  {item?.select === "heroVideo" && item?.heroVideo && (
-                    <div class="media-container">
-                      <video
-                        class="media"
-                        autoplay
-                        loop
-                        playsinline
-                        muted
-                        preload="auto"
-                        poster="https://picsum.photos/696/391"
-                      >
-                        <source src={item?.heroVideo} type="video/mp4" />
-                        {`Your browser does not support the video tag.`}
-                      </video>
-                    </div>
-                  )}
-                </div>
-                <div class="project__meta">
-                  <div class="meta">
-                    <h4>Client</h4>
-                    <p>Award Plain Text</p>
-                  </div>
-                  <div class="project-details">
-                    {item?.title && <h3>{item?.title}</h3>}
-                    {item?.subtitle && <span>{item?.subtitle}</span>}
-                    {item?.intro && (
-                      <div class="intro-text">
-                        <PortableText value={item?.intro} />
+                    <div class="project__meta">
+                      <div class="meta">
+                        <h4>{`Client`}</h4>
+                        <p>{`Award Plain Text`}</p>
                       </div>
-                    )}
+                      <div class="project-details">
+                        {title && <h3>{title}</h3>}
+                        {subtitle && <span>{subtitle}</span>}
+                        {intro && (
+                          <div class="intro-text">
+                            <PortableText value={intro} />
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            )}
+                </article>
+              );
+            })}
           </div>
-        ))}
+        )}
       </div>
-    )
-  }
-</div>
+    );
+  })()
+}
 
 <style>
   .projectsinner-section {

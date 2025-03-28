@@ -1,0 +1,29 @@
+---
+import { PortableText } from "astro-portabletext";
+import type { RichTextSimpleType } from "../../../utils";
+import type { SomePortableTextComponents } from "astro-portabletext/types";
+import PortableTextBlock from "./portableTextComponents/PortableTextBlock.astro";
+import PortableTextList from "./portableTextComponents/PortableTextList.astro";
+import PortableTextListItem from "./portableTextComponents/PortableTextListItem.astro";
+import PortableTextMark from "./portableTextComponents/PortableTextMark.astro";
+import PortableTextHardBreak from "./portableTextComponents/PortableTextHardBreak.astro";
+import PortableTextText from "./portableTextComponents/PortableTextText.astro";
+import PortableTextType from "./portableTextComponents/PortableTextType.astro";
+
+interface Props {
+    value: RichTextSimpleType;
+    components?: SomePortableTextComponents;
+}
+const portableTextComponents: SomePortableTextComponents = {
+    block: PortableTextBlock,
+    list: PortableTextList,
+    listItem: PortableTextListItem,
+    mark: PortableTextMark,
+    hardBreak: PortableTextHardBreak,
+    text: PortableTextText,
+    type: PortableTextType,
+};
+const { value, components = portableTextComponents } = Astro.props || {};
+---
+
+{value && <PortableText value={value} components={components} />}

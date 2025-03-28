@@ -9,43 +9,47 @@ interface Props {
 const { title, audiences } = Astro.props.data || {};
 ---
 
-<section class="audiences-overview">
-  {title && (
-    <div class="audiences-title">
-      <PortableText value={title} />
-    </div>
-  )}
+{
+  () => {
+    return (
+      <section class="audiences-overview">
+        {title && (
+          <div class="audiences-title">
+            <PortableText value={title} />
+          </div>
+        )}
 
-  {audiences?.length > 0 && <AudiencesOverview audiences={audiences} />}
-</section>
+        {audiences?.length > 0 && <AudiencesOverview audiences={audiences} />}
+      </section>
+    );
+  }
+}
 
 <style>
+  .audiences-overview {
+    min-height: 100dvh;
+    color: var(--clr-secondary);
+    background-color: black;
+    padding: 6rem 0;
 
-.audiences-overview {
-  min-height: 100dvh;
-  color: var(--clr-secondary);
-  background-color: black;
-  padding: 6rem 0;
-
-
-  @media (min-width: 767px) {
-    padding: 4.5rem 0;
+    @media (min-width: 767px) {
+      padding: 4.5rem 0;
+    }
   }
-}
 
-.audiences-title {
-  font-family: var(--font-heading);
-  font-weight: bold;
-  line-height: 112%;
-  letter-spacing: -2%;
-  text-transform: uppercase;
-  color: var(--color-gray-50);
-  font-size: var(--fs-4);
-  padding-left: var(--space-xs);
-  margin-bottom: 1.5rem;
+  .audiences-title {
+    font-family: var(--font-heading);
+    font-weight: bold;
+    line-height: 112%;
+    letter-spacing: -2%;
+    text-transform: uppercase;
+    color: var(--color-gray-50);
+    font-size: var(--fs-4);
+    padding-left: var(--space-xs);
+    margin-bottom: 1.5rem;
 
-  @media (max-width: 767px) {
-    margin-bottom: 0.5rem;
+    @media (max-width: 767px) {
+      margin-bottom: 0.5rem;
+    }
   }
-}
 </style>

@@ -36,6 +36,7 @@ export const sanityImageType =  defineType({
             title: "Caption",
             type: 'text',
             hidden: ({ parent }) => !parent?.hasCaption,
+            rows:5
         }),
     ],
     preview: {

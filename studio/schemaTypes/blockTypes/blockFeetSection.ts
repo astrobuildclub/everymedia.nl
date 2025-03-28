@@ -1,5 +1,5 @@
-import {defineField, defineType} from 'sanity'
-import {richTextSimple} from '../options/richTextOptions'
+import { defineField, defineType } from 'sanity'
+import { richTextSimple } from '../options/richTextOptions'
 
 export const blockFeetSection = defineType({
   name: 'blockFeetSection',
@@ -35,10 +35,10 @@ export const blockFeetSection = defineType({
       of: [
         {
           type: 'reference',
-          to: [{type: 'project'}],
+          to: [{ type: 'project' }],
           options: {
             disableNew: true,
-            filter: ({document}) => {
+            filter: ({ document }) => {
               return {
                 filter: 'language == $language',
                 params: {
@@ -76,8 +76,8 @@ export const blockFeetSection = defineType({
               type: 'string',
               options: {
                 list: [
-                  {title: 'Label Links', value: 'labelLinks'},
-                  {title: 'Body', value: 'body'},
+                  { title: 'Label Links', value: 'labelLinks' },
+                  { title: 'Body', value: 'body' },
                 ],
                 layout: 'radio',
               },
@@ -87,15 +87,15 @@ export const blockFeetSection = defineType({
               name: 'labelLinks',
               title: 'Label Links',
               type: 'array',
-              of: [{type: 'labelLink'}],
-              hidden: ({parent}) => parent?.select !== 'labelLinks',
+              of: [{ type: 'labelLink' }],
+              hidden: ({ parent }) => parent?.select !== 'labelLinks',
             }),
             defineField({
               name: 'body',
               title: 'Body',
               type: 'array',
               of: richTextSimple,
-              hidden: ({parent}) => parent?.select !== 'body',
+              hidden: ({ parent }) => parent?.select !== 'body',
             }),
           ],
           preview: {
@@ -107,4 +107,14 @@ export const blockFeetSection = defineType({
       ],
     }),
   ],
+  preview: {
+    select: {
+      title: 'title',
+    },
+    prepare({ title }) {
+      return {
+        title: title || 'Block Feet Section',
+      }
+    },
+  },
 })

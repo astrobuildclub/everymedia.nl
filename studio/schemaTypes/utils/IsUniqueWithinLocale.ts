@@ -2,7 +2,7 @@ import { SlugIsUniqueValidator } from "sanity";
 
 export const isUniqueWithinLocale: SlugIsUniqueValidator = async (slug, context) => {
     const { getClient } = context
-    const client = getClient({ apiVersion: '2025-03-18' })
+    const client = getClient({ apiVersion: '2025-03-26' })
 
     if (!context?.document?.language) {
         // On create the locale is not yet generated, allow

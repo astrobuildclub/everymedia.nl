@@ -22,16 +22,26 @@ export const blockFaqs = defineType({
           options: {
             disableNew: true,
             filter: ({ document }) => {
-                return {
-                    filter: 'language == $language',
-                    params: {
-                        language: document.language
-                    },
-                };
+              return {
+                filter: 'language == $language',
+                params: {
+                  language: document.language
+                },
+              };
             },
-        },
+          },
         },
       ],
     }),
   ],
+  preview: {
+    select: {
+      title: 'title',
+    },
+    prepare({ title }) {
+      return {
+        title: title || 'Block FAQs',
+      }
+    },
+  },
 });
