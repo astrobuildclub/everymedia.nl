@@ -1,40 +1,34 @@
 ---
-import type { SanityImageType } from "../utils";
+import { PortableText } from "astro-portabletext";
+import type { HeroViewType } from "../utils";
 import SanityImage from "./commons/SanityImage.astro";
 
 interface Props {
-  data: {
-    title: string | undefined;
-    subtitle: string | undefined;
-    heroVideo: string | undefined;
-    heroImage: SanityImageType | undefined;
-    select: "heroVideo" | "heroImage" | undefined;
-  };
+  data: HeroViewType;
 }
-const { title, heroVideo, subtitle, heroImage, select } =
+const { title, heroVideo, subtitle, heroImage, select, intro, pageTitle } =
   Astro.props.data || {};
 ---
 
 {
   (() => {
     return (
-      <section class="hero-section">
-        <div class="hero-title">
-          {title && (
-            <div class="title__wrapper">
-              <h1 class="em-title">{title}</h1>
-            </div>
-          )}
-          {subtitle && (
-            <div class="title__wrapper">
-              <h1 class="em-title">{subtitle}</h1>
+      <section class="page-hero-section">
+        <div class="page-hero-left">
+          {pageTitle && <span class="hero-intro">{pageTitle}</span>}
+          {title && <h1 class="hero-title">{title}</h1>}
+          {subtitle && <div class="hero-subTitle">{subtitle}</div>}
+          {intro && (
+            <div class="hero-desc">
+              <PortableText value={intro} />
             </div>
           )}
         </div>
+
         {select === "heroVideo" && heroVideo && (
-          <div class="video__wrapper ">
+          <div class="page-hero-right">
             <video
-              class=""
+              class="page-hero-video"
               autoplay
               loop
               playsinline
@@ -47,9 +41,10 @@ const { title, heroVideo, subtitle, heroImage, select } =
             </video>
           </div>
         )}
+
         {select === "heroImage" && heroImage && (
-          <div class="video__wrapper ">
-            <SanityImage src={heroImage}  />
+          <div class="page-hero-right">
+            <SanityImage src={heroImage} className="page-hero-image" />
           </div>
         )}
       </section>
@@ -58,52 +53,95 @@ const { title, heroVideo, subtitle, heroImage, select } =
 }
 
 <style>
-  .hero-section {
-    position: relative;
-    min-height: 100dvh;
-
-    .hero-title {
-      position: absolute;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      z-index: 5;
-
-      .title__wrapper {
-        display: grid;
-        padding-left: var(--space-3xs);
-        padding-right: var(--space-3xs);
-
-        .em-title {
-          font-size: var(--type-size);
-          font-weight: bold;
-          color: white;
-          align-self: flex-end;
-          position: sticky;
-          bottom: 0;
-          margin-bottom: 0 !important;
-        }
-      }
+  .page-hero-section {
+    padding: var(--space-2xl-3xl) var(--space-s) var(--space-xl-2xl)
+      var(--space-s);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 5rem;
+    align-items: center;
+    justify-content: space-between;
+    @media (max-width: 1440px) {
+      gap: var(--grid-gutter);
+    }
+    @media (max-width: 767px) {
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+      padding-top: 6rem;
     }
 
-    .video__wrapper {
-      position: absolute;
-      top: calc(var(--spacing) * 0);
-      width: 100%;
-      height: 100%;
-
-      video,
-      .sanity-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+    .page-hero-left {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-s);
+      order: 1;
+      padding-right: 6rem;
+      @media (max-width: 1440px) {
+        padding-right: 0rem;
+      }
+      @media (max-width: 767px) {
+        order: 2;
       }
 
-      .sanity-image {
-        @media (min-width: 767px) {
-          object-position: top;
+      .hero-intro {
+        color: var(--neutrals-600);
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        font-weight: 500;
+        line-height: 100%;
+        letter-spacing: 0.36px;
+        text-transform: uppercase;
+        padding-bottom: 0.75rem;
+      }
+      .hero-title {
+        color: black;
+        font-size: var(--fs-2);
+        font-weight: 700;
+        line-height: 100%;
+      }
+      .hero-subTitle {
+        color: black;
+        font-size: var(--fs-0);
+        font-weight: 500;
+        line-height: 133%;
+        letter-spacing: -0.03px;
+      }
+      .hero-desc {
+        color: black;
+        font-size: var(--fs--1);
+        line-height: 150%;
+        letter-spacing: 0.25px;
+        font-family: var(--font-primary);
+      }
+    }
+    .page-hero-right {
+      order: 2;
+      @media (max-width: 767px) {
+        order: 1;
+      }
+
+      .page-hero-video {
+        border-radius: var(--space-xs);
+        object-fit: cover;
+        height: 57.938rem;
+        width: 100%;
+        @media (max-width: 1279px) {
+          height: 23.438rem;
+      }
+      }
+    }
+    .page-hero-right {
+      order: 2;
+      @media (max-width: 767px) {
+        order: 1;
+      }
+
+      figure {
+        width: 100%;
+        .page-hero-image {
+          height: auto;
+          width: 100%;
+          border-radius: var(--space-xs);
+          object-fit: cover;
         }
       }
     }

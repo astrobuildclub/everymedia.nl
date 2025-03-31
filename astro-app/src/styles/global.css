@@ -17,6 +17,13 @@
   --gray-700: #464646;
   --gray-800: #1f2937;
   --gray-50: #f9fafb;
+  --neutrals-600: #666;
+  --light-gray: #C4C4C4;
+  --platinum-gray: #E6E6E6;
+  --eerie-black: #191919;
+  --ash-gray: #ADB0AA;
+  --light-sage: #D7DAD4;
+  --rich-black: #010101;
 
   /* dark */
   --clr-primary-a50: oklch(from var(--clr-primary) l c h / calc(alpha - 0.5));
@@ -28,6 +35,7 @@
     "Nimbus Sans", Arial, sans-serif;
   --font-primary: "Antarctica VAR";
   --font-mono: "DM Mono", monospace;
+  --font-instrument: "Instrument Sans", sans-serif;
   --gutter: 1rem;
   --grid-gutter: 1.5rem;
   --type-size: 21vw;

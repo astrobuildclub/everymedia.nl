@@ -1,28 +1,21 @@
 ---
-import type { RichTextSimpleType, SanityImageType } from "../utils";
+import type { HeroVariantType, HeroViewType,} from "../utils";
 import HeroAudience from "./HeroAudience.astro";
 import HeroHomePage from "./HeroHomePage.astro";
 import HeroPage from "./HeroPage.astro";
 import HeroProject from "./HeroProject.astro";
 
 interface Props {
-  data: {
-    title: string | undefined;
-    subtitle: string | undefined;
-    heroVideo: string | undefined;
-    heroImage: SanityImageType | undefined;
-    select: "heroVideo" | "heroImage" | undefined;
-    intro: RichTextSimpleType | undefined;
-  };
-  variants: "homepage" | "audience" | "project" | "page" | undefined;
+  data: HeroViewType
+  heroVariants: HeroVariantType;
 }
 
-const { data, variants } = Astro.props || {};
+const { data, heroVariants } = Astro.props || {};
 ---
 
 {
   (() => {
-    switch (variants) {
+    switch (heroVariants) {
       case "homepage":
         return <HeroHomePage data={data} />;
       case "audience":

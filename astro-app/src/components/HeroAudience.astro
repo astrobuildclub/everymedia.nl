@@ -1,18 +1,11 @@
 ---
 import { PortableText } from "astro-portabletext";
-import type { RichTextSimpleType, SanityImageType } from "../utils";
+import type { HeroViewType,} from "../utils";
 import SanityImage from "./commons/SanityImage.astro";
 import DownArrow from "./icons/downArrow";
 
 interface Props {
-  data: {
-    title: string | undefined;
-    subtitle: string | undefined;
-    heroVideo: string | undefined;
-    heroImage: SanityImageType | undefined;
-    select: "heroVideo" | "heroImage" | undefined;
-    intro: RichTextSimpleType | undefined;
-  };
+  data: HeroViewType
 }
 const { title, heroVideo, subtitle, heroImage, select, intro } =
   Astro.props.data || {};

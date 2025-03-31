@@ -11,6 +11,7 @@ const groqQuery = groq`*[_type == "page" && slug.current==$slug && language == $
   ${seo},
   ${pagebuilder},
   "layoutProps":${layoutProps},
+  pageTitle,
   variants,
   title,
   subtitle,

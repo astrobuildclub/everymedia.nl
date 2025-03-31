@@ -27,7 +27,7 @@ export const teamType = defineType({
       title: 'Slug',
       options:
       {
-        source: 'name',
+        source: 'pageTitle',
         maxLength: 200,
         isUnique: isUniqueWithinLocale,
       }

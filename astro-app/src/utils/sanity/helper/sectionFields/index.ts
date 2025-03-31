@@ -16,6 +16,23 @@ ${audienceFields}
 `;
 
 {
+  /* Block Work Related */
+}
+
+export const blockWorkRelatedFields = /* groq */ `
+_type,
+title,
+intro,
+relatedProjects[@->language == ^.^.language]->{
+${projectFields}
+},
+cta{
+${ctaFields}
+}
+`;
+
+
+{
   /* Connect With Us */
 }
 
@@ -146,5 +163,87 @@ export const blockTextFields = /* groq */ `
   },
   content[]{
   ${richTextSimpleFields}
+  },
+`;
+
+{
+  /* Block Image */
+}
+
+export const blockImageFields = /* groq */ `
+  _type,
+  title,
+  image{
+  ${imageFields}
+  },
+  size,
+`;
+
+{
+  /* Block Intro */
+}
+
+export const blockIntroFields = /* groq */ `
+  _type,
+  title,
+  content[]{
+  ${richTextSimpleFields}
+  }
+`;
+
+{
+  /* Block Testimonial */
+}
+
+export const blockTestimonialFields = /* groq */ `
+  _type,
+  title,
+  testimonial,
+  person,
+  role,
+  company,
+  image{
+  ${imageFields}
+  }
+`;
+
+{
+  /* Block Logos */
+}
+
+export const blockLogosFields = /* groq */ `
+  _type,
+  title,
+  logos[]{
+  ${imageFields}
+  }
+`;
+
+{
+  /* Block Video */
+}
+
+export const blockVideoFields = /* groq */ `
+  _type,
+  title,
+  videoType,
+  (@.videoType=="mp4") => { 
+  videoUrl
+  },
+  (@.videoType=="embed") => { 
+  embedPlatform,
+  embedUrl,
+  },
+  thumbnail{
+  ${imageFields}
+  },
+  size,
+  autoplay,
+  loop,
+  videoThumbnail{
+  _type,
+  asset->{
+  ...
+  },
   },
 `;

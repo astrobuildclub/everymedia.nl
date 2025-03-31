@@ -2,7 +2,7 @@ import type { SanityDocument } from "sanity";
 import type { SeoType } from "./seoType";
 import type { LayoutPropsType } from "./layoutType";
 import type { PagebuilderType } from "./pagebuilderType";
-import type { RichTextSimpleType, SanityImageType } from ".";
+import type { HeroVariantType, RichTextSimpleType, SanityImageType } from ".";
 
 
 
@@ -14,8 +14,9 @@ export interface PageType extends SanityDocument {
     pagebuilder: PagebuilderType[]
     layoutProps: LayoutPropsType
     language: string;
-    variants: "homepage" | "audience" | "project" | "page"
+    variants: HeroVariantType
     title: string;
+    pageTitle: string;
     subtitle: string
     intro: RichTextSimpleType
     select: "heroVideo" | "heroImage"

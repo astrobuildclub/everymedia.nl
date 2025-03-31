@@ -30,7 +30,8 @@
     "react-dom": "^19.0.0",
     "sanity": "^3.79.0",
     "sanity-image": "^1.0.0",
-    "sanity-plugin-link-field": "^1.4.0"
+    "sanity-plugin-link-field": "^1.4.0",
+    "swiper": "^11.2.6"
   },
   "devDependencies": {
     "@portabletext/types": "2.0.13",
