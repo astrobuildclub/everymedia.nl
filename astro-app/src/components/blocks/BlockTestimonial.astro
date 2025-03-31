@@ -1,0 +1,89 @@
+---
+import type { BlockTestimonialType } from "../../utils";
+import SanityImage from "../commons/SanityImage.astro";
+
+interface Props {
+  data: BlockTestimonialType;
+}
+
+const { image, person, role, testimonial,company } = Astro.props.data || {};
+---
+
+{
+  (() => {
+    return (
+      <section class="testimonial-section">
+        <div class="testimonial-inner">
+          {testimonial && <h2 class="testimonial-title">{testimonial}</h2>}
+          <div class="testimonial-about">
+            {image && <SanityImage src={image} className="person-image" />}
+            <div class="person-detail">
+              {person && <p class="person-name person-about">{person}</p>}
+              {role && <div class="person-role person-about">{role}</div>}
+              {company && <span class="person-company person-about">{company}</span>}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  })()
+}
+
+<style>
+  .testimonial-section {
+    padding: var(--space-2xl) var(--space-s);
+    .testimonial-inner {
+      max-width: 66rem;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: var(--grid-gutter);
+
+      .testimonial-title {
+        font-size: var(--fs-3);
+        color: black;
+        text-align: center;
+        font-weight: 300;
+        line-height: 112.5%;
+        font-family: var(--font-heading);
+      }
+
+      .testimonial-about {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        align-items: center;
+
+        figure {
+          .person-image {
+            width: 3.125rem;
+            height: 3.125rem;
+            border-radius: 9999px;
+            object-fit: cover;
+          }
+        }
+
+        .person-detail {
+          display: flex;
+          align-items: center;
+          gap: 1px;
+
+          .person-about {
+            color: black;
+            text-align: center;
+            font-size: 0.875rem;
+            font-weight: 500;
+            line-height: 150%;
+            letter-spacing: 0.25px;
+            font-family: var(--font-instrument);
+          
+          }
+          .person-company{
+             display: block;
+          }
+        }
+      }
+    }
+  }
+</style>

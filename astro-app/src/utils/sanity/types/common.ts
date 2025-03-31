@@ -4,6 +4,8 @@ export type Slug = {
     _type: 'slug'
     current: string
 }
+export type SizeType = "inline" | "featured" | "page" | "full"
+export type HeroVariantType = "homepage" | "audience" | "project" | "page" | undefined
 
 export interface TranslatedPath {
     locale: string;

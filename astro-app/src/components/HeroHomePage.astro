@@ -1,15 +1,9 @@
 ---
-import type { SanityImageType } from "../utils";
+import type { HeroViewType } from "../utils";
 import SanityImage from "./commons/SanityImage.astro";
 
 interface Props {
-  data: {
-    title: string | undefined;
-    subtitle: string | undefined;
-    heroVideo: string | undefined;
-    heroImage: SanityImageType | undefined;
-    select: "heroVideo" | "heroImage" | undefined;
-  };
+  data: HeroViewType
 }
 const { title, heroVideo, subtitle, heroImage, select } =
   Astro.props.data || {};

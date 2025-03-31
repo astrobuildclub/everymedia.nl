@@ -2,16 +2,18 @@
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import SiteMeta from "../components/seo/SiteMeta.astro";
-import type { LayoutPropsType, SeoType } from "../utils";
+import type { HeroVariantType, LayoutPropsType, SeoType } from "../utils";
 import "../styles/global.css";
+import "swiper/css";
 
 interface Props {
   seo: SeoType;
   layoutProps: LayoutPropsType | undefined;
   isHeroVideo?: boolean | undefined;
+  heroVariants: HeroVariantType;
 }
 
-const { seo, layoutProps, isHeroVideo } = Astro.props || {};
+const { seo, layoutProps, isHeroVideo,heroVariants } = Astro.props || {};
 const { footer, header } = layoutProps || {};
 ---
 
@@ -27,6 +29,8 @@ const { footer, header } = layoutProps || {};
       rel="stylesheet"
     />
     <link href="https://db.onlinewebfonts.com/c/e781d1cba25f85543d695ab1c049cbf2?family=Antarctica+VAR" rel="stylesheet"/>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
     <!-- ✅ CDN Fonts -->
     <link
@@ -66,7 +70,7 @@ const { footer, header } = layoutProps || {};
     </script>
   </head>
   <body>
-    <Header header={header} isHeroVideo={isHeroVideo} />
+    <Header header={header} isHeroVideo={isHeroVideo} heroVariants={heroVariants}/>
     <main>
       <slot />
     </main>

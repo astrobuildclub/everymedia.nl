@@ -39,6 +39,22 @@ export const projectType = defineType({
       group: 'hero',
     }),
     defineField({
+      name: 'variants',
+      title: 'Variants',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Homepage', value: 'homepage' },
+          { title: 'Audience', value: 'audience' },
+          { title: 'Project', value: 'project' },
+          { title: 'Page', value: 'page' },
+        ],
+        layout: 'radio',
+      },
+      group: 'hero',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: 'title',
       type: 'string',
       group: 'hero',
@@ -81,20 +97,21 @@ export const projectType = defineType({
       group: 'hero',
       hidden: ({ parent }) => parent?.select !== 'heroImage',
     }),
-    // defineField({
-    //   name: 'pagebuilder',
-    //   type: 'array',
-    //   title: 'Pagebuilder',
-    //   of: [
-    //     { type: 'blockText' },
-    //     { type: 'blockImage' },
-    //     { type: 'blockVideo' },
-    //     { type: 'blockTestimonial' },
-    //     { type: 'blockWorkRelated' },
-    //     { type: 'blockLogos' },
-    //   ],
-    //   group: 'content',
-    // }),
+    defineField({
+      name: 'pagebuilder',
+      type: 'array',
+      title: 'Pagebuilder',
+      of: [
+        { type: 'blockText' },
+        { type: 'blockImage' },
+        // { type: 'blockVideo' },
+        { type: 'blockTestimonial' },
+        { type: 'blockWorkRelated' },
+        { type: 'blockLogos' },
+        { type: 'blockContact' },
+      ],
+      group: 'content',
+    }),
     defineField({
       title: 'SEO',
       name: 'seo',

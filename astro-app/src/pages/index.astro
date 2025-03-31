@@ -18,14 +18,15 @@ const {
   heroImage,
   select,
   variants,
-  intro
+  intro,
+  pageTitle,
 } = pageData || {};
-const heroPage = { title, subtitle, heroVideo, heroImage, select,intro};
+const heroPage = { title, subtitle, heroVideo, heroImage, select,intro,pageTitle};
 const isHeroVideo = heroVideo || heroImage ? true : false;
 ---
 
-<Layout seo={seo || {}} layoutProps={layoutProps} isHeroVideo={isHeroVideo}>
-  <HeroView variants={variants} data={heroPage} />
+<Layout seo={seo || {}} layoutProps={layoutProps} isHeroVideo={isHeroVideo} heroVariants={variants}>
+  <HeroView heroVariants={variants} data={heroPage} />
   {
     Array.isArray(pagebuilder) &&
       pagebuilder?.map((i) => <Pagebuilder data={i} />)

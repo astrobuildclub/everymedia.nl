@@ -1,0 +1,237 @@
+---
+import { PortableText } from "astro-portabletext";
+import type { BlockWorkRelatedType } from "../../utils";
+import SanityImage from "../commons/SanityImage.astro";
+import SanityButton from "../commons/SanityButton.astro";
+
+interface Props {
+  data: BlockWorkRelatedType;
+}
+const {
+  title,
+  intro,
+  relatedProjects: projects = [],
+  cta,
+} = Astro.props.data || {};
+---
+
+<section>
+  <div class="block-work-swiper-section">
+    <div class="block-work-title">
+      {title && <span class="block-sub-title">{title}</span>}
+      {intro && <h2 class="block-main-title">{intro}</h2>}
+    </div>
+    {
+      projects?.length > 0 && (
+        <div class="swiper">
+          <div class="swiper-wrapper">
+            {projects.map((item) => {
+              const { title, heroImage, select, heroVideo, intro } = item || {};
+              return (
+                <article class="swiper-slide">
+                  <div class="project__meta">
+                    <div>
+                      {select === "heroImage" && heroImage && (
+                        <div class="media-container">
+                          <SanityImage src={heroImage} className="media" />
+                        </div>
+                      )}
+                      {select === "heroVideo" && heroVideo && (
+                        <div class="media-container">
+                          <video
+                            class="media"
+                            autoplay
+                            loop
+                            playsinline
+                            muted
+                            preload="auto"
+                            poster="https://picsum.photos/696/391"
+                          >
+                            <source src={heroVideo} type="video/mp4" />
+                            {`Your browser does not support the video tag.`}
+                          </video>
+                        </div>
+                      )}
+                    </div>
+                    <div class="project__meta">
+                      <div class="meta">
+                        <h4>{`Client`}</h4>
+                        <p>{`Award Plain Text`}</p>
+                      </div>
+                      <div class="project-details">
+                        {title && <h3>{title}</h3>}
+                        {intro && (
+                          <div class="intro-text">
+                            <PortableText value={intro} />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      )
+    }
+    {
+      cta?.buttonText && (
+        <div class="cta-button">
+          <SanityButton block={cta} class="project-btn" />
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<script>
+  import Swiper from "swiper";
+  new Swiper(".swiper", {
+    slidesPerView: 1,
+    spaceBetween: 24,
+    loop: true,
+    autoplay: true,
+    breakpoints:{
+      1024: {
+        slidesPerView: 2.1,
+      },
+      767: {
+        slidesPerView: 1.5,
+      },
+    640: {
+        slidesPerView: 1.2,
+      }
+    }
+  });
+</script>
+
+<style>
+  .block-work-swiper-section {
+    padding: var(--space-2xl) var(--space-s);
+    padding-right: 0;
+    background-color: black;
+
+    @media (max-width:639px){
+      padding-right: var(--space-s);
+    }
+
+    .block-work-title {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-s);
+      max-width: 66rem;
+      width: 100%;
+      margin-bottom: 2rem;
+
+      .block-sub-title {
+        color: var(--neutrals-600);
+        font-weight: 500;
+        font-size: 0.75rem;
+        font-family: var(--font-mono);
+        line-height: 150%;
+        letter-spacing: 0.36px;
+        text-transform: uppercase;
+      }
+      .block-main-title {
+        color: white;
+        font-family: var(--font-body);
+        font-size: var(--fs-0);
+        font-weight: 500;
+        line-height: 112%;
+        letter-spacing: 0.25px;
+      }
+    }
+  }
+  .project__meta {
+    .meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.375rem;
+
+      h4 {
+        font-family: var(--font-mono);
+        color: #ccc;
+        font-weight: 500;
+        letter-spacing: 0.36px;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+      }
+
+      p {
+        font-family: var(--font-mono);
+        font-size: 0.651rem;
+        color: #ccc;
+        background-color: #262626;
+        border-radius: 9999px;
+        letter-spacing: 0.304px;
+        font-weight: 500;
+        text-transform: uppercase;
+        padding: var(--space-3xs) var(--space-xs-s);
+        line-height: 150%;
+      }
+    }
+
+    .project-details {
+      display: flex;
+      flex-direction: column;
+      gap: 0.375rem;
+
+      h3 {
+        font-weight: 700;
+        font-family: var(--font-primary);
+        font-size: 1.5rem;
+        letter-spacing: -0.48px;
+        line-height: 112.5%;
+        color: white;
+      }
+
+      .intro-text {
+        color: var(--neutrals-600);
+        font-size: var(--fs--2);
+        font-weight: normal;
+        line-height: 150%;
+        letter-spacing: 0.25px;
+        font-family: var(--font-primary);
+      }
+    }
+  }
+
+  .cta-button {
+    margin-top: 2rem;
+    .project-btn{
+      display: block;
+      background-color: #262626;
+      color: white;
+      font-weight: bold;
+      text-align: center;
+      font-size: 1.125rem;
+      padding: 1.5rem 2.25rem;
+      width: fit-content;
+      line-height: 120%;
+      border: 1px solid transparent;
+      transition: all 0.2s ease-in-out;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .project-btn:hover {
+      background-color: transparent;
+      border-color: white;
+    }
+  }
+
+  .media-container {
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .media {
+    border-radius: 4px;
+    aspect-ratio: 696 / 391;
+    width: 100%;
+  }
+</style>

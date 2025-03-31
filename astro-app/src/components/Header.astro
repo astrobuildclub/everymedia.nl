@@ -1,17 +1,60 @@
 ---
 import { cn } from "../lib/helperFunctions";
 import { routes } from "../lib/router";
-import type { HeaderType } from "../utils";
+import type { HeaderType, HeroVariantType } from "../utils";
 import SanityImage from "./commons/SanityImage.astro";
 import SanityLink from "./commons/SanityLink.astro";
 
 interface Props {
   header: HeaderType | undefined;
   isHeroVideo: boolean | undefined;
+  heroVariants: HeroVariantType;
 }
 
-const { header, isHeroVideo } = Astro.props || {};
+const { header, isHeroVideo, heroVariants } = Astro.props || {};
 const { logo, navItems = [] } = header || {};
+const LogoClass = (heroVariants: HeroVariantType) => {
+  switch (heroVariants) {
+    case "audience":
+      return "logo-audience ";
+    case "homepage":
+      return "logo-homepage ";
+    case "page":
+      return "logo-page ";
+    case "project":
+      return "logo-project";
+    default:
+      return "";
+  }
+};
+const ButtonClass = (heroVariants: HeroVariantType) => {
+  switch (heroVariants) {
+    case "audience":
+      return " laug-cta-audience";
+    case "homepage":
+      return " laug-cta-homepage";
+    case "page":
+      return " laug-cta-page";
+    case "project":
+      return " laug-cta-project";
+    default:
+      return "";
+  }
+};
+const MenuClass = (heroVariants: HeroVariantType) => {
+  switch (heroVariants) {
+    case "audience":
+      return " menu-cta-audience";
+    case "homepage":
+      return " menu-cta-homepage";
+    case "page":
+      return " menu-cta-page";
+    case "project":
+      return " menu-cta-project";
+    default:
+      return "";
+  }
+};
 ---
 
 {
@@ -23,18 +66,23 @@ const { logo, navItems = [] } = header || {};
       >
         <div class="container">
           <SanityLink href={routes.home()}>
-            <SanityImage src={logo} />
+            <SanityImage
+              src={logo}
+              className={cn("logo-class", LogoClass(heroVariants))}
+            />
           </SanityLink>
 
           <div class="menu-container">
             <div class="social-buttons">
-              <button>{`IG`}</button>
-              <button>{`LI`}</button>
+              <button class={cn("button", ButtonClass(heroVariants))}>{`IG`}</button>
+              <button class={cn("button", ButtonClass(heroVariants))}>{`LI`}</button>
             </div>
-            <button class="menu-buttons open-menu open-menu-button">
+            <button 
+            class={cn("menu-buttons open-menu open-menu-button", MenuClass(heroVariants))})}
+            >
               {`Menu`}
             </button>
-            <button class="close-menu close-button close-menu-button hidden">
+            <button class={cn("close-menu close-button close-menu-button hidden",MenuClass(heroVariants))}>
               {`Close`}
             </button>
             {navItems?.length > 0 && (
@@ -95,6 +143,10 @@ const { logo, navItems = [] } = header || {};
       max-width: 100%;
     }
 
+    .logo-menu-open {
+     filter: grayscale(1) !important;
+}
+
     a {
       img {
         max-width: 5.563rem;
@@ -105,6 +157,15 @@ const { logo, navItems = [] } = header || {};
         }
       }
     }
+
+    .logo-page{
+      filter: invert(1);
+    }
+
+    .logo-audience{
+      filter: brightness(0.2);
+    }
+
     .hidde-button {
       display: none;
     }
@@ -121,11 +182,9 @@ const { logo, navItems = [] } = header || {};
         display: flex;
       }
 
-      button {
+      .button {
         width: 2.5rem;
         height: 2.5rem;
-        background-color: var(--white-clr);
-        color: white;
         border: none;
         outline: none;
         text-transform: uppercase;
@@ -137,6 +196,23 @@ const { logo, navItems = [] } = header || {};
         font-weight: 500;
         font-family: var(--font-mono);
         cursor: pointer;
+      }
+
+      .laug-cta-homepage{
+        background-color: var(--white-clr);
+        color: white;
+      }
+      .laug-cta-audience{
+        background-color: var(--light-gray);
+        color: #2c2c2c;
+      }
+      .laug-cta-page{
+          background-color: var(--platinum-gray);
+          color: black;
+      }
+      .laug-cta-project{
+          background-color: var(--eerie-black);
+          color: white;
       }
     }
 
@@ -151,16 +227,34 @@ const { logo, navItems = [] } = header || {};
       border: none;
       outline: none;
       line-height: 100%;
-
-      &.open-menu {
-        background-color: var(--charcoal-gray);
-        color: white;
-        width: 5rem;
-      }
+      background-color: var(--charcoal-gray);
+      color: white;
+      width: 5rem;
     }
+
+    .menu-cta-audience{
+           background-color: var(--ash-gray); 
+           color: black;
+      }
+
+    .menu-cta-homepage{
+           background-color: var(--charcoal-gray); 
+           color: white;
+      }
+
+    .menu-cta-page{
+           background-color: var(--light-sage); 
+           color: black;
+      }
+
+    .menu-cta-project{
+           background-color: var(--charcoal-gray); 
+           color: white;
+      }
+
     .close-menu {
       background-color: white;
-      color: var(--color-gray-900);
+      color: black;
       width: 5rem;
       text-transform: uppercase;
       padding-block: 0.75rem;
@@ -175,6 +269,8 @@ const { logo, navItems = [] } = header || {};
       border: none;
       outline: none;
     }
+
+   
     .show-nav {
       display: none;
     }
@@ -240,16 +336,19 @@ const { logo, navItems = [] } = header || {};
 
 <script>
   const openMenuButton = document.querySelector(".open-menu-button");
-  const menuBackground = document.querySelector("header");
   const closeMenuButton = document.querySelector(".close-menu-button");
   const menu = document.querySelector("#menu");
+  const menuBackground = document.querySelector("header");
+  const logo = document.querySelector(".logo-class"); 
 
   openMenuButton?.addEventListener("click", () => {
     menu?.classList.remove("hidden");
     openMenuButton?.classList.add("hidden");
-    menuBackground?.classList.add("menu-background");
     closeMenuButton?.classList.remove("hidden");
-    // Prevent scrolling more effectively
+    menuBackground?.classList.add("menu-background");
+
+    logo?.classList.add("logo-menu-open");
+
     document.body.style.position = "fixed";
     document.body.style.width = "100%";
     document.body.style.overflowY = "scroll";
@@ -260,8 +359,12 @@ const { logo, navItems = [] } = header || {};
     menuBackground?.classList.remove("menu-background");
     closeMenuButton?.classList.add("hidden");
     openMenuButton?.classList.remove("hidden");
+
+    logo?.classList.remove("logo-menu-open");
+
     document.body.style.position = "";
     document.body.style.width = "";
     document.body.style.overflowY = "";
   });
 </script>
+

@@ -5,7 +5,13 @@ import BlockCards from "../blocks/BlockCards.astro";
 import BlockContact from "../blocks/BlockContact.astro";
 import BlockFaqs from "../blocks/BlockFaqs.astro";
 import BlockFeetSection from "../blocks/BlockFeetSection.astro";
+import BlockImage from "../blocks/BlockImage.astro";
+import BlockIntro from "../blocks/BlockIntro.astro";
+import BlockLogos from "../blocks/BlockLogos.astro";
+import BlockTestimonial from "../blocks/BlockTestimonial.astro";
 import BlockText from "../blocks/BlockText.astro";
+import BlockVideo from "../blocks/BlockVideo.astro";
+import BlockWorkRelated from "../blocks/BlockWorkRelated.astro";
 import BlockWorkSelection from "../blocks/BlockWorkSelection.astro";
 
 interface Props {
@@ -31,6 +37,18 @@ const { data } = Astro.props || {};
         return <BlockWorkSelection data={data} />;
       case "blockText":
         return <BlockText data={data} />;
+      case "blockImage":
+        return <BlockImage data={data} />;
+      case "blockIntro":
+        return <BlockIntro data={data} />;
+      case "blockTestimonial":
+        return <BlockTestimonial data={data} />;
+      case "blockLogos":
+        return <BlockLogos data={data} />;
+      case "blockVideo":
+        return <BlockVideo data={data} />;
+      case "blockWorkRelated":
+        return <BlockWorkRelated data={data} />;
       default:
         return null;
     }

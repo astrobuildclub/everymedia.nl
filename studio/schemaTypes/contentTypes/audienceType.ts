@@ -40,6 +40,22 @@ export const audienceType = defineType({
       group: 'hero',
     }),
     defineField({
+      name: 'variants',
+      title: 'Variants',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Homepage', value: 'homepage' },
+          { title: 'Audience', value: 'audience' },
+          { title: 'Project', value: 'project' },
+          { title: 'Page', value: 'page' },
+        ],
+        layout: 'radio',
+      },
+      group: 'hero',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: 'title',
       type: 'string',
       group: 'hero',
@@ -81,19 +97,19 @@ export const audienceType = defineType({
       group: 'hero',
       hidden: ({ parent }) => parent?.select !== 'heroImage',
     }),
-    // defineField({
-    //   name: 'pagebuilder',
-    //   type: 'array',
-    //   title: 'Content',
-    //   of: [
-    //     {type: 'blockText'},
-    //     { type: 'blockCards' },
-    //     {type: 'blockWorkSelection'},
-    //     { type: 'blockFaqs' },
-    //     { type: 'blockContact' },
-    //   ],
-    //   group: 'content',
-    // }),
+    defineField({
+      name: 'pagebuilder',
+      type: 'array',
+      title: 'Content',
+      of: [
+        {type: 'blockText'},
+        { type: 'blockCards' },
+        {type: 'blockWorkSelection'},
+        { type: 'blockFaqs' },
+        { type: 'blockContact' },
+      ],
+      group: 'content',
+    }),
     defineField({
       title: 'SEO',
       name: 'seo',
