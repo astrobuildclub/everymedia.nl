@@ -1,0 +1,90 @@
+---
+import type { BlockImageGalleryType } from "../../utils";
+import SanityImage from "../commons/SanityImage.astro";
+
+interface Props {
+  data: BlockImageGalleryType;
+}
+const { images } = Astro.props.data || {};
+---
+
+{
+  (() => {
+    return (
+      <section class="image-gallery-carousel">
+        {images?.length > 0 && (
+          <div class="swiper">
+            <div class="swiper-wrapper">
+              {images?.map((item) => {
+                return (
+                  <div class="swiper-slide">
+                    <SanityImage
+                      src={item}
+                      className="swiper-image"
+                      captionClassName=""
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </section>
+    );
+  })()
+}
+
+<script>
+  import Swiper from "swiper";
+  import { Autoplay } from "swiper/modules";
+  import "swiper/css";
+
+  new Swiper(".swiper", {
+    modules: [Autoplay],
+    slidesPerView: "auto",
+    spaceBetween: 24,
+    grabCursor: true,
+    loop: true,
+    autoplay: {
+      delay: 0,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: true,
+    },
+    speed: 3000,
+  });
+</script>
+
+<style>
+  .image-gallery-carousel {
+    padding: var(--space-xl-2xl) var(--space-s);
+    padding-right: 0;
+
+    @media (max-width: 767px) {
+      padding-right: var(--space-s);
+    }
+
+    .swiper-wrapper {
+      align-items: center;
+      padding-left: 0;
+      .swiper-slide {
+        width: 696px !important;
+        @media (max-width: 767px) {
+          aspect-ratio: 696 / 391;
+          width: 100% !important;
+        }
+        figure {
+          .swiper-image {
+            width: 696px;
+            height: auto;
+            border-radius: 5px;
+            object-fit: cover;
+            @media (max-width: 767px) {
+              aspect-ratio: 696 / 375;
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
+</style>

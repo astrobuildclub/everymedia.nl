@@ -4,7 +4,6 @@ import Header from "../components/Header.astro";
 import SiteMeta from "../components/seo/SiteMeta.astro";
 import type { HeroVariantType, LayoutPropsType, SeoType } from "../utils";
 import "../styles/global.css";
-import "swiper/css";
 
 interface Props {
   seo: SeoType;
@@ -20,6 +19,8 @@ const { footer, header } = layoutProps || {};
 <html lang="nl">
   <head>
     <SiteMeta seo={seo} />
+
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 
     <!-- ✅ Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

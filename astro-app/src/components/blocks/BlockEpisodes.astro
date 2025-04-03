@@ -1,0 +1,194 @@
+---
+import type { BlockEpisodesType } from "../../utils";
+import VimeoVideo from "../commons/VimeoVideo.astro";
+import YoutubeVideo from "../commons/YoutubeVideo.astro";
+
+interface Props {
+  data: BlockEpisodesType;
+}
+
+const { episodes, description, title } = Astro.props.data || {};
+---
+
+{
+  (() => {
+    return (
+      <section class="block-episodes-swiper-section">
+        <div class="block-episodes-title">
+          {title && <span class="block-episodes-intro">{title}</span>}
+          {description && (
+            <h2 class="block-episodes-main-title">{description}</h2>
+          )}
+        </div>
+        {episodes?.length > 0 && (
+          <div class="swiper">
+            <div class="swiper-wrapper">
+              {episodes?.map((item) => {
+                const {
+                  description,
+                  thumbType,
+                  title,
+                  thumbnailUrl,
+                  thumbnailFile,
+                  vimeoId,
+                  select,
+                  youtubeId,
+                } = item || {};
+                const checkUrl = !(vimeoId || youtubeId);
+                return (
+                  <article class="swiper-slide">
+                    <div class="project__meta">
+                      {select === "vimeo" && vimeoId && (
+                        <VimeoVideo
+                          className="vimeo-video"
+                          vimeoId={vimeoId}
+                          title={title}
+                        />
+                      )}
+                      {select === "youtube" && youtubeId && (
+                        <YoutubeVideo
+                          className="youtube-video"
+                          videoId={youtubeId}
+                          title={title}
+                        />
+                      )}
+                      {checkUrl && (
+                        <div class="video-thumb">
+                          {thumbType === "file" && thumbnailFile && (
+                            <img
+                              src={thumbnailFile?.asset?.url || "https://picsum.photos/696/391"}
+                              alt={title + " thumbnail (file)"}
+                              class="thumb-image"
+                            />
+                          )}
+                          {thumbType === "url" && thumbnailUrl && (
+                            <img
+                              src={thumbnailUrl || "https://picsum.photos/696/391"}
+                              alt={title + " thumbnail (URL)"}
+                              class="thumb-image"
+                            />
+                          )}
+                        </div>
+                      )}
+                      <div class="block-episodes-about">
+                        {title && <h3 class="episode-swiper-title">{title}</h3>}
+                        {description && (
+                          <p class="episode-swiper-subTitle">{description}</p>
+                        )}
+                      </div>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </section>
+    );
+  })()
+}
+
+<script>
+  import Swiper from "swiper";
+  import { Autoplay } from "swiper/modules";
+  import "swiper/css";
+
+  new Swiper(".swiper", {
+    modules: [Autoplay],
+    slidesPerView: "auto",
+    spaceBetween: 24,
+    grabCursor: true,
+    loop: true,
+    autoplay: {
+      delay: 0,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: true,
+    },
+    speed: 3000,
+  });
+</script>
+<style>
+  .block-episodes-swiper-section {
+    padding: var(--space-2xl) var(--space-s);
+    padding-right: 0;
+    @media (max-width: 639px) {
+      padding-right: var(--space-s);
+    }
+
+    .block-episodes-title {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-s);
+      max-width: 66rem;
+      width: 100%;
+      margin-bottom: 2rem !important;
+      margin: 0 auto;
+
+      .block-episodes-intro {
+        color: var(--gray-700);
+        text-align: center;
+        font-family: var(--font-mono);
+        font-size: var(--fs--2);
+        font-weight: 500;
+        line-height: 150%;
+        letter-spacing: 0.405px;
+        text-transform: uppercase;
+      }
+
+      .block-episodes-main-title {
+        color: black;
+        text-align: center;
+        font-family: var(--font-primary);
+        font-size: var(--fs--1);
+        font-weight: 400;
+        line-height: 150%;
+        letter-spacing: 0.045px;
+      }
+    }
+
+    .project__meta {
+      .vimeo-video {
+        border-radius: 4px;
+        aspect-ratio: 696 / 391;
+        width: 100%;
+        border: none !important;
+      }
+      .youtube-video {
+        border-radius: 4px;
+        aspect-ratio: 696 / 391;
+        width: 100%;
+        border: none !important;
+      }
+
+      .video-thumb {
+        .thumb-image {
+          border-radius: 4px;
+          aspect-ratio: 696 / 391;
+          width: 100%;
+        }
+      }
+
+      .block-episodes-about {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3xs);
+        margin-top: var(--space-xs);
+
+        .episode-swiper-title {
+          color: black;
+          font-family: var(--font-primary);
+          font-size: var(--fs-0);
+          font-weight: 500;
+          line-height: 133%;
+          letter-spacing: -0.03px;
+        }
+        .episode-swiper-subTitle {
+          color: #222;
+          font-family: var(--font-body);
+          font-size: var(--fs--2);
+          line-height: 160%;
+        }
+      }
+    }
+  }
+</style>

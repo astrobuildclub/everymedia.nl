@@ -15,94 +15,107 @@ const {
 } = Astro.props.data || {};
 ---
 
-<section>
-  <div class="block-work-swiper-section">
-    <div class="block-work-title">
-      {title && <span class="block-sub-title">{title}</span>}
-      {intro && <h2 class="block-main-title">{intro}</h2>}
-    </div>
-    {
-      projects?.length > 0 && (
-        <div class="swiper">
-          <div class="swiper-wrapper">
-            {projects.map((item) => {
-              const { title, heroImage, select, heroVideo, intro } = item || {};
-              return (
-                <article class="swiper-slide">
-                  <div class="project__meta">
-                    <div>
-                      {select === "heroImage" && heroImage && (
-                        <div class="media-container">
-                          <SanityImage src={heroImage} className="media" />
-                        </div>
-                      )}
-                      {select === "heroVideo" && heroVideo && (
-                        <div class="media-container">
-                          <video
-                            class="media"
-                            autoplay
-                            loop
-                            playsinline
-                            muted
-                            preload="auto"
-                            poster="https://picsum.photos/696/391"
-                          >
-                            <source src={heroVideo} type="video/mp4" />
-                            {`Your browser does not support the video tag.`}
-                          </video>
-                        </div>
-                      )}
-                    </div>
-                    <div class="project__meta">
-                      <div class="meta">
-                        <h4>{`Client`}</h4>
-                        <p>{`Award Plain Text`}</p>
-                      </div>
-                      <div class="project-details">
-                        {title && <h3>{title}</h3>}
-                        {intro && (
-                          <div class="intro-text">
-                            <PortableText value={intro} />
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
+{
+  (() => {
+    return (
+      <section>
+        <div class="block-work-swiper-section">
+          <div class="block-work-title">
+            {title && <span class="block-sub-title">{title}</span>}
+            {intro && <h2 class="block-main-title">{intro}</h2>}
           </div>
+          {projects?.length > 0 && (
+            <div class="swiper">
+              <div class="swiper-wrapper">
+                {projects?.map((item) => {
+                  const { title, heroImage, select, heroVideo, intro } =
+                    item || {};
+                  return (
+                    <article class="swiper-slide">
+                      <div class="project__meta">
+                        <div>
+                          {select === "heroImage" && heroImage && (
+                            <div class="media-container">
+                              <SanityImage src={heroImage} className="media" />
+                            </div>
+                          )}
+                          {select === "heroVideo" && heroVideo && (
+                            <div class="media-container">
+                              <video
+                                class="media"
+                                autoplay
+                                loop
+                                playsinline
+                                muted
+                                preload="auto"
+                                poster="https://picsum.photos/696/391"
+                              >
+                                <source src={heroVideo} type="video/mp4" />
+                                {`Your browser does not support the video tag.`}
+                              </video>
+                            </div>
+                          )}
+                        </div>
+                        <div class="project__meta">
+                          <div class="meta">
+                            <h4>{`Client`}</h4>
+                            <p>{`Award Plain Text`}</p>
+                          </div>
+                          <div class="project-details">
+                            {title && <h3>{title}</h3>}
+                            {intro && (
+                              <div class="intro-text">
+                                <PortableText value={intro} />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+          {cta?.buttonText && (
+            <div class="cta-button">
+              <SanityButton block={cta} class="project-btn" />
+            </div>
+          )}
         </div>
-      )
-    }
-    {
-      cta?.buttonText && (
-        <div class="cta-button">
-          <SanityButton block={cta} class="project-btn" />
-        </div>
-      )
-    }
-  </div>
-</section>
+      </section>
+    );
+  })()
+}
 
 <script>
   import Swiper from "swiper";
+  import { Autoplay } from "swiper/modules";
+  import "swiper/css";
+
   new Swiper(".swiper", {
-    slidesPerView: 1,
+    modules: [Autoplay],
+    slidesPerView: "auto",
     spaceBetween: 24,
+    grabCursor: true,
     loop: true,
-    autoplay: true,
-    breakpoints:{
+    autoplay: {
+      delay: 0,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: true,
+    },
+    speed: 3000,
+    breakpoints: {
       1024: {
         slidesPerView: 2.1,
       },
       767: {
         slidesPerView: 1.5,
       },
-    640: {
+      640: {
         slidesPerView: 1.2,
-      }
-    }
+      },
+    },
   });
 </script>
 
@@ -112,7 +125,7 @@ const {
     padding-right: 0;
     background-color: black;
 
-    @media (max-width:639px){
+    @media (max-width: 639px) {
       padding-right: var(--space-s);
     }
 
@@ -200,7 +213,7 @@ const {
 
   .cta-button {
     margin-top: 2rem;
-    .project-btn{
+    .project-btn {
       display: block;
       background-color: #262626;
       color: white;

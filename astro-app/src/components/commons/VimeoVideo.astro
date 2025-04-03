@@ -1,0 +1,25 @@
+---
+interface Props {
+  vimeoId: string;
+  className?: string;
+  title: string;
+}
+
+const { className, vimeoId, title,} = Astro.props || {};
+---
+
+{
+  (() => {
+    return (
+      <iframe
+        src={`https://player.vimeo.com/video/${vimeoId}`}
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+        title={title}
+        class={className}
+      />
+    );
+  })()
+}
+
+<style></style>

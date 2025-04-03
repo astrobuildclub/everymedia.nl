@@ -6,7 +6,7 @@ import { toPlainText } from '@portabletext/react'
 
 export const blockText = defineType({
     name: 'blockText',
-    title: 'Text',
+    title: 'Block Text',
     type: 'object',
     icon: DocumentTextIcon,
     fields: [
@@ -36,7 +36,7 @@ export const blockText = defineType({
         prepare({ title, content }) {
             const subtitle = content ? toPlainText(content) : null
             return {
-                title: title || 'Text Block',
+                title: title || 'Block Text',
                 subtitle: subtitle,
             }
         },

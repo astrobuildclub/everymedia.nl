@@ -3,11 +3,16 @@ import type { PagebuilderType } from "../../utils";
 import BlockAudiencesOverviewSection from "../blocks/BlockAudiencesOverviewSection.astro";
 import BlockCards from "../blocks/BlockCards.astro";
 import BlockContact from "../blocks/BlockContact.astro";
+import BlockEpisodes from "../blocks/BlockEpisodes.astro";
 import BlockFaqs from "../blocks/BlockFaqs.astro";
 import BlockFeetSection from "../blocks/BlockFeetSection.astro";
 import BlockImage from "../blocks/BlockImage.astro";
+import BlockImageGallery from "../blocks/BlockImageGallery.astro";
 import BlockIntro from "../blocks/BlockIntro.astro";
 import BlockLogos from "../blocks/BlockLogos.astro";
+import BlockMultiCol from "../blocks/BlockMultiCol.astro";
+import BlockRichText from "../blocks/BlockRichText.astro";
+import BlockTeamMembers from "../blocks/BlockTeamMembers.astro";
 import BlockTestimonial from "../blocks/BlockTestimonial.astro";
 import BlockText from "../blocks/BlockText.astro";
 import BlockVideo from "../blocks/BlockVideo.astro";
@@ -49,6 +54,16 @@ const { data } = Astro.props || {};
         return <BlockVideo data={data} />;
       case "blockWorkRelated":
         return <BlockWorkRelated data={data} />;
+      case "blockTeamMembers":
+        return <BlockTeamMembers data={data} />;
+      case "blockEpisodes":
+        return <BlockEpisodes data={data} />;
+      case "blockImageGallery":
+        return <BlockImageGallery data={data} />;
+      case "blockMultiCol":
+        return <BlockMultiCol data={data} />;
+      case "blockRichText":
+        return <BlockRichText data={data} />;
       default:
         return null;
     }

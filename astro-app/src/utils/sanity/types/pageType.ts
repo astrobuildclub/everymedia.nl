@@ -15,8 +15,8 @@ export interface PageType extends SanityDocument {
     layoutProps: LayoutPropsType
     language: string;
     variants: HeroVariantType
-    title: string;
     pageTitle: string;
+    title: string;
     subtitle: string
     intro: RichTextSimpleType
     select: "heroVideo" | "heroImage"
