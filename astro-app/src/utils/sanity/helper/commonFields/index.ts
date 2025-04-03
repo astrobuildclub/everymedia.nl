@@ -93,6 +93,27 @@ ${imageFields}
 `;
 
 {
+    /* Team */
+}
+
+export const teamFields = /* groq */ `
+_type,
+slug,
+_id,
+language,
+name,
+role,
+image{
+${imageFields}
+},
+email,
+phone,
+bio[]{
+${richTextSimpleFields}
+}
+`;
+
+{
     /* Faq */
 }
 
@@ -104,5 +125,34 @@ title,
 question,
 answer[]{
 ${richTextSimpleFields}
+},
+`;
+
+{
+    /* Episode */
+}
+
+export const episodeFields = /* groq */ `
+_type,
+title,
+description,
+select,
+(@.select=="youtube") => { 
+youtubeId
+},
+(@.select=="vimeo") => { 
+vimeoId
+},
+thumbType,
+(@.thumbType=="file") => { 
+thumbnailFile{
+_type,
+asset->{
+...
+},
+},
+},
+(@.thumbType=="url") => { 
+thumbnailUrl,
 },
 `;

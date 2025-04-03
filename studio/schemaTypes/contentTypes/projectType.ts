@@ -109,6 +109,7 @@ export const projectType = defineType({
         { type: 'blockWorkRelated' },
         { type: 'blockLogos' },
         { type: 'blockContact' },
+        { type: 'blockEpisodes' },
       ],
       group: 'content',
     }),

@@ -1,15 +1,15 @@
 ---
-import Pagebuilder from "../../components/commons/Pagebuilder.astro";
-import HeroView from "../../components/HeroView.astro";
-import Layout from "../../layouts/Layout.astro";
-import { loadQuery } from "../../lib/load-query";
-import { pageQuery, type PageType } from "../../utils";
-import { getPage } from "../../utils/sanity/getPage";
+import Pagebuilder from "../../../components/commons/Pagebuilder.astro";
+import HeroView from "../../../components/HeroView.astro";
+import Layout from "../../../layouts/Layout.astro";
+import { loadQuery } from "../../../lib/load-query";
+import { audienceQuery, type AudienceType } from "../../../utils";
+import { getAudience } from "../../../utils/sanity/getAudience";
 
 export async function getStaticPaths() {
   const { data: allSlugs } =
-    (await loadQuery<Pick<PageType, "slug" | "language">[]>({
-      query: pageQuery?.query?.pageSlugQuery,
+    (await loadQuery<Pick<AudienceType, "slug" | "language">[]>({
+      query: audienceQuery?.query?.audienceSlugQuery,
     })) || [];
 
   const paths =
@@ -22,7 +22,7 @@ export async function getStaticPaths() {
 
 const { slug, locale } = Astro.params;
 
-const pageData = await getPage<PageType>(slug, locale);
+const pageData = await getAudience<AudienceType>(slug, locale);
 
 const {
   pagebuilder,
@@ -33,9 +33,9 @@ const {
   title,
   heroImage,
   select,
-  variants,
   intro,
   pageTitle,
+  variants,
 } = pageData || {};
 const heroPage = {
   title,

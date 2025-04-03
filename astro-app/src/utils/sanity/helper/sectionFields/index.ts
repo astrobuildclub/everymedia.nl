@@ -1,4 +1,13 @@
-import { audienceFields, ctaFields, faqFields, labelLinkFields, projectFields, richTextSimpleFields } from "../commonFields";
+import {
+  audienceFields,
+  ctaFields,
+  episodeFields,
+  faqFields,
+  labelLinkFields,
+  projectFields,
+  richTextSimpleFields,
+  teamFields,
+} from "../commonFields";
 import { imageFields } from "../imageFields";
 
 {
@@ -31,6 +40,42 @@ ${ctaFields}
 }
 `;
 
+{
+  /* Block Team Members */
+}
+
+export const blockTeamMembersFields = /* groq */ `
+_type,
+title,
+footnote,
+teamMembers[@->language == ^.^.language]->{
+${teamFields}
+},
+`;
+
+{
+  /* Block Episodes */
+}
+
+export const blockEpisodesFields = /* groq */ `
+_type,
+title,
+description,
+episodes[]{
+${episodeFields}
+},
+`;
+
+{
+  /* Block Image Gallery*/
+}
+
+export const blockImageGalleryFields = /* groq */ `
+_type,
+images[]{
+${imageFields}
+},
+`;
 
 {
   /* Connect With Us */
@@ -121,6 +166,34 @@ export const blockCardsFields = /* groq */ `
   cards[]{
   ${cardFields}
   }
+`;
+
+{
+  /* Block Video */
+}
+
+export const blockVideoFields = /* groq */ `
+  _type,
+  title,
+  videoType,
+  (@.videoType=="mp4") => { 
+  videoUrl
+  },
+  (@.videoType=="embed") => { 
+  select,
+  (@.select=="youtube") => { 
+  youtubeId
+  },
+  (@.select=="vimeo") => { 
+  vimeoId
+  },
+  },
+  thumbnail{
+  ${imageFields}
+  },
+  size,
+  autoplay,
+  loop,
 `;
 
 {
@@ -220,30 +293,67 @@ export const blockLogosFields = /* groq */ `
 `;
 
 {
-  /* Block Video */
+  /* Block Media Gallery */
 }
 
-export const blockVideoFields = /* groq */ `
+export const blockMediaGalleryFields = /* groq */ `
+  _type,
+  media[]{
+  ${imageFields}
+  }
+`;
+
+{
+  /* Block Text Media */
+}
+
+export const blockTextMediaFields = /* groq */ `
+  _type,
+  alignment,
+  title,
+  intro[]{
+  ${richTextSimpleFields}
+  },
+  image{
+  ${imageFields}
+  }
+`;
+
+{
+  /* Block RichText */
+}
+
+export const blockRichTextFields = /* groq */ `
+  _type,
+  footnote,
+  content[]{
+  ${blockIntroFields}
+  },
+`;
+
+
+{
+  /* Block Multi Col */
+}
+
+export const blockMultiColFields = /* groq */ `
   _type,
   title,
-  videoType,
-  (@.videoType=="mp4") => { 
-  videoUrl
+  select,
+  (@.select=="blockText") => { 
+  colsAmount,
+  blockText[]{
+  ${blockTextFields}
+  },  
   },
-  (@.videoType=="embed") => { 
-  embedPlatform,
-  embedUrl,
-  },
-  thumbnail{
-  ${imageFields}
-  },
-  size,
-  autoplay,
-  loop,
-  videoThumbnail{
-  _type,
-  asset->{
-  ...
+  (@.select=="blockTextMedia") => { 
+  blockTextMedia[]{
+  ${blockTextMediaFields}
   },
   },
+  (@.select=="blockMediaGallery") => { 
+  blockMediaGallery{
+  ${blockMediaGalleryFields}
+  },
+  }
 `;

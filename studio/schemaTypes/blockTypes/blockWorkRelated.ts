@@ -3,7 +3,7 @@ import { CaseIcon } from '@sanity/icons'
 
 export const blockWorkRelated = defineType({
     name: 'blockWorkRelated',
-    title: 'Related Work',
+    title: 'Block Work Related',
     type: 'object',
     icon: CaseIcon,
     fields: [
@@ -52,7 +52,7 @@ export const blockWorkRelated = defineType({
         },
         prepare({ title, intro }) {
             return {
-                title: title || 'Untitled Related Work',
+                title: title || 'Block Work Related',
                 subtitle: intro || 'No intro',
             }
         },

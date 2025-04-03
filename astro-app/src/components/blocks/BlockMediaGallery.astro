@@ -1,0 +1,69 @@
+---
+import type { BlockMediaGalleryType } from "../../utils";
+import SanityImage from "../commons/SanityImage.astro";
+
+interface Props {
+  data: BlockMediaGalleryType;
+}
+
+const { media } = Astro.props.data || {};
+---
+
+{
+  (() => {
+    return (
+      <section class="block-media-gallery-section">
+        {media?.length > 0 && (
+          <div class="media-gallery-inner">
+            {media?.map((item) => {
+              return (
+                <div class="media-gallery-image">
+                  <SanityImage src={item} className="" captionClassName="" />
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </section>
+    );
+  })()
+}
+
+
+<style>
+     .block-media-gallery-section{
+          padding: var(--space-2xl) var(--space-s);
+             
+            .media-gallery-inner{
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: var(--grid-gutter);
+
+                @media (max-width: 767px) {
+                  grid-template-columns: repeat(1, minmax(0, 1fr));
+                }
+              
+                 
+                  .media-gallery-image{
+                      figure{
+                          display: flex;
+                          flex-direction: column;
+                          gap: var(--grid-gutter);
+                           
+                           img{
+                              aspect-ratio: 696 / 696;
+                              object-fit: cover;
+                              border-radius: 5px;
+                           }
+                           figcaption{
+                               font-size: 0.75rem;
+                               color: var(--gray-700);
+                               font-weight: 500;
+                               line-height: 150%;
+                               letter-spacing: 0.25px;
+                           }
+                      }
+                  }
+            }
+     }
+</style>

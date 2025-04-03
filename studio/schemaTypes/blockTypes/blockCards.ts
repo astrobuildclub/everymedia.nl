@@ -21,7 +21,7 @@ export const blockCards = defineType({
             title: 'Columns Amount',
             type: 'number',
             description: 'Number of cards per row (2 to 5)',
-            validation: (Rule) => Rule.required().min(2).max(5),
+            validation: (Rule) => Rule.min(2).max(5),
         }),
         defineField({
             name: 'cards',

@@ -3,7 +3,7 @@ import { layoutProps, pagebuilder, seo } from "../../helperQueries";
 import { richTextSimpleFields } from "../../helper/commonFields";
 import { imageFields } from "../../helper/imageFields";
 
-const groqQuery = groq`*[_type == "project" && slug.current==$slug && language == $language][0]{
+const groqQuery = groq`*[_type == "audience" && slug.current==$slug && language == $language][0]{
     _type,
     _id,
     "slug":slug.current,
@@ -29,15 +29,15 @@ const groqQuery = groq`*[_type == "project" && slug.current==$slug && language =
     },
 }`;
 
-const projectSlugQuery = groq`
-*[_type == "project" && defined(slug.current) ]{
+const audienceSlugQuery = groq`
+*[_type == "audience" && defined(slug.current) ]{
 "slug":slug.current,
 language
 }
 `
 
 const translationsQuery = groq`
- * [ _type == "project" && _id == $id][0] {
+ * [ _type == "audience" && _id == $id][0] {
   _type,
   slug,
   language,
@@ -52,6 +52,6 @@ const translationsQuery = groq`
 
 export const query = {
     groqQuery,
-    projectSlugQuery,
+    audienceSlugQuery,
     translationsQuery,
 };

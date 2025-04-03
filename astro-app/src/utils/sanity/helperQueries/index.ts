@@ -4,11 +4,16 @@ import {
   blockAudiencesOverviewSectionFields,
   blockCardsFields,
   blockContactFields,
+  blockEpisodesFields,
   blockFaqsFields,
   blockFeetSectionFields,
   blockImageFields,
+  blockImageGalleryFields,
   blockIntroFields,
   blockLogosFields,
+  blockMultiColFields,
+  blockRichTextFields,
+  blockTeamMembersFields,
   blockTestimonialFields,
   blockTextFields,
   blockVideoFields,
@@ -84,6 +89,21 @@ ${blockVideoFields}
 },
 (_type == "blockWorkRelated") => {
 ${blockWorkRelatedFields}
+},
+(_type == "blockTeamMembers") => {
+${blockTeamMembersFields}
+},
+(_type == "blockEpisodes") => {
+${blockEpisodesFields}
+},
+(_type == "blockImageGallery") => {
+${blockImageGalleryFields}
+},
+(_type == "blockMultiCol") => {
+${blockMultiColFields}
+},
+(_type == "blockRichText") => {
+${blockRichTextFields}
 },
 
 }
