@@ -1,25 +1,26 @@
 ---
+import { YouTube } from "astro-embed";
+
 interface Props {
   videoId: string;
-  className?: string;
+  className: string;
+  poster: string;
   title: string;
 }
 
-const { className, videoId, title, } = Astro.props || {};
+const { className, videoId, title, poster } = Astro.props || {};
 ---
 
 {
   (() => {
     return (
-      <iframe
-      src={`https://www.youtube.com/embed/${videoId}`}
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
+      <YouTube
+        id={videoId}
+        poster={poster}
         title={title}
         class={className}
+        aria-label={title}
       />
     );
   })()
 }
-
-<style></style>

@@ -1,8 +1,8 @@
-import { defineType, defineField } from 'sanity'
-import { CaseIcon } from '@sanity/icons'
-import { richTextSimple } from '../options/richTextOptions'
-import { isUniqueWithinLocale } from '../utils/IsUniqueWithinLocale'
-import { supportedLanguages } from '../utils/supportedLanguage'
+import {defineType, defineField} from 'sanity'
+import {CaseIcon} from '@sanity/icons'
+import {richTextSimple} from '../options/richTextOptions'
+import {isUniqueWithinLocale} from '../utils/IsUniqueWithinLocale'
+import {supportedLanguages} from '../utils/supportedLanguage'
 
 export const projectType = defineType({
   name: 'project',
@@ -10,9 +10,9 @@ export const projectType = defineType({
   icon: CaseIcon,
   title: 'Projects',
   groups: [
-    { name: 'hero', title: 'Hero' },
-    { name: 'content', title: 'Content' },
-    { name: 'seo', title: 'SEO' },
+    {name: 'hero', title: 'Hero'},
+    {name: 'content', title: 'Content'},
+    {name: 'seo', title: 'SEO'},
   ],
   fields: [
     defineField({
@@ -20,12 +20,12 @@ export const projectType = defineType({
       type: 'string',
       readOnly: true,
       hidden: true,
-      group: "hero",
+      group: 'hero',
     }),
     defineField({
       name: 'pageTitle',
       type: 'string',
-      description: "This field is only used for CMS.",
+      description: 'This field is only used for CMS.',
       group: 'hero',
     }),
     defineField({
@@ -44,10 +44,10 @@ export const projectType = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'Homepage', value: 'homepage' },
-          { title: 'Audience', value: 'audience' },
-          { title: 'Project', value: 'project' },
-          { title: 'Page', value: 'page' },
+          {title: 'Homepage', value: 'homepage'},
+          {title: 'Audience', value: 'audience'},
+          {title: 'Project', value: 'project'},
+          {title: 'Page', value: 'page'},
         ],
         layout: 'radio',
       },
@@ -77,8 +77,8 @@ export const projectType = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'Video', value: 'heroVideo' },
-          { title: 'Image', value: 'heroImage' },
+          {title: 'Video', value: 'heroVideo'},
+          {title: 'Image', value: 'heroImage'},
         ],
         layout: 'radio',
       },
@@ -89,27 +89,51 @@ export const projectType = defineType({
       name: 'heroVideo',
       type: 'url',
       group: 'hero',
-      hidden: ({ parent }) => parent?.select !== 'heroVideo',
+      hidden: ({parent}) => parent?.select !== 'heroVideo',
     }),
     defineField({
       name: 'heroImage',
       type: 'sanityImage',
       group: 'hero',
-      hidden: ({ parent }) => parent?.select !== 'heroImage',
+      hidden: ({parent}) => parent?.select !== 'heroImage',
     }),
+    {
+      name: 'client',
+      title: 'Client',
+      type: 'string',
+      group: 'hero',
+    },
+    {
+      name: 'projectTag',
+      title: 'Project Tag',
+      type: 'reference',
+      to: [{type: 'projectTag'}],
+      options: {
+        disableNew: true,
+        filter: ({document}) => {
+          return {
+            filter: 'language == $language',
+            params: {
+              language: document.language,
+            },
+          }
+        },
+      },
+      group: 'hero',
+    },
     defineField({
       name: 'pagebuilder',
       type: 'array',
       title: 'Pagebuilder',
       of: [
-        { type: 'blockText' },
-        { type: 'blockImage' },
-        // { type: 'blockVideo' },
-        { type: 'blockTestimonial' },
-        { type: 'blockWorkRelated' },
-        { type: 'blockLogos' },
-        { type: 'blockContact' },
-        { type: 'blockEpisodes' },
+        {type: 'blockText'},
+        {type: 'blockImage'},
+        {type: 'blockVideo'},
+        {type: 'blockTestimonial'},
+        {type: 'blockWorkRelated'},
+        {type: 'blockLogos'},
+        {type: 'blockContact'},
+        {type: 'blockEpisodes'},
       ],
       group: 'content',
     }),
@@ -122,15 +146,16 @@ export const projectType = defineType({
   ],
   preview: {
     select: {
-      title: "pageTitle",
-      language: "language"
+      title: 'pageTitle',
+      language: 'language',
     },
-    prepare({ title, language }) {
-      const baseLanguage = supportedLanguages?.find((lan) => lan?.id === language)?.title || "Unknown"
+    prepare({title, language}) {
+      const baseLanguage =
+        supportedLanguages?.find((lan) => lan?.id === language)?.title || 'Unknown'
       return {
-        title: title || "Project",
+        title: title || 'Project',
         subtitle: `${baseLanguage} Language`,
-      };
+      }
     },
   },
 })

@@ -2,7 +2,7 @@ import type { SanityDocument } from "sanity";
 import type { SeoType } from "./seoType";
 import type { LayoutPropsType } from "./layoutType";
 import type { PagebuilderType } from "./pagebuilderType";
-import type { HeroVariantType, RichTextSimpleType, SanityImageType } from ".";
+import type { DefaultSeoPropsType, HeroVariantType, RichTextSimpleType, SanityImageType } from ".";
 
 
 
@@ -13,6 +13,7 @@ export interface PageType extends SanityDocument {
     seo: SeoType
     pagebuilder: PagebuilderType[]
     layoutProps: LayoutPropsType
+    defaultSeoProps: DefaultSeoPropsType
     language: string;
     variants: HeroVariantType
     pageTitle: string;

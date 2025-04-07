@@ -1,25 +1,26 @@
 ---
+import { Vimeo } from "astro-embed";
+
 interface Props {
   vimeoId: string;
-  className?: string;
+  className: string;
+  poster: string;
   title: string;
 }
 
-const { className, vimeoId, title,} = Astro.props || {};
+const { className, vimeoId, title, poster } = Astro.props || {};
 ---
 
 {
   (() => {
     return (
-      <iframe
-        src={`https://player.vimeo.com/video/${vimeoId}`}
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-        title={title}
+      <Vimeo
+        id={vimeoId}
         class={className}
+        title={title}
+        poster={poster}
+        aria-label={title}
       />
     );
   })()
 }
-
-<style></style>

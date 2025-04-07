@@ -10,6 +10,16 @@ export const blockVideo = defineType({
   fields: [
     defineField({name: 'title', type: 'string'}),
     defineField({
+      name: 'size',
+      type: 'string',
+      title: 'Size',
+      options: {
+        list: mediaSizes,
+        layout: 'radio',
+        direction: 'vertical',
+      },
+    }),
+    defineField({
       name: 'videoType',
       type: 'string',
       title: 'Video Type',
@@ -29,7 +39,22 @@ export const blockVideo = defineType({
       title: 'MP4 Video URL',
       description:
         'Example: https://videos.pexels.com/video-files/3578881/3578881-uhd_2560_1440_30fps.mp4.',
-        hidden: ({ parent }) => parent?.videoType !== 'mp4',
+      hidden: ({parent}) => parent?.videoType !== 'mp4',
+    }),
+    defineField({
+      name: 'autoplay',
+      type: 'boolean',
+      title: 'Autoplay',
+      initialValue: false,
+      description: 'Autoplay videos play muted.',
+      hidden: ({parent}) => parent?.videoType !== 'mp4',
+    }),
+    defineField({
+      name: 'loop',
+      type: 'boolean',
+      title: 'Loop',
+      initialValue: false,
+      hidden: ({parent}) => parent?.videoType !== 'mp4',
     }),
     {
       name: 'select',
@@ -50,7 +75,7 @@ export const blockVideo = defineType({
         layout: 'radio',
         direction: 'horizontal',
       },
-      hidden: ({ parent }) => parent?.videoType !== 'embed',
+      hidden: ({parent}) => parent?.videoType !== 'embed',
     },
     {
       name: 'youtubeId',
@@ -66,37 +91,15 @@ export const blockVideo = defineType({
       type: 'string',
       description:
         'Enter only the video ID (e.g., 857258584). Example: https://vimeo.com/857258584',
-      hidden: ({parent}) => parent?.videoType !== 'embed' ||  parent?.select != 'vimeo',
+      hidden: ({parent}) => parent?.videoType !== 'embed' || parent?.select != 'vimeo',
     },
     defineField({
       name: 'thumbnail',
       title: 'Thumbnail',
       type: 'sanityImage',
-      description: 'The thumbnail image is used as the poster image for the video.'
+      description: 'The thumbnail image is used as the poster image for the video.',
     }),
-    defineField({
-      name: 'size',
-      type: 'string',
-      title: 'Size',
-      options: {
-        list: mediaSizes,
-        layout: 'radio',
-        direction: 'vertical',
-      },
-    }),
-    defineField({
-      name: 'autoplay',
-      type: 'boolean',
-      title: 'Autoplay',
-      initialValue: false,
-      description: 'Autoplay videos play muted.',
-    }),
-    defineField({
-      name: 'loop',
-      type: 'boolean',
-      title: 'Loop',
-      initialValue: false,
-    }),
+
   ],
   preview: {
     select: {

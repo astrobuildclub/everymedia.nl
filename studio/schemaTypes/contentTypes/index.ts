@@ -3,6 +3,7 @@ import { faqType } from "./faqType";
 import { footerType } from "./footerType";
 import { headerType } from "./headerType";
 import { pageType } from "./pageType";
+import { projectTagType } from "./projectTagType";
 import { projectType } from "./projectType";
 import { siteSettingsType } from "./siteSettings";
 import { teamType } from "./teamType";
@@ -15,7 +16,8 @@ export const contentTypes = [
     siteSettingsType,
     teamType,
     headerType,
-    footerType
+    footerType,
+    projectTagType
 ];
 
 export const linkableSchemaTypes = [
@@ -30,4 +32,5 @@ export const translateLanguagesSchema = [
     "project",
     "team",
     "siteSettings",
+    "projectTag"
 ]

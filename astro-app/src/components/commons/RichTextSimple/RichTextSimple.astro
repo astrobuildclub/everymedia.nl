@@ -8,7 +8,6 @@ import PortableTextListItem from "./portableTextComponents/PortableTextListItem.
 import PortableTextMark from "./portableTextComponents/PortableTextMark.astro";
 import PortableTextHardBreak from "./portableTextComponents/PortableTextHardBreak.astro";
 import PortableTextText from "./portableTextComponents/PortableTextText.astro";
-import PortableTextType from "./portableTextComponents/PortableTextType.astro";
 
 interface Props {
     value: RichTextSimpleType;
@@ -21,7 +20,6 @@ const portableTextComponents: SomePortableTextComponents = {
     mark: PortableTextMark,
     hardBreak: PortableTextHardBreak,
     text: PortableTextText,
-    type: PortableTextType,
 };
 const { value, components = portableTextComponents } = Astro.props || {};
 ---

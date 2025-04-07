@@ -20,13 +20,13 @@ internalLink->{_type,slug,pageTitle,language}
 }
 
 export const ctaFields = /* groq */ `
-  _type,
-  buttonText,
-  variant,
-  link{
-  ${linkFields}
-  }
-  `;
+_type,
+buttonText,
+variant,
+link{
+${linkFields}
+}
+`;
 
 
 {
@@ -34,13 +34,25 @@ export const ctaFields = /* groq */ `
 }
 
 export const labelLinkFields = /* groq */ `
-  _id,
-  _type,
-  label,
-  link{
-  ${linkFields}
-  }
-  `;
+_id,
+_type,
+label,
+link{
+${linkFields}
+}
+`;
+
+{
+    /* Project Tag */
+}
+
+export const projectTagFields = /* groq */ `
+_type,
+_id,
+language,
+title,
+`;
+
 
 {
     /* Project */
@@ -65,6 +77,10 @@ heroImage{
 ${imageFields}
 },
 },
+client,
+projectTag->{
+${projectTagFields}
+}
 `;
 
 {
@@ -113,6 +129,7 @@ ${richTextSimpleFields}
 }
 `;
 
+
 {
     /* Faq */
 }
@@ -155,4 +172,74 @@ asset->{
 (@.thumbType=="url") => { 
 thumbnailUrl,
 },
+`;
+
+{
+    /* Website */
+}
+
+export const websiteFields = /* groq */ `
+title,
+tagline,
+description,
+timezone,
+`;
+
+{
+    /* Analytics */
+}
+
+export const analyticsFields = /* groq */ `
+googleAnalytics,
+googleTagManager,
+facebookPixel,
+`;
+
+{
+    /* Default Seo */
+}
+
+export const defaultSeoFields = /* groq */ `
+shareImage{
+${imageFields}
+},
+defaultPageTitle,
+defaultPageDescription,
+schemaMarkup,
+`;
+
+{
+    /* Social */
+}
+
+export const socialFields = /* groq */ `
+socialAccounts[]{
+_type,
+name,
+url,
+},
+`;
+
+{
+    /* Contact */
+}
+
+export const contactFields = /* groq */ `
+phone,
+email,
+kvk,
+btw,
+address,
+termsAndConditions{
+_type,
+asset->{
+...
+},
+},
+privacyPolicy{
+_type,
+asset->{
+...
+},
+}
 `;

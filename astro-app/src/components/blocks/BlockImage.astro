@@ -11,70 +11,18 @@ const { title, image, size } = Astro.props.data || {};
 
 {
   (() => {
-    switch (size) {
-      case "featured":
-        return (
-          <section class="featured-image-section">
-            {image && (
-              <div class="featured-image-wrapper">
-                <SanityImage
-                  src={image}
-                  className="featured-image"
-                  captionClassName="featured-image-desc"
-                />
-              </div>
-            )}
-            {title && <p class="featured-image-desc">{title}</p>}
-          </section>
-        );
-      case "full":
-        return (
-          <section class="full-image-section">
-            {image && (
-              <div class="full-image-wrapper">
-                <SanityImage
-                  src={image}
-                  className="full-image"
-                  captionClassName="image-with-desc"
-                />
-              </div>
-            )}
-            {title && <p class="image-with-desc">{title}</p>}
-          </section>
-        );
-      case "inline":
-        return (
-          <section class="inline-image-section">
-            {image && (
-              <div class="inline-image-wrapper">
-                <SanityImage
-                  src={image}
-                  className="inline-image"
-                  captionClassName="inline-image-desc"
-                />
-              </div>
-            )}
-            {title && <p class="inline-image-desc">{title}</p>}
-          </section>
-        );
-      case "page":
-        return (
-          <section class="page-image-section">
-            {image && (
-              <div class="page-image-wrapper">
-                <SanityImage
-                  src={image}
-                  className="page-image"
-                  captionClassName="page-image-desc"
-                />
-              </div>
-            )}
-            {title && <p class="page-image-desc">{title}</p>}
-          </section>
-        );
-      default:
-        return null;
-    }
+    return (
+      <section class={`${size}-image-section`}>
+        <div class={`${size}-image-wrapper`}>
+          <SanityImage
+            src={image}
+            className={`${size}-image`}
+            captionClassName={`${size}-image-desc`}
+          />
+        </div>
+        {title && <p class={`${size}-image-desc`}>{title}</p>}
+      </section>
+    );
   })()
 }
 
@@ -94,9 +42,9 @@ const { title, image, size } = Astro.props.data || {};
           width: 100%;
           object-fit: cover;
         }
-        .image-with-desc {
+        .full-image-desc {
           padding: 0 var(--space-s);
-          color: var(--gray-700);
+          color: var(--gray-700) !important;
           font-family: var(--font-body);
           font-size: var(--fs--2);
           line-height: 160%;

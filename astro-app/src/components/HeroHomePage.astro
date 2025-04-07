@@ -1,9 +1,10 @@
 ---
 import type { HeroViewType } from "../utils";
 import SanityImage from "./commons/SanityImage.astro";
+import SimpleVideo from "./commons/SimpleVideo.astro";
 
 interface Props {
-  data: HeroViewType
+  data: HeroViewType;
 }
 const { title, heroVideo, subtitle, heroImage, select } =
   Astro.props.data || {};
@@ -27,18 +28,12 @@ const { title, heroVideo, subtitle, heroImage, select } =
         </div>
         {select === "heroVideo" && heroVideo && (
           <div class="video__wrapper ">
-            <video
-              class=""
-              autoplay
-              loop
-              playsinline
-              muted
-              preload="auto"
-              poster="https://picsum.photos/696/391"
-            >
-              <source src={heroVideo} type="video/mp4" />
-              {`Your browser does not support the video tag.`}
-            </video>
+            <SimpleVideo
+              autoplay={true}
+              loop={true}
+              className=""
+              videoUrl={heroVideo}
+            />
           </div>
         )}
         {select === "heroImage" && heroImage && (

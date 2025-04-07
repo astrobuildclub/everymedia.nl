@@ -1,11 +1,11 @@
 // @ts-check
 import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
-import { defaultLanguage, supportedLanguages } from "./src/lib/helperFunctions";
+import { defaultLanguage, supportedLocales } from "./src/lib/helperFunctions";
 import sanityIntegration from "@sanity/astro";
 import { apiVersion, dataset, projectId, useCdn } from "./src/lib/sanity";
 
-const locales = supportedLanguages.map((item) => item.id);
+
 const defaultLocale = defaultLanguage.id;
 
 // https://astro.build/config
@@ -30,7 +30,7 @@ export default defineConfig({
     ],
   },
   i18n: {
-    locales: locales,
+    locales: supportedLocales,
     defaultLocale: defaultLocale,
   },
 });

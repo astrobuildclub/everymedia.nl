@@ -20,12 +20,26 @@ const {
   variants,
   intro,
   pageTitle,
+  defaultSeoProps
 } = pageData || {};
-const heroPage = { title, subtitle, heroVideo, heroImage, select,intro,pageTitle};
-const isHeroVideo = heroVideo || heroImage ? true : false;
+const heroPage = {
+  title,
+  subtitle,
+  heroVideo,
+  heroImage,
+  select,
+  intro,
+  pageTitle,
+};
 ---
 
-<Layout seo={seo || {}} layoutProps={layoutProps} isHeroVideo={isHeroVideo} heroVariants={variants}>
+<Layout
+  seo={seo || {}}
+  layoutProps={layoutProps}
+  defaultSeoProps={defaultSeoProps}
+  heroVariants={variants}
+  currentPath={`/${defaultLanguage?.id}`}
+>
   <HeroView heroVariants={variants} data={heroPage} />
   {
     Array.isArray(pagebuilder) &&
