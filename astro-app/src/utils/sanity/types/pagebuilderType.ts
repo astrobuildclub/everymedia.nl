@@ -7,6 +7,7 @@ import type {
   RichTextSimpleType,
   SanityImageType,
 } from "./global";
+import type { ProjectTagType } from "./projectTagType";
 import type { ProjectType } from "./projectType";
 import type { TeamType } from "./teamType";
 
@@ -29,6 +30,8 @@ export type PagebuilderType =
   | BlockImageGalleryType
   | BlockMultiColType
   | BlockRichTextType
+  | FeaturedProjectsType
+  | ProjectsListingSectionType;
 
 {
   /*  Connect With Us */
@@ -88,7 +91,7 @@ export interface BlockCardsType {
   _type: "blockCards";
   title?: string;
   intro?: string;
-  colsAmount:number
+  colsAmount: number;
   footnote?: string;
   cards: CardType[];
 }
@@ -256,14 +259,35 @@ export interface BlockMediaGalleryType {
 }
 
 {
+  /* Projects Listing Section */
+}
+
+export interface ProjectsListingSectionType {
+  _type: "projectsListingSection";
+  tagLine: string;
+  allProjects: Array<ProjectType>;
+}
+
+{
+  /* Featured Projects */
+}
+
+export interface FeaturedProjectsType {
+  _type: "featuredProjects";
+  tagLine: string;
+  intro: RichTextSimpleType;
+  projects: Array<ProjectType>;
+}
+
+{
   /* Block Multi Col */
 }
 
 export interface BlockMultiColType {
   _type: "blockMultiCol";
-  title:string
-  colsAmount:number
-  select:"blockText"|"blockTextMedia"|"blockMediaGallery"
+  title: string;
+  colsAmount: number;
+  select: "blockText" | "blockTextMedia" | "blockMediaGallery";
   blockText: Array<BlockTextType>;
   blockTextMedia: Array<BlockTextMediaType>;
   blockMediaGallery: BlockMediaGalleryType;
@@ -299,4 +323,6 @@ export interface HeroViewType {
   heroImage: SanityImageType | undefined;
   select: "heroVideo" | "heroImage" | undefined;
   intro: RichTextSimpleType | undefined;
+  projectTag?: ProjectTagType;
+  client?: string;
 }

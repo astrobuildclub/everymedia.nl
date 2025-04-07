@@ -7,11 +7,10 @@ import SanityLink from "./commons/SanityLink.astro";
 
 interface Props {
   header: HeaderType | undefined;
-  isHeroVideo: boolean | undefined;
   heroVariants: HeroVariantType;
 }
 
-const { header, isHeroVideo, heroVariants } = Astro.props || {};
+const { header, heroVariants } = Astro.props || {};
 const { logo, navItems = [] } = header || {};
 const LogoClass = (heroVariants: HeroVariantType) => {
   switch (heroVariants) {
@@ -62,7 +61,7 @@ const MenuClass = (heroVariants: HeroVariantType) => {
     return (
       <header
         id="site-header"
-        class={cn("", isHeroVideo ? "bg-transparent" : "menu-background")}
+        class={cn("bg-transparent",)}
       >
         <div class="container">
           <SanityLink href={routes.home()}>

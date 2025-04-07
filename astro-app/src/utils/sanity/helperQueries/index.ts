@@ -1,3 +1,10 @@
+import {
+  analyticsFields,
+  contactFields,
+  defaultSeoFields,
+  socialFields,
+  websiteFields,
+} from "../helper/commonFields";
 import { footerFields } from "../helper/footerFields";
 import { headerFields } from "../helper/headerFields";
 import {
@@ -19,6 +26,8 @@ import {
   blockVideoFields,
   blockWorkRelatedFields,
   blockWorkSelectionFields,
+  featuredProjectsFields,
+  projectsListingSectionFields,
 } from "../helper/sectionFields";
 import { seofields } from "../helper/seoFields";
 
@@ -43,6 +52,31 @@ ${headerFields}
 footer{
 ${footerFields}
 }
+}`;
+
+{
+  /*  Default Seo */
+}
+
+export const defaultSeoProps = /* groq */ `*[_type == "siteSettings" && language == $language][0]{
+_id,
+_type,
+language,
+"website":{
+${websiteFields}
+},
+"analytics":{
+${analyticsFields}
+},
+"defaultSeo":{
+${defaultSeoFields}
+},
+"social":{
+${socialFields}
+},
+"contact":{
+${contactFields}
+},
 }`;
 
 {
@@ -104,6 +138,12 @@ ${blockMultiColFields}
 },
 (_type == "blockRichText") => {
 ${blockRichTextFields}
+},
+(_type == "featuredProjects") => {
+${featuredProjectsFields}
+},
+(_type == "projectsListingSection") => {
+${projectsListingSectionFields}
 },
 
 }

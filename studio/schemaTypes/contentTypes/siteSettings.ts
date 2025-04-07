@@ -18,6 +18,13 @@ export const siteSettingsType = defineType({
   ],
   fields: [
     defineField({
+      name: 'language',
+      type: 'string',
+      readOnly: true,
+      hidden: true,
+      group: "website",
+    }),
+    defineField({
       name: 'pageTitle',
       type: 'string',
       description: "This field is only used for CMS.",
@@ -59,19 +66,6 @@ export const siteSettingsType = defineType({
       group: 'website',
     }),
 
-    defineField({
-      name: 'favicon',
-      type: 'image',
-      title: 'Favicon',
-      group: 'website',
-    }),
-    defineField({
-      name: 'language',
-      type: 'string',
-      readOnly: true,
-      hidden: true,
-      group: "website",
-    }),
     defineField({
       name: 'timezone',
       type: 'string',
@@ -165,32 +159,19 @@ export const siteSettingsType = defineType({
     defineField({
       name: 'defaultPageTitle',
       type: 'string',
-      // components: {
-      //   input: CustomStringInput, // Custom input component
-      // },
       title: 'Default Page Title',
       description: 'The default title (max 60 characters) of your website',
       validation: (Rule) => Rule.max(60).warning('SEO-best practice: around 60 characters max'),
-
       group: 'seo',
     }),
     defineField({
       name: 'defaultPageDescription',
       type: 'text',
-      // components: {
-      //   input: CustomStringInput,
-      // },
       title: 'Default Page Description',
       description: 'A short description (max 160 characters) of your website',
       validation: (Rule) => Rule.max(160).warning('SEO-best practice: around 160 characters max'),
 
       rows: 2,
-      group: 'seo',
-    }),
-    defineField({
-      name: 'websiteUrl',
-      type: 'url',
-      title: 'Website URL',
       group: 'seo',
     }),
     defineField({

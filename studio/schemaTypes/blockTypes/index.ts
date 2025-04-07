@@ -18,6 +18,8 @@ import { blockTextMedia } from "./blockTextMedia";
 import { blockVideo } from "./blockVideo";
 import { blockWorkRelated } from "./blockWorkRelated";
 import { blockWorkSelection } from "./blockWorkSelection";
+import { featuredProjects } from "./featuredProjects";
+import { projectsListingSection } from "./projectsListingSection";
 
 
 export const blockTypes = [
@@ -40,5 +42,7 @@ export const blockTypes = [
     blockWorkSelection,
     blockTeamMembers,
     blockTextMedia,
-    blockRichText
+    blockRichText,
+    featuredProjects,
+    projectsListingSection
 ];

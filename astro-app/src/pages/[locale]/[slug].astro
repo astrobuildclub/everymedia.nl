@@ -36,6 +36,7 @@ const {
   variants,
   intro,
   pageTitle,
+  defaultSeoProps
 } = pageData || {};
 const heroPage = {
   title,
@@ -46,14 +47,14 @@ const heroPage = {
   intro,
   pageTitle,
 };
-const isHeroVideo = heroVideo || heroImage ? true : false;
 ---
 
 <Layout
   seo={seo || {}}
   layoutProps={layoutProps}
-  isHeroVideo={isHeroVideo}
+  defaultSeoProps={defaultSeoProps}
   heroVariants={variants}
+  currentPath={`/${locale}/${slug}`}
 >
   <HeroView heroVariants={variants} data={heroPage} />
   {

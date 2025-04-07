@@ -99,6 +99,28 @@ export const deskStructure = (S: StructureBuilder, context: StructureResolverCon
             ])
         ),
       S.listItem()
+        .title("Project Tag")
+        .icon(CaseIcon)
+        .child(
+          S.list()
+            .title('Project Tag')
+            .items([
+              ...supportedLanguages.map((language) =>
+                S.listItem()
+                  .title(`${language.title.toLocaleUpperCase()}`)
+                  .icon(CaseIcon)
+                  .schemaType("projectTag")
+                  .child(
+                    S.documentList()
+                      .schemaType("projectTag")
+                      .title(`Project Tag (${language.title})`)
+                      .filter('_type == "projectTag" && language == $language')
+                      .params({ language: language.id })
+                  )
+              ),
+            ])
+        ),
+      S.listItem()
         .title("Team")
         .icon(UserIcon)
         .child(

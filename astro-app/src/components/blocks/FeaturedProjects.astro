@@ -1,0 +1,94 @@
+---
+import { PortableText } from "astro-portabletext";
+import type { FeaturedProjectsType } from "../../utils";
+import ProjectsCard from "../commons/ProjectsCard.astro";
+
+interface Props {
+  data: FeaturedProjectsType;
+}
+const { intro, tagLine, projects = [] } = Astro.props.data || {};
+---
+
+{
+  (() => {
+    return (
+      <section>
+        <div class="block-work-swiper-section">
+          <div class="project-work-title">
+            {tagLine && <span class="block-sub-title">{tagLine}</span>}
+            {intro && <div class="block-text-content"><PortableText value={intro} /></div>}
+          </div>
+          {projects?.length > 0 &&
+          <div class="project-work-about">
+           <ProjectsCard projects={projects} />
+          </div>
+           }
+        </div>
+      </section>
+    );
+  })()
+}
+
+<style>
+  .block-work-swiper-section {
+    padding: var(--space-2xl-3xl) 0 var(--space-xl) 0;
+    background-color: black;
+
+    @media (max-width: 639px) {
+      padding-right: var(--space-s);
+    }
+
+    .project-work-title {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-s);
+      max-width: 66rem;
+      width: 100%;
+      margin-bottom: 3rem;
+      padding-left: var(--space-s);
+      padding-right: var(--space-s);
+
+      .block-sub-title {
+        color: var(--neutrals-600);
+        font-weight: 500;
+        font-size: 0.75rem;
+        font-family: var(--font-mono);
+        line-height: 150%;
+        letter-spacing: 0.36px;
+        text-transform: uppercase;
+      }
+      .block-text-content {
+        color: white;
+        font-family: var(--font-body);
+        font-size: var(--fs-0);
+        font-weight: 500;
+        line-height: 112%;
+        letter-spacing: 0.25px;
+      }
+    }
+    .project-work-about .project-details {
+      display: flex;
+      flex-direction: column;
+      gap: 0.375rem;
+
+      h3 {
+        font-weight: 700;
+        font-family: var(--font-heading);
+        font-size: var(--fs-2);
+        letter-spacing: -0.853px;
+        line-height: 112.5%;
+        color: white;
+        text-transform: uppercase;
+      }
+
+      .intro-text {
+        color: white;
+        font-size: var(--fs--1);
+        font-weight: normal;
+        line-height: 150%;
+        letter-spacing: 0.25px;
+        font-family: var(--font-primary);
+      }
+    }
+  }
+</style>

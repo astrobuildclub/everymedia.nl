@@ -22,7 +22,7 @@ export async function getStaticPaths() {
 
 const { slug, locale } = Astro.params;
 
-const pageData = await getAudience<AudienceType>(slug, locale);
+const pageData = await getAudience<AudienceType>(slug as "", locale);
 
 const {
   pagebuilder,
@@ -36,6 +36,7 @@ const {
   intro,
   pageTitle,
   variants,
+  defaultSeoProps,
 } = pageData || {};
 const heroPage = {
   title,
@@ -46,14 +47,14 @@ const heroPage = {
   intro,
   pageTitle,
 };
-const isHeroVideo = heroVideo || heroImage ? true : false;
 ---
 
 <Layout
   seo={seo || {}}
   layoutProps={layoutProps}
-  isHeroVideo={isHeroVideo}
+  defaultSeoProps={defaultSeoProps}
   heroVariants={variants}
+  currentPath={`/${locale}/audience/${slug}`}
 >
   <HeroView heroVariants={variants} data={heroPage} />
   {

@@ -54,6 +54,21 @@ ${teamFields}
 `;
 
 {
+  /* Featured Projects */
+}
+
+export const featuredProjectsFields = /* groq */ `
+_type,
+tagLine,
+intro[]{
+${richTextSimpleFields}
+},
+projects[@->language == ^.^.language]->{
+${projectFields}
+},
+`;
+
+{
   /* Block Episodes */
 }
 
@@ -102,24 +117,24 @@ ${richTextSimpleFields}
 }
 
 export const blockFeetSectionFields = /* groq */ `
-  _type,
-  title,
-  subtitle,
-  intro[]{
-  ${richTextSimpleFields}
-  },
-  body[]{
-  ${richTextSimpleFields}
-  },
-  connectWithUs[]{
-  ${connectWithUsFields}
-  },
-  selectedProjects[@->language == ^.^.language]->{
-  ${projectFields}
-  },
-  cta{
-  ${ctaFields}
-  }
+_type,
+title,
+subtitle,
+intro[]{
+${richTextSimpleFields}
+},
+body[]{
+${richTextSimpleFields}
+},
+connectWithUs[]{
+${connectWithUsFields}
+},
+selectedProjects[@->language == ^.^.language]->{
+${projectFields}
+},
+cta{
+${ctaFields}
+}
 `;
 
 {
@@ -127,17 +142,17 @@ export const blockFeetSectionFields = /* groq */ `
 }
 
 export const blockContactFields = /* groq */ `
-  _type,
-  title,
-  image{
-  ${imageFields}
-  },
-  intro[]{
-  ${richTextSimpleFields}
-  },
-  cta[]{
-  ${ctaFields}
-  }
+_type,
+title,
+image{
+${imageFields}
+},
+intro[]{
+${richTextSimpleFields}
+},
+cta[]{
+${ctaFields}
+}
 `;
 
 {
@@ -145,12 +160,12 @@ export const blockContactFields = /* groq */ `
 }
 
 export const cardFields = /* groq */ `
-  _type,
-  title,
-  subtitle,
-  body[]{
-  ${richTextSimpleFields}
-  }
+_type,
+title,
+subtitle,
+body[]{
+${richTextSimpleFields}
+}
 `;
 
 {
@@ -158,14 +173,14 @@ export const cardFields = /* groq */ `
 }
 
 export const blockCardsFields = /* groq */ `
-  _type,
-  title,
-  intro,
-  colsAmount,
-  footnote,
-  cards[]{
-  ${cardFields}
-  }
+_type,
+title,
+intro,
+colsAmount,
+footnote,
+cards[]{
+${cardFields}
+}
 `;
 
 {
@@ -173,27 +188,39 @@ export const blockCardsFields = /* groq */ `
 }
 
 export const blockVideoFields = /* groq */ `
-  _type,
-  title,
-  videoType,
-  (@.videoType=="mp4") => { 
-  videoUrl
-  },
-  (@.videoType=="embed") => { 
-  select,
-  (@.select=="youtube") => { 
-  youtubeId
-  },
-  (@.select=="vimeo") => { 
-  vimeoId
-  },
-  },
-  thumbnail{
-  ${imageFields}
-  },
-  size,
-  autoplay,
-  loop,
+_type,
+title,
+videoType,
+(@.videoType=="mp4") => { 
+videoUrl
+},
+(@.videoType=="embed") => { 
+select,
+(@.select=="youtube") => { 
+youtubeId
+},
+(@.select=="vimeo") => { 
+vimeoId
+},
+},
+thumbnail{
+${imageFields}
+},
+size,
+autoplay,
+loop,
+`;
+
+{
+  /* Projects Listing Section */
+}
+
+export const projectsListingSectionFields = /* groq */ `
+_type,
+tagLine,
+"allProjects":*[_type in ["project"] && defined(slug.current)]| order(_updatedAt desc){
+${projectFields}
+},
 `;
 
 {
@@ -201,11 +228,11 @@ export const blockVideoFields = /* groq */ `
 }
 
 export const blockFaqsFields = /* groq */ `
-  _type,
-  title,
-  faqs[@->language == ^.^.language]->{
-  ${faqFields}
-  }
+_type,
+title,
+faqs[@->language == ^.^.language]->{
+${faqFields}
+}
 `;
 
 {
@@ -213,15 +240,15 @@ export const blockFaqsFields = /* groq */ `
 }
 
 export const blockWorkSelectionFields = /* groq */ `
-  _type,
-  title,
-  intro,
-  selectedProjects[@->language == ^.^.language]->{
-  ${projectFields}
-  },
-  cta{
-  ${ctaFields}
-  }
+_type,
+title,
+intro,
+selectedProjects[@->language == ^.^.language]->{
+${projectFields}
+},
+cta{
+${ctaFields}
+}
 `;
 
 {
@@ -229,14 +256,14 @@ export const blockWorkSelectionFields = /* groq */ `
 }
 
 export const blockTextFields = /* groq */ `
-  _type,
-  hideTitle,
-  hideTitle == false =>{
-  title,
-  },
-  content[]{
-  ${richTextSimpleFields}
-  },
+_type,
+hideTitle,
+hideTitle == false =>{
+title,
+},
+content[]{
+${richTextSimpleFields}
+},
 `;
 
 {
@@ -244,12 +271,12 @@ export const blockTextFields = /* groq */ `
 }
 
 export const blockImageFields = /* groq */ `
-  _type,
-  title,
-  image{
-  ${imageFields}
-  },
-  size,
+_type,
+title,
+image{
+${imageFields}
+},
+size,
 `;
 
 {
@@ -257,11 +284,11 @@ export const blockImageFields = /* groq */ `
 }
 
 export const blockIntroFields = /* groq */ `
-  _type,
-  title,
-  content[]{
-  ${richTextSimpleFields}
-  }
+_type,
+title,
+content[]{
+${richTextSimpleFields}
+}
 `;
 
 {
@@ -269,15 +296,15 @@ export const blockIntroFields = /* groq */ `
 }
 
 export const blockTestimonialFields = /* groq */ `
-  _type,
-  title,
-  testimonial,
-  person,
-  role,
-  company,
-  image{
-  ${imageFields}
-  }
+_type,
+title,
+testimonial,
+person,
+role,
+company,
+image{
+${imageFields}
+}
 `;
 
 {
@@ -285,11 +312,11 @@ export const blockTestimonialFields = /* groq */ `
 }
 
 export const blockLogosFields = /* groq */ `
-  _type,
-  title,
-  logos[]{
-  ${imageFields}
-  }
+_type,
+title,
+logos[]{
+${imageFields}
+}
 `;
 
 {
@@ -297,10 +324,10 @@ export const blockLogosFields = /* groq */ `
 }
 
 export const blockMediaGalleryFields = /* groq */ `
-  _type,
-  media[]{
-  ${imageFields}
-  }
+_type,
+media[]{
+${imageFields}
+}
 `;
 
 {
@@ -308,15 +335,15 @@ export const blockMediaGalleryFields = /* groq */ `
 }
 
 export const blockTextMediaFields = /* groq */ `
-  _type,
-  alignment,
-  title,
-  intro[]{
-  ${richTextSimpleFields}
-  },
-  image{
-  ${imageFields}
-  }
+_type,
+alignment,
+title,
+intro[]{
+${richTextSimpleFields}
+},
+image{
+${imageFields}
+}
 `;
 
 {
@@ -324,36 +351,35 @@ export const blockTextMediaFields = /* groq */ `
 }
 
 export const blockRichTextFields = /* groq */ `
-  _type,
-  footnote,
-  content[]{
-  ${blockIntroFields}
-  },
+_type,
+footnote,
+content[]{
+${blockIntroFields}
+},
 `;
-
 
 {
   /* Block Multi Col */
 }
 
 export const blockMultiColFields = /* groq */ `
-  _type,
-  title,
-  select,
-  (@.select=="blockText") => { 
-  colsAmount,
-  blockText[]{
-  ${blockTextFields}
-  },  
-  },
-  (@.select=="blockTextMedia") => { 
-  blockTextMedia[]{
-  ${blockTextMediaFields}
-  },
-  },
-  (@.select=="blockMediaGallery") => { 
-  blockMediaGallery{
-  ${blockMediaGalleryFields}
-  },
-  }
+_type,
+title,
+select,
+(@.select=="blockText") => { 
+colsAmount,
+blockText[]{
+${blockTextFields}
+},  
+},
+(@.select=="blockTextMedia") => { 
+blockTextMedia[]{
+${blockTextMediaFields}
+},
+},
+(@.select=="blockMediaGallery") => { 
+blockMediaGallery{
+${blockMediaGalleryFields}
+},
+}
 `;

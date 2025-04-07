@@ -2,6 +2,7 @@
 import { PortableText } from "astro-portabletext";
 import type { HeroViewType } from "../utils";
 import SanityImage from "./commons/SanityImage.astro";
+import SimpleVideo from "./commons/SimpleVideo.astro";
 
 interface Props {
   data: HeroViewType;
@@ -27,18 +28,12 @@ const { title, heroVideo, subtitle, heroImage, select, intro, pageTitle } =
 
         {select === "heroVideo" && heroVideo && (
           <div class="page-hero-right">
-            <video
-              class="page-hero-video"
-              autoplay
-              loop
-              playsinline
-              muted
-              preload="auto"
-              poster="https://picsum.photos/696/391"
-            >
-              <source src={heroVideo} type="video/mp4" />
-              {`Your browser does not support the video tag.`}
-            </video>
+            <SimpleVideo
+              autoplay={true}
+              loop={true}
+              className="page-hero-video"
+              videoUrl={heroVideo}
+            />
           </div>
         )}
 
@@ -126,7 +121,7 @@ const { title, heroVideo, subtitle, heroImage, select, intro, pageTitle } =
         width: 100%;
         @media (max-width: 1279px) {
           height: 23.438rem;
-      }
+        }
       }
     }
     .page-hero-right {

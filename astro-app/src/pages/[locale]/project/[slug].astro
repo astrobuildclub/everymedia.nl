@@ -22,7 +22,7 @@ export async function getStaticPaths() {
 
 const { slug, locale } = Astro.params;
 
-const pageData = await getProject<ProjectType>(slug, locale);
+const pageData = await getProject<ProjectType>(slug as "", locale);
 
 const {
   pagebuilder,
@@ -36,6 +36,9 @@ const {
   intro,
   pageTitle,
   variants,
+  client,
+  projectTag,
+  defaultSeoProps
 } = pageData || {};
 const heroPage = {
   title,
@@ -45,15 +48,17 @@ const heroPage = {
   select,
   intro,
   pageTitle,
+  client,
+  projectTag
 };
-const isHeroVideo = heroVideo || heroImage ? true : false;
 ---
 
 <Layout
   seo={seo || {}}
   layoutProps={layoutProps}
-  isHeroVideo={isHeroVideo}
+  defaultSeoProps={defaultSeoProps}
   heroVariants={variants}
+  currentPath={`/${locale}/project/${slug}`}
 >
   <HeroView heroVariants={variants} data={heroPage} />
   {

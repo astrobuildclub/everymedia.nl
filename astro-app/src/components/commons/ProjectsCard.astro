@@ -1,0 +1,198 @@
+---
+import { PortableText } from "astro-portabletext";
+import type { ProjectType } from "../../utils";
+import SanityImage from "../commons/SanityImage.astro";
+import SimpleVideo from "./SimpleVideo.astro";
+import SanityLink from "./SanityLink.astro";
+import { routes } from "../../lib/router";
+import { defaultLanguage } from "../../lib/helperFunctions";
+
+interface Props {
+  projects: ProjectType[];
+}
+const { projects = [] } = Astro.props || {};
+const locale = (Astro.params?.locale || defaultLanguage.id) 
+---
+
+{
+  (() => {
+    return (
+      <div class="swiper">
+        <div class="swiper-wrapper">
+          {projects?.map((item) => {
+            const {
+              title,
+              heroImage,
+              select,
+              heroVideo,
+              intro,
+              subtitle,
+              client,
+              projectTag,
+              slug,
+            } = item || {};
+            return (
+              <article class="swiper-slide">
+                <div class="project__meta">
+                  <div>
+                    {select === "heroImage" && heroImage && (
+                      <div class="media-container">
+                        <SanityImage src={heroImage} className="media" />
+                      </div>
+                    )}
+                    {select === "heroVideo" && heroVideo && (
+                      <div class="media-container">
+                        <SimpleVideo
+                          autoplay={true}
+                          loop={true}
+                          className="media"
+                          videoUrl={heroVideo}
+                        />
+                      </div>
+                    )}
+                  </div>
+                  <div class="project__meta">
+                    <div class="meta">
+                      {client && <h4>{client}</h4>}
+                      {projectTag?.title && <p>{projectTag?.title}</p>}
+                    </div>
+                    <div class="project-details">
+                      {title && (
+                        <SanityLink
+                          href={
+                            typeof slug === "object" && slug?.current
+                              ? routes?.project({
+                                  language: locale ?? "",
+                                  slug: slug?.current,
+                                })
+                              : "#"
+                          }
+                        >
+                          <h3>{title}</h3>
+                        </SanityLink>
+                      )}
+                      {subtitle && <span>{subtitle}</span>}
+                      {intro && (
+                        <div class="intro-text">
+                          <PortableText value={intro} />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+    );
+  })()
+}
+
+<script>
+  import Swiper from "swiper";
+  import { Autoplay } from "swiper/modules";
+  import "swiper/css";
+
+  new Swiper(".swiper", {
+    modules: [Autoplay],
+    slidesPerView: "auto",
+    spaceBetween: 24,
+    grabCursor: true,
+    loop: true,
+    autoplay: {
+      delay: 0,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: true,
+    },
+    speed: 3000,
+    breakpoints: {
+      1024: {
+        slidesPerView: 2.1,
+      },
+      767: {
+        slidesPerView: 1.5,
+      },
+      640: {
+        slidesPerView: 1.2,
+      },
+    },
+  });
+</script>
+
+<style>
+  .project__meta {
+    .media-container {
+      border-radius: 4px;
+      margin-bottom: 0.75rem;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .media {
+      border-radius: 4px;
+      aspect-ratio: 696 / 391;
+      width: 100%;
+    }
+
+    .meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.375rem;
+
+      h4 {
+        font-family: var(--font-mono);
+        color: var(--cool-gray);
+        font-weight: 500;
+        letter-spacing: 0.36px;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+      }
+
+      p {
+        font-family: var(--font-mono);
+        font-size: 0.651rem;
+        color: var(--cool-gray);
+        background-color: var(--jet);
+        border-radius: 9999px;
+        letter-spacing: 0.304px;
+        font-weight: 500;
+        text-transform: uppercase;
+        padding: var(--space-3xs) var(--space-xs-s);
+        line-height: 150%;
+      }
+    }
+
+    .project-details {
+      display: flex;
+      flex-direction: column;
+      gap: 0.375rem;
+
+      h3 {
+        font-weight: 700;
+        font-family: var(--font-primary);
+        font-size: 1.5rem;
+        letter-spacing: -0.48px;
+        line-height: 112.5%;
+        color: white;
+      }
+      span {
+        color: white;
+        font-size: var(--fs--1);
+        letter-spacing: -2%;
+        line-height: 112%;
+        font-weight: 500;
+        letter-spacing: -0.36px;
+      }
+      .intro-text {
+        color: var(--neutrals-600);
+        font-size: var(--fs--2);
+        font-weight: normal;
+        line-height: 150%;
+        letter-spacing: 0.25px;
+        font-family: var(--font-primary);
+      }
+    }
+  }
+</style>

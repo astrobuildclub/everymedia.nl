@@ -1,0 +1,44 @@
+---
+import { getTranslation } from '../../i18n/translate';
+import { defaultLanguage } from '../../lib/helperFunctions';
+
+interface Props {
+  videoUrl: string;
+  className: string;
+  title?: string;
+  poster?: string;
+  autoplay: boolean;
+  loop: boolean;
+}
+const {
+  videoUrl = "",
+  className = "",
+  title = "",
+  poster = "https://picsum.photos/696/391",
+  autoplay = false,
+  loop = false,
+} = Astro.props || {};
+
+const locale = (Astro.params?.locale || defaultLanguage.id);
+const {t} = getTranslation(locale);
+---
+
+{
+  (() => {
+    return (
+      <video
+        class={className}
+        poster={poster}
+        autoplay={autoplay}
+        muted={autoplay}
+        loop={loop}
+        title={title}
+        playsinline
+        preload="auto"
+      >
+        <source src={videoUrl} type="video/mp4" />
+        {t("yourbrowserdoesnotsupportthevideotag")}
+      </video>
+    );
+  })()
+}

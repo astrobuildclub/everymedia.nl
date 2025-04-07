@@ -12,7 +12,7 @@ const { block, class: className } = Astro.props;
 
 const { variant, link, buttonText: label } = block || {};
 
-const buttonVariants: Record<ButtonVariantType, string> = {
+export const buttonVariants: Record<ButtonVariantType, string> = {
   white: "white-btn",
   black: "black-btn",
 };

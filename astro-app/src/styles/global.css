@@ -24,6 +24,12 @@
   --ash-gray: #ADB0AA;
   --light-sage: #D7DAD4;
   --rich-black: #010101;
+  --dark-gray: #222;
+  --silver: #bababa;
+  --gainsboro: #d2d2d2;
+  --jet: #262626;
+  --cool-gray: #ccc;
+  --black-gray: #171717;
 
   /* dark */
   --clr-primary-a50: oklch(from var(--clr-primary) l c h / calc(alpha - 0.5));
@@ -135,6 +141,10 @@
 
   /* space-xl-2xl-3xl: 54px → 144px */
   --space-xl-2xl-3xl: clamp(54px, 54px + 5vw, 144px);
+}
+
+a:-webkit-any-link{
+  text-decoration: none;
 }
 
 pre {
@@ -277,6 +287,7 @@ pre {
   transition: all 0.2s ease-in-out;
   cursor: pointer;
   width: fit-content;
+  text-decoration: none;
 }
 
 .white-btn:hover {
@@ -298,6 +309,7 @@ pre {
   border: 1px solid transparent;
   transition: all 0.2s ease-in-out;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .black-btn:hover {
@@ -346,7 +358,7 @@ figure{
     animation-timeline: --section-pin-tl;
     animation-range: contain 0% contain 100%;
     will-change: transform;
-    gap: var(--gutter);
+    gap: var(--grid-gutter); 
   }
 
   .pin-wrap {

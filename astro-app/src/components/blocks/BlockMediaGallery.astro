@@ -18,7 +18,7 @@ const { media } = Astro.props.data || {};
             {media?.map((item) => {
               return (
                 <div class="media-gallery-image">
-                  <SanityImage src={item} className="" captionClassName="" />
+                  <SanityImage src={item}/>
                 </div>
               );
             })}

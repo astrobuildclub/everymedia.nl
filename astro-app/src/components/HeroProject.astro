@@ -3,11 +3,12 @@ import { PortableText } from "astro-portabletext";
 import type { HeroViewType } from "../utils";
 import SanityImage from "./commons/SanityImage.astro";
 import DownArrow from "./icons/downArrow";
+import SimpleVideo from "./commons/SimpleVideo.astro";
 
 interface Props {
   data: HeroViewType;
 }
-const { title, heroVideo, subtitle, heroImage, select, intro } =
+const { title, heroVideo, subtitle, heroImage, select, intro ,client,projectTag } =
   Astro.props.data || {};
 ---
 
@@ -19,8 +20,8 @@ const { title, heroVideo, subtitle, heroImage, select, intro } =
           <div class="project-hero-title">
             <div class="project-hero-title-inner">
               <div class="project-hero-categories">
-                <span class="categories-left">{`Client`}</span>
-                <p class="categories-right">{`award plain text`}</p>
+               {client && <span class="categories-left">{client}</span>}
+               {projectTag?.title && <p class="categories-right">{projectTag?.title}</p>}
               </div>
               {title && <h1 class="project-banner-title">{title}</h1>}
               <div class="desc-with-icon">
@@ -36,18 +37,12 @@ const { title, heroVideo, subtitle, heroImage, select, intro } =
           </div>
           {select === "heroVideo" && heroVideo && (
             <div class="project-bg">
-              <video
-                class=""
-                autoplay
-                loop
-                playsinline
-                muted
-                preload="auto"
-                poster="https://picsum.photos/696/391"
-              >
-                <source src={heroVideo} type="video/mp4" />
-                {`Your browser does not support the video tag.`}
-              </video>
+              <SimpleVideo
+                autoplay={true}
+                loop={true}
+                className=""
+                videoUrl={heroVideo}
+              />
             </div>
           )}
           {select === "heroImage" && heroImage && (

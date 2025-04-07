@@ -22,7 +22,7 @@ const { title, image, alignment, intro } = Astro.props.data || {};
           >
             {image && (
               <div class="text-media-image">
-                <SanityImage src={image} className="" captionClassName="" />
+                <SanityImage src={image} />
               </div>
             )}
           </div>

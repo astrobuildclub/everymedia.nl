@@ -1,11 +1,12 @@
 ---
 import { PortableText } from "astro-portabletext";
-import type { HeroViewType,} from "../utils";
+import type { HeroViewType } from "../utils";
 import SanityImage from "./commons/SanityImage.astro";
 import DownArrow from "./icons/downArrow";
+import SimpleVideo from "./commons/SimpleVideo.astro";
 
 interface Props {
-  data: HeroViewType
+  data: HeroViewType;
 }
 const { title, heroVideo, subtitle, heroImage, select, intro } =
   Astro.props.data || {};
@@ -32,23 +33,20 @@ const { title, heroVideo, subtitle, heroImage, select, intro } =
           </div>
           {select === "heroVideo" && heroVideo && (
             <div class="audience-bg">
-              <video
-                class=""
-                autoplay
-                loop
-                playsinline
-                muted
-                preload="auto"
-                poster="https://picsum.photos/696/391"
-              >
-                <source src={heroVideo} type="video/mp4" />
-                {`Your browser does not support the video tag.`}
-              </video>
+              <SimpleVideo
+                autoplay={true}
+                loop={true}
+                className=""
+                videoUrl={heroVideo}
+              />
             </div>
           )}
           {select === "heroImage" && heroImage && (
             <div class="">
-              <SanityImage src={heroImage} className="sanity-image audience-bg" />
+              <SanityImage
+                src={heroImage}
+                className="sanity-image audience-bg"
+              />
             </div>
           )}
         </div>

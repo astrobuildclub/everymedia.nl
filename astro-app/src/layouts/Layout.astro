@@ -2,25 +2,46 @@
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import SiteMeta from "../components/seo/SiteMeta.astro";
-import type { HeroVariantType, LayoutPropsType, SeoType } from "../utils";
+import type {
+  DefaultSeoPropsType,
+  HeroVariantType,
+  LayoutPropsType,
+  SeoType,
+} from "../utils";
 import "../styles/global.css";
 
 interface Props {
   seo: SeoType;
   layoutProps: LayoutPropsType | undefined;
-  isHeroVideo?: boolean | undefined;
+  defaultSeoProps: DefaultSeoPropsType | undefined;
   heroVariants: HeroVariantType;
+  currentPath: string;
 }
 
-const { seo, layoutProps, isHeroVideo,heroVariants } = Astro.props || {};
+const {
+  seo,
+  layoutProps,
+  heroVariants,
+  currentPath,
+  defaultSeoProps,
+} = Astro.props || {};
 const { footer, header } = layoutProps || {};
+const { analytics } = defaultSeoProps || {};
+const { locale } = Astro.params || {};
 ---
 
-<html lang="nl">
+<html lang={locale || "nl"}>
   <head>
-    <SiteMeta seo={seo} />
+    <SiteMeta
+      seo={seo}
+      currentPath={currentPath}
+      defaultSeoProps={defaultSeoProps}
+    />
 
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper/swiper-bundle.min.css"
+    />
 
     <!-- ✅ Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -29,9 +50,15 @@ const { footer, header } = layoutProps || {};
       href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
-    <link href="https://db.onlinewebfonts.com/c/e781d1cba25f85543d695ab1c049cbf2?family=Antarctica+VAR" rel="stylesheet"/>
+    <link
+      href="https://db.onlinewebfonts.com/c/e781d1cba25f85543d695ab1c049cbf2?family=Antarctica+VAR"
+      rel="stylesheet"
+    />
 
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- ✅ CDN Fonts -->
     <link
@@ -61,17 +88,78 @@ const { footer, header } = layoutProps || {};
     <!-- ✅ Favicon and App Icons -->
     <!-- ✅ Lenis Script to Bottom for Performance -->
     <script>
-      if (typeof window !== 'undefined') {
-        import('lenis').then(({ default: Lenis }) => {
+      if (typeof window !== "undefined") {
+        import("lenis").then(({ default: Lenis }) => {
           new Lenis({
-            autoRaf: true
+            autoRaf: true,
           });
         });
       }
     </script>
+    {/* Analytics */}
+    {
+      analytics?.googleAnalytics && (
+        <script
+          is:inline
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${analytics?.googleAnalytics}`}
+        />
+      )
+    }
+    {
+      analytics?.googleAnalytics && (
+        <script is:inline id="analytics">
+          {`window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', '${analytics?.googleAnalytics}');
+          `}
+        </script>
+      )
+    }
+    {analytics?.googleTagManager && (
+      <script is:inline id="gtm">
+        {`
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','${analytics?.googleTagManager}');
+        `}
+      </script>
+    )}
+    {
+      analytics?.facebookPixel && (
+        <script is:inline id="fb-pixel"> 
+          {`
+          !function(f,b,e,v,n,t,s)
+          {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+          n.queue=[];t=b.createElement(e);t.async=!0;
+          t.src=v;s=b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t,s)}(window, document,'script',
+          'https://connect.facebook.net/en_US/fbevents.js');
+          fbq('init', '${analytics?.facebookPixel}');
+          fbq('track', 'PageView');
+         `}
+        </script>
+      )
+    }
   </head>
   <body>
-    <Header header={header} isHeroVideo={isHeroVideo} heroVariants={heroVariants}/>
+    {/* Google Tag Manager (noscript) */}
+    <noscript>
+      <iframe
+        src={`https://www.googletagmanager.com/ns.html?id=${analytics?.googleTagManager}`}
+        height="0"
+        width="0"
+        style={{ display: "none", visibility: "hidden" }}></iframe>
+    </noscript>
+    <Header
+      header={header}
+      heroVariants={heroVariants}
+    />
     <main>
       <slot />
     </main>
