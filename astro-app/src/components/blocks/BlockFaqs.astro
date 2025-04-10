@@ -18,7 +18,7 @@ const { title, faqs } = Astro.props.data || {};
         {faqs?.length > 0 && (
           <ul class="faq-list">
             {faqs?.map((item, index) => {
-                const { question, answer } = item || {};
+              const { question, answer } = item || {};
               return (
                 <li class="faq-item" id={`faq-item-${index}`}>
                   <button class="faq-question" data-index={index}>
@@ -62,6 +62,33 @@ const { title, faqs } = Astro.props.data || {};
         const minusIcon = target.querySelector(".close") as HTMLElement;
         const parentItem = target.closest(".faq-item");
         const questionTitle = target.querySelector(".faq-question-title");
+        document.querySelectorAll(".faq-answer.open").forEach((openAnswer) => {
+          const openAnswerElement = openAnswer as HTMLElement;
+          if (openAnswerElement !== answer) {
+            const openPlusIcon =
+              openAnswerElement.previousElementSibling?.querySelector(
+                ".open"
+              ) as HTMLElement;
+            const openMinusIcon =
+              openAnswerElement.previousElementSibling?.querySelector(
+                ".close"
+              ) as HTMLElement;
+            const openItem = openAnswerElement.closest(".faq-item");
+            const openQuestionTitle =
+              openAnswerElement.previousElementSibling?.querySelector(
+                ".faq-question-title"
+              );
+
+            openAnswerElement.style.height = "0px";
+            openAnswerElement.classList.remove("open");
+
+            if (openPlusIcon) openPlusIcon.style.display = "inline-block";
+            if (openMinusIcon) openMinusIcon.style.display = "none";
+            if (openItem) openItem.classList.remove("faq-item-active");
+            if (openQuestionTitle)
+              openQuestionTitle.classList.remove("faq-question-title-active");
+          }
+        });
 
         if (answer.classList.contains("open")) {
           answer.style.height = answer.scrollHeight + "px";

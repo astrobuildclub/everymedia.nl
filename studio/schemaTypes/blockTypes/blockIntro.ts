@@ -1,11 +1,13 @@
 import { defineField, defineType } from 'sanity';
 import { richTextSimple } from '../options/richTextOptions';
 import { toPlainText } from '@portabletext/react';
+import {TextIcon} from '@sanity/icons'
 
 export const blockIntro = defineType({
     name: 'blockIntro',
-    title: 'Block Intro',
+    title: 'Intro',
     type: 'object',
+    icon:TextIcon,
     fields: [
         defineField({
             name: 'title',

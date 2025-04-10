@@ -325,6 +325,7 @@ ${imageFields}
 
 export const blockMediaGalleryFields = /* groq */ `
 _type,
+title,
 media[]{
 ${imageFields}
 }

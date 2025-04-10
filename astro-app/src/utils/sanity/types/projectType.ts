@@ -4,7 +4,6 @@ import type { LayoutPropsType } from "./layoutType";
 import type { PagebuilderType } from "./pagebuilderType";
 import type { RichTextSimpleType, SanityImageType } from "./global";
 import type { DefaultSeoPropsType, HeroVariantType, Slug } from "./common";
-import type { ProjectTagType } from "./projectTagType";
 
 export interface ProjectType extends SanityDocument {
   _id: string;
@@ -22,6 +21,6 @@ export interface ProjectType extends SanityDocument {
   select: "heroVideo" | "heroImage";
   heroVideo: string;
   heroImage: SanityImageType;
-  projectTag: ProjectTagType;
+  tag: string;
   client: string;
 }

@@ -8,7 +8,7 @@ import SimpleVideo from "./commons/SimpleVideo.astro";
 interface Props {
   data: HeroViewType;
 }
-const { title, heroVideo, subtitle, heroImage, select, intro ,client,projectTag } =
+const { title, heroVideo, subtitle, heroImage, select, intro ,client,tag } =
   Astro.props.data || {};
 ---
 
@@ -21,7 +21,7 @@ const { title, heroVideo, subtitle, heroImage, select, intro ,client,projectTag 
             <div class="project-hero-title-inner">
               <div class="project-hero-categories">
                {client && <span class="categories-left">{client}</span>}
-               {projectTag?.title && <p class="categories-right">{projectTag?.title}</p>}
+               {tag && <p class="categories-right">{tag}</p>}
               </div>
               {title && <h1 class="project-banner-title">{title}</h1>}
               <div class="desc-with-icon">

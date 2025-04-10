@@ -415,3 +415,15 @@ html.lenis {
 .lenis.lenis-scrolling iframe {
   pointer-events: none;
 }
+
+
+/* cookies-policy  */
+
+#cc-main{
+   position: sticky !important;
+   bottom: 0 !important;
+}
+
+#cc-main .cm{
+   position: absolute !important;
+}

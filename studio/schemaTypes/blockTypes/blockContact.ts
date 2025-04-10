@@ -1,10 +1,12 @@
 import { defineField, defineType } from 'sanity';
 import { richTextSimple } from '../options/richTextOptions';
+import {UserIcon} from '@sanity/icons'
 
 export const blockContact = defineType({
     name: 'blockContact',
-    title: 'Block Contact',
+    title: 'Contact',
     type: 'object',
+    icon:UserIcon,
     fields: [
         defineField({
             name: 'title',

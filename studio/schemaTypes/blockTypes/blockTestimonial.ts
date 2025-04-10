@@ -3,7 +3,7 @@ import { BlockquoteIcon } from '@sanity/icons'
 
 export const blockTestimonial = defineType({
     name: 'blockTestimonial',
-    title: 'Block Testimonial',
+    title: 'Testimonial',
     type: 'object',
     icon: BlockquoteIcon,
     fields: [

@@ -9,6 +9,7 @@ import type {
   SeoType,
 } from "../utils";
 import "../styles/global.css";
+import CookieConsent from "../components/cookieconsent/CookieConsent.astro";
 
 interface Props {
   seo: SeoType;
@@ -164,5 +165,6 @@ const { locale } = Astro.params || {};
       <slot />
     </main>
     <Footer footer={footer} />
+    <CookieConsent />
   </body>
 </html>

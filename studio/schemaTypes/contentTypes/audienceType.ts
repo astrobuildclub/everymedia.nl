@@ -1,9 +1,8 @@
-import { defineType, defineField } from 'sanity'
-import { UsersIcon } from '@sanity/icons'
-import { richTextSimple } from '../options/richTextOptions'
-import { isUniqueWithinLocale } from '../utils/IsUniqueWithinLocale'
-import { supportedLanguages } from '../utils/supportedLanguage'
-
+import {defineType, defineField} from 'sanity'
+import {UsersIcon} from '@sanity/icons'
+import {richTextSimple} from '../options/richTextOptions'
+import {isUniqueWithinLocale} from '../utils/IsUniqueWithinLocale'
+import {supportedLanguages} from '../utils/supportedLanguage'
 
 export const audienceType = defineType({
   name: 'audience',
@@ -11,9 +10,9 @@ export const audienceType = defineType({
   icon: UsersIcon,
   title: 'Audiences',
   groups: [
-    { name: 'hero', title: 'Hero' },
-    { name: 'content', title: 'Content' },
-    { name: 'seo', title: 'SEO' },
+    {name: 'hero', title: 'Hero'},
+    {name: 'content', title: 'Content'},
+    {name: 'seo', title: 'SEO'},
   ],
   fields: [
     defineField({
@@ -21,12 +20,12 @@ export const audienceType = defineType({
       type: 'string',
       readOnly: true,
       hidden: true,
-      group: "hero",
+      group: 'hero',
     }),
     defineField({
       name: 'pageTitle',
       type: 'string',
-      description: "This field is only used for CMS.",
+      description: 'This field is only used for CMS.',
       group: 'hero',
     }),
     defineField({
@@ -45,10 +44,10 @@ export const audienceType = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'Homepage', value: 'homepage' },
-          { title: 'Audience', value: 'audience' },
-          { title: 'Project', value: 'project' },
-          { title: 'Page', value: 'page' },
+          {title: 'Homepage', value: 'homepage'},
+          {title: 'Audience', value: 'audience'},
+          {title: 'Project', value: 'project'},
+          {title: 'Page', value: 'page'},
         ],
         layout: 'radio',
       },
@@ -77,8 +76,8 @@ export const audienceType = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'Video', value: 'heroVideo' },
-          { title: 'Image', value: 'heroImage' },
+          {title: 'Video', value: 'heroVideo'},
+          {title: 'Image', value: 'heroImage'},
         ],
         layout: 'radio',
       },
@@ -89,24 +88,41 @@ export const audienceType = defineType({
       name: 'heroVideo',
       type: 'url',
       group: 'hero',
-      hidden: ({ parent }) => parent?.select !== 'heroVideo',
+      hidden: ({parent}) => parent?.select !== 'heroVideo',
     }),
     defineField({
       name: 'heroImage',
       type: 'sanityImage',
       group: 'hero',
-      hidden: ({ parent }) => parent?.select !== 'heroImage',
+      hidden: ({parent}) => parent?.select !== 'heroImage',
     }),
     defineField({
       name: 'pagebuilder',
       type: 'array',
       title: 'Content',
       of: [
-        {type: 'blockText'},
-        { type: 'blockCards' },
+        {type: 'blockFeetSection'},
+        {type: 'blockAudiencesOverviewSection'},
+        {type: 'blockContact'},
+        {type: 'blockCards'},
         {type: 'blockWorkSelection'},
-        { type: 'blockFaqs' },
-        { type: 'blockContact' },
+        {type: 'blockFaqs'},
+        {type: 'blockText'},
+        {type: 'blockImage'},
+        {type: 'blockIntro'},
+        {type: 'blockTestimonial'},
+        {type: 'blockLogos'},
+        {type: 'blockMultiCol'},
+        {type: 'blockVideo'},
+        {type: 'blockWorkRelated'},
+        {type: 'blockTeamMembers'},
+        {type: 'blockImageGallery'},
+        {type: 'blockEpisodes'},
+        {type: 'blockRichText'},
+        {type: 'featuredProjects'},
+        {type: 'projectsListingSection'},
+        {type: 'blockMediaGallery'},
+        {type: 'blockTextMedia'},
       ],
       group: 'content',
     }),
@@ -119,15 +135,16 @@ export const audienceType = defineType({
   ],
   preview: {
     select: {
-      title: "pageTitle",
-      language: "language"
+      title: 'pageTitle',
+      language: 'language',
     },
-    prepare({ title, language }) {
-      const baseLanguage = supportedLanguages?.find((lan) => lan?.id === language)?.title || "Unknown"
+    prepare({title, language}) {
+      const baseLanguage =
+        supportedLanguages?.find((lan) => lan?.id === language)?.title || 'Unknown'
       return {
-        title: title || "Audience",
+        title: title || 'Audience',
         subtitle: `${baseLanguage} Language`,
-      };
+      }
     },
   },
 })

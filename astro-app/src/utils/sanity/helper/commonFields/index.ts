@@ -42,17 +42,6 @@ ${linkFields}
 }
 `;
 
-{
-    /* Project Tag */
-}
-
-export const projectTagFields = /* groq */ `
-_type,
-_id,
-language,
-title,
-`;
-
 
 {
     /* Project */
@@ -78,9 +67,7 @@ ${imageFields}
 },
 },
 client,
-projectTag->{
-${projectTagFields}
-}
+tag,
 `;
 
 {

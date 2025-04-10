@@ -1,9 +1,11 @@
 import {defineField, defineType} from 'sanity'
+import {TextIcon} from '@sanity/icons'
 
 export const blockRichText = defineType({
   name: 'blockRichText',
-  title: 'Block RichText',
+  title: 'RichText',
   type: 'object',
+  icon: TextIcon,
   fields: [
     defineField({
       name: 'footnote',

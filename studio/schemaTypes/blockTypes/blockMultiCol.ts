@@ -3,7 +3,7 @@ import {InlineIcon} from '@sanity/icons'
 
 export const blockMultiCol = defineType({
   name: 'blockMultiCol',
-  title: 'Block Multi Col',
+  title: 'Multi Column Block',
   type: 'object',
   icon: InlineIcon,
   fields: [

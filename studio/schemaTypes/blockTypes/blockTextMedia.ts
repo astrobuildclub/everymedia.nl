@@ -5,7 +5,7 @@ import { richTextSimple } from '../options/richTextOptions'
 
 export const blockTextMedia = defineType({
     name: 'blockTextMedia',
-    title: "Block Text Media",
+    title: "Text Media",
     type: 'object',
     icon: InlineIcon,
     fields: [
