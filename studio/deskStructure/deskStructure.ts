@@ -1,5 +1,5 @@
 import { StructureBuilder, StructureResolverContext } from 'sanity/structure'
-import { CaseIcon, CogIcon, DocumentIcon, FeedbackIcon, UserIcon, UsersIcon } from '@sanity/icons'
+import { CaseIcon, CogIcon, DocumentIcon, UserIcon, UsersIcon } from '@sanity/icons'
 import { supportedLanguages } from '../schemaTypes/utils/supportedLanguage';
 
 
@@ -56,7 +56,7 @@ export const deskStructure = (S: StructureBuilder, context: StructureResolverCon
         ),
       S.listItem()
         .title("Frequently Asked Question")
-        .icon(FeedbackIcon)
+        // .icon(FeedbackIcon)
         .child(
           S.list()
             .title('Frequently Asked Question')
@@ -64,7 +64,7 @@ export const deskStructure = (S: StructureBuilder, context: StructureResolverCon
               ...supportedLanguages.map((language) =>
                 S.listItem()
                   .title(`${language.title.toLocaleUpperCase()}`)
-                  .icon(FeedbackIcon)
+                  // .icon(FeedbackIcon)
                   .schemaType("faq")
                   .child(
                     S.documentList()
