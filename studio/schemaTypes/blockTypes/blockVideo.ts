@@ -1,12 +1,12 @@
 import {defineType, defineField} from 'sanity'
-import {VideoIcon} from '@sanity/icons'
+// import {VideoIcon} from '@sanity/icons'
 import {mediaSizes} from '../options/mediaSizes'
 
 export const blockVideo = defineType({
   name: 'blockVideo',
   title: 'Video',
   type: 'object',
-  icon: VideoIcon,
+  // icon: VideoIcon,
   fields: [
     defineField({name: 'title', type: 'string'}),
     defineField({
@@ -109,7 +109,7 @@ export const blockVideo = defineType({
       return {
         title: title || 'Block Video',
         subtitle: size ? `size: ${size}` : 'No size specified',
-        media: VideoIcon,
+        // media: VideoIcon,
       }
     },
   },

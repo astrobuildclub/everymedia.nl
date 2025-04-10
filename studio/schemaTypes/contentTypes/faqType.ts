@@ -1,5 +1,5 @@
 import { defineType, defineField } from 'sanity'
-import { FeedbackIcon } from '@sanity/icons'
+// import { FeedbackIcon } from '@sanity/icons'
 import { richTextSimple } from '../options/richTextOptions'
 import { supportedLanguages } from '../utils/supportedLanguage'
 
@@ -8,7 +8,7 @@ export const faqType = defineType({
   name: 'faq',
   type: 'document',
   title: 'FAQ',
-  icon: FeedbackIcon,
+  // icon: FeedbackIcon,
   fields: [
     defineField({
       name: 'language',
