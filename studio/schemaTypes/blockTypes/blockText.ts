@@ -3,10 +3,9 @@ import { DocumentTextIcon } from '@sanity/icons'
 import { richTextSimple } from '../options/richTextOptions'
 import { toPlainText } from '@portabletext/react'
 
-
 export const blockText = defineType({
     name: 'blockText',
-    title: 'Block Text',
+    title: 'Text',
     type: 'object',
     icon: DocumentTextIcon,
     fields: [

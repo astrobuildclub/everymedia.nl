@@ -1,10 +1,12 @@
 import { defineField, defineType } from "sanity"
 import {InfoOutlineIcon} from '@sanity/icons'
+import {ProjectsIcon} from '@sanity/icons'
 
 export const projectsListingSection = defineType({
   name: 'projectsListingSection',
-  title: 'Projects Listing Section',
+  title: 'Projects Listing',
   type: 'object',
+  icon:ProjectsIcon,
   fields: [
     defineField({
       name: 'tagLine',

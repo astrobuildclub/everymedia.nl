@@ -7,7 +7,6 @@ import type {
   RichTextSimpleType,
   SanityImageType,
 } from "./global";
-import type { ProjectTagType } from "./projectTagType";
 import type { ProjectType } from "./projectType";
 import type { TeamType } from "./teamType";
 
@@ -31,7 +30,9 @@ export type PagebuilderType =
   | BlockMultiColType
   | BlockRichTextType
   | FeaturedProjectsType
-  | ProjectsListingSectionType;
+  | ProjectsListingSectionType
+  | BlockMediaGalleryType
+  | BlockTextMediaType
 
 {
   /*  Connect With Us */
@@ -255,6 +256,7 @@ export interface BlockRichTextType {
 
 export interface BlockMediaGalleryType {
   _type: "blockMediaGallery";
+  title:string
   media: Array<SanityImageType>;
 }
 
@@ -323,6 +325,6 @@ export interface HeroViewType {
   heroImage: SanityImageType | undefined;
   select: "heroVideo" | "heroImage" | undefined;
   intro: RichTextSimpleType | undefined;
-  projectTag?: ProjectTagType;
+  tag?: string;
   client?: string;
 }

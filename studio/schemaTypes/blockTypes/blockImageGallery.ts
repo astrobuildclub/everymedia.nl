@@ -1,9 +1,11 @@
 import { defineField, defineType } from "sanity";
+import {ImagesIcon} from '@sanity/icons'
 
 export const blockImageGallery = defineType({
     name: "blockImageGallery",
-    title: "Block Image Gallery",
+    title: "Image Gallery",
     type: "object",
+    icon:ImagesIcon,
     fields: [
         defineField({
             name: 'images',

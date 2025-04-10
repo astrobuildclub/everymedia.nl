@@ -1,6 +1,6 @@
 import groq from "groq";
 import { layoutProps, pagebuilder, seo } from "../../helperQueries";
-import { projectTagFields, richTextSimpleFields } from "../../helper/commonFields";
+import { richTextSimpleFields } from "../../helper/commonFields";
 import { imageFields } from "../../helper/imageFields";
 
 const groqQuery = groq`*[_type == "project" && slug.current==$slug && language == $language][0]{
@@ -29,9 +29,7 @@ ${imageFields}
 },
 },
 client,
-projectTag->{
-${projectTagFields}
-}
+tag,
 
 }`;
 

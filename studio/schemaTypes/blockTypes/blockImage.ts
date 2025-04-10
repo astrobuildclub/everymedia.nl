@@ -1,10 +1,12 @@
 import { defineField, defineType } from 'sanity';
 import { mediaSizes } from '../options/mediaSizes';
+import {ImageIcon} from '@sanity/icons'
 
 export const blockImage = defineType({
   name: 'blockImage',
-  title: 'Block Image',
+  title: 'Image',
   type: 'object',
+  icon:ImageIcon,
   fields: [
     defineField({
       name: 'title',

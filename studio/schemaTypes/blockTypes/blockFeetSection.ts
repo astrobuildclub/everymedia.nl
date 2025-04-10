@@ -1,9 +1,11 @@
 import { defineField, defineType } from 'sanity'
 import { richTextSimple } from '../options/richTextOptions'
+import {ComponentIcon} from '@sanity/icons'
 
 export const blockFeetSection = defineType({
   name: 'blockFeetSection',
-  title: 'Block Feet Section',
+  title: 'Feet Section',
+  icon:ComponentIcon,
   type: 'object',
   fields: [
     defineField({

@@ -28,7 +28,7 @@ const locale = (Astro.params?.locale || defaultLanguage.id)
               intro,
               subtitle,
               client,
-              projectTag,
+              tag,
               slug,
             } = item || {};
             return (
@@ -54,7 +54,7 @@ const locale = (Astro.params?.locale || defaultLanguage.id)
                   <div class="project__meta">
                     <div class="meta">
                       {client && <h4>{client}</h4>}
-                      {projectTag?.title && <p>{projectTag?.title}</p>}
+                      {tag && <p>{tag}</p>}
                     </div>
                     <div class="project-details">
                       {title && (

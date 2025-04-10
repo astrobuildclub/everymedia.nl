@@ -1,10 +1,12 @@
 import {defineField, defineType} from 'sanity'
 import {richTextSimple} from '../options/richTextOptions'
+import {ProjectsIcon} from '@sanity/icons'
 
 export const featuredProjects = defineType({
   name: 'featuredProjects',
   title: 'Featured Projects',
   type: 'object',
+  icon:ProjectsIcon,
   fields: [
     defineField({
       name: 'tagLine',

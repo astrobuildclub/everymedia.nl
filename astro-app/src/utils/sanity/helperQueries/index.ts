@@ -18,11 +18,13 @@ import {
   blockImageGalleryFields,
   blockIntroFields,
   blockLogosFields,
+  blockMediaGalleryFields,
   blockMultiColFields,
   blockRichTextFields,
   blockTeamMembersFields,
   blockTestimonialFields,
   blockTextFields,
+  blockTextMediaFields,
   blockVideoFields,
   blockWorkRelatedFields,
   blockWorkSelectionFields,
@@ -144,6 +146,12 @@ ${featuredProjectsFields}
 },
 (_type == "projectsListingSection") => {
 ${projectsListingSectionFields}
+},
+(_type == "blockTextMedia") => {
+${blockTextMediaFields}
+},
+(_type == "blockMediaGallery") => {
+${blockMediaGalleryFields}
 },
 
 }

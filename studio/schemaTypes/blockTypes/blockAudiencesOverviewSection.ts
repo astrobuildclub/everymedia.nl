@@ -3,10 +3,12 @@
 import { defineField, defineType } from "sanity";
 import { richTextSimple } from "../options/richTextOptions";
 import { toPlainText } from "@portabletext/react";
+import {ComponentIcon} from '@sanity/icons'
 
 export const blockAudiencesOverviewSection = defineType({
     name: "blockAudiencesOverviewSection",
-    title: "Block Audiences Overview Section",
+    title: "Audiences Overview",
+    icon:ComponentIcon,
     type: "object",
     fields: [
         defineField({

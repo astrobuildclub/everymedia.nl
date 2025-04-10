@@ -3,10 +3,15 @@ import { ThLargeIcon } from '@sanity/icons'
 
 export const blockMediaGallery = defineType({
   name: 'blockMediaGallery',
-  title: 'Block Media Gallery',
+  title: 'Media Gallery',
   type: 'object',
   icon: ThLargeIcon,
   fields: [
+    defineField({
+      name: 'title',
+      title: 'Title',
+      type: 'string',
+    }),
     defineField({
       name: 'media',
       type: 'array',
