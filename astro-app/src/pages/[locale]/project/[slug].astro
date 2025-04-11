@@ -13,7 +13,7 @@ export async function getStaticPaths() {
     })) || [];
 
   const paths =
-    allSlugs.map((item) => ({
+    allSlugs.map((item: Pick<ProjectType, "slug" | "language">) => ({
       params: { slug: item?.slug, locale: item?.language },
     })) || [];
 
@@ -38,7 +38,7 @@ const {
   variants,
   client,
   tag,
-  defaultSeoProps
+  defaultSeoProps,
 } = pageData || {};
 const heroPage = {
   title,
@@ -49,7 +49,7 @@ const heroPage = {
   intro,
   pageTitle,
   client,
-  tag
+  tag,
 };
 ---
 

@@ -17,6 +17,9 @@ export default defineConfig({
       dataset: dataset,
       apiVersion: apiVersion,
       useCdn: useCdn,
+      stega: {
+        studioUrl: import.meta.env.PUBLIC_SANITY_STUDIO_URL || "http://localhost:3333",
+      },
     }),
   ],
   vite: {
@@ -26,6 +29,7 @@ export default defineConfig({
     remotePatterns: [
       {
         protocol: "https",
+        hostname: "cdn.sanity.io",
       },
     ],
   },

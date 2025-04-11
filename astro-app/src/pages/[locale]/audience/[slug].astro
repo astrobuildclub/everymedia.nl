@@ -13,7 +13,7 @@ export async function getStaticPaths() {
     })) || [];
 
   const paths =
-    allSlugs.map((item) => ({
+    allSlugs.map((item: Pick<AudienceType, "slug" | "language">) => ({
       params: { slug: item?.slug, locale: item?.language },
     })) || [];
 

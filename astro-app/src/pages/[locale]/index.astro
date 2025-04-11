@@ -20,7 +20,7 @@ language
     })) || [];
 
   const paths =
-    allSlugs.map((item) => ({
+    allSlugs.map((item: Pick<PageType, "slug" | "language">) => ({
       params: { locale: item?.language },
     })) || [];
 
@@ -43,7 +43,7 @@ const {
   variants,
   intro,
   pageTitle,
-  defaultSeoProps
+  defaultSeoProps,
 } = pageData || {};
 const heroPage = {
   title,

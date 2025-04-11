@@ -25,7 +25,7 @@ const variantClasses = buttonVariants["white"] || "";
     return (
       <article class="audience">
         <div class="content-wrapper">
-          {title && (
+          {/* {title && (
             <SanityLink
               href={
                 typeof slug === "object" && slug?.current
@@ -39,7 +39,7 @@ const variantClasses = buttonVariants["white"] || "";
             >
               <h3 class="title">{title}</h3>
             </SanityLink>
-          )}
+          )} */}
           {intro && (
             <div class="intro">
               <PortableText value={intro} />
@@ -97,9 +97,9 @@ const variantClasses = buttonVariants["white"] || "";
 
     .content-wrapper {
       padding: 1.688rem;
-      border-radius: 0.375rem;
-      background: black;
-      backdrop-filter: blur(40px);
+      border-radius: var(--space-3xs);
+      background: rgba(0, 0, 0, 0.40);
+      backdrop-filter: blur(calc(var(--space-s) / 2));
       position: absolute;
       inset-inline: calc(var(--spacing) * 9);
       bottom: calc(var(--spacing) * 9);
