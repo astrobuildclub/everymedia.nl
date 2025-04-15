@@ -6,6 +6,7 @@ import SimpleVideo from "./SimpleVideo.astro";
 import SanityLink from "./SanityLink.astro";
 import { routes } from "../../lib/router";
 import { defaultLanguage } from "../../lib/helperFunctions";
+import { stegaClean } from "@sanity/client/stega";
 
 interface Props {
   project: ProjectType;
@@ -13,15 +14,18 @@ interface Props {
 const {
   title,
   heroImage,
-  select,
+  select: Select,
   heroVideo,
   subtitle,
   intro,
   client,
   tag,
   slug,
+  _type,
+  _id,
 } = Astro.props.project || {};
-const locale = (Astro.params?.locale || defaultLanguage.id) 
+const locale = Astro.params?.locale || defaultLanguage.id;
+const select = stegaClean(Select || "");
 ---
 
 {
@@ -32,7 +36,14 @@ const locale = (Astro.params?.locale || defaultLanguage.id)
           <div>
             {select === "heroImage" && heroImage && (
               <div class="media-container">
-                <SanityImage src={heroImage} className="media" />
+                <SanityImage
+                  src={heroImage}
+                  className="media"
+                  captionClassName="caption-style"
+                  documentId={_id}
+                  documentType={_type}
+                  sanityFieldName="heroImage"
+                />
               </div>
             )}
             {select === "heroVideo" && heroVideo && (
@@ -42,6 +53,9 @@ const locale = (Astro.params?.locale || defaultLanguage.id)
                   loop={true}
                   className="media"
                   videoUrl={heroVideo}
+                  documentId={_id}
+                  documentType={_type}
+                  sanityFieldName="heroVideo"
                 />
               </div>
             )}
@@ -55,13 +69,12 @@ const locale = (Astro.params?.locale || defaultLanguage.id)
               {title && (
                 <SanityLink
                   href={
-                    typeof slug === "object"
-                      && slug?.current
-                        ? routes?.project({
-                            language: locale ?? "",
-                            slug: slug?.current,
-                          })
-                        : "#"
+                    typeof slug === "object" && slug?.current
+                      ? routes?.project({
+                          language: locale ?? "",
+                          slug: slug?.current,
+                        })
+                      : "#"
                   }
                 >
                   <h3>{title}</h3>
@@ -131,9 +144,8 @@ const locale = (Astro.params?.locale || defaultLanguage.id)
 
       h3 {
         font-weight: 700;
-        font-family: var(--font-heading);
+        font-family: var(--font-primary);
         font-size: var(--fs-2);
-        letter-spacing: -0.025em;
         line-height: 1;
         color: var(--blue-gray-900);
         text-transform: uppercase;
@@ -145,6 +157,7 @@ const locale = (Astro.params?.locale || defaultLanguage.id)
         letter-spacing: -2%;
         line-height: 112%;
         font-weight: 500;
+        font-family: var(--font-primary) !important;
       }
 
       .intro-text {

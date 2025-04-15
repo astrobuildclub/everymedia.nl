@@ -13,12 +13,18 @@ const { teamMembers = [] } = Astro.props || {};
     return (
       <div class="team-group">
         {teamMembers?.map((item) => {
-          const { name, image, role } = item || {};
+          const { name, image, role, _id, _type } = item || {};
           return (
             <div class="team-card">
               {image && (
                 <div class="team-image">
-                  <SanityImage src={image} className="team-box-image" />
+                  <SanityImage
+                    src={image}
+                    className="team-box-image"
+                    documentId={_id}
+                    documentType={_type}
+                    sanityFieldName="image"
+                  />
                 </div>
               )}
 

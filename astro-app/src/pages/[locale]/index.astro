@@ -1,11 +1,11 @@
 ---
 import groq from "groq";
-import Pagebuilder from "../../components/commons/Pagebuilder.astro";
 import HeroView from "../../components/HeroView.astro";
 import Layout from "../../layouts/Layout.astro";
-import { type PageType } from "../../utils";
+import { type HeroViewType, type PageType } from "../../utils";
 import { getPage } from "../../utils/sanity/getPage";
 import { loadQuery } from "../../lib/load-query";
+import Section from "../../components/commons/Section.astro";
 
 export async function getStaticPaths() {
   const pageSlugQuery = groq`
@@ -20,7 +20,7 @@ language
     })) || [];
 
   const paths =
-    allSlugs.map((item) => ({
+    allSlugs.map((item: Pick<PageType, "slug" | "language">) => ({
       params: { locale: item?.language },
     })) || [];
 
@@ -43,9 +43,11 @@ const {
   variants,
   intro,
   pageTitle,
-  defaultSeoProps
+  defaultSeoProps,
+  _id,
+  _type,
 } = pageData || {};
-const heroPage = {
+const heroPage: HeroViewType = {
   title,
   subtitle,
   heroVideo,
@@ -53,6 +55,8 @@ const heroPage = {
   select,
   intro,
   pageTitle,
+  documentId: _id || "",
+  documentType: _type || "",
 };
 ---
 
@@ -63,9 +67,14 @@ const heroPage = {
   heroVariants={variants}
   currentPath={`/${locale}`}
 >
-  <HeroView heroVariants={variants} data={heroPage} />
+  <HeroView data={heroPage} heroVariants={variants} />
   {
-    Array.isArray(pagebuilder) &&
-      pagebuilder?.map((i) => <Pagebuilder data={i} />)
+    Array.isArray(pagebuilder) && (
+      <Section
+        sections={pagebuilder}
+        documentId={_id || ""}
+        documentType={_type || ""}
+      />
+    )
   }
 </Layout>

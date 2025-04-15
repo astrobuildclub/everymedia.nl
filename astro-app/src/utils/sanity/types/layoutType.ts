@@ -1,47 +1,61 @@
-import type { LabelLinkType, RichTextSimpleType, SanityImageType } from "./global";
+import type {
+  LabelLinkType,
+  RichTextSimpleType,
+  SanityImageType,
+} from "./global";
 
-
-
-{/* Nav Item */ }
+{
+  /* Nav Item */
+}
 
 export interface NavItemType {
-    _type: "navItem";
-    headline: string
-    labelLinks: LabelLinkType[]
+  _type: "navItem";
+  headline: string;
+  labelLinks: LabelLinkType[];
 }
 
-{/* Header */ }
+{
+  /* Header */
+}
 
 export interface HeaderType {
-    _type?: "header";
-    logo?: SanityImageType;
-    navItems?: NavItemType[]
+  _type?: "header";
+  _id?: string;
+  logo?: SanityImageType;
+  navItems?: NavItemType[];
 }
 
-{/* Footer Link */ }
+{
+  /* Footer Link */
+}
 
 export interface FooterLinkType {
-    _type: "footerLink";
-    title?: string;
-    select: "labelLinks" | "body"
-    labelLinks: LabelLinkType[]
-    body: RichTextSimpleType
+  _type: "footerLink";
+  title?: string;
+  select: "labelLinks" | "body";
+  labelLinks: LabelLinkType[];
+  body: RichTextSimpleType;
 }
 
-{/* Footer */ }
+{
+  /* Footer */
+}
 
 export interface FooterType {
-    _type: "footer";
-    title: RichTextSimpleType
-    footerLinks: FooterLinkType[]
+  _type: "footer";
+  _id?: string;
+  title: RichTextSimpleType;
+  footerLinks: FooterLinkType[];
 }
 
-{/* Layout Props Type */ }
+{
+  /* Layout Props Type */
+}
 
 export interface LayoutPropsType {
-    _id?: string
-    _type?: 'siteSettings',
-    language: string;
-    header: HeaderType
-    footer: FooterType
+  _id?: string;
+  _type?: "siteSettings";
+  language: string;
+  header: HeaderType;
+  footer: FooterType;
 }

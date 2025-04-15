@@ -7,6 +7,7 @@ import type { DefaultSeoPropsType, HeroVariantType, Slug } from "./common";
 
 export interface AudienceType extends SanityDocument {
   _id: string;
+  _type: string;
   slug: string | Slug;
   seo: SeoType;
   pagebuilder: PagebuilderType[];

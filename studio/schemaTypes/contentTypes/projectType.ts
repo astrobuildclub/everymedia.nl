@@ -90,6 +90,8 @@ export const projectType = defineType({
       type: 'url',
       group: 'hero',
       hidden: ({parent}) => parent?.select !== 'heroVideo',
+      description:
+      'Example: https://videos.pexels.com/video-files/3578881/3578881-uhd_2560_1440_30fps.mp4',
     }),
     defineField({
       name: 'heroImage',
@@ -105,7 +107,7 @@ export const projectType = defineType({
     },
     {
       name: 'tag',
-      title: 'Tag',
+      title: 'Award',
       type: 'string',
       group: 'hero',
     },

@@ -1,7 +1,6 @@
 import groq from "groq";
 import { defaultSeoProps, layoutProps, pagebuilder, seo } from "../../helperQueries";
-import { richTextSimpleFields } from "../../helper/commonFields";
-import { imageFields } from "../../helper/imageFields";
+import { heroViewFields } from "../../helper/commonFields";
 
 
 const groqQuery = groq`*[_type == "page" && slug.current==$slug && language == $language][0]{
@@ -14,21 +13,18 @@ ${pagebuilder},
 "layoutProps":${layoutProps},
 "defaultSeoProps":${defaultSeoProps},
 language,
-pageTitle,
 variants,
-title,
-subtitle,
-intro[]{
-${richTextSimpleFields}
+(@.variants=="homepage") => { 
+${heroViewFields}
 },
-select,
-(@.select=="heroVideo") => { 
-heroVideo,
+(@.variants=="audience") => { 
+${heroViewFields}
 },
-(@.select=="heroImage") => { 
-heroImage{
-${imageFields}
+(@.variants=="project") => { 
+${heroViewFields}
 },
+(@.variants=="page") => { 
+${heroViewFields}
 },
 
 }

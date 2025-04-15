@@ -11,33 +11,31 @@ const markTypeIs = (markType: string) => markType === node.markType;
 ---
 
 {
-    markTypeIs("code") ? (
-        <code {...attrs}>
-            <slot />
-        </code>
-    ) : markTypeIs("em") ? (
-        <em {...attrs}>
-            <slot />
-        </em>
-    ) : markTypeIs("link") ? (
-        <SanityLink
-            href={(node as unknown as Mark<LinkProps>).markDef}
-        >
-            <slot />
-        </SanityLink>
-    ) : markTypeIs("strike-through") ? (
-        <del {...attrs}>
-            <slot />
-        </del>
-    ) : markTypeIs("strong") ? (
-        <strong {...attrs} class="strong-text">
-            <slot />
-        </strong>
-    ) : markTypeIs("underline") ? (
-        <span style="text-decoration: underline;" {...attrs}>
-            <slot />
-        </span>
-    ) : null
+  markTypeIs("code") ? (
+    <code {...attrs}>
+      <slot />
+    </code>
+  ) : markTypeIs("em") ? (
+    <em {...attrs}>
+      <slot />
+    </em>
+  ) : markTypeIs("link") ? (
+    <SanityLink href={(node as unknown as Mark<LinkProps>).markDef}>
+      <slot />
+    </SanityLink>
+  ) : markTypeIs("strike-through") ? (
+    <del {...attrs}>
+      <slot />
+    </del>
+  ) : markTypeIs("strong") ? (
+    <strong {...attrs} class="strong-text">
+      <slot />
+    </strong>
+  ) : markTypeIs("underline") ? (
+    <span style="text-decoration: underline;" {...attrs}>
+      <slot />
+    </span>
+  ) : null
 }
 
 <style>

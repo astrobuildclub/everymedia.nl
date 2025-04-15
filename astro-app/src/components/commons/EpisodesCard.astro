@@ -1,4 +1,5 @@
 ---
+import { stegaClean } from "@sanity/client/stega";
 import type { EpisodeType } from "../../utils";
 import VimeoVideo from "../commons/VimeoVideo.astro";
 import YoutubeVideo from "../commons/YoutubeVideo.astro";
@@ -23,7 +24,7 @@ const { episodes } = Astro.props || {};
               thumbnailUrl,
               thumbnailFile,
               vimeoId,
-              select,
+              select: Select,
               youtubeId,
             } = item || {};
             const poster =
@@ -32,6 +33,8 @@ const { episodes } = Astro.props || {};
                 : thumbType === "url"
                   ? thumbnailUrl
                   : "";
+            const select = stegaClean(Select || "");
+
             return (
               <article class="swiper-slide">
                 <div class="project__meta">

@@ -19,23 +19,45 @@ const { title, faqs } = Astro.props.data || {};
           <ul class="faq-list">
             {faqs?.map((item, index) => {
               const { question, answer } = item || {};
+              const isOpen = index === 0; // open first item
               return (
-                <li class="faq-item" id={`faq-item-${index}`}>
+                <li
+                  class={`faq-item ${isOpen ? "faq-item-active" : ""}`}
+                  id={`faq-item-${index}`}
+                >
                   <button class="faq-question" data-index={index}>
-                    <h3 class="faq-question-title">{question}</h3>
-                    <span class="faq-icon open" data-index={index}>
+                    <h3
+                      class={`faq-question-title ${
+                        isOpen ? "faq-question-title-active" : ""
+                      }`}
+                    >
+                      {question}
+                    </h3>
+                    <span
+                      class="faq-icon open"
+                      data-index={index}
+                      style={
+                        isOpen ? "display: none;" : "display: inline-block;"
+                      }
+                    >
                       <PlusCircle />
                     </span>
                     <span
                       class="faq-icon close"
                       data-index={index}
-                      style="display: none;"
+                      style={
+                        isOpen ? "display: inline-block;" : "display: none;"
+                      }
                     >
                       <MinusCircle />
                     </span>
                   </button>
                   {answer && (
-                    <div id={`faq-answer-${index}`} class="faq-answer">
+                    <div
+                      id={`faq-answer-${index}`}
+                      class={`faq-answer ${isOpen ? "open" : ""}`}
+                      style={isOpen ? "height: auto;" : ""}
+                    >
                       <PortableText value={answer} />
                     </div>
                   )}
@@ -54,36 +76,34 @@ const { title, faqs } = Astro.props.data || {};
     document.querySelectorAll(".faq-question").forEach((button) => {
       button.addEventListener("click", (event) => {
         const target = event.currentTarget as HTMLButtonElement;
-        const index = target.getAttribute("data-index");
+        const index = target?.getAttribute("data-index");
         const answer = document.getElementById(
           `faq-answer-${index}`
         ) as HTMLElement;
         const plusIcon = target.querySelector(".open") as HTMLElement;
-        const minusIcon = target.querySelector(".close") as HTMLElement;
-        const parentItem = target.closest(".faq-item");
+        const minusIcon = target?.querySelector(".close") as HTMLElement;
+        const parentItem = target.closest(".faq-item") as HTMLElement;
         const questionTitle = target.querySelector(".faq-question-title");
+
         document.querySelectorAll(".faq-answer.open").forEach((openAnswer) => {
-          const openAnswerElement = openAnswer as HTMLElement;
-          if (openAnswerElement !== answer) {
+          if (openAnswer !== answer) {
             const openPlusIcon =
-              openAnswerElement.previousElementSibling?.querySelector(
-                ".open"
-              ) as HTMLElement;
+              openAnswer.previousElementSibling?.querySelector(".open");
             const openMinusIcon =
-              openAnswerElement.previousElementSibling?.querySelector(
-                ".close"
-              ) as HTMLElement;
-            const openItem = openAnswerElement.closest(".faq-item");
+              openAnswer.previousElementSibling?.querySelector(".close");
+            const openItem = openAnswer.closest(".faq-item");
             const openQuestionTitle =
-              openAnswerElement.previousElementSibling?.querySelector(
+              openAnswer.previousElementSibling?.querySelector(
                 ".faq-question-title"
               );
 
-            openAnswerElement.style.height = "0px";
-            openAnswerElement.classList.remove("open");
+            (openAnswer as HTMLElement).style.height = "0px";
+            openAnswer.classList.remove("open");
 
-            if (openPlusIcon) openPlusIcon.style.display = "inline-block";
-            if (openMinusIcon) openMinusIcon.style.display = "none";
+            if (openPlusIcon)
+              (openPlusIcon as HTMLElement).style.display = "inline-block";
+            if (openMinusIcon)
+              (openMinusIcon as HTMLElement).style.display = "none";
             if (openItem) openItem.classList.remove("faq-item-active");
             if (openQuestionTitle)
               openQuestionTitle.classList.remove("faq-question-title-active");
@@ -196,7 +216,6 @@ const { title, faqs } = Astro.props.data || {};
     font-family: var(--font-body);
     line-height: 133%;
     font-size: var(--fs--1);
-
     transition: all 0.2s ease-in-out;
     text-align: left;
   }

@@ -4,7 +4,7 @@ import {ComponentIcon} from '@sanity/icons'
 
 export const blockFeetSection = defineType({
   name: 'blockFeetSection',
-  title: 'Feet Section',
+  title: 'Feat Projects',
   icon:ComponentIcon,
   type: 'object',
   fields: [

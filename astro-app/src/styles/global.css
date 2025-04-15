@@ -44,7 +44,7 @@
   --font-instrument: "Instrument Sans", sans-serif;
   --gutter: 1rem;
   --grid-gutter: 1.5rem;
-  --type-size: 21vw;
+  --type-size: 23vw;
   --type-pos: calc(var(--type-size) * 1);
   --type-translate: 200%;
   --leading-tight: 112.5%;
@@ -210,24 +210,65 @@ pre {
     U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+
+/* Antarctica VAR - normal */
 @font-face {
-  font-family: "Antarctica VAR";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 1 1000;
-  src: url("https://db.onlinewebfonts.com/t/e781d1cba25f85543d695ab1c049cbf2.eot");
-  src:
-    url("https://db.onlinewebfonts.com/t/e781d1cba25f85543d695ab1c049cbf2.eot?#iefix")
-      format("embedded-opentype"),
-    url("https://db.onlinewebfonts.com/t/e781d1cba25f85543d695ab1c049cbf2.woff2")
-      format("woff2"),
-    url("https://db.onlinewebfonts.com/t/e781d1cba25f85543d695ab1c049cbf2.woff")
-      format("woff"),
-    url("https://db.onlinewebfonts.com/t/e781d1cba25f85543d695ab1c049cbf2.ttf")
-      format("truetype"),
-    url("https://db.onlinewebfonts.com/t/e781d1cba25f85543d695ab1c049cbf2.svg#Antarctica VAR")
-      format("svg");
-}
+   font-family: 'Antarctica VAR';
+   src: url('../../public/fonts/antarcticas/Antarctica-Regular.ttf') format('truetype');
+   font-weight: normal;
+   font-display: swap;
+   
+ }
+
+/* Antarctica VAR - medium */
+@font-face {
+   font-family: 'Antarctica VAR';
+   src: url('../../public/fonts/antarcticas/Antarctica-Medium.ttf') format('truetype');
+   font-weight: 500;
+   font-display: swap;
+ }
+
+ /* Antarctica VAR - semibold */
+@font-face {
+   font-family: 'Antarctica VAR';
+   src: url('../../public/fonts/antarcticas/Antarctica-SemiBold.ttf') format('truetype');
+   font-weight: 600;
+   font-display: swap;
+ }
+ 
+ /* Antarctica VAR - extrabold */
+@font-face {
+   font-family: 'Antarctica VAR';
+   src: url('../../public/fonts/antarcticas/Antarctica-UltraCondExtBd.ttf') format('truetype');
+   font-weight: 800;
+   font-display: swap;
+ }
+
+ /* Antarctica VAR - ExtraCondLight */
+@font-face {
+   font-family: 'Antarctica VAR';
+   src: url('../../public/fonts/antarcticas/Antarctica-ExtraCondLight.ttf') format('truetype');
+   font-weight: 300;
+   font-display: swap;
+ }
+
+ /* Antarctica VAR - ExtraCondensedBold */
+@font-face {
+   font-family: 'Antarctica VAR';
+   src: url('../../public/fonts/antarcticas/Antarctica-ExtraCondensedBold.ttf') format('truetype');
+   font-weight: 700;
+   font-display: swap;
+ }
+ 
+ /* Antarctica VAR - CondensedMedium */
+@font-face {
+   font-family: 'Antarctica VAR';
+   src: url('../../public/fonts/antarcticas/Antarctica-CondensedMedium.ttf') format('truetype');
+   font-weight: 500;
+   font-display: swap;
+ }
+
+
 
 body {
   font-family: var(--font-body);
@@ -255,8 +296,8 @@ ul,ol{
 }
 
 .em-title {
-  font-family: var(--font-heading);
-  font-weight: 900;
+  font-family: var(--font-primary);
+  font-weight: 800; 
   text-transform: uppercase;
   line-height: 100%;
 }
@@ -326,6 +367,7 @@ figure{
 @supports (animation-timeline: --section-pin-tl) {
   .audience {
     position: relative;
+    min-height: 100dvh;
   }
 
   #sectionPin {
@@ -333,58 +375,50 @@ figure{
     --gutter: var(--space-xl);
     --debug: green;
 
-    /* Stretch it out, so that we create room for the horizontal scroll animation */
     height: 500vh;
     overflow: visible;
-    /* To make position sticky work … */
     view-timeline-name: --section-pin-tl;
     view-timeline-axis: block;
+    min-height: 100%;
   }
 
   .pin-wrap-sticky {
-    /* Stick to Top */
     height: 100vh;
-    width: 100vw;
     position: sticky;
     top: 0;
     width: 100vw;
     overflow-x: hidden;
-  }
-
-  .pin-wrap {
-    display: flex;
-    /* Flex-indeling voor de animatie */
-    animation: move linear forwards;
-    animation-timeline: --section-pin-tl;
-    animation-range: contain 0% contain 100%;
-    will-change: transform;
-    gap: var(--grid-gutter); 
-  }
-
-  .pin-wrap {
-    height: 100vh;
-    width: calc(300vmax - var(--margin) * 2);
-    /* length of scroll */
-    /* Hook animation */
-    will-change: transform;
-    animation: linear move forwards;
-
-    /* Link animation to view-timeline */
-    animation-timeline: --section-pin-tl;
-    animation-range: contain 0% contain 100%;
+    /* min-height: 100dvh; */
   }
 
   .pin-wrap {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding: var(--margin) var(--margin);
+    animation: linear move forwards;
+    animation-timeline: --section-pin-tl;
+    animation-range: contain 0% contain 100%;
+    will-change: transform;
+    gap: var(--space-xl); 
+    padding: var(--space-xl) var(--space-xl);
+    padding-top: 0 !important;
+    width: calc(300vmax - var(--space-xl) * 2);
+    max-width: fit-content;
+  }
+
+  .pin-wrap {
+   height: 100vh;
+    /* width: calc(300vmax - var(--space-xl) * 2); */
+    will-change: transform;
+    animation: linear move forwards;
+     animation-timeline: --section-pin-tl;
+     animation-range: contain 0% contain 100%;
   }
 
   .pin-wrap > * {
     min-width: 100vmax;
-    min-width: calc(100vmax - var(--margin) * 2);
-    width: calc(100vmax - var(--margin) * 2);
+    min-width: calc(100vmax - var(--space-xl) * 2);
+    width: calc(100vmax - var(--space-xl) * 2);
     padding: 0 0vmax;
   }
 }

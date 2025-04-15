@@ -23,7 +23,7 @@ export interface SanityData {
   imageUrl?: string;
 }
 
-const siteUrl = import.meta.env.VITE_SITE_URL || "http://localhost:4321"
+const siteUrl = import.meta.env.VITE_SITE_URL || "http://localhost:4321";
 
 const defaultSitemapEntries: SitemapEntry[] = supportedLocales?.map(
   (locale) => {
@@ -69,14 +69,16 @@ export async function GET() {
     query: sitemapQuery.query.groqQuery,
   });
 
-  const dynamicEntries: SitemapEntry[] = sanityData?.map((route) => {
-    return {
-      url: `${siteUrl}/${route?.locUrl}`,
-      lastModified: new Date(route._updatedAt).toISOString(),
-      priority: 0.5,
-      imageUrl: route?.imageUrl,
-    };
-  });
+  const dynamicEntries: SitemapEntry[] = sanityData?.map(
+    (route: SanityData) => {
+      return {
+        url: `${siteUrl}/${route?.locUrl}`,
+        lastModified: new Date(route._updatedAt).toISOString(),
+        priority: 0.5,
+        imageUrl: route?.imageUrl,
+      };
+    }
+  );
 
   const sitemapEntries = [...defaultSitemapEntries, ...dynamicEntries];
   const sitemapXml = generateSitemapXml(sitemapEntries);

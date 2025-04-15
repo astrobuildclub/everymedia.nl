@@ -7,7 +7,7 @@ import {ComponentIcon} from '@sanity/icons'
 
 export const blockAudiencesOverviewSection = defineType({
     name: "blockAudiencesOverviewSection",
-    title: "Audiences Overview",
+    title: "Audiences Carousel",
     icon:ComponentIcon,
     type: "object",
     fields: [

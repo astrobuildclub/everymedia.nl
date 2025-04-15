@@ -1,9 +1,13 @@
 ---
-import Pagebuilder from "../../../components/commons/Pagebuilder.astro";
+import Section from "../../../components/commons/Section.astro";
 import HeroView from "../../../components/HeroView.astro";
 import Layout from "../../../layouts/Layout.astro";
 import { loadQuery } from "../../../lib/load-query";
-import { projectQuery, type ProjectType } from "../../../utils";
+import {
+  projectQuery,
+  type HeroViewType,
+  type ProjectType,
+} from "../../../utils";
 import { getProject } from "../../../utils/sanity/getProject";
 
 export async function getStaticPaths() {
@@ -13,7 +17,7 @@ export async function getStaticPaths() {
     })) || [];
 
   const paths =
-    allSlugs.map((item) => ({
+    allSlugs.map((item: Pick<ProjectType, "slug" | "language">) => ({
       params: { slug: item?.slug, locale: item?.language },
     })) || [];
 
@@ -38,9 +42,11 @@ const {
   variants,
   client,
   tag,
-  defaultSeoProps
+  defaultSeoProps,
+  _id,
+  _type,
 } = pageData || {};
-const heroPage = {
+const heroPage: HeroViewType = {
   title,
   subtitle,
   heroVideo,
@@ -49,7 +55,9 @@ const heroPage = {
   intro,
   pageTitle,
   client,
-  tag
+  tag,
+  documentId: _id || "",
+  documentType: _type || "",
 };
 ---
 
@@ -60,9 +68,14 @@ const heroPage = {
   heroVariants={variants}
   currentPath={`/${locale}/project/${slug}`}
 >
-  <HeroView heroVariants={variants} data={heroPage} />
+  <HeroView data={heroPage} heroVariants={variants} />
   {
-    Array.isArray(pagebuilder) &&
-      pagebuilder?.map((i) => <Pagebuilder data={i} />)
+    Array.isArray(pagebuilder) && (
+      <Section
+        sections={pagebuilder}
+        documentId={_id || ""}
+        documentType={_type || ""}
+      />
+    )
   }
 </Layout>

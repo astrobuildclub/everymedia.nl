@@ -2,12 +2,14 @@
 import { PortableText } from "astro-portabletext";
 import type { BlockTextMediaType } from "../../utils";
 import SanityImage from "../commons/SanityImage.astro";
+import { stegaClean } from "@sanity/client/stega";
 
 interface Props {
   data: BlockTextMediaType;
 }
 
-const { title, image, alignment, intro } = Astro.props.data || {};
+const { title, image, alignment:Alignment, intro } = Astro.props.data || {};
+const alignment = stegaClean(Alignment || "");
 ---
 
 {

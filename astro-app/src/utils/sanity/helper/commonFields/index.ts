@@ -208,6 +208,28 @@ url,
 `;
 
 {
+    /* Hero View */
+}
+
+export const heroViewFields = /* groq */ `
+title,
+pageTitle,
+subtitle,
+intro[]{
+${richTextSimpleFields}
+},
+select,
+(@.select=="heroVideo") => { 
+heroVideo,
+},
+(@.select=="heroImage") => { 
+heroImage{
+${imageFields}
+},
+},
+`;
+
+{
     /* Contact */
 }
 

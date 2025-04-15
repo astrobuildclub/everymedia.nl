@@ -5,6 +5,7 @@ import ProjectGridHomepage from "../ProjectGridHomepage.astro";
 import SanityButton from "../commons/SanityButton.astro";
 import { cn } from "../../lib/helperFunctions";
 import SanityLink from "../commons/SanityLink.astro";
+import { stegaClean } from "@sanity/client/stega";
 
 interface Props {
   data: BlockFeetSectionType;
@@ -42,7 +43,8 @@ const {
           {connectWithUs?.length > 0 && (
             <div class="connect-section">
               {connectWithUs?.map((item) => {
-                const { body, title, select, labelLinks } = item || {};
+                const { body, title, select: Select, labelLinks } = item || {};
+                const select = stegaClean(Select || "");
                 return (
                   <div
                     class={cn(
@@ -65,7 +67,9 @@ const {
                             const { link, label } = item || {};
                             return (
                               <li>
-                                <SanityLink href={link} class="label-link">{label}</SanityLink>
+                                <SanityLink href={link} class="label-link">
+                                  {label}
+                                </SanityLink>
                               </li>
                             );
                           })}
@@ -116,6 +120,12 @@ const {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       position: relative;
+      padding-bottom: 4.5rem;
+
+         @media (min-width: 767px) {
+          padding-bottom: 6rem;
+        }
+      
 
       .title-container {
         grid-row: span 2;
@@ -129,8 +139,8 @@ const {
           .title {
             font-size: var(--type-size);
             color: var(--charcoal-gray);
-            font-weight: bold;
-            font-family: var(--font-heading);
+            font-weight: 800;
+            font-family: var(--font-primary);
             text-transform: uppercase;
             line-height: 100%;
           }
@@ -165,7 +175,6 @@ const {
         z-index: -1;
         gap: var(--space-xs);
         padding: var(--space-xs);
-        padding-bottom: 4.5rem;
 
         @media (max-width: 767px) {
           grid-template-columns: repeat(2, 1fr);
@@ -232,11 +241,9 @@ const {
         display: grid;
         padding: var(--space-xs);
         padding-top: var(--space-s);
-        padding-bottom: 4.5rem;
+        padding-bottom: 0;
 
-        @media (min-width: 767px) {
-          padding-bottom: 6rem;
-        }
+      
 
         .content-box {
           display: flex;
@@ -250,6 +257,7 @@ const {
               line-height: 133%;
               color: var(--neutrals-black);
               font-weight: 500;
+              font-family: var(--font-primary);
             }
           }
 
@@ -258,6 +266,7 @@ const {
             line-height: 133%;
             font-weight: normal;
             color: var(--neutrals-black);
+            font-family: var(--font-body);
           }
         }
 

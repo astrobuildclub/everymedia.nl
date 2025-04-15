@@ -1,0 +1,46 @@
+---
+import { dataset, projectId, sanityStudioUrl } from "../../lib/sanity";
+import type { PagebuilderType } from "../../utils";
+import Pagebuilder from "./Pagebuilder.astro";
+import { createDataAttribute } from "@sanity/visual-editing";
+
+interface Props {
+  sections: PagebuilderType[];
+  documentId: string;
+  documentType: string;
+}
+const config = {
+  projectId: projectId,
+  dataset: dataset,
+  baseUrl: sanityStudioUrl,
+}
+const { sections, documentId, documentType } = Astro.props || {};
+---
+
+{
+  (() => {
+    return (
+      <div
+        data-sanity={createDataAttribute({
+          ...config,
+          id: documentId,
+          type: documentType,
+          path: "pagebuilder",
+        }).toString()}
+      >
+        {sections?.map((section) => (
+          <div
+            data-sanity={createDataAttribute({
+              ...config,
+              id: documentId,
+              type: documentType,
+              path: `pagebuilder[_key=="${section._key}"]`,
+            }).toString()}
+          >
+            <Pagebuilder data={section} />
+          </div>
+        ))}
+      </div>
+    );
+  })()
+}

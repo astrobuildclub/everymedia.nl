@@ -3,12 +3,23 @@ import { PortableText } from "astro-portabletext";
 import type { HeroViewType } from "../utils";
 import SanityImage from "./commons/SanityImage.astro";
 import SimpleVideo from "./commons/SimpleVideo.astro";
+import { stegaClean } from "@sanity/client/stega";
 
 interface Props {
   data: HeroViewType;
 }
-const { title, heroVideo, subtitle, heroImage, select, intro, pageTitle } =
-  Astro.props.data || {};
+const {
+  title,
+  heroVideo,
+  subtitle,
+  heroImage,
+  select: Select,
+  intro,
+  pageTitle,
+  documentId,
+  documentType
+} = Astro.props.data || {};
+const select = stegaClean(Select || "");
 ---
 
 {
@@ -33,13 +44,22 @@ const { title, heroVideo, subtitle, heroImage, select, intro, pageTitle } =
               loop={true}
               className="page-hero-video"
               videoUrl={heroVideo}
+              documentId={documentId}
+              documentType={documentType}
+              sanityFieldName="heroVideo"
             />
           </div>
         )}
 
         {select === "heroImage" && heroImage && (
           <div class="page-hero-right">
-            <SanityImage src={heroImage} className="page-hero-image" />
+            <SanityImage
+              src={heroImage}
+              className="page-hero-image"
+              documentId={documentId}
+              documentType={documentType}
+              sanityFieldName="heroImage"
+            />
           </div>
         )}
       </section>
@@ -92,6 +112,7 @@ const { title, heroVideo, subtitle, heroImage, select, intro, pageTitle } =
         font-size: var(--fs-2);
         font-weight: 700;
         line-height: 100%;
+        font-family: var(--font-instrument);
       }
       .hero-subTitle {
         color: black;
@@ -99,6 +120,7 @@ const { title, heroVideo, subtitle, heroImage, select, intro, pageTitle } =
         font-weight: 500;
         line-height: 133%;
         letter-spacing: -0.03px;
+        font-family: var(--font-primary);
       }
       .hero-desc {
         color: black;
