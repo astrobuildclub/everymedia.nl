@@ -3,7 +3,7 @@ import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
 import { defaultLanguage, supportedLocales } from "./src/lib/helperFunctions";
 import sanityIntegration from "@sanity/astro";
-import { apiVersion, dataset, projectId, useCdn } from "./src/lib/sanity";
+import { apiVersion, dataset, projectId, sanityStudioUrl, useCdn } from "./src/lib/sanity";
 
 
 const defaultLocale = defaultLanguage.id;
@@ -17,6 +17,9 @@ export default defineConfig({
       dataset: dataset,
       apiVersion: apiVersion,
       useCdn: useCdn,
+      stega: {
+        studioUrl: sanityStudioUrl,
+      },
     }),
   ],
   vite: {
@@ -26,6 +29,7 @@ export default defineConfig({
     remotePatterns: [
       {
         protocol: "https",
+        hostname: "cdn.sanity.io",
       },
     ],
   },

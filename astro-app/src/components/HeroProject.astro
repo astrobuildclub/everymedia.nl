@@ -4,12 +4,24 @@ import type { HeroViewType } from "../utils";
 import SanityImage from "./commons/SanityImage.astro";
 import DownArrow from "./icons/downArrow";
 import SimpleVideo from "./commons/SimpleVideo.astro";
+import { stegaClean } from "@sanity/client/stega";
 
 interface Props {
   data: HeroViewType;
 }
-const { title, heroVideo, subtitle, heroImage, select, intro ,client,tag } =
-  Astro.props.data || {};
+const {
+  title,
+  heroVideo,
+  subtitle,
+  heroImage,
+  select: Select,
+  intro,
+  client,
+  tag,
+  documentId,
+  documentType,
+} = Astro.props.data || {};
+const select = stegaClean(Select || "");
 ---
 
 {
@@ -20,8 +32,8 @@ const { title, heroVideo, subtitle, heroImage, select, intro ,client,tag } =
           <div class="project-hero-title">
             <div class="project-hero-title-inner">
               <div class="project-hero-categories">
-               {client && <span class="categories-left">{client}</span>}
-               {tag && <p class="categories-right">{tag}</p>}
+                {client && <span class="categories-left">{client}</span>}
+                {tag && <p class="categories-right">{tag}</p>}
               </div>
               {title && <h1 class="project-banner-title">{title}</h1>}
               <div class="desc-with-icon">
@@ -42,6 +54,9 @@ const { title, heroVideo, subtitle, heroImage, select, intro ,client,tag } =
                 loop={true}
                 className=""
                 videoUrl={heroVideo}
+                documentId={documentId}
+                documentType={documentType}
+                sanityFieldName="heroVideo"
               />
             </div>
           )}
@@ -50,6 +65,9 @@ const { title, heroVideo, subtitle, heroImage, select, intro ,client,tag } =
               <SanityImage
                 src={heroImage}
                 className="sanity-image project-bg"
+                documentId={documentId}
+                documentType={documentType}
+                sanityFieldName="heroImage"
               />
             </div>
           )}
@@ -118,7 +136,8 @@ const { title, heroVideo, subtitle, heroImage, select, intro ,client,tag } =
             font-weight: 800;
             line-height: 100%;
             text-transform: uppercase;
-            font-family: var(--font-heading);
+            font-family: var(--font-primary);
+            max-width: 75rem;
           }
 
           .desc-with-icon {

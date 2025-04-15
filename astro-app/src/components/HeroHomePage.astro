@@ -1,4 +1,5 @@
 ---
+import { stegaClean } from "@sanity/client/stega";
 import type { HeroViewType } from "../utils";
 import SanityImage from "./commons/SanityImage.astro";
 import SimpleVideo from "./commons/SimpleVideo.astro";
@@ -6,8 +7,16 @@ import SimpleVideo from "./commons/SimpleVideo.astro";
 interface Props {
   data: HeroViewType;
 }
-const { title, heroVideo, subtitle, heroImage, select } =
-  Astro.props.data || {};
+const {
+  title,
+  heroVideo,
+  subtitle,
+  heroImage,
+  select: Select,
+  documentId,
+  documentType
+} = Astro.props.data || {};
+const select = stegaClean(Select || "");
 ---
 
 {
@@ -33,12 +42,20 @@ const { title, heroVideo, subtitle, heroImage, select } =
               loop={true}
               className=""
               videoUrl={heroVideo}
+              documentId={documentId}
+              documentType={documentType}
+              sanityFieldName="heroVideo"
             />
           </div>
         )}
         {select === "heroImage" && heroImage && (
           <div class="video__wrapper ">
-            <SanityImage src={heroImage} />
+            <SanityImage
+              src={heroImage}
+              documentId={documentId}
+              documentType={documentType}
+              sanityFieldName="heroImage"
+            />
           </div>
         )}
       </section>
@@ -67,7 +84,7 @@ const { title, heroVideo, subtitle, heroImage, select } =
 
         .em-title {
           font-size: var(--type-size);
-          font-weight: bold;
+          font-weight: 800;
           color: white;
           align-self: flex-end;
           position: sticky;

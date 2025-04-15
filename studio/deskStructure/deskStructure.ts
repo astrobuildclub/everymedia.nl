@@ -49,32 +49,10 @@ export const deskStructure = (S: StructureBuilder, context: StructureResolverCon
                       .schemaType("audience")
                       .title(`Audience (${language.title})`)
                       .filter('_type == "audience" && language == $language')
-                      .params({ language: language.id })
-                  )
+                      .params({language: language.id}),
+                  ),
               ),
-            ])
-        ),
-      S.listItem()
-        .title("Frequently Asked Question")
-        // .icon(FeedbackIcon)
-        .child(
-          S.list()
-            .title('Frequently Asked Question')
-            .items([
-              ...supportedLanguages.map((language) =>
-                S.listItem()
-                  .title(`${language.title.toLocaleUpperCase()}`)
-                  // .icon(FeedbackIcon)
-                  .schemaType("faq")
-                  .child(
-                    S.documentList()
-                      .schemaType("faq")
-                      .title(`Frequently Asked Question (${language.title})`)
-                      .filter('_type == "faq" && language == $language')
-                      .params({ language: language.id })
-                  )
-              ),
-            ])
+            ]),
         ),
       S.listItem()
         .title("Project")
@@ -93,10 +71,33 @@ export const deskStructure = (S: StructureBuilder, context: StructureResolverCon
                       .schemaType("project")
                       .title(`Project (${language.title})`)
                       .filter('_type == "project" && language == $language')
-                      .params({ language: language.id })
-                  )
+                      .params({language: language.id}),
+                  ),
               ),
-            ])
+            ]),
+        ),
+      S.divider(),
+      S.listItem()
+        .title('Frequently Asked Question')
+        .icon(CaseIcon)
+        .child(
+          S.list()
+            .title('Frequently Asked Question')
+            .items([
+              ...supportedLanguages.map((language) =>
+                S.listItem()
+                  .title(`${language.title.toLocaleUpperCase()}`)
+                  .icon(CaseIcon)
+                  .schemaType('faq')
+                  .child(
+                    S.documentList()
+                      .schemaType('faq')
+                      .title(`Frequently Asked Question (${language.title})`)
+                      .filter('_type == "faq" && language == $language')
+                      .params({language: language.id}),
+                  ),
+              ),
+            ]),
         ),
       S.listItem()
         .title("Team")

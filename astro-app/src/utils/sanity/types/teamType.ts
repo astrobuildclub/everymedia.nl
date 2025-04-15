@@ -5,6 +5,7 @@ import type { RichTextSimpleType, SanityImageType } from "./global";
 
 export interface TeamType extends SanityDocument {
     _id: string;
+    _type:string
     slug: string;
     language: string;
     name: string;

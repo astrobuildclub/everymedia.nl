@@ -14,13 +14,15 @@ const { className, videoId, title, poster } = Astro.props || {};
 {
   (() => {
     return (
-      <YouTube
-        id={videoId}
-        poster={poster}
-        title={title}
-        class={className}
-        aria-label={title}
-      />
+      videoId && (
+        <YouTube
+          id={videoId}
+          poster={poster}
+          title={title}
+          class={className}
+          aria-label={title}
+        />
+      )
     );
   })()
 }

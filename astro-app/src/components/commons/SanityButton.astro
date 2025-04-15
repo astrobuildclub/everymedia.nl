@@ -1,4 +1,5 @@
 ---
+import { stegaClean } from "@sanity/client/stega";
 import { cn } from "../../lib/helperFunctions";
 import type { ButtonType, ButtonVariantType } from "../../utils";
 import SanityLink from "./SanityLink.astro";
@@ -10,13 +11,14 @@ interface Props {
 
 const { block, class: className } = Astro.props;
 
-const { variant, link, buttonText: label } = block || {};
+const { variant: Variant, link, buttonText: label } = block || {};
 
 export const buttonVariants: Record<ButtonVariantType, string> = {
   white: "white-btn",
   black: "black-btn",
 };
 
+const variant = stegaClean(Variant || "");
 const variantClasses = buttonVariants[variant] || "";
 ---
 

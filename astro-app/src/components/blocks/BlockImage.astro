@@ -1,4 +1,5 @@
 ---
+import { stegaClean } from "@sanity/client/stega";
 import type { BlockImageType } from "../../utils";
 import SanityImage from "../commons/SanityImage.astro";
 
@@ -6,20 +7,23 @@ interface Props {
   data: BlockImageType;
 }
 
-const { title, image, size } = Astro.props.data || {};
+const { title, image, size: Size } = Astro.props.data || {};
+const size = stegaClean(Size || "");
 ---
 
 {
   (() => {
     return (
       <section class={`${size}-image-section`}>
-        <div class={`${size}-image-wrapper`}>
-          <SanityImage
-            src={image}
-            className={`${size}-image`}
-            captionClassName={`${size}-image-desc`}
-          />
-        </div>
+        {image && (
+          <div class={`${size}-image-wrapper`}>
+            <SanityImage
+              src={image}
+              className={`${size}-image`}
+              captionClassName={`${size}-image-desc`}
+            />
+          </div>
+        )}
         {title && <p class={`${size}-image-desc`}>{title}</p>}
       </section>
     );

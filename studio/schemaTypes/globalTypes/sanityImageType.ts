@@ -9,9 +9,6 @@ export const sanityImageType =  defineType({
     icon: ImageIcon,
     options: {
         hotspot: true,
-        aiAssist: {
-            imageInstructionField: 'imagePrompt',
-        },
     },
     fields: [
         defineField({
@@ -19,12 +16,6 @@ export const sanityImageType =  defineType({
             title: "Alt",
             type: "string",
         }),
-        defineField({
-            type: 'text',
-            name: 'imagePrompt',
-            title: 'Image prompt',
-            rows: 2,
-          }),
         defineField({
             name: "hasCaption",
             title: "Has Caption",

@@ -1,9 +1,9 @@
 ---
-import Pagebuilder from "../components/commons/Pagebuilder.astro";
+import Section from "../components/commons/Section.astro";
 import HeroView from "../components/HeroView.astro";
 import Layout from "../layouts/Layout.astro";
 import { defaultLanguage } from "../lib/helperFunctions";
-import { type PageType } from "../utils";
+import { type HeroViewType, type PageType } from "../utils";
 import { getPage } from "../utils/sanity/getPage";
 
 const pageData = await getPage<PageType>("/", defaultLanguage?.id);
@@ -20,9 +20,11 @@ const {
   variants,
   intro,
   pageTitle,
-  defaultSeoProps
+  defaultSeoProps,
+  _id,
+  _type,
 } = pageData || {};
-const heroPage = {
+const heroPage: HeroViewType = {
   title,
   subtitle,
   heroVideo,
@@ -30,6 +32,8 @@ const heroPage = {
   select,
   intro,
   pageTitle,
+  documentId: _id || "",
+  documentType: _type || "",
 };
 ---
 
@@ -40,10 +44,14 @@ const heroPage = {
   heroVariants={variants}
   currentPath={`/${defaultLanguage?.id}`}
 >
-  <HeroView heroVariants={variants} data={heroPage} />
+  <HeroView data={heroPage} heroVariants={variants} />
   {
-    Array.isArray(pagebuilder) &&
-      pagebuilder?.map((i) => <Pagebuilder data={i} />)
+    Array.isArray(pagebuilder) && (
+      <Section
+        sections={pagebuilder}
+        documentId={_id || ""}
+        documentType={_type || ""}
+      />
+    )
   }
 </Layout>
-

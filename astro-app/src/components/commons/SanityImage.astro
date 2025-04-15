@@ -1,4 +1,5 @@
 ---
+import { createDataAttribute } from "@sanity/visual-editing";
 import { cn } from "../../lib/helperFunctions";
 import { useSanityImage } from "../../lib/sanity";
 import type { SanityImageType } from "../../utils";
@@ -7,39 +8,58 @@ interface Props {
   src: SanityImageType | undefined;
   className?: string;
   captionClassName?: string;
+  documentId?: string;
+  documentType?: string;
+  sanityFieldName?: string;
 }
-const { src, className, captionClassName, ...props } = Astro.props || {};
+
+const {
+  src,
+  className,
+  captionClassName,
+  documentId,
+  documentType,
+  sanityFieldName = "",
+  ...props
+} = Astro.props || {};
+
 const { caption, alt, hasCaption } = src || {};
 
 const image = useSanityImage(src);
-if (!image?.src) {
-  return null;
-}
+
+const sanityAttr =
+  documentId && documentType
+    ? createDataAttribute({
+        id: documentId,
+        type: documentType,
+        path: sanityFieldName,
+      })().toString()
+    : null;
+
+if (!image?.src) return null;
 ---
 
 {
   (() => {
+    const imgElement = (
+      <img
+        src={image.src}
+        alt={alt || "Image"}
+        class={cn(className)}
+        {...props}
+        {...(sanityAttr ? { "data-sanity": sanityAttr } : {})}
+      />
+    );
+
     return hasCaption ? (
       <figure>
-        <img
-          src={image?.src}
-          alt={alt || "Image"}
-          class={cn(className)}
-          {...props}
-        />
+        {imgElement}
         {caption && (
           <figcaption class={cn(captionClassName)}>{caption}</figcaption>
         )}
       </figure>
     ) : (
-      <figure>
-        <img
-          src={image?.src}
-          alt={alt || "Image"}
-          class={cn(className)}
-          {...props}
-        />
-      </figure>
+      <figure>{imgElement}</figure>
     );
   })()
 }

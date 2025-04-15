@@ -9,6 +9,7 @@ import type { DefaultSeoPropsType, HeroVariantType, RichTextSimpleType, SanityIm
 
 export interface PageType extends SanityDocument {
     _id: string;
+    _type: string;
     slug: string;
     seo: SeoType
     pagebuilder: PagebuilderType[]

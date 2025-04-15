@@ -14,13 +14,15 @@ const { className, vimeoId, title, poster } = Astro.props || {};
 {
   (() => {
     return (
-      <Vimeo
-        id={vimeoId}
-        class={className}
-        title={title}
-        poster={poster}
-        aria-label={title}
-      />
+      vimeoId && (
+        <Vimeo
+          id={vimeoId}
+          class={className}
+          title={title}
+          poster={poster}
+          aria-label={title}
+        />
+      )
     );
   })()
 }

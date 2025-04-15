@@ -16,6 +16,7 @@ import { imageFields } from "../imageFields";
 
 export const blockAudiencesOverviewSectionFields = /* groq */ `
 _type,
+_key,
 title[]{
 ${richTextSimpleFields}
 },
@@ -30,6 +31,7 @@ ${audienceFields}
 
 export const blockWorkRelatedFields = /* groq */ `
 _type,
+_key,
 title,
 intro,
 relatedProjects[@->language == ^.^.language]->{
@@ -46,6 +48,7 @@ ${ctaFields}
 
 export const blockTeamMembersFields = /* groq */ `
 _type,
+_key,
 title,
 footnote,
 teamMembers[@->language == ^.^.language]->{
@@ -59,6 +62,7 @@ ${teamFields}
 
 export const featuredProjectsFields = /* groq */ `
 _type,
+_key,
 tagLine,
 intro[]{
 ${richTextSimpleFields}
@@ -74,6 +78,7 @@ ${projectFields}
 
 export const blockEpisodesFields = /* groq */ `
 _type,
+_key,
 title,
 description,
 episodes[]{
@@ -87,6 +92,7 @@ ${episodeFields}
 
 export const blockImageGalleryFields = /* groq */ `
 _type,
+_key,
 images[]{
 ${imageFields}
 },
@@ -118,6 +124,7 @@ ${richTextSimpleFields}
 
 export const blockFeetSectionFields = /* groq */ `
 _type,
+_key,
 title,
 subtitle,
 intro[]{
@@ -143,6 +150,7 @@ ${ctaFields}
 
 export const blockContactFields = /* groq */ `
 _type,
+_key,
 title,
 image{
 ${imageFields}
@@ -174,6 +182,7 @@ ${richTextSimpleFields}
 
 export const blockCardsFields = /* groq */ `
 _type,
+_key,
 title,
 intro,
 colsAmount,
@@ -189,6 +198,7 @@ ${cardFields}
 
 export const blockVideoFields = /* groq */ `
 _type,
+_key,
 title,
 videoType,
 (@.videoType=="mp4") => { 
@@ -218,6 +228,7 @@ loop,
 export const projectsListingSectionFields = /* groq */ `
 _type,
 tagLine,
+_key,
 "allProjects":*[_type in ["project"] && defined(slug.current)]| order(_updatedAt desc){
 ${projectFields}
 },
@@ -229,6 +240,7 @@ ${projectFields}
 
 export const blockFaqsFields = /* groq */ `
 _type,
+_key,
 title,
 faqs[@->language == ^.^.language]->{
 ${faqFields}
@@ -241,6 +253,7 @@ ${faqFields}
 
 export const blockWorkSelectionFields = /* groq */ `
 _type,
+_key,
 title,
 intro,
 selectedProjects[@->language == ^.^.language]->{
@@ -257,6 +270,7 @@ ${ctaFields}
 
 export const blockTextFields = /* groq */ `
 _type,
+_key,
 hideTitle,
 hideTitle == false =>{
 title,
@@ -272,6 +286,7 @@ ${richTextSimpleFields}
 
 export const blockImageFields = /* groq */ `
 _type,
+_key,
 title,
 image{
 ${imageFields}
@@ -285,6 +300,7 @@ size,
 
 export const blockIntroFields = /* groq */ `
 _type,
+_key,
 title,
 content[]{
 ${richTextSimpleFields}
@@ -297,6 +313,7 @@ ${richTextSimpleFields}
 
 export const blockTestimonialFields = /* groq */ `
 _type,
+_key,
 title,
 testimonial,
 person,
@@ -313,6 +330,7 @@ ${imageFields}
 
 export const blockLogosFields = /* groq */ `
 _type,
+_key,
 title,
 logos[]{
 ${imageFields}
@@ -325,6 +343,7 @@ ${imageFields}
 
 export const blockMediaGalleryFields = /* groq */ `
 _type,
+_key,
 title,
 media[]{
 ${imageFields}
@@ -337,6 +356,7 @@ ${imageFields}
 
 export const blockTextMediaFields = /* groq */ `
 _type,
+_key,
 alignment,
 title,
 intro[]{
@@ -353,6 +373,7 @@ ${imageFields}
 
 export const blockRichTextFields = /* groq */ `
 _type,
+_key,
 footnote,
 content[]{
 ${blockIntroFields}
@@ -365,6 +386,7 @@ ${blockIntroFields}
 
 export const blockMultiColFields = /* groq */ `
 _type,
+_key,
 title,
 select,
 (@.select=="blockText") => { 

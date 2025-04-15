@@ -53,6 +53,7 @@ export interface ConnectWithUsType {
 export interface BlockFeetSectionType {
   _type: "blockFeetSection";
   title?: string;
+  _key:string
   subtitle?: string;
   intro?: RichTextSimpleType;
   body?: RichTextSimpleType;
@@ -67,6 +68,7 @@ export interface BlockFeetSectionType {
 
 export interface BlockContactType {
   _type: "blockContact";
+  _key:string
   title?: string;
   intro?: RichTextSimpleType;
   image: SanityImageType;
@@ -90,6 +92,7 @@ export interface CardType {
 
 export interface BlockCardsType {
   _type: "blockCards";
+  _key:string
   title?: string;
   intro?: string;
   colsAmount: number;
@@ -103,6 +106,7 @@ export interface BlockCardsType {
 
 export interface BlockFaqsType {
   _type: "blockFaqs";
+  _key:string
   title?: string;
   faqs: FaqType[];
 }
@@ -113,6 +117,7 @@ export interface BlockFaqsType {
 
 export interface BlockWorkSelectionType {
   _type: "blockWorkSelection";
+  _key:string
   title?: string;
   intro?: string;
   selectedProjects: ProjectType[];
@@ -125,6 +130,7 @@ export interface BlockWorkSelectionType {
 
 export interface BlockTextType {
   _type: "blockText";
+  _key:string
   title?: string;
   content?: RichTextSimpleType;
   hideTitle: boolean;
@@ -136,6 +142,7 @@ export interface BlockTextType {
 
 export interface BlockImageType {
   _type: "blockImage";
+  _key:string
   title?: string;
   image: SanityImageType;
   size: SizeType;
@@ -147,6 +154,7 @@ export interface BlockImageType {
 
 export interface BlockIntroType {
   _type: "blockIntro";
+  _key:string
   title?: string;
   content: RichTextSimpleType;
 }
@@ -157,6 +165,7 @@ export interface BlockIntroType {
 
 export interface BlockAudiencesOverviewSectionType {
   _type: "blockAudiencesOverviewSection";
+  _key:string
   title?: RichTextSimpleType;
   audiences: AudienceType[];
 }
@@ -167,6 +176,7 @@ export interface BlockAudiencesOverviewSectionType {
 
 export interface BlockWorkRelatedType {
   _type: "blockWorkRelated";
+  _key:string
   title?: string;
   intro?: string;
   relatedProjects: ProjectType[];
@@ -179,6 +189,7 @@ export interface BlockWorkRelatedType {
 
 export interface BlockTeamMembersType {
   _type: "blockTeamMembers";
+  _key:string
   title?: string;
   footnote?: string;
   teamMembers: TeamType[];
@@ -190,6 +201,7 @@ export interface BlockTeamMembersType {
 
 export interface BlockEpisodesType {
   _type: "blockEpisodes";
+  _key:string
   title?: string;
   description?: string;
   episodes: EpisodeType[];
@@ -201,6 +213,7 @@ export interface BlockEpisodesType {
 
 export interface BlockImageGalleryType {
   _type: "blockImageGallery";
+  _key:string
   images: SanityImageType[];
 }
 
@@ -211,6 +224,7 @@ export interface BlockImageGalleryType {
 export interface BlockTestimonialType {
   _type: "blockTestimonial";
   title?: string;
+  _key:string
   testimonial?: string;
   person?: string;
   role?: string;
@@ -224,6 +238,7 @@ export interface BlockTestimonialType {
 
 export interface BlockLogosType {
   _type: "blockLogos";
+  _key:string
   title?: string;
   logos: SanityImageType[];
 }
@@ -234,6 +249,7 @@ export interface BlockLogosType {
 
 export interface BlockTextMediaType {
   _type: "blockTextMedia";
+  _key:string
   alignment: "left" | "right";
   title?: string;
   intro: RichTextSimpleType;
@@ -246,6 +262,7 @@ export interface BlockTextMediaType {
 
 export interface BlockRichTextType {
   _type: "blockRichText";
+  _key:string
   footnote?: string;
   content: BlockIntroType[];
 }
@@ -256,6 +273,7 @@ export interface BlockRichTextType {
 
 export interface BlockMediaGalleryType {
   _type: "blockMediaGallery";
+  _key:string
   title:string
   media: Array<SanityImageType>;
 }
@@ -266,6 +284,7 @@ export interface BlockMediaGalleryType {
 
 export interface ProjectsListingSectionType {
   _type: "projectsListingSection";
+  _key:string
   tagLine: string;
   allProjects: Array<ProjectType>;
 }
@@ -276,6 +295,7 @@ export interface ProjectsListingSectionType {
 
 export interface FeaturedProjectsType {
   _type: "featuredProjects";
+  _key:string
   tagLine: string;
   intro: RichTextSimpleType;
   projects: Array<ProjectType>;
@@ -287,6 +307,7 @@ export interface FeaturedProjectsType {
 
 export interface BlockMultiColType {
   _type: "blockMultiCol";
+  _key:string
   title: string;
   colsAmount: number;
   select: "blockText" | "blockTextMedia" | "blockMediaGallery";
@@ -301,6 +322,7 @@ export interface BlockMultiColType {
 
 export interface BlockVideoType {
   _type: "blockVideo";
+  _key:string
   title?: string;
   videoType: "mp4" | "embed";
   videoUrl: string;
@@ -327,4 +349,6 @@ export interface HeroViewType {
   intro: RichTextSimpleType | undefined;
   tag?: string;
   client?: string;
+  documentType: string;
+  documentId: string;
 }

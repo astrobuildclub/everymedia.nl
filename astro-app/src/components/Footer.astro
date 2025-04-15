@@ -2,6 +2,7 @@
 import type { FooterType } from "../utils";
 import { PortableText } from "astro-portabletext";
 import SanityLink from "./commons/SanityLink.astro";
+import { stegaClean } from "@sanity/client/stega";
 
 interface Props {
   footer: FooterType | undefined;
@@ -23,7 +24,9 @@ const { footerLinks = [], title } = Astro.props?.footer || {};
           {footerLinks?.length > 0 && (
             <div class="footer-links">
               {footerLinks?.map((item) => {
-                const { title, body, labelLinks, select } = item || {};
+                const { title, body, labelLinks, select: Select } = item || {};
+                const select = stegaClean(Select || "");
+
                 return (
                   <div class="footer-item">
                     {title && <div class="footer-title">{title}</div>}
@@ -35,13 +38,10 @@ const { footerLinks = [], title } = Astro.props?.footer || {};
                     {select === "labelLinks" && labelLinks?.length > 0 && (
                       <ul class="footer-links-list">
                         {labelLinks?.map((item) => {
-                          const { label, link } = item || {};                          
+                          const { label, link } = item || {};
                           return (
                             <li>
-                              <SanityLink
-                                href={link}
-                                class="footer-labelLink"
-                              >
+                              <SanityLink href={link} class="footer-labelLink">
                                 {label}
                               </SanityLink>
                             </li>
@@ -86,17 +86,17 @@ const { footerLinks = [], title } = Astro.props?.footer || {};
       .footer-heading {
         text-align: center;
         h2 {
-          font-size: 20vw;
+          font-size: 23vw;
           font-weight: 800;
           text-transform: uppercase;
           text-align: center;
           color: white;
           white-space: nowrap;
           line-height: 100%;
-          font-family: var(--font-heading);
+          font-family: var(--font-primary);
           width: 100%;
-          @media (max-width: 1023px) {
-            font-size: 18vw;
+          @media (max-width: 639px) {
+            font-size: 21vw;
           }
         }
       }

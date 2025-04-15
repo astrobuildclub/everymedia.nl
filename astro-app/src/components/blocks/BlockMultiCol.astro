@@ -1,4 +1,5 @@
 ---
+import { stegaClean } from "@sanity/client/stega";
 import { cn } from "../../lib/helperFunctions";
 import type { BlockMultiColType } from "../../utils";
 import RichTextSimple from "../commons/RichTextSimple/RichTextSimple.astro";
@@ -8,8 +9,14 @@ import BlockTextMedia from "./BlockTextMedia.astro";
 interface Props {
   data: BlockMultiColType;
 }
-const { colsAmount, blockMediaGallery, blockText, blockTextMedia, select } =
-  Astro.props.data || {};
+const {
+  colsAmount,
+  blockMediaGallery,
+  blockText,
+  blockTextMedia,
+  select: Select,
+} = Astro.props.data || {};
+const select = stegaClean(Select || "");
 
 const gridStyle = {
   gridTemplateColumns: `repeat(${colsAmount}, 1fr)`,
@@ -21,13 +28,15 @@ const gridStyle = {
     return (
       <section class="multi-col-section">
         {select === "blockText" && blockText?.length > 0 && (
-          <div class={cn("multi-col-cards-grid",
-          )} 
-           style={gridStyle}
-           >
+          <div class={cn("multi-col-cards-grid")} style={gridStyle}>
             {blockText?.map((item) => {
               const { title, hideTitle, content } = item || {};
-              const gridClass = hideTitle ? "single-column" : cn("two-column", blockText?.length > 1 ? "grid-one-fr" : "grid-two-fr");
+              const gridClass = hideTitle
+                ? "single-column"
+                : cn(
+                    "two-column",
+                    blockText?.length > 1 ? "grid-one-fr" : "grid-two-fr"
+                  );
               return (
                 <section class={`block-text-section ${gridClass}`}>
                   {!hideTitle && title && (

@@ -6,12 +6,13 @@ import SimpleVideo from "./SimpleVideo.astro";
 import SanityLink from "./SanityLink.astro";
 import { routes } from "../../lib/router";
 import { defaultLanguage } from "../../lib/helperFunctions";
+import { stegaClean } from "@sanity/client/stega";
 
 interface Props {
   projects: ProjectType[];
 }
 const { projects = [] } = Astro.props || {};
-const locale = (Astro.params?.locale || defaultLanguage.id) 
+const locale = Astro.params?.locale || defaultLanguage.id;
 ---
 
 {
@@ -23,21 +24,31 @@ const locale = (Astro.params?.locale || defaultLanguage.id)
             const {
               title,
               heroImage,
-              select,
+              select: Select,
               heroVideo,
               intro,
               subtitle,
               client,
               tag,
               slug,
+              _id,
+              _type,
             } = item || {};
+            const select = stegaClean(Select || "");
+
             return (
               <article class="swiper-slide">
                 <div class="project__meta">
                   <div>
                     {select === "heroImage" && heroImage && (
                       <div class="media-container">
-                        <SanityImage src={heroImage} className="media" />
+                        <SanityImage
+                          src={heroImage}
+                          className="media"
+                          documentId={_id}
+                          documentType={_type}
+                          sanityFieldName="heroImage"
+                        />
                       </div>
                     )}
                     {select === "heroVideo" && heroVideo && (
@@ -47,6 +58,9 @@ const locale = (Astro.params?.locale || defaultLanguage.id)
                           loop={true}
                           className="media"
                           videoUrl={heroVideo}
+                          documentId={_id}
+                          documentType={_type}
+                          sanityFieldName="heroVideo"
                         />
                       </div>
                     )}
@@ -184,6 +198,7 @@ const locale = (Astro.params?.locale || defaultLanguage.id)
         line-height: 112%;
         font-weight: 500;
         letter-spacing: -0.36px;
+        font-family: var(--font-primary);
       }
       .intro-text {
         color: var(--neutrals-600);

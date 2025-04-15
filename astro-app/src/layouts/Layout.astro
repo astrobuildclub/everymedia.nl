@@ -10,7 +10,10 @@ import type {
 } from "../utils";
 import "../styles/global.css";
 import CookieConsent from "../components/cookieconsent/CookieConsent.astro";
+import { VisualEditing } from "@sanity/astro/visual-editing";
 
+const visualEditingEnabled =
+  import.meta.env.PUBLIC_SANITY_VISUAL_EDITING_ENABLED == "true";
 interface Props {
   seo: SeoType;
   layoutProps: LayoutPropsType | undefined;
@@ -19,13 +22,8 @@ interface Props {
   currentPath: string;
 }
 
-const {
-  seo,
-  layoutProps,
-  heroVariants,
-  currentPath,
-  defaultSeoProps,
-} = Astro.props || {};
+const { seo, layoutProps, heroVariants, currentPath, defaultSeoProps } =
+  Astro.props || {};
 const { footer, header } = layoutProps || {};
 const { analytics } = defaultSeoProps || {};
 const { locale } = Astro.params || {};
@@ -49,10 +47,6 @@ const { locale } = Astro.params || {};
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://db.onlinewebfonts.com/c/e781d1cba25f85543d695ab1c049cbf2?family=Antarctica+VAR"
       rel="stylesheet"
     />
 
@@ -118,20 +112,22 @@ const { locale } = Astro.params || {};
         </script>
       )
     }
-    {analytics?.googleTagManager && (
-      <script is:inline id="gtm">
-        {`
+    {
+      analytics?.googleTagManager && (
+        <script is:inline id="gtm">
+          {`
         (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
         new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
         j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
         })(window,document,'script','dataLayer','${analytics?.googleTagManager}');
         `}
-      </script>
-    )}
+        </script>
+      )
+    }
     {
       analytics?.facebookPixel && (
-        <script is:inline id="fb-pixel"> 
+        <script is:inline id="fb-pixel">
           {`
           !function(f,b,e,v,n,t,s)
           {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -157,12 +153,10 @@ const { locale } = Astro.params || {};
         width="0"
         style={{ display: "none", visibility: "hidden" }}></iframe>
     </noscript>
-    <Header
-      header={header}
-      heroVariants={heroVariants}
-    />
+    <Header header={header} heroVariants={heroVariants} />
     <main>
       <slot />
+      <VisualEditing enabled={visualEditingEnabled} zIndex={9999} />
     </main>
     <Footer footer={footer} />
     <CookieConsent />
