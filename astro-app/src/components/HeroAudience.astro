@@ -32,7 +32,9 @@ const select = stegaClean(Select || "");
               {title && <h1 class="audience-banner-title">{title}</h1>}
               <div class="desc-with-icon">
                 {subtitle && <p class="audience-banner-desc">{subtitle}</p>}
+                <a href="#downArrow">
                 <DownArrow className="skip-icon" />
+                </a>
               </div>
             </div>
             {intro && (
@@ -52,21 +54,25 @@ const select = stegaClean(Select || "");
                 documentType={documentType}
                 sanityFieldName="heroVideo"
               />
+              <div class="bg-overlay" />
             </div>
           )}
           {select === "heroImage" && heroImage && (
-            <div class="">
+            <div class="audience-bg">
               <SanityImage
                 src={heroImage}
-                className="sanity-image audience-bg"
+                className="sanity-image"
                 documentId={documentId}
                 documentType={documentType}
                 sanityFieldName="heroImage"
               />
+              <div class="bg-overlay" />
             </div>
           )}
         </div>
+        <a href="#downArrow">
         <DownArrow className="skip-icon-mobie" />
+        </a>
       </section>
     );
   })()
@@ -86,7 +92,7 @@ const select = stegaClean(Select || "");
         grid-column-start: 1;
         position: absolute;
         bottom: 6.75rem;
-        z-index: 1;
+        z-index: 2;
         left: 0;
         right: 0;
         @media (max-width: 767px) {
@@ -153,6 +159,22 @@ const select = stegaClean(Select || "");
           width: 100%;
           height: 100%;
           object-fit: cover;
+          position: relative;
+          z-index: 1;
+        }
+        .bg-overlay {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          background:
+            linear-gradient(
+              190deg,
+              rgba(0, 0, 0, 0.05) 49.15%,
+              rgba(0, 0, 0, 0.95) 92.46%
+            ),
+            lightgray 0% 0% / 25px 25px repeat;
+          background-blend-mode: normal;
         }
       }
       .audience-bg {
@@ -162,10 +184,32 @@ const select = stegaClean(Select || "");
         height: 100%;
         object-fit: cover;
 
-        .sanity-image {
+        figure {
           width: 100%;
           height: 100%;
-          object-fit: cover;
+          position: relative;
+          z-index: 1;
+          .sanity-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: relative;
+          z-index: 1;
+          }
+        }
+        .bg-overlay {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          background:
+            linear-gradient(
+              190deg,
+              rgba(0, 0, 0, 0.05) 49.15%,
+              rgba(0, 0, 0, 0.95) 92.46%
+            ),
+            lightgray 0% 0% / 25px 25px repeat;
+          background-blend-mode: normal;
         }
       }
     }
@@ -177,6 +221,7 @@ const select = stegaClean(Select || "");
         position: absolute;
         bottom: -1.5rem;
         right: 1.5rem;
+        z-index: 5;
       }
     }
   }

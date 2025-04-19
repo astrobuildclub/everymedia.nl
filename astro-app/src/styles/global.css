@@ -18,11 +18,11 @@
   --gray-800: #1f2937;
   --gray-50: #f9fafb;
   --neutrals-600: #666;
-  --light-gray: #C4C4C4;
-  --platinum-gray: #E6E6E6;
+  --light-gray: #c4c4c4;
+  --platinum-gray: #e6e6e6;
   --eerie-black: #191919;
-  --ash-gray: #ADB0AA;
-  --light-sage: #D7DAD4;
+  --ash-gray: #adb0aa;
+  --light-sage: #d7dad4;
   --rich-black: #010101;
   --dark-gray: #222;
   --silver: #bababa;
@@ -78,14 +78,11 @@
   /* Step 10: 64px → 350px */
   --fs-10: clamp(4rem, 2.5rem + 9.6875vw, 21.875rem);
 
-   /* Step 11: 53.75px → 179.48px */
+  /* Step 11: 53.75px → 179.48px */
   ---fs---1: clamp(53.75px, 10vw, 179.48px);
 
-   /* Step 12: 15px → 24px */
+  /* Step 12: 15px → 24px */
   ---fs---2: clamp(15px, 2vw, 24px);
-
-
-
 
   /* @link https://utopia.fyi/space/calculator?c=320,18,1.2,1920,24,1.333,8,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
 
@@ -113,8 +110,6 @@
   /* Space sm: 12px → 25px */
   --space-sm: clamp(0.75rem, 0.723rem + 0.0846vw, 1.5625rem);
 
- 
-
   /* One-up pairs */
   /* Space 3xs-2xs: 5px → 12px */
   --space-3xs-2xs: clamp(0.3125rem, 0.225rem + 0.4375vw, 0.75rem);
@@ -137,13 +132,13 @@
   /* Space s-l: 18px → 48px */
   --space-s-l: clamp(1.125rem, 0.75rem + 1.875vw, 3rem);
 
-  --spacing: .25rem;
+  --spacing: 0.25rem;
 
   /* space-xl-2xl-3xl: 54px → 144px */
   --space-xl-2xl-3xl: clamp(54px, 54px + 5vw, 144px);
 }
 
-a:-webkit-any-link{
+a:-webkit-any-link {
   text-decoration: none;
 }
 
@@ -210,65 +205,72 @@ pre {
     U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-
 /* Antarctica VAR - normal */
 @font-face {
-   font-family: 'Antarctica VAR';
-   src: url('../../public/fonts/antarcticas/Antarctica-Regular.ttf') format('truetype');
-   font-weight: normal;
-   font-display: swap;
-   
- }
+  font-family: "Antarctica VAR";
+  src: url("../../public/fonts/antarcticas/Antarctica-Regular.ttf")
+    format("truetype");
+  font-weight: normal;
+  font-display: swap;
+}
 
 /* Antarctica VAR - medium */
 @font-face {
-   font-family: 'Antarctica VAR';
-   src: url('../../public/fonts/antarcticas/Antarctica-Medium.ttf') format('truetype');
-   font-weight: 500;
-   font-display: swap;
- }
+  font-family: "Antarctica VAR";
+  src: url("../../public/fonts/antarcticas/Antarctica-Medium.ttf")
+    format("truetype");
+  font-weight: 500;
+  font-display: swap;
+}
 
- /* Antarctica VAR - semibold */
+/* Antarctica VAR - semibold */
 @font-face {
-   font-family: 'Antarctica VAR';
-   src: url('../../public/fonts/antarcticas/Antarctica-SemiBold.ttf') format('truetype');
-   font-weight: 600;
-   font-display: swap;
- }
- 
- /* Antarctica VAR - extrabold */
-@font-face {
-   font-family: 'Antarctica VAR';
-   src: url('../../public/fonts/antarcticas/Antarctica-UltraCondExtBd.ttf') format('truetype');
-   font-weight: 800;
-   font-display: swap;
- }
+  font-family: "Antarctica VAR";
+  src: url("../../public/fonts/antarcticas/Antarctica-SemiBold.ttf")
+    format("truetype");
+  font-weight: 600;
+  font-display: swap;
+}
 
- /* Antarctica VAR - ExtraCondLight */
+/* Antarctica VAR - extrabold */
 @font-face {
-   font-family: 'Antarctica VAR';
-   src: url('../../public/fonts/antarcticas/Antarctica-ExtraCondLight.ttf') format('truetype');
-   font-weight: 300;
-   font-display: swap;
- }
+  font-family: "Antarctica VAR";
+  src: url("../../public/fonts/antarcticas/Antarctica-UltraCondExtBd.ttf")
+    format("truetype");
+  font-weight: 800;
+  font-display: swap;
+}
 
- /* Antarctica VAR - ExtraCondensedBold */
+/* Antarctica VAR - ExtraCondLight */
 @font-face {
-   font-family: 'Antarctica VAR';
-   src: url('../../public/fonts/antarcticas/Antarctica-ExtraCondensedBold.ttf') format('truetype');
-   font-weight: 700;
-   font-display: swap;
- }
- 
- /* Antarctica VAR - CondensedMedium */
+  font-family: "Antarctica VAR";
+  src: url("../../public/fonts/antarcticas/Antarctica-ExtraCondLight.ttf")
+    format("truetype");
+  font-weight: 300;
+  font-display: swap;
+}
+
+/* Antarctica VAR - ExtraCondensedBold */
 @font-face {
-   font-family: 'Antarctica VAR';
-   src: url('../../public/fonts/antarcticas/Antarctica-CondensedMedium.ttf') format('truetype');
-   font-weight: 500;
-   font-display: swap;
- }
+  font-family: "Antarctica VAR";
+  src: url("../../public/fonts/antarcticas/Antarctica-ExtraCondensedBold.ttf")
+    format("truetype");
+  font-weight: 700;
+  font-display: swap;
+}
 
+/* Antarctica VAR - CondensedMedium */
+@font-face {
+  font-family: "Antarctica VAR";
+  src: url("../../public/fonts/antarcticas/Antarctica-CondensedMedium.ttf")
+    format("truetype");
+  font-weight: 500;
+  font-display: swap;
+}
 
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   font-family: var(--font-body);
@@ -283,12 +285,19 @@ body {
   margin: 0;
 }
 
-h1,h2,h3,h4,h5,h6,p{
-	margin: 0;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
 }
 
-ul,ol{
-	list-style-type: none;
+ul,
+ol {
+  list-style-type: none;
 }
 
 .hero {
@@ -297,7 +306,7 @@ ul,ol{
 
 .em-title {
   font-family: var(--font-primary);
-  font-weight: 800; 
+  font-weight: 800;
   text-transform: uppercase;
   line-height: 100%;
 }
@@ -359,8 +368,8 @@ pre {
   color: var(--off-black);
 }
 
-figure{
-    margin: 0 !important;
+figure {
+  margin: 0 !important;
 }
 
 /* Modern scroll-driven animatie */
@@ -399,7 +408,7 @@ figure{
     animation-timeline: --section-pin-tl;
     animation-range: contain 0% contain 100%;
     will-change: transform;
-    gap: var(--space-xl); 
+    gap: var(--space-xl);
     padding: var(--space-xl) var(--space-xl);
     padding-top: 0 !important;
     width: calc(300vmax - var(--space-xl) * 2);
@@ -407,12 +416,12 @@ figure{
   }
 
   .pin-wrap {
-   height: 100vh;
+    height: 100vh;
     /* width: calc(300vmax - var(--space-xl) * 2); */
     will-change: transform;
     animation: linear move forwards;
-     animation-timeline: --section-pin-tl;
-     animation-range: contain 0% contain 100%;
+    animation-timeline: --section-pin-tl;
+    animation-range: contain 0% contain 100%;
   }
 
   .pin-wrap > * {
@@ -450,14 +459,13 @@ html.lenis {
   pointer-events: none;
 }
 
-
 /* cookies-policy  */
 
-#cc-main{
-   position: sticky !important;
-   bottom: 0 !important;
+#cc-main {
+  position: sticky !important;
+  bottom: 0 !important;
 }
 
-#cc-main .cm{
-   position: absolute !important;
+#cc-main .cm {
+  position: absolute !important;
 }
