@@ -3,7 +3,7 @@ export const resolveLink = ({ slug, type, language }: { slug: string | undefined
     case "page":
       return slug?.startsWith("/") ? slug : `/${language}/${slug}`;
     case "project":
-      return slug?.startsWith("/") ? slug : `/${language}/project/${slug}`;
+      return slug?.startsWith("/") ? slug : `/${language}/projects/${slug}`;
     case "audience":
       return slug?.startsWith("/") ? slug : `/${language}/audience/${slug}`;
     default:

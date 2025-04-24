@@ -226,7 +226,7 @@ heroVideo,
 heroImage{
 ${imageFields}
 },
-},
+}
 `;
 
 {

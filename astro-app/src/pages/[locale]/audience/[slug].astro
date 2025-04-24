@@ -39,7 +39,6 @@ const {
   select,
   intro,
   pageTitle,
-  variants,
   defaultSeoProps,
   _id,
   _type,
@@ -61,10 +60,10 @@ const heroPage: HeroViewType = {
   seo={seo || {}}
   layoutProps={layoutProps}
   defaultSeoProps={defaultSeoProps}
-  heroVariants={variants}
+  heroVariants={"audience"}
   currentPath={`/${locale}/audience/${slug}`}
 >
-  <HeroView data={heroPage} heroVariants={variants} />
+  <HeroView data={heroPage} heroVariants={'audience'} />
   {
     Array.isArray(pagebuilder) && (
       <Section

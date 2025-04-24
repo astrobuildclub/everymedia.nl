@@ -114,11 +114,12 @@ const locale = Astro.params?.locale || defaultLanguage.id;
     spaceBetween: 24,
     grabCursor: true,
     loop: true,
-    autoplay: {
-      delay: 0,
-      disableOnInteraction: false,
-      pauseOnMouseEnter: true,
-    },
+    autoplay: false,
+    // autoplay: {
+    //   delay: 0,
+    //   disableOnInteraction: false,
+    //   pauseOnMouseEnter: true,
+    // },
     speed: 3000,
     breakpoints: {
       1024: {

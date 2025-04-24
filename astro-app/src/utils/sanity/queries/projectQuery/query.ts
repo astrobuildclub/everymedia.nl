@@ -14,19 +14,7 @@ ${pagebuilder},
 language,
 client,
 tag,
-variants,
-(@.variants=="homepage") => { 
-${heroViewFields}
-},
-(@.variants=="audience") => { 
-${heroViewFields}
-},
-(@.variants=="project") => { 
-${heroViewFields}
-},
-(@.variants=="page") => { 
-${heroViewFields}
-},
+${heroViewFields},
 
 }`;
 
