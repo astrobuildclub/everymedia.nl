@@ -21,7 +21,7 @@ export const resolveLink = ({
         return `/${language}/${slug}`
       }
     case 'project':
-      return `/${language}/project/${slug}`
+      return `/${language}/projects/${slug}`
     case 'audience':
       return `/${language}/audience/${slug}`
     default:

@@ -14,7 +14,6 @@ export interface ProjectType extends SanityDocument {
   layoutProps: LayoutPropsType;
   defaultSeoProps: DefaultSeoPropsType;
   language: string;
-  variants: HeroVariantType;
   pageTitle: string;
   title: string;
   subtitle: string;

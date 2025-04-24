@@ -16,7 +16,7 @@ _updatedAt,
 
 (_type == "project") => {
 _updatedAt,
-"locUrl": language + "/" + "project/" + slug.current,
+"locUrl": language + "/" + "projects/" + slug.current,
 "imageUrl":heroImage.asset->url,
 },
 

@@ -12,19 +12,7 @@ ${pagebuilder},
 "layoutProps":${layoutProps},
 "defaultSeoProps":${defaultSeoProps},
 language,
-variants,
-(@.variants=="homepage") => { 
-${heroViewFields}
-},
-(@.variants=="audience") => { 
-${heroViewFields}
-},
-(@.variants=="project") => { 
-${heroViewFields}
-},
-(@.variants=="page") => { 
-${heroViewFields}
-},
+${heroViewFields},
 
 }`;
 
