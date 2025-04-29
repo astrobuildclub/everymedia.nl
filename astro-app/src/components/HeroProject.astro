@@ -38,7 +38,9 @@ const select = stegaClean(Select || "");
               {title && <h1 class="project-banner-title">{title}</h1>}
               <div class="desc-with-icon">
                 {subtitle && <p class="project-banner-desc">{subtitle}</p>}
+                <a href="#downArrow">
                 <DownArrow className="skip-icon" />
+                </a>
               </div>
             </div>
             {intro && (
@@ -74,7 +76,9 @@ const select = stegaClean(Select || "");
             </div>
           )}
         </div>
+        <a href="#downArrow">
         <DownArrow className="skip-icon-mobie" />
+        </a>
       </section>
     );
   })()
