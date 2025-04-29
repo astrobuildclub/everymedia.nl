@@ -3,4 +3,4 @@ Allow: /
 
 Host: https://every-media-dev.vercel.app
 
-Sitemap: https://every-media-dev.vercel.app/sitemap-index.xml
+Sitemap: https://every-media-dev.vercel.app/sitemap.xml

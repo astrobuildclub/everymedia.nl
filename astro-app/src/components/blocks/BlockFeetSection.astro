@@ -120,17 +120,18 @@ const {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       position: relative;
-      padding-bottom: 4.5rem;
+      /* padding-bottom: var(--space-xs); */
 
-         @media (min-width: 767px) {
-          padding-bottom: 6rem;
-        }
+         /* @media (max-width: 767px) {
+          padding-bottom: 4.5rem;
+        } */
       
 
       .title-container {
         grid-row: span 2;
-        padding-left: var(--space-3xs);
-        padding-right: var(--space-3xs);
+        /* padding-left: var(--space-3xs);
+        padding-right: var(--space-3xs); */
+        padding: 0rem 0.4rem 0 1rem;
 
         .sticky-title {
           position: sticky;
@@ -142,7 +143,10 @@ const {
             font-weight: 800;
             font-family: var(--font-primary);
             text-transform: uppercase;
-            line-height: 110%;
+            line-height: 115%;
+            @media (max-width: 1279px) {
+            font-size: 22.5vw;
+        }
           }
         }
       }
@@ -175,6 +179,7 @@ const {
         z-index: -1;
         gap: var(--space-xs);
         padding: var(--space-xs);
+        padding-bottom: var(--space-xs);
 
         @media (max-width: 767px) {
           grid-template-columns: repeat(2, 1fr);
@@ -241,7 +246,12 @@ const {
         display: grid;
         padding: var(--space-xs);
         padding-top: var(--space-s);
-        padding-bottom: 0;
+        padding-bottom: var(--space-xs);
+        padding-left: 0.4rem;
+
+        @media (max-width: 767px) {
+          padding-left: var(--space-xs);
+        }
 
       
 

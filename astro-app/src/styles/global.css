@@ -44,7 +44,7 @@
   --font-instrument: "Instrument Sans", sans-serif;
   --gutter: 1rem;
   --grid-gutter: 1.5rem;
-  --type-size: 23vw;
+  --type-size: 23.2vw;
   --type-pos: calc(var(--type-size) * 1);
   --type-translate: 200%;
   --leading-tight: 112.5%;
@@ -308,7 +308,10 @@ ol {
   font-family: var(--font-primary);
   font-weight: 800;
   text-transform: uppercase;
-  line-height: 90%;
+  line-height: 85%;
+  @media (max-width: 1279px) {
+    line-height: 90%;
+}
 }
 
 .project__thumb {
@@ -410,14 +413,12 @@ figure {
     will-change: transform;
     gap: var(--space-xl);
     padding: var(--space-xl) var(--space-xl);
-    padding-top: 0 !important;
     width: calc(300vmax - var(--space-xl) * 2);
     max-width: fit-content;
   }
 
   .pin-wrap {
-    height: 100vh;
-    /* width: calc(300vmax - var(--space-xl) * 2); */
+    height: 86.5vh;
     will-change: transform;
     animation: linear move forwards;
     animation-timeline: --section-pin-tl;
