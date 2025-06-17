@@ -1,4 +1,6 @@
 ---
+export const prerender = false;
+
 import groq from "groq";
 import HeroView from "../../components/HeroView.astro";
 import Layout from "../../layouts/Layout.astro";
@@ -7,29 +9,29 @@ import { getPage } from "../../utils/sanity/getPage";
 import { loadQuery } from "../../lib/load-query";
 import Section from "../../components/commons/Section.astro";
 
-export async function getStaticPaths() {
-  const pageSlugQuery = groq`
-*[_type == "page" && defined(slug.current) &&  (slug.current in ["/"])]{
-"slug":slug.current,
-language
-}
-`;
-  const { data: allSlugs } =
-    (await loadQuery<Pick<PageType, "slug" | "language">[]>({
-      query: pageSlugQuery,
-    })) || [];
+// export async function getStaticPaths() {
+//   const pageSlugQuery = groq`
+// *[_type == "page" && defined(slug.current) &&  (slug.current in ["/"])]{
+// "slug":slug.current,
+// language
+// }
+// `;
+//   const { data: allSlugs } =
+//     (await loadQuery<Pick<PageType, "slug" | "language">[]>({
+//       query: pageSlugQuery,
+//     })) || [];
 
-  const paths =
-    allSlugs.map((item: Pick<PageType, "slug" | "language">) => ({
-      params: { locale: item?.language },
-    })) || [];
+//   const paths =
+//     allSlugs.map((item: Pick<PageType, "slug" | "language">) => ({
+//       params: { locale: item?.language },
+//     })) || [];
 
-  return paths;
-}
+//   return paths;
+// }
 
 const { locale } = Astro.params;
 
-const pageData = await getPage<PageType>("/", locale);
+const pageData = await getPage<PageType>("/", locale as string);
 
 const {
   pagebuilder,

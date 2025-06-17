@@ -3,13 +3,21 @@ import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
 import { defaultLanguage, supportedLocales } from "./src/lib/helperFunctions";
 import sanityIntegration from "@sanity/astro";
-import { apiVersion, dataset, projectId, sanityStudioUrl, useCdn } from "./src/lib/sanity";
-
+import {
+  apiVersion,
+  dataset,
+  projectId,
+  sanityStudioUrl,
+  useCdn,
+} from "./src/lib/sanity";
+import vercel from "@astrojs/vercel";
 
 const defaultLocale = defaultLanguage.id;
 
 // https://astro.build/config
 export default defineConfig({
+  output: "server",
+  adapter: vercel(),
   integrations: [
     react(),
     sanityIntegration({

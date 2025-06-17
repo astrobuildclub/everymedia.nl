@@ -1,4 +1,6 @@
 ---
+export const prerender = false;
+
 import Section from "../../../components/commons/Section.astro";
 import HeroView from "../../../components/HeroView.astro";
 import Layout from "../../../layouts/Layout.astro";
@@ -10,23 +12,23 @@ import {
 } from "../../../utils";
 import { getAudience } from "../../../utils/sanity/getAudience";
 
-export async function getStaticPaths() {
-  const { data: allSlugs } =
-    (await loadQuery<Pick<AudienceType, "slug" | "language">[]>({
-      query: audienceQuery?.query?.audienceSlugQuery,
-    })) || [];
+// export async function getStaticPaths() {
+//   const { data: allSlugs } =
+//     (await loadQuery<Pick<AudienceType, "slug" | "language">[]>({
+//       query: audienceQuery?.query?.audienceSlugQuery,
+//     })) || [];
 
-  const paths =
-    allSlugs.map((item: Pick<AudienceType, "slug" | "language">) => ({
-      params: { slug: item?.slug, locale: item?.language },
-    })) || [];
+//   const paths =
+//     allSlugs.map((item: Pick<AudienceType, "slug" | "language">) => ({
+//       params: { slug: item?.slug, locale: item?.language },
+//     })) || [];
 
-  return paths;
-}
+//   return paths;
+// }
 
 const { slug, locale } = Astro.params;
 
-const pageData = await getAudience<AudienceType>(slug as "", locale);
+const pageData = await getAudience<AudienceType>(slug as "", locale as string);
 
 const {
   pagebuilder,
@@ -63,7 +65,7 @@ const heroPage: HeroViewType = {
   heroVariants={"audience"}
   currentPath={`/${locale}/audience/${slug}`}
 >
-  <HeroView data={heroPage} heroVariants={'audience'} />
+  <HeroView data={heroPage} heroVariants={"audience"} />
   {
     Array.isArray(pagebuilder) && (
       <Section
