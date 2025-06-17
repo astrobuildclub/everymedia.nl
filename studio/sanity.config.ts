@@ -14,7 +14,7 @@ import {assist} from '@sanity/assist'
 import {presentationTool} from 'sanity/presentation'
 import {resolve} from './presentation/resolve'
 
-const previewUrl = 'http://localhost:4321'
+const previewUrl = process.env.SANITY_STUDIO_PREVIEW_URL || 'http://localhost:4321'
 
 export default defineConfig({
   name: 'default',
@@ -28,10 +28,10 @@ export default defineConfig({
       supportedLanguages: supportedLanguages,
       schemaTypes: translateLanguagesSchema,
       weakReferences: false,
-      languageField: "language"
+      languageField: 'language',
     }),
     structureTool({
-      structure:deskStructure
+      structure: deskStructure,
     }),
     visionTool(),
     linkField({
@@ -39,7 +39,7 @@ export default defineConfig({
     }),
     presentationTool({
       resolve: resolve,
-      previewUrl:previewUrl,
+      previewUrl: previewUrl,
     }),
     schemaMarkup(),
     seoMetaFields(),
@@ -57,7 +57,9 @@ export default defineConfig({
   schema: {
     types: schemaTypes,
     templates: (prev) => {
-      return prev.filter((template) => !translateLanguagesSchema.map((type) => type).includes(template.id))
-    }
+      return prev.filter(
+        (template) => !translateLanguagesSchema.map((type) => type).includes(template.id),
+      )
+    },
   },
 })

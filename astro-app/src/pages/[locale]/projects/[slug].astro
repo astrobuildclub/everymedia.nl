@@ -1,4 +1,6 @@
 ---
+export const prerender = false;
+
 import Section from "../../../components/commons/Section.astro";
 import HeroView from "../../../components/HeroView.astro";
 import Layout from "../../../layouts/Layout.astro";
@@ -10,23 +12,23 @@ import {
 } from "../../../utils";
 import { getProject } from "../../../utils/sanity/getProject";
 
-export async function getStaticPaths() {
-  const { data: allSlugs } =
-    (await loadQuery<Pick<ProjectType, "slug" | "language">[]>({
-      query: projectQuery?.query?.projectSlugQuery,
-    })) || [];
+// export async function getStaticPaths() {
+//   const { data: allSlugs } =
+//     (await loadQuery<Pick<ProjectType, "slug" | "language">[]>({
+//       query: projectQuery?.query?.projectSlugQuery,
+//     })) || [];
 
-  const paths =
-    allSlugs.map((item: Pick<ProjectType, "slug" | "language">) => ({
-      params: { slug: item?.slug, locale: item?.language },
-    })) || [];
+//   const paths =
+//     allSlugs.map((item: Pick<ProjectType, "slug" | "language">) => ({
+//       params: { slug: item?.slug, locale: item?.language },
+//     })) || [];
 
-  return paths;
-}
+//   return paths;
+// }
 
 const { slug, locale } = Astro.params;
 
-const pageData = await getProject<ProjectType>(slug as "", locale);
+const pageData = await getProject<ProjectType>(slug as "", locale as string);
 
 const {
   pagebuilder,

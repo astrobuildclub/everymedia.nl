@@ -1,8 +1,7 @@
 import {defineLocations} from 'sanity/presentation'
 import type {PresentationPluginOptions} from 'sanity/presentation'
 
-const previewUrl = 'http://localhost:4321'
-
+const previewUrl = process.env.SANITY_STUDIO_PREVIEW_URL || 'http://localhost:4321'
 export const resolveLink = ({
   slug,
   type,
