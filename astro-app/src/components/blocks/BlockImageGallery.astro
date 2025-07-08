@@ -35,15 +35,17 @@ const { images } = Astro.props.data || {};
 
 <script>
   import Swiper from "swiper";
-  import { Autoplay } from "swiper/modules";
+  import { Autoplay, FreeMode } from "swiper/modules";
   import "swiper/css";
 
   new Swiper(".swiper", {
-    modules: [Autoplay],
+    modules: [Autoplay, FreeMode],
     slidesPerView: "auto",
     spaceBetween: 24,
     grabCursor: true,
+    freeMode: true,
     loop: true,
+    
     autoplay: {
       delay: 0,
       disableOnInteraction: false,
