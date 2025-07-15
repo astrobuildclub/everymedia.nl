@@ -14,7 +14,7 @@ const {
   heroImage,
   select: Select,
   documentId,
-  documentType
+  documentType,
 } = Astro.props.data || {};
 const select = stegaClean(Select || "");
 ---
@@ -75,13 +75,16 @@ const select = stegaClean(Select || "");
       height: 100%;
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0 var(--gutter);
+      /* padding-inline: var(--space-s); */
       z-index: 5;
 
       .title__wrapper {
         display: grid;
+
         /* padding-left: var(--space-3xs);
         padding-right: var(--space-3xs); */
-        padding: 0rem 1rem;
+        /* padding: 0rem 1rem; */
 
         .em-title {
           font-size: var(--type-size);
@@ -90,16 +93,19 @@ const select = stegaClean(Select || "");
           align-self: flex-end;
           position: sticky;
           bottom: 0;
-          margin-bottom: 0 !important;
 
-          @media (max-width: 1279px) {
+          /* @media (max-width: 1279px) {
             font-size: 22.5vw;
-        }
+          }
           @media (max-width: 639px) {
             font-size: 21vw;
+          } */
         }
-          
-        }
+      }
+
+      .title__wrapper:first-child {
+        /* opacity: 0.8; */
+        padding-left: var(--space-s);
       }
     }
 

@@ -8,7 +8,7 @@ interface Props {
   data: BlockTextMediaType;
 }
 
-const { title, image, alignment:Alignment, intro } = Astro.props.data || {};
+const { title, image, alignment: Alignment, intro } = Astro.props.data || {};
 const alignment = stegaClean(Alignment || "");
 ---
 
@@ -16,21 +16,17 @@ const alignment = stegaClean(Alignment || "");
   (() => {
     return (
       <section class="block-text-media">
-        <div 
+        <div
           class={`block-text-media-inner ${alignment == "left" ? "block-text-media-inner-left" : "block-text-media-inner-right"}`}
         >
-          <div
-            class="text-media-image-part-left"
-          >
+          <div class="text-media-image-part-left">
             {image && (
               <div class="text-media-image">
                 <SanityImage src={image} />
               </div>
             )}
           </div>
-          <div
-            class="text-media-about-part-right"
-          >
+          <div class="text-media-about-part-right">
             {title && <h2 class="text-media-title">{title}</h2>}
             {intro && (
               <div class="text-media-desc">
@@ -53,13 +49,12 @@ const alignment = stegaClean(Alignment || "");
       align-items: center;
       justify-content: space-between;
       gap: var(--grid-gutter);
-    
 
       .text-media-image-part-left {
         width: 49.5%;
         @media (max-width: 767px) {
           width: 100%;
-      }
+        }
         .text-media-image {
           figure {
             display: flex;
@@ -67,7 +62,7 @@ const alignment = stegaClean(Alignment || "");
             gap: var(--grid-gutter);
 
             img {
-              aspect-ratio: 696 / 696;
+              aspect-ratio: 1 / 1;
               object-fit: cover;
               border-radius: 5px;
             }
@@ -89,7 +84,7 @@ const alignment = stegaClean(Alignment || "");
         width: 49.5%;
         @media (max-width: 767px) {
           width: 100%;
-      }
+        }
 
         .text-media-title {
           color: black;
@@ -106,22 +101,20 @@ const alignment = stegaClean(Alignment || "");
           letter-spacing: 0.045px;
         }
       }
-
     }
 
-    .block-text-media-inner-left{
+    .block-text-media-inner-left {
       flex-direction: row;
       @media (max-width: 767px) {
         flex-direction: column;
       }
     }
 
-    .block-text-media-inner-right{
+    .block-text-media-inner-right {
       flex-direction: row-reverse;
       @media (max-width: 767px) {
         flex-direction: column-reverse;
       }
     }
-
   }
 </style>

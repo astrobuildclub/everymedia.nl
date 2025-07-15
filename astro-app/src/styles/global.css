@@ -1,8 +1,38 @@
 :root {
   --debug: red;
+
+
+  --gray-50: #ffffffff;
+  --gray-75: #fdfdfdff;
+  --gray-100: #f8f8f8ff;
+  --gray-200: #e6e6e6ff;
+  --gray-300: #d5d5d5ff;
+  --gray-400: #b1b1b1ff;
+  --gray-500: #909090ff;
+  --gray-600: #6d6d6dff;
+  --gray-700: #464646ff;
+  --gray-800: #222222ff;
+  --gray-900: #000000ff;
+  --blue-50: #f7f7ffff;
+  --blue-100: #ededffff;
+  --blue-200: #d2d4fdff;
+  --blue-300: #a7abfbff;
+  --blue-400: #727af7ff;
+  --blue-500: #3844f3ff;
+  --blue-600: #1119d3ff;
+  --blue-700: #0e1195ff;
+  --blue-800: #0b0c65ff;
+  --blue-900: #090946ff;
+  --blue-950: #08083cff;
+  --blue-1000: #00025aff;
+  --blue-1100: #00014fff;
+  --blue-1200: #021c9dff;
+  --blue-1300: #011b8fff;
+  --blue-1400: #011a8aff;
+
   --clr-bg: #fff;
-  --clr-text: #111;
-  --clr-primary: hsl(240, 90%, 59%);
+  --clr-text: var(--gray-900);
+  --clr-primary: var(--blue-600);
 
   --charcoal-gray: #28252b;
   --neutrals-black: #000000;
@@ -36,16 +66,15 @@
   --clr-primary-a50: oklch(from var(--clr-primary) l c h / calc(alpha - 0.5));
   --clr-secondary: hsl(240, 90%, 99%);
   /* light */
-  --font-heading: "Barlow Condensed", Serif;
-  --font-body: "Barlow", Inter, Roboto, "Helvetica Neue", "Arial Nova",
-    "Nimbus Sans", Arial, sans-serif;
-  --font-primary: "Antarctica VAR";
+  --font-system:  Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
+  --font-heading: "Antarctica VAR", var(--font-system);
+  --font-body: "Antarctica VAR", var(--font-system);
+  --font-primary: "Antarctica VAR", var(--font-system);
   --font-mono: "DM Mono", monospace;
-  --font-instrument: "Instrument Sans", sans-serif;
   --gutter: 1rem;
   --grid-gutter: 1.5rem;
-  --type-size: 23.2vw;
-  --type-pos: calc(var(--type-size) * 1);
+  --type-size: 23vw;
+  --type-pos: var(--type-size);
   --type-translate: 200%;
   --leading-tight: 112.5%;
 
@@ -308,9 +337,9 @@ ol {
   font-family: var(--font-primary);
   font-weight: 800;
   text-transform: uppercase;
-  line-height: 85%;
+  line-height: 100%;
   @media (max-width: 1279px) {
-    line-height: 90%;
+    /* line-height: 90%; */
 }
 }
 
@@ -351,24 +380,26 @@ pre {
 
 .black-btn {
   display: block;
-  background-color: var(--off-black);
+  background-color: var(--blue-900);
   color: white;
   font-weight: bold;
   text-align: center;
   font-size: 1.125rem;
   padding: 1.5rem 2.25rem;
   width: fit-content;
-  line-height: 120%;
-  border: 1px solid transparent;
+  line-height: 100%;
+  /* border: 1px solid transparent; */
   transition: all 0.2s ease-in-out;
   cursor: pointer;
   text-decoration: none;
+  border-radius: 100vw;
 }
 
 .black-btn:hover {
-  background-color: transparent;
-  border-color: var(--off-black);
-  color: var(--off-black);
+  /* background-color: transparent; */
+  background-color: var(--blue-600);
+  /* border-color: var(--off-black); */
+  /* color: var(--off-black); */
 }
 
 figure {

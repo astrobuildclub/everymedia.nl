@@ -29,14 +29,14 @@ const {
           {title && (
             <div class="title-container">
               <div class="sticky-title">
-                <div class="title">{title}</div>
+                <h2 class="title">{title}</h2>
               </div>
             </div>
           )}
 
           {subtitle && (
             <div class="media-header">
-              <p>{subtitle}</p>
+              <h2 class="title">{subtitle}</h2>
             </div>
           )}
 
@@ -118,35 +118,38 @@ const {
 
     .block-feet-section {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       position: relative;
+      padding-inline: var(--space-s);
+      padding-bottom: var(--space-2xs);
+      gap: 0 var(--gutter);
       /* padding-bottom: var(--space-xs); */
 
-         /* @media (max-width: 767px) {
+      /* @media (max-width: 767px) {
           padding-bottom: 4.5rem;
         } */
-      
 
       .title-container {
         grid-row: span 2;
         /* padding-left: var(--space-3xs);
         padding-right: var(--space-3xs); */
-        padding: 0rem 0.4rem 0 1rem;
+        /* padding: 0rem 0.4rem 0 1rem; */
 
         .sticky-title {
           position: sticky;
-          top: -1.5rem;
+          top: 0;
 
           .title {
+            font-family: var(--font-primary);
             font-size: var(--type-size);
             color: var(--charcoal-gray);
             font-weight: 800;
-            font-family: var(--font-primary);
+
             text-transform: uppercase;
-            line-height: 115%;
+            line-height: 100%;
             @media (max-width: 1279px) {
-            font-size: 22.5vw;
-        }
+              /* font-size: 22.5vw; */
+            }
           }
         }
       }
@@ -156,16 +159,18 @@ const {
         grid-row: span 1;
         grid-row-start: 1;
 
-        p {
+        h2 {
+          font-family: var(--font-primary);
           font-size: var(--type-size);
-          font-weight: bold;
-          color: var(--charcoal-gray);
-          font-family: var(--font-heading);
+          font-weight: 800;
+
           text-transform: uppercase;
           line-height: 100%;
-          padding-left: var(--space-3xs);
-          padding-right: var(--space-3xs);
-          visibility: hidden;
+
+          color: red;
+          /* padding-left: var(--space-3xs);
+          padding-right: var(--space-3xs); */
+          /* visibility: hidden; */
         }
       }
 
@@ -178,12 +183,11 @@ const {
         grid-template-columns: repeat(4, 1fr);
         z-index: -1;
         gap: var(--space-xs);
-        padding: var(--space-xs);
+        /* /* padding: var(--space-xs); */
         padding-bottom: var(--space-xs);
-
-        @media (max-width: 767px) {
+        */ @media (max-width: 767px) {
           grid-template-columns: repeat(2, 1fr);
-          padding-bottom: 0rem;
+          /* padding-bottom: 0rem; */
           grid-column: span 1 / span 1;
           grid-row: span 1 / span 1;
         }
@@ -205,14 +209,14 @@ const {
             }
           }
 
-          .connect-title {
+          .connect-h2 {
             font-size: 0.75rem;
             color: var(--neutrals-600);
             font-weight: medium;
             text-transform: uppercase;
             letter-spacing: 3%;
             font-family: var(--font-mono);
-            margin-bottom: 0.5rem;
+            /* margin-bottom: 0.5rem; */
           }
 
           .connect-body {
@@ -244,22 +248,20 @@ const {
         grid-column: span 1;
         grid-row: span 2;
         display: grid;
-        padding: var(--space-xs);
+        /* padding: var(--space-xs); */
         padding-top: var(--space-s);
-        padding-bottom: var(--space-xs);
-        padding-left: 0.4rem;
+        padding-bottom: var(--space-s);
+        /* padding-left: 0.4rem */
 
         @media (max-width: 767px) {
-          padding-left: var(--space-xs);
+          /* padding-left: var(--space-xs); */
         }
-
-      
 
         .content-box {
           display: flex;
           flex-direction: column;
           gap: 1.125rem;
-          margin-bottom: 2.25rem;
+          margin-bottom: var(--space-2xs);
 
           .sub-title {
             & {
@@ -293,15 +295,17 @@ const {
     }
 
     @media (max-width: 767px) {
+      margin-top: 0;
       .block-feet-section {
         grid-template-columns: 1fr;
         gap: var(--space-xs);
 
+        .media-header,
         .title-container {
           display: none;
         }
 
-        .media-header {
+        .media-header .media-header {
           grid-column: 1;
           grid-row: unset;
           text-align: center;
