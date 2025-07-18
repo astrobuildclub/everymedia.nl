@@ -76,42 +76,29 @@ const select = stegaClean(Select || "");
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 0 var(--gutter);
-      /* padding-inline: var(--space-s); */
       z-index: 5;
 
       .title__wrapper {
         display: grid;
 
-        /* padding-left: var(--space-3xs);
-        padding-right: var(--space-3xs); */
-        /* padding: 0rem 1rem; */
-
         .em-title {
+          position: sticky;
+          bottom: 0;
+          align-self: flex-end;
           font-size: var(--type-size);
           font-weight: 800;
           color: white;
-          align-self: flex-end;
-          position: sticky;
-          bottom: 0;
-
-          /* @media (max-width: 1279px) {
-            font-size: 22.5vw;
-          }
-          @media (max-width: 639px) {
-            font-size: 21vw;
-          } */
         }
       }
 
       .title__wrapper:first-child {
-        /* opacity: 0.8; */
         padding-left: var(--space-s);
       }
     }
 
     .video__wrapper {
       position: absolute;
-      top: calc(var(--spacing) * 0);
+      top: 0;
       width: 100%;
       height: 100%;
 
