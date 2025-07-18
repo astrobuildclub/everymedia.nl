@@ -18,10 +18,7 @@ const { images } = Astro.props.data || {};
               {images?.map((item) => {
                 return (
                   <div class="swiper-slide">
-                    <SanityImage
-                      src={item}
-                      className="swiper-image"
-                    />
+                    <SanityImage src={item} className="swiper-image" />
                   </div>
                 );
               })}
@@ -35,23 +32,17 @@ const { images } = Astro.props.data || {};
 
 <script>
   import Swiper from "swiper";
-  import { Autoplay, FreeMode } from "swiper/modules";
+  // import { Autoplay, FreeMode } from "swiper/modules";
   import "swiper/css";
 
   new Swiper(".swiper", {
-    modules: [Autoplay, FreeMode],
     slidesPerView: "auto",
-    spaceBetween: 24,
-    grabCursor: true,
-    freeMode: true,
+    spaceBetween: 30,
     loop: true,
-    
-    autoplay: {
-      delay: 0,
-      disableOnInteraction: false,
-      pauseOnMouseEnter: true,
-    },
-    speed: 3000,
+    // pagination: {
+    //   el: ".swiper-pagination",
+    //   clickable: true,
+    // },
   });
 </script>
 
@@ -65,12 +56,12 @@ const { images } = Astro.props.data || {};
     }
 
     .swiper-wrapper {
-      align-items: center;
+      align-items: top;
       padding-left: 0;
       .swiper-slide {
         width: 696px !important;
         @media (max-width: 767px) {
-          aspect-ratio: 696 / 391;
+          /* aspect-ratio: 4 / 3; */
           width: 100% !important;
         }
         figure {
@@ -80,7 +71,7 @@ const { images } = Astro.props.data || {};
             border-radius: 5px;
             object-fit: cover;
             @media (max-width: 767px) {
-              aspect-ratio: 696 / 375;
+              /* aspect-ratio: 4 / 3; */
               width: 100%;
             }
           }

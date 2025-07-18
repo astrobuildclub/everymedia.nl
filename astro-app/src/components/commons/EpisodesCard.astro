@@ -76,18 +76,12 @@ const { episodes } = Astro.props || {};
   import "swiper/css";
 
   new Swiper(".swiper", {
-    modules: [Autoplay, FreeMode],
     slidesPerView: "auto",
-    spaceBetween: 24,
-    grabCursor: true,
-    loop: true,
-    freeMode: true,
-    autoplay: {
-      delay: 0,
-      disableOnInteraction: false,
-      pauseOnMouseEnter: true,
+    spaceBetween: 30,
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
     },
-    speed: 3000,
   });
 </script>
 

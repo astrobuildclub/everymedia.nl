@@ -105,23 +105,17 @@ const locale = Astro.params?.locale || defaultLanguage.id;
 
 <script>
   import Swiper from "swiper";
-  import { Autoplay , FreeMode } from "swiper/modules";
+  // import { Autoplay , FreeMode } from "swiper/modules";
   import "swiper/css";
 
   new Swiper(".swiper", {
-    modules: [Autoplay, FreeMode],
     slidesPerView: "auto",
-    spaceBetween: 24,
-    grabCursor: true,
+    spaceBetween: 30,
     loop: true,
-    autoplay: false,
-    freeMode: true,
-    // autoplay: {
-    //   delay: 0,
-    //   disableOnInteraction: false,
-    //   pauseOnMouseEnter: true,
-    // },
-    speed: 3000,
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
     breakpoints: {
       1024: {
         slidesPerView: 2.1,
@@ -147,7 +141,7 @@ const locale = Astro.params?.locale || defaultLanguage.id;
 
     .media {
       border-radius: 4px;
-      aspect-ratio: 696 / 391;
+      /* aspect-ratio: 696 / 391; */
       width: 100%;
     }
 
