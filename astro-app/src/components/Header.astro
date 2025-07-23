@@ -99,33 +99,33 @@ const MenuClass = (heroVariants: HeroVariantType) => {
             >
               {`Close`}
             </button>
-            {navItems?.length > 0 && (
-              <nav id="menu" class="show-nav nav hidden">
-                <div class="nav-items">
-                  {navItems?.map((item) => {
-                    const { headline, labelLinks } = item || {};
-                    return (
-                      <div class="nav-item">
-                        {headline && <div class="headline ">{headline}</div>}
-                        {labelLinks?.length > 0 &&
-                          labelLinks?.map((item) => {
-                            const { label, link } = item || {};
-                            return (
-                              <div>
-                                <SanityLink class="label" href={link}>
-                                  {label}
-                                </SanityLink>
-                              </div>
-                            );
-                          })}
-                      </div>
-                    );
-                  })}
-                </div>
-              </nav>
-            )}
           </div>
         </div>
+        {navItems?.length > 0 && (
+          <nav id="menu" class="show-nav nav hidden">
+            <div class="nav-items">
+              {navItems?.map((item) => {
+                const { headline, labelLinks } = item || {};
+                return (
+                  <div class="nav-item">
+                    {headline && <div class="headline ">{headline}</div>}
+                    {labelLinks?.length > 0 &&
+                      labelLinks?.map((item) => {
+                        const { label, link } = item || {};
+                        return (
+                          <div>
+                            <SanityLink class="label" href={link}>
+                              {label}
+                            </SanityLink>
+                          </div>
+                        );
+                      })}
+                  </div>
+                );
+              })}
+            </div>
+          </nav>
+        )}
       </header>
     );
   })()
@@ -155,11 +155,13 @@ const MenuClass = (heroVariants: HeroVariantType) => {
       align-items: center;
       width: 100%;
       max-width: 100%;
+      position: relative;
+      z-index: 10;
     }
 
     .logo-menu-open {
-     filter: grayscale(1) !important;
-}
+      filter: grayscale(1) !important;
+    }
 
     a {
       img {
@@ -172,11 +174,11 @@ const MenuClass = (heroVariants: HeroVariantType) => {
       }
     }
 
-    .logo-page{
+    .logo-page {
       filter: invert(1);
     }
 
-    .logo-audience{
+    .logo-audience {
       filter: brightness(0.2);
     }
 
@@ -212,21 +214,21 @@ const MenuClass = (heroVariants: HeroVariantType) => {
         cursor: pointer;
       }
 
-      .laug-cta-homepage{
+      .laug-cta-homepage {
         background-color: var(--white-clr);
         color: white;
       }
-      .laug-cta-audience{
+      .laug-cta-audience {
         background-color: var(--light-gray);
         color: #2c2c2c;
       }
-      .laug-cta-page{
-          background-color: var(--platinum-gray);
-          color: black;
+      .laug-cta-page {
+        background-color: var(--platinum-gray);
+        color: black;
       }
-      .laug-cta-project{
-          background-color: var(--eerie-black);
-          color: white;
+      .laug-cta-project {
+        background-color: var(--eerie-black);
+        color: white;
       }
     }
 
@@ -246,25 +248,25 @@ const MenuClass = (heroVariants: HeroVariantType) => {
       width: 5rem;
     }
 
-    .menu-cta-audience{
-           background-color: var(--ash-gray); 
-           color: black;
-      }
+    .menu-cta-audience {
+      background-color: var(--ash-gray);
+      color: black;
+    }
 
-    .menu-cta-homepage{
-           background-color: var(--charcoal-gray); 
-           color: white;
-      }
+    .menu-cta-homepage {
+      background-color: var(--charcoal-gray);
+      color: white;
+    }
 
-    .menu-cta-page{
-           background-color: var(--light-sage); 
-           color: black;
-      }
+    .menu-cta-page {
+      background-color: var(--light-sage);
+      color: black;
+    }
 
-    .menu-cta-project{
-           background-color: var(--charcoal-gray); 
-           color: white;
-      }
+    .menu-cta-project {
+      background-color: var(--charcoal-gray);
+      color: white;
+    }
 
     .close-menu {
       background-color: white;
@@ -284,7 +286,6 @@ const MenuClass = (heroVariants: HeroVariantType) => {
       outline: none;
     }
 
-   
     .show-nav {
       display: none;
     }
@@ -294,7 +295,7 @@ const MenuClass = (heroVariants: HeroVariantType) => {
 
     .nav {
       position: absolute;
-      top: 100%;
+      top: 0;
       left: 0;
       width: 100%;
       height: 100vh;
@@ -353,7 +354,7 @@ const MenuClass = (heroVariants: HeroVariantType) => {
   const closeMenuButton = document.querySelector(".close-menu-button");
   const menu = document.querySelector("#menu");
   const menuBackground = document.querySelector("header");
-  const logo = document.querySelector(".logo-class"); 
+  const logo = document.querySelector(".logo-class");
 
   openMenuButton?.addEventListener("click", () => {
     menu?.classList.remove("hidden");
@@ -381,4 +382,3 @@ const MenuClass = (heroVariants: HeroVariantType) => {
     document.body.style.overflowY = "";
   });
 </script>
-

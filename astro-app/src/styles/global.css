@@ -165,6 +165,10 @@
 
   /* space-xl-2xl-3xl: 54px → 144px */
   --space-xl-2xl-3xl: clamp(54px, 54px + 5vw, 144px);
+
+--fs-caption: var(--fs--2);
+--fs-clr-caption: var(--gray-600);
+
 }
 
 a:-webkit-any-link {

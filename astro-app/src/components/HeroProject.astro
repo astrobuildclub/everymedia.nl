@@ -11,8 +11,8 @@ interface Props {
 }
 const {
   title,
-  heroVideo,
   subtitle,
+  heroVideo,
   heroImage,
   select: Select,
   intro,
@@ -22,6 +22,9 @@ const {
   documentType,
 } = Astro.props.data || {};
 const select = stegaClean(Select || "");
+
+console.log("heroVideo:", heroVideo);
+console.log("heroImage:", heroImage);
 ---
 
 {
@@ -39,7 +42,7 @@ const select = stegaClean(Select || "");
               <div class="desc-with-icon">
                 {subtitle && <p class="project-banner-desc">{subtitle}</p>}
                 <a href="#downArrow">
-                <DownArrow className="skip-icon" />
+                  <DownArrow className="skip-icon" />
                 </a>
               </div>
             </div>
@@ -60,7 +63,6 @@ const select = stegaClean(Select || "");
                 documentType={documentType}
                 sanityFieldName="heroVideo"
               />
-              <div class="bg-overlay" />
             </div>
           )}
           {select === "heroImage" && heroImage && (
@@ -72,18 +74,16 @@ const select = stegaClean(Select || "");
                 documentType={documentType}
                 sanityFieldName="heroImage"
               />
-              <div class="bg-overlay" />
             </div>
           )}
         </div>
         <a href="#downArrow">
-        <DownArrow className="skip-icon-mobie" />
+          <DownArrow className="skip-icon-mobie" />
         </a>
       </section>
     );
   })()
 }
-
 <style>
   .project-hero-section {
     position: relative;
@@ -101,6 +101,7 @@ const select = stegaClean(Select || "");
         z-index: 2;
         left: 0;
         right: 0;
+
         @media (max-width: 767px) {
           gap: 1rem;
           bottom: 4.5rem;
@@ -108,6 +109,7 @@ const select = stegaClean(Select || "");
 
         .project-hero-title-inner {
           width: 100%;
+
           .project-hero-categories {
             display: flex;
             justify-content: space-between;
@@ -122,6 +124,7 @@ const select = stegaClean(Select || "");
               letter-spacing: 0.36px;
               text-transform: uppercase;
             }
+
             .categories-right {
               padding: var(--space-3xs) var(--space-2xs-xs);
               background-color: #00000099;
@@ -136,6 +139,7 @@ const select = stegaClean(Select || "");
               text-transform: uppercase;
             }
           }
+
           .project-banner-title {
             font-size: var(---fs---1);
             color: white;
@@ -157,12 +161,14 @@ const select = stegaClean(Select || "");
               font-family: var(--font-heading);
               color: white;
             }
+
             .skip-icon {
               position: absolute;
               right: 4rem;
               bottom: -9rem;
               z-index: 2;
               cursor: pointer;
+
               @media (max-width: 767px) {
                 display: none;
               }
@@ -180,28 +186,28 @@ const select = stegaClean(Select || "");
           max-width: 58.5rem;
           width: 100%;
           font-size: var(---fs---2);
+
           @media (max-width: 1279px) {
             padding-left: 0%;
           }
         }
       }
+
       .project-bg {
         position: absolute;
-        top: calc(var(--spacing) * 0);
+        top: 0;
         width: 100%;
         height: 100%;
         object-fit: cover;
+        overflow: hidden;
 
-        video {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-        .bg-overlay {
+        &:after {
+          content: "";
           position: absolute;
+          top: 0;
+          left: 0;
           width: 100%;
           height: 100%;
-          top: 0;
           background:
             linear-gradient(
               190deg,
@@ -209,49 +215,35 @@ const select = stegaClean(Select || "");
               rgba(0, 0, 0, 0.95) 92.46%
             ),
             lightgray 0% 0% / 25px 25px repeat;
-          background-blend-mode: normal;
+          mix-blend-mode: multiply;
+          z-index: 1;
         }
-      }
-      .project-bg {
-        position: absolute;
-        top: calc(var(--spacing) * 0);
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
 
+        video,
         figure {
           width: 100%;
           height: 100%;
+          object-fit: cover;
+        }
+
+        figure {
           position: relative;
-          z-index: 1;
+          z-index: 0;
+
           .sanity-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
             position: relative;
-            z-index: 1;
+            z-index: 0;
           }
-        }
-
-        .bg-overlay {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          top: 0;
-          background:
-            linear-gradient(
-              190deg,
-              rgba(0, 0, 0, 0.05) 49.15%,
-              rgba(0, 0, 0, 0.95) 92.46%
-            ),
-            lightgray 0% 0% / 25px 25px repeat;
-          background-blend-mode: normal;
         }
       }
     }
 
     .skip-icon-mobie {
       display: none;
+
       @media (max-width: 767px) {
         display: block;
         position: absolute;
