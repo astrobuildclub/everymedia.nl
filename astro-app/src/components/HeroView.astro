@@ -1,0 +1,34 @@
+---
+import type { HeroVariantType, HeroViewType } from "../utils";
+import HeroAudience from "./HeroAudience.astro";
+import HeroHomePage from "./HeroHomePage.astro";
+import HeroPage from "./HeroPage.astro";
+import HeroProject from "./HeroProject.astro";
+import { stegaClean } from "@sanity/client/stega";
+
+interface Props {
+  data: HeroViewType;
+  heroVariants: HeroVariantType;
+}
+
+const { data, heroVariants } = Astro.props;
+const variant = stegaClean(heroVariants || "");
+
+---
+
+{
+  (() => {
+    switch (variant) {
+      case "homepage":
+        return <HeroHomePage data={data} />;
+      case "audience":
+        return <HeroAudience data={data} />;
+      case "project":
+        return <HeroProject data={data} />;
+      case "page":
+        return <HeroPage data={data} />;
+      default:
+        return null;
+    }
+  })()
+}

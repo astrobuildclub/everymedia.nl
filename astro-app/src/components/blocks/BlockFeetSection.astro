@@ -1,0 +1,291 @@
+---
+import { PortableText } from "astro-portabletext";
+import type { BlockFeetSectionType } from "../../utils";
+import ProjectGridHomepage from "../ProjectGridHomepage.astro";
+import SanityButton from "../commons/SanityButton.astro";
+import { cn } from "../../lib/helperFunctions";
+import SanityLink from "../commons/SanityLink.astro";
+import { stegaClean } from "@sanity/client/stega";
+
+interface Props {
+  data: BlockFeetSectionType;
+}
+const {
+  title,
+  intro,
+  body,
+  connectWithUs = [],
+  subtitle,
+  selectedProjects = [],
+  cta,
+} = Astro.props.data || {};
+---
+
+{
+  (() => {
+    return (
+      <section>
+        <div class="block-feet-section">
+          {title && (
+            <div class="title-container">
+              <div class="sticky-title">
+                <h2 class="title">{title}</h2>
+              </div>
+            </div>
+          )}
+
+          {subtitle && (
+            <div class="media-header">
+              <h2 class="title">{subtitle}</h2>
+            </div>
+          )}
+
+          {connectWithUs?.length > 0 && (
+            <div class="connect-section">
+              {connectWithUs?.map((item) => {
+                const { body, title, select: Select, labelLinks } = item || {};
+                const select = stegaClean(Select || "");
+                return (
+                  <div
+                    class={cn(
+                      "",
+                      select === "body"
+                        ? "connect-item full-span"
+                        : "connect-item half-span"
+                    )}
+                  >
+                    <div>
+                      {title && <div class="connect-title">{title}</div>}
+                      {select === "body" && body && (
+                        <div class="connect-body">
+                          <PortableText value={body} />
+                        </div>
+                      )}
+                      {select === "labelLinks" && labelLinks?.length > 0 && (
+                        <ul class="label-links">
+                          {labelLinks?.map((item) => {
+                            const { link, label } = item || {};
+                            return (
+                              <li>
+                                <SanityLink href={link} class="label-link">
+                                  {label}
+                                </SanityLink>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          <div class="content">
+            <div class="content-box">
+              {intro && (
+                <div class="sub-title">
+                  <PortableText value={intro} />
+                </div>
+              )}
+              {body && (
+                <div class="body-text">
+                  <PortableText value={body} />
+                </div>
+              )}
+            </div>
+            {selectedProjects?.length > 0 && (
+              <div class="projects">
+                <ProjectGridHomepage projects={selectedProjects} />
+              </div>
+            )}
+
+            {cta?.buttonText && (
+              <div class="cta-button">
+                <SanityButton block={cta} class="button" />
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    );
+  })()
+}
+<style>
+  section {
+    margin-top: calc(-1 * var(--type-pos));
+
+    .block-feet-section {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      position: relative;
+      padding: 0 var(--space-s);
+      padding-bottom: var(--space-2xs);
+      gap: 0 var(--gutter);
+
+      .title-container {
+        grid-row: span 2;
+
+        .sticky-title {
+          position: sticky;
+          top: 0;
+
+          .title {
+            font-family: var(--font-primary);
+            font-size: var(--type-size);
+            font-weight: 800;
+            line-height: 100%;
+            text-transform: uppercase;
+            color: var(--charcoal-gray);
+
+            @media (max-width: 1279px) {
+              /* font-size: 22.5vw; */
+            }
+          }
+        }
+      }
+
+      .media-header {
+        grid-column-start: 2;
+        grid-row-start: 1;
+        grid-row: span 1;
+
+        h2 {
+          font-family: var(--font-primary);
+          font-size: var(--type-size);
+          font-weight: 800;
+          line-height: 100%;
+          text-transform: uppercase;
+          color: red;
+        }
+      }
+
+      .connect-section {
+        grid-column: span 1 / span 1;
+        grid-row-start: 3;
+        position: sticky;
+        bottom: 0;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: var(--space-xs);
+        padding-bottom: var(--space-xs);
+        z-index: -1;
+
+        .connect-item {
+          &.full-span {
+            grid-column: span 2;
+
+            @media (max-width: 767px) {
+              grid-column: span 4;
+            }
+          }
+
+          &.half-span {
+            grid-column: span 1;
+
+            @media (max-width: 767px) {
+              grid-column: span 2;
+            }
+          }
+
+          .connect-title {
+            font-size: var(--fs--2);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 3%;
+            font-family: var(--font-heading);
+            line-height: 150%;
+            color: var(--neutrals-600);
+          }
+
+          .connect-body {
+            font-family: var(--font-body);
+            font-size: var(--fs--2);
+            line-height: 150%;
+            color: var(--dim-gray);
+          }
+
+          .label-links {
+            margin: 0;
+            padding: 0;
+            font-size: var(--fs--2);
+            font-weight: medium;
+            line-height: var(--leading-tight);
+
+            .label-link {
+              font-family: var(--font-primary);
+              font-size: var(--fs--2);
+              line-height: 150%;
+              color: var(--dim-gray);
+              text-decoration: none;
+            }
+          }
+        }
+      }
+
+      .content {
+        grid-column: span 1;
+        grid-row: span 2;
+        display: grid;
+        padding: var(--space-s) 0;
+
+        .content-box {
+          display: flex;
+          flex-direction: column;
+          gap: 1.125rem;
+          margin-bottom: var(--space-2xs);
+
+          .sub-title {
+            font-family: var(--font-primary);
+            font-size: var(--fs-0);
+            font-weight: 500;
+            line-height: 133%;
+            color: var(--neutrals-black);
+          }
+
+          .body-text {
+            font-family: var(--font-body);
+            font-size: var(--fs--1);
+            font-weight: normal;
+            line-height: 133%;
+            color: var(--neutrals-black);
+          }
+        }
+
+        .projects {
+          /* Additional project styling can go here */
+        }
+
+        .cta-button {
+          margin-top: 1.5rem;
+
+          .button {
+            border-radius: 9999px;
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 767px) {
+    section {
+      margin-top: 0;
+
+      .block-feet-section {
+        grid-template-columns: 1fr;
+        gap: var(--space-xs);
+
+        .title-container,
+        .media-header,
+        .connect-section {
+          display: none;
+        }
+
+        .content {
+          grid-column: 1;
+          grid-row: unset;
+        }
+      }
+    }
+  }
+</style>

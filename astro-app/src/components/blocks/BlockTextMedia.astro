@@ -1,0 +1,120 @@
+---
+import { PortableText } from "astro-portabletext";
+import type { BlockTextMediaType } from "../../utils";
+import SanityImage from "../commons/SanityImage.astro";
+import { stegaClean } from "@sanity/client/stega";
+
+interface Props {
+  data: BlockTextMediaType;
+}
+
+const { title, image, alignment: Alignment, intro } = Astro.props.data || {};
+const alignment = stegaClean(Alignment || "");
+---
+
+{
+  (() => {
+    return (
+      <section class="block-text-media">
+        <div
+          class={`block-text-media-inner ${alignment == "left" ? "block-text-media-inner-left" : "block-text-media-inner-right"}`}
+        >
+          <div class="text-media-image-part-left">
+            {image && (
+              <div class="text-media-image">
+                <SanityImage src={image} />
+              </div>
+            )}
+          </div>
+          <div class="text-media-about-part-right">
+            {title && <h2 class="text-media-title">{title}</h2>}
+            {intro && (
+              <div class="text-media-desc">
+                <PortableText value={intro} />
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    );
+  })()
+}
+
+<style>
+  .block-text-media {
+    padding: var(--space-2xl) var(--space-s);
+
+    .block-text-media-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--grid-gutter);
+
+      .text-media-image-part-left {
+        width: 49.5%;
+        @media (max-width: 767px) {
+          width: 100%;
+        }
+        .text-media-image {
+          figure {
+            display: flex;
+            flex-direction: column;
+            gap: var(--grid-gutter);
+
+            img {
+              aspect-ratio: 1 / 1;
+              object-fit: cover;
+              border-radius: 5px;
+            }
+            figcaption {
+              font-size: var(--fs-caption);
+              color: var(--gray-700);
+              font-weight: 500;
+              line-height: 150%;
+              letter-spacing: 0.25px;
+            }
+          }
+        }
+      }
+
+      .text-media-about-part-right {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        width: 49.5%;
+        @media (max-width: 767px) {
+          width: 100%;
+        }
+
+        .text-media-title {
+          color: black;
+          font-family: var(--font-primary);
+          font-size: var(--fs-1);
+          font-weight: 500;
+          line-height: 120%;
+        }
+        .text-media-desc {
+          color: black;
+          font-family: var(--font-primary);
+          font-size: var(--fs--1);
+          line-height: 150%;
+          letter-spacing: 0.045px;
+        }
+      }
+    }
+
+    .block-text-media-inner-left {
+      flex-direction: row;
+      @media (max-width: 767px) {
+        flex-direction: column;
+      }
+    }
+
+    .block-text-media-inner-right {
+      flex-direction: row-reverse;
+      @media (max-width: 767px) {
+        flex-direction: column-reverse;
+      }
+    }
+  }
+</style>

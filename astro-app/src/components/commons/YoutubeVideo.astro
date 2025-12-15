@@ -1,0 +1,28 @@
+---
+import { YouTube } from "astro-embed";
+
+interface Props {
+  videoId: string;
+  className: string;
+  poster: string;
+  title: string;
+}
+
+const { className, videoId, title, poster } = Astro.props || {};
+---
+
+{
+  (() => {
+    return (
+      videoId && (
+        <YouTube
+          id={videoId}
+          poster={poster}
+          title={title}
+          class={className}
+          aria-label={title}
+        />
+      )
+    );
+  })()
+}

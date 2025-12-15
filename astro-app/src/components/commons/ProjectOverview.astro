@@ -1,0 +1,171 @@
+---
+import { PortableText } from "astro-portabletext";
+import type { ProjectType } from "../../utils";
+import SanityImage from "./SanityImage.astro";
+import SimpleVideo from "./SimpleVideo.astro";
+import SanityLink from "./SanityLink.astro";
+import { routes } from "../../lib/router";
+import { defaultLanguage } from "../../lib/helperFunctions";
+import { stegaClean } from "@sanity/client/stega";
+
+interface Props {
+  project: ProjectType;
+}
+const {
+  title,
+  heroImage,
+  select: Select,
+  heroVideo,
+  subtitle,
+  intro,
+  client,
+  tag,
+  slug,
+  _type,
+  _id,
+} = Astro.props.project || {};
+const locale = Astro.params?.locale || defaultLanguage.id;
+const select = stegaClean(Select || "");
+---
+
+{
+  (() => {
+    return (
+      <article>
+        <div class="project__meta">
+          <div>
+            {select === "heroImage" && heroImage && (
+              <div class="media-container">
+                <SanityImage
+                  src={heroImage}
+                  className="media"
+                  captionClassName="caption-style"
+                  documentId={_id}
+                  documentType={_type}
+                  sanityFieldName="heroImage"
+                />
+              </div>
+            )}
+            {select === "heroVideo" && heroVideo && (
+              <div class="media-container">
+                <SimpleVideo
+                  autoplay={true}
+                  loop={true}
+                  className="media"
+                  videoUrl={heroVideo}
+                  documentId={_id}
+                  documentType={_type}
+                  sanityFieldName="heroVideo"
+                />
+              </div>
+            )}
+          </div>
+          <div class="project__meta">
+            <div class="meta">
+              {client && <h4>{client}</h4>}
+              {tag && <p>{tag}</p>}
+            </div>
+            <div class="project-details">
+              {title && (
+                <SanityLink
+                  href={
+                    typeof slug === "object" && slug?.current
+                      ? routes?.project({
+                          language: locale ?? "",
+                          slug: slug?.current,
+                        })
+                      : "#"
+                  }
+                >
+                  <h3>{title}</h3>
+                </SanityLink>
+              )}
+              {subtitle && <span>{subtitle}</span>}
+              {intro && (
+                <div class="intro-text">
+                  <PortableText value={intro} />
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </article>
+    );
+  })()
+}
+
+<style>
+  .project__meta {
+    .media-container {
+      border-radius: 0.75rem;
+      margin-bottom: 0.75rem;
+      width: 100%;
+      overflow: hidden;
+    }
+    .media {
+      border-radius: 0.75rem;
+      /* aspect-ratio: 696 / 391; */
+      width: 100%;
+    }
+
+    .meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.375rem;
+
+      h4 {
+        font-family: var(--font-mono);
+        color: var(--blue-gray-700);
+        font-weight: 500;
+        letter-spacing: 3%;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+      }
+
+      p {
+        font-family: var(--font-mono);
+        font-size: 0.651rem;
+        color: var(--blue-gray-800);
+        background-color: var(--blue-gray-200);
+        border-radius: 9999px;
+        letter-spacing: 3%;
+        font-weight: 500;
+        text-transform: uppercase;
+        padding: 0.313rem 0.563rem;
+        line-height: 100%;
+      }
+    }
+
+    .project-details {
+      display: flex;
+      flex-direction: column;
+      gap: 0.375rem;
+
+      h3 {
+        font-weight: 700;
+        font-family: var(--font-primary);
+        font-size: var(--fs-2);
+        line-height: 1;
+        color: var(--blue-gray-900);
+        text-transform: uppercase;
+      }
+
+      span {
+        color: black;
+        font-size: var(--fs--1);
+        letter-spacing: -2%;
+        line-height: 112%;
+        font-weight: 500;
+        font-family: var(--font-primary) !important;
+      }
+
+      .intro-text {
+        color: var(--gray-800);
+        font-size: var(--fs--2);
+        font-weight: normal;
+        line-height: 150%;
+      }
+    }
+  }
+</style>

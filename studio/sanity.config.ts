@@ -1,32 +1,65 @@
 import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
+import {documentInternationalization} from '@sanity/document-internationalization'
 import {visionTool} from '@sanity/vision'
-import {structure} from './src/structure'
-import {schemas} from './src/schemas'
-import {linkField} from 'sanity-plugin-link-field' // https://www.sanity.io/plugins/sanity-plugin-link-field
-import {seoMetaFields} from 'sanity-plugin-seo' // https://www.sanity.io/plugins/seo-pane
-import {schemaMarkup} from '@operationnation/sanity-plugin-schema-markup' // https://www.sanity.io/plugins/sanity-plugin-schema-markup
+import {schemaTypes} from './schemaTypes'
+import {linkField} from 'sanity-plugin-link-field'
+import {schemaMarkup} from '@operationnation/sanity-plugin-schema-markup'
+import {seoMetaFields} from 'sanity-plugin-seo'
+import {noteField} from 'sanity-plugin-note-field'
+import {linkableSchemaTypes, translateLanguagesSchema} from './schemaTypes/contentTypes'
+import {deskStructure} from './deskStructure/deskStructure'
+import {supportedLanguages} from './schemaTypes/utils/supportedLanguage'
+import {assist} from '@sanity/assist'
+import {presentationTool} from 'sanity/presentation'
+import {resolve} from './presentation/resolve'
 
-// Environment variables for project configuration
-const projectId = process.env.SANITY_STUDIO_PROJECT_ID || 'your-projectID'
-const dataset = process.env.SANITY_STUDIO_DATASET || 'production'
+const previewUrl = process.env.SANITY_STUDIO_PREVIEW_URL || 'http://localhost:4321'
 
 export default defineConfig({
-  name: 'every-media',
+  name: 'default',
   title: 'Every Media',
-  projectId,
-  dataset,
-  plugins: [
-    structureTool({
-      structure: (S, context) => structure(S, context),
-    }),
 
+  projectId: 'mqkdg673',
+  dataset: 'production',
+
+  plugins: [
+    documentInternationalization({
+      supportedLanguages: supportedLanguages,
+      schemaTypes: translateLanguagesSchema,
+      weakReferences: false,
+      languageField: 'language',
+    }),
+    structureTool({
+      structure: deskStructure,
+    }),
     visionTool(),
-    linkField(),
-    seoMetaFields(),
+    linkField({
+      linkableSchemaTypes: linkableSchemaTypes,
+    }),
+    presentationTool({
+      resolve: resolve,
+      previewUrl: previewUrl,
+    }),
     schemaMarkup(),
+    seoMetaFields(),
+    noteField(),
+    assist({
+      translate: {
+        document: {
+          documentTypes: translateLanguagesSchema,
+          languageField: 'language',
+        },
+      },
+    }),
   ],
+
   schema: {
-    types: schemas,
+    types: schemaTypes,
+    templates: (prev) => {
+      return prev.filter(
+        (template) => !translateLanguagesSchema.map((type) => type).includes(template.id),
+      )
+    },
   },
 })

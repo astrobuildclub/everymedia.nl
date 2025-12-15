@@ -1,11 +1,24 @@
-//// filepath: astro-app/src/utils/sanity/getProject.ts
-import groq from "groq";
-import { sanityClient } from "sanity:client";
-import type { Project } from "./types";
+import { loadQuery } from "../../lib/load-query";
+import { projectQuery } from "./queries";
 
-export async function getProject(slug: string): Promise<Project> {
-  return await sanityClient.fetch(
-    groq`*[_type == "project" && slug.current == $slug][0]`,
-    { slug }
-  );
+export async function getProject<T>(
+  slug: string,
+  locale: string
+): Promise<T | null> {
+  try {
+    const { data: page } = await loadQuery<T>({
+      query: projectQuery.query.groqQuery,
+      params: {
+        slug: slug,
+        language: locale,
+      },
+    });
+    if (!page) {
+      return null;
+    }
+    return page;
+  } catch (error) {
+    console.error("Error fetching page:", error);
+    return null;
+  }
 }

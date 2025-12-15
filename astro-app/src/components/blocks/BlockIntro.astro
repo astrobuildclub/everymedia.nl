@@ -1,0 +1,52 @@
+---
+import { PortableText } from "astro-portabletext";
+import type { BlockIntroType } from "../../utils";
+
+interface Props {
+  data: BlockIntroType;
+}
+const { title, content } = Astro.props.data || {};
+---
+
+{
+  (() => {
+    return (
+      <section class="blockIntro-section">
+        {title && <h2 class="blockIntro-title">{title}</h2>}
+        {content && (
+          <div class="blockIntro-desc">
+            <PortableText value={content} />
+          </div>
+        )}
+      </section>
+    );
+  })()
+}
+
+<style>
+  .blockIntro-section {
+    padding: var(--space-2xl) var(--space-s);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4px;
+
+    .blockIntro-title {
+      color: black;
+      opacity: 0.3;
+      font-size: var(--fs-1);
+      line-height: 120%;
+      font-weight: 500;
+      font-family: var(--font-primary);
+    }
+
+    .blockIntro-desc {
+      & {
+        color: black;
+        font-size: var(--fs-1);
+        line-height: 120%;
+        font-weight: 500;
+        font-family: var(--font-primary);
+      }
+    }
+  }
+</style>

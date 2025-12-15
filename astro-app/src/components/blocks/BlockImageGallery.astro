@@ -1,0 +1,82 @@
+---
+import type { BlockImageGalleryType } from "../../utils";
+import SanityImage from "../commons/SanityImage.astro";
+
+interface Props {
+  data: BlockImageGalleryType;
+}
+const { images } = Astro.props.data || {};
+---
+
+{
+  (() => {
+    return (
+      <section class="image-gallery-carousel">
+        {images?.length > 0 && (
+          <div class="swiper">
+            <div class="swiper-wrapper">
+              {images?.map((item) => {
+                return (
+                  <div class="swiper-slide">
+                    <SanityImage src={item} className="swiper-image" />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </section>
+    );
+  })()
+}
+
+<script>
+  import Swiper from "swiper";
+  // import { Autoplay, FreeMode } from "swiper/modules";
+  import "swiper/css";
+
+  new Swiper(".swiper", {
+    slidesPerView: "auto",
+    spaceBetween: 30,
+    loop: true,
+    // pagination: {
+    //   el: ".swiper-pagination",
+    //   clickable: true,
+    // },
+  });
+</script>
+
+<style>
+  .image-gallery-carousel {
+    padding: var(--space-xl-2xl) var(--space-s);
+    padding-right: 0;
+
+    @media (max-width: 767px) {
+      padding-right: var(--space-s);
+    }
+
+    .swiper-wrapper {
+      align-items: top;
+      padding-left: 0;
+      .swiper-slide {
+        width: 696px !important;
+        @media (max-width: 767px) {
+          /* aspect-ratio: 4 / 3; */
+          width: 100% !important;
+        }
+        figure {
+          .swiper-image {
+            width: 696px;
+            height: auto;
+            border-radius: 5px;
+            object-fit: cover;
+            @media (max-width: 767px) {
+              /* aspect-ratio: 4 / 3; */
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
+</style>

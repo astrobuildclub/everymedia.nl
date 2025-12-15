@@ -1,0 +1,168 @@
+---
+import type { FooterType } from "../utils";
+import { PortableText } from "astro-portabletext";
+import SanityLink from "./commons/SanityLink.astro";
+import { stegaClean } from "@sanity/client/stega";
+
+interface Props {
+  footer: FooterType | undefined;
+}
+
+const { footerLinks = [], title } = Astro.props?.footer || {};
+---
+
+{
+  (() => {
+    return (
+      <footer class="footer">
+        <div class="footer-content">
+          {title && (
+            <div class="footer-heading">
+              <PortableText value={title} />
+            </div>
+          )}
+          {footerLinks?.length > 0 && (
+            <div class="footer-links">
+              {footerLinks?.map((item) => {
+                const { title, body, labelLinks, select: Select } = item || {};
+                const select = stegaClean(Select || "");
+
+                return (
+                  <div class="footer-item">
+                    {title && <div class="footer-title">{title}</div>}
+                    {select === "body" && body && (
+                      <div class="footer-body">
+                        <PortableText value={body} />
+                      </div>
+                    )}
+                    {select === "labelLinks" && labelLinks?.length > 0 && (
+                      <ul class="footer-links-list">
+                        {labelLinks?.map((item) => {
+                          const { label, link } = item || {};
+                          return (
+                            <li>
+                              <SanityLink href={link} class="footer-labelLink">
+                                {label}
+                              </SanityLink>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </footer>
+    );
+  })()
+}
+<style>
+  footer {
+    /* Spacing & Dimensions */
+    padding: var(--space-s);
+
+    /* Colors */
+    background-color: var(--clr-primary);
+    color: var(--clr-secondary);
+
+    .footer-content {
+      /* Layout */
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      vertical-align: bottom;
+      height: 100svh;
+
+      .footer-heading {
+        h2 {
+          /* Typography */
+          font-family: var(--font-heading);
+          font-size: var(--type-size);
+          font-weight: 900;
+          text-transform: uppercase;
+          line-height: 100%;
+          color: white;
+          width: 100%;
+
+          @media (max-width: 639px) {
+            font-size: 21vw;
+          }
+        }
+      }
+
+      .footer-links {
+        /* Layout */
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--space-l);
+        align-self: flex-end;
+
+        @media (min-width: 767px) {
+          grid-template-columns: 3.5fr 1fr 1fr 1fr;
+          gap: var(--gutter);
+        }
+
+        .footer-item {
+          .footer-title {
+            /* Typography */
+            font-family: var(--font-heading);
+            font-size: var(--fs--2);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 3%;
+            line-height: 150%;
+            color: var(--clr-secondary);
+            opacity: 90%;
+            display: block;
+            cursor: default;
+          }
+
+          .footer-body {
+            /* Typography */
+            font-family: var(--font-body);
+            font-size: var(--fs--1);
+            font-weight: 400;
+            line-height: 150%;
+            color: white;
+            text-wrap: balance;
+            text-rendering: optimizeLegibility;
+          }
+
+          .footer-links-list {
+            /* Reset & Typography */
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-body);
+            font-size: var(--fs--1);
+            font-weight: 400;
+            line-height: 150%;
+
+            .footer-labelLink {
+              /* Typography */
+              font-family: var(--font-body);
+              font-size: var(--fs--1);
+              font-weight: 500;
+              line-height: var(--leading-tight);
+              color: white;
+              text-wrap: balance;
+              text-rendering: optimizeLegibility;
+
+              /* Interaction */
+              cursor: pointer;
+              transition: all 0.3s;
+              text-decoration: none;
+              width: fit-content;
+
+              &:hover {
+                opacity: 0.5;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+</style>

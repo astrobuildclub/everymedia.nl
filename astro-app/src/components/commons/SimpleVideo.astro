@@ -1,0 +1,64 @@
+---
+import { createDataAttribute } from "@sanity/visual-editing";
+import { getTranslation } from "../../i18n/translate";
+import { defaultLanguage } from "../../lib/helperFunctions";
+
+interface Props {
+  videoUrl: string;
+  className: string;
+  title?: string;
+  poster?: string;
+  autoplay: boolean;
+  loop: boolean;
+  documentId?: string;
+  documentType?: string;
+  sanityFieldName?: string;
+}
+
+const {
+  videoUrl = "",
+  className = "",
+  title = "",
+  poster = "https://placehold.co/1600x900/F4F4F4/fff",
+  autoplay = false,
+  loop = false,
+  documentId,
+  documentType,
+  sanityFieldName = "",
+} = Astro.props || {};
+
+const sanityAttr =
+  documentId && documentType
+    ? createDataAttribute({
+        id: documentId,
+        type: documentType,
+        path: sanityFieldName,
+      })().toString()
+    : null;
+
+const locale = Astro.params?.locale || defaultLanguage.id;
+const { t } = getTranslation(locale);
+---
+
+{
+  (() => {
+    return (
+      videoUrl && (
+        <video
+          class={className}
+          poster={poster}
+          autoplay={autoplay}
+          muted={autoplay}
+          loop={loop}
+          title={title}
+          playsinline
+          preload="auto"
+          {...(sanityAttr ? { "data-sanity": sanityAttr } : {})}
+        >
+          <source src={videoUrl} type="video/mp4" />
+          {t("yourbrowserdoesnotsupportthevideotag")}
+        </video>
+      )
+    );
+  })()
+}

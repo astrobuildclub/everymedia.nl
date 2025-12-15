@@ -1,0 +1,50 @@
+---
+import type { BlockTeamMembersType } from "../../utils";
+import TeamMembersCard from "../commons/TeamMembersCard.astro";
+
+interface Props {
+  data: BlockTeamMembersType;
+}
+const { title, teamMembers = [], footnote } = Astro.props.data || {};
+---
+
+{
+  (() => {
+    return (
+      <section class="team-member-section">
+        {title && <span class="team-member-title">{title}</span>}
+        {teamMembers?.length > 0 && (
+          <TeamMembersCard teamMembers={teamMembers} />
+        )}
+        <div >{footnote && <p class="bottom-text">{footnote}</p>}</div>
+      </section>
+    );
+  })()
+}
+
+<style>
+  .team-member-section {
+    padding: var(--space-2xl-3xl) var(--space-s);
+    background-color: var(--rich-black);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+
+    .team-member-title {
+      font-size: 0.75rem;
+      color: var(--silver);
+      font-weight: 500;
+      line-height: 100%;
+      letter-spacing: 0.36px;
+      text-transform: uppercase;
+    }
+
+    .bottom-text {
+      color: var(--gainsboro);
+      font-family: var(--font-primary);
+      font-size: var(--fs--1);
+      font-weight: 700;
+      line-height: 120%;
+    }
+  }
+</style>

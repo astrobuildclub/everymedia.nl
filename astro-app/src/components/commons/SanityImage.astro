@@ -1,0 +1,72 @@
+---
+import { createDataAttribute } from "@sanity/visual-editing";
+import { cn } from "../../lib/helperFunctions";
+import { useSanityImage } from "../../lib/sanity";
+import type { SanityImageType } from "../../utils";
+
+interface Props {
+  src: SanityImageType | undefined;
+  className?: string;
+  captionClassName?: string;
+  documentId?: string;
+  documentType?: string;
+  sanityFieldName?: string;
+}
+
+const {
+  src,
+  className,
+  captionClassName,
+  documentId,
+  documentType,
+  sanityFieldName = "",
+  ...props
+} = Astro.props || {};
+
+const { caption, alt, hasCaption } = src || {};
+
+const image = useSanityImage(src);
+
+const sanityAttr =
+  documentId && documentType
+    ? createDataAttribute({
+        id: documentId,
+        type: documentType,
+        path: sanityFieldName,
+      })().toString()
+    : null;
+
+if (!image?.src) return null;
+---
+
+{
+  (() => {
+    const imgElement = (
+      <img
+        src={image.src}
+        alt={alt || "Image"}
+        class={cn(className)}
+        {...props}
+        {...(sanityAttr ? { "data-sanity": sanityAttr } : {})}
+      />
+    );
+
+    return hasCaption ? (
+      <figure>
+        {imgElement}
+        {caption && (
+          <figcaption class={cn(captionClassName)}>{caption}</figcaption>
+        )}
+      </figure>
+    ) : (
+      <figure>{imgElement}</figure>
+    );
+  })()
+}
+
+<style>
+  figcaption {
+    font-size: var(--fs-caption);
+    color: var(--fs-clr-caption);
+  }
+</style>

@@ -1,0 +1,187 @@
+---
+import { PortableText } from "astro-portabletext";
+import SanityImage from "./commons/SanityImage.astro";
+import type { AudienceType } from "../utils/sanity/types/audienceType";
+import { buttonVariants } from "./commons/SanityButton.astro";
+import SimpleVideo from "./commons/SimpleVideo.astro";
+import SanityLink from "./commons/SanityLink.astro";
+import { routes } from "../lib/router";
+import { getTranslation } from "../i18n/translate";
+import { cn, defaultLanguage } from "../lib/helperFunctions";
+import { stegaClean } from "@sanity/client/stega";
+
+interface Props {
+  audience: AudienceType;
+}
+
+const {
+  title,
+  intro,
+  heroImage,
+  heroVideo,
+  slug,
+  _id,
+  _type,
+  select: Select,
+} = Astro.props.audience || {};
+const locale = Astro.params?.locale || defaultLanguage.id;
+const { t } = getTranslation(locale);
+const variantClasses = buttonVariants["white"] || "";
+const select = stegaClean(Select || "");
+---
+
+{
+  (() => {
+    return (
+      <article class="audience">
+        <div class="content-wrapper">
+          {title && (
+            <SanityLink
+              href={
+                typeof slug === "object" && slug?.current
+                  ? routes?.audience({
+                      language: locale ?? "",
+                      slug: slug?.current,
+                    })
+                  : "#"
+              }
+              class="content-title-link"
+            >
+              <h3 class="title">{title}</h3>
+            </SanityLink>
+          )}
+          {intro && (
+            <div class="intro">
+              <PortableText value={intro} />
+            </div>
+          )}
+          {title && (
+            <div>
+              <SanityLink
+                href={
+                  typeof slug === "object" && slug?.current
+                    ? routes?.audience({
+                        language: locale ?? "",
+                        slug: slug?.current,
+                      })
+                    : "#"
+                }
+                class={cn(variantClasses, "audience-btn")}
+              >
+                <span>{t("readmore")}</span>
+              </SanityLink>
+            </div>
+          )}
+        </div>
+
+        {select === "heroImage" && heroImage && (
+          <SanityImage
+            src={heroImage}
+            className="image"
+            documentId={_id}
+            documentType={_type}
+            sanityFieldName="heroImage"
+          />
+        )}
+        {select === "heroVideo" && heroVideo && (
+          <SimpleVideo
+            autoplay={true}
+            loop={true}
+            className="video"
+            videoUrl={heroVideo}
+            documentId={_id}
+            documentType={_type}
+            sanityFieldName="heroVideo"
+          />
+        )}
+      </article>
+    );
+  })()
+}
+
+<style>
+  .audience {
+    border-radius: var(--space-2xs);
+    overflow: hidden;
+    min-height: 50vh;
+    height: 100%;
+    position: relative;
+    /* top: var(--space-xs); */
+    min-width: calc(100vw - var(--space-xl) * 2);
+    width: calc(100vw - var(--space-xl) * 2);
+    /* min-width: calc(100vmax - var(--space-xl) * 2); */
+    /* width: calc(100vmax - var(--space-x) * 2); */
+
+    /* @media (max-width: 767px) {
+      min-height: 50vh;
+    } */
+
+    .content-wrapper {
+      padding: 1.688rem;
+      border-radius: var(--space-3xs);
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(calc(var(--space-s) / 2));
+      position: absolute;
+      inset-inline: calc(var(--spacing) * 9);
+      bottom: calc(var(--spacing) * 9);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
+      @media (min-width: 767px) {
+        max-width: 50%;
+        padding: 2.25rem;
+      }
+
+      .content-title-link {
+        color: var(--color-gray-50) !important;
+        .title {
+          font-family: var(--font-primary);
+          font-size: var(--fs-1);
+          font-weight: 600;
+          margin-bottom: 0.75rem;
+          line-height: 112%;
+          color: var(--color-gray-50);
+        }
+      }
+
+      .intro {
+        font-size: var(--fs--1);
+        line-height: 150%;
+        margin-bottom: 1.5rem;
+        color: var(--color-gray-50);
+        font-weight: 500;
+        letter-spacing: 0.016rem;
+        font-family: var(--font-primary);
+      }
+      .audience-btn {
+        display: block;
+      }
+    }
+
+    figure {
+      width: 100%;
+      height: 100%;
+      border-radius: var(--space-2xs);
+      .image {
+        object-fit: cover;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        border-radius: var(--space-2xs);
+      }
+    }
+
+    .video {
+      autoplay: true;
+      loop: true;
+      playsinline: true;
+      muted: true;
+      preload: auto;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+</style>

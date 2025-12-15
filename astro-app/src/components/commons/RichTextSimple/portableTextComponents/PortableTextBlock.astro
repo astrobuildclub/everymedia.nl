@@ -1,0 +1,112 @@
+---
+import type { Props as $, Block } from "astro-portabletext/types";
+
+export type Props = $<Block>;
+
+const { node, index, isInline, ...attrs } = Astro.props || {};
+const styleIs = (style: string) => style === node.style;
+---
+
+{
+  styleIs("h1") ? (
+    <h1 {...attrs}>
+      <slot />
+    </h1>
+  ) : styleIs("h2") ? (
+    <h2 {...attrs}>
+      <slot />
+    </h2>
+  ) : styleIs("h3") ? (
+    <h3 {...attrs}>
+      <slot />
+    </h3>
+  ) : styleIs("h4") ? (
+    <h4 {...attrs}>
+      <slot />
+    </h4>
+  ) : styleIs("h5") ? (
+    <h5 {...attrs}>
+      <slot />
+    </h5>
+  ) : styleIs("h6") ? (
+    <h6 {...attrs}>
+      <slot />
+    </h6>
+  ) : styleIs("blockquote") ? (
+    <blockquote {...attrs}>
+      <slot />
+    </blockquote>
+  ) : styleIs("normal") ? (
+    <p {...attrs} class="regular-text">
+      <slot />
+    </p>
+  ) : null
+}
+<style>
+  h2 {
+    font-size: var(--fs-2);
+    color: black;
+    font-weight: 500;
+    line-height: 120%;
+    font-family: var(--font-primary);
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  }
+  h3 {
+    font-size: var(--fs-1);
+    color: black;
+    font-weight: 500;
+    line-height: 120%;
+    font-family: var(--font-primary);
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  }
+  h4 {
+    font-size: var(--fs-0);
+    color: black;
+    font-weight: 700;
+    line-height: 112%;
+    font-family: var(--font-body);
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  }
+  h5 {
+    font-size: var(--fs--1);
+    color: black;
+    font-weight: 700;
+    line-height: 112%;
+    font-family: var(--font-body);
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  }
+  h6 {
+    font-size: var(--fs--2);
+    color: black;
+    font-weight: 700;
+    line-height: 112%;
+    font-family: var(--font-body);
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  }
+  .normal {
+    font-size: var(--fs--1);
+    color: black;
+    line-height: 150%;
+    letter-spacing: 0.045px;
+    font-family: var(--font-primary);
+  }
+  blockquote {
+    border-left: 0.5rem solid var(--cool-gray);
+    margin-left: 0;
+    margin-right: 2rem;
+    padding-left: 2rem;
+  }
+  .regular-text {
+    font-size: var(--fs--1);
+    color: black;
+    line-height: 150%;
+    letter-spacing: 0.045px;
+    font-family: var(--font-primary);
+    margin-bottom: 6px;
+  }
+</style>
