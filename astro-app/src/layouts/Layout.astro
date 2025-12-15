@@ -12,8 +12,10 @@ import "../styles/global.css";
 import CookieConsent from "../components/cookieconsent/CookieConsent.astro";
 import { VisualEditing } from "@sanity/astro/visual-editing";
 
+// Check both env var and URL parameter for preview mode
+const previewParam = Astro.url.searchParams.get("preview") === "true";
 const visualEditingEnabled =
-  import.meta.env.PUBLIC_SANITY_VISUAL_EDITING_ENABLED == "true";
+  import.meta.env.PUBLIC_SANITY_VISUAL_EDITING_ENABLED == "true" || previewParam;
 interface Props {
   seo: SeoType;
   layoutProps: LayoutPropsType | undefined;
@@ -160,5 +162,115 @@ const { locale } = Astro.params || {};
     </main>
     <Footer footer={footer} />
     <CookieConsent />
+    {/* Preview parameter persistentie script */}
+    {previewParam && (
+      <script is:inline define:vars={{ previewParam }}>
+        {
+          `
+          (function() {
+            // Check if preview parameter is in URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const isPreview = urlParams.get('preview') === 'true';
+            
+            if (!isPreview) return;
+            
+            // Function to add preview parameter to internal links
+            function addPreviewToLink(href) {
+              if (!href) return href;
+              
+              // Don't modify external links, mailto, tel, or anchors
+              if (href.startsWith('http://') || 
+                  href.startsWith('https://') || 
+                  href.startsWith('mailto:') || 
+                  href.startsWith('tel:') || 
+                  href.startsWith('#')) {
+                return href;
+              }
+              
+              // Parse URL to handle existing query params
+              try {
+                const url = new URL(href, window.location.origin);
+                url.searchParams.set('preview', 'true');
+                return url.pathname + url.search + (url.hash || '');
+              } catch (e) {
+                // If URL parsing fails, append preview param manually
+                const separator = href.includes('?') ? '&' : '?';
+                return href + separator + 'preview=true';
+              }
+            }
+            
+            // Handle all existing links
+            function updateLinks() {
+              document.querySelectorAll('a[href]').forEach(link => {
+                const originalHref = link.getAttribute('href');
+                if (originalHref) {
+                  const newHref = addPreviewToLink(originalHref);
+                  if (newHref !== originalHref) {
+                    link.setAttribute('href', newHref);
+                  }
+                }
+              });
+            }
+            
+            // Update links on page load
+            if (document.readyState === 'loading') {
+              document.addEventListener('DOMContentLoaded', updateLinks);
+            } else {
+              updateLinks();
+            }
+            
+            // Use event delegation for dynamically added links
+            document.addEventListener('click', function(e) {
+              const link = e.target.closest('a[href]');
+              if (link) {
+                const href = link.getAttribute('href');
+                if (href && !href.startsWith('http://') && 
+                    !href.startsWith('https://') && 
+                    !href.startsWith('mailto:') && 
+                    !href.startsWith('tel:') && 
+                    !href.startsWith('#')) {
+                  const newHref = addPreviewToLink(href);
+                  if (newHref !== href) {
+                    link.setAttribute('href', newHref);
+                  }
+                }
+              }
+            }, true);
+            
+            // Observe DOM changes for dynamically added content
+            if (window.MutationObserver) {
+              const observer = new MutationObserver(function(mutations) {
+                let shouldUpdate = false;
+                mutations.forEach(function(mutation) {
+                  if (mutation.addedNodes.length) {
+                    mutation.addedNodes.forEach(function(node) {
+                      if (node.nodeType === 1) { // Element node
+                        if (node.tagName === 'A' && node.hasAttribute('href')) {
+                          shouldUpdate = true;
+                        } else if (node.querySelectorAll) {
+                          const links = node.querySelectorAll('a[href]');
+                          if (links.length > 0) {
+                            shouldUpdate = true;
+                          }
+                        }
+                      }
+                    });
+                  }
+                });
+                if (shouldUpdate) {
+                  updateLinks();
+                }
+              });
+              
+              observer.observe(document.body, {
+                childList: true,
+                subtree: true
+              });
+            }
+          })();
+          `
+        }
+      </script>
+    )}
   </body>
 </html>

@@ -1,5 +1,5 @@
 import { createClient } from '@sanity/client';
-import { apiVersion, dataset, projectId, readToken, useCdn, writeToken } from '../../config';
+import { apiVersion, dataset, projectId, readToken, useCdn } from '../../config';
 
 export const sanityConfig = {
   projectId,
@@ -13,9 +13,4 @@ export const client = createClient(sanityConfig)
 export const sanityClientWithReadToken= createClient({
   ...sanityConfig,
   token: readToken,
-})
-
-export const sanityClientWithWriteToken = createClient({
-  ...sanityConfig,
-  token: writeToken,
 })

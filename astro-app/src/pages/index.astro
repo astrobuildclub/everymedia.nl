@@ -8,7 +8,12 @@ import { defaultLanguage } from "../lib/helperFunctions";
 import { type HeroViewType, type PageType } from "../utils";
 import { getPage } from "../utils/sanity/getPage";
 
-const pageData = await getPage<PageType>("/", defaultLanguage?.id);
+const searchParams = Astro.url.searchParams;
+const pageData = await getPage<PageType>(
+  "/",
+  defaultLanguage?.id,
+  searchParams
+);
 
 const {
   pagebuilder,

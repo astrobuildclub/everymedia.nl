@@ -8,17 +8,27 @@ const token = import.meta.env.SANITY_API_READ_TOKEN;
 export async function loadQuery<QueryResponse>({
   query,
   params,
+  searchParams,
 }: {
   query: string;
   params?: QueryParams;
+  searchParams?: URLSearchParams | Record<string, string | undefined>;
 }) {
-  if (visualEditingEnabled && !token) {
+  // Check for preview parameter in searchParams
+  const previewParam =
+    searchParams instanceof URLSearchParams
+      ? searchParams.get("preview") === "true"
+      : searchParams?.preview === "true";
+
+  const isPreviewMode = visualEditingEnabled || previewParam;
+
+  if (isPreviewMode && !token) {
     throw new Error(
       "The `SANITY_API_READ_TOKEN` environment variable is required during Visual Editing."
     );
   }
 
-  const perspective = visualEditingEnabled ? "drafts" : "published";
+  const perspective = isPreviewMode ? "drafts" : "published";
 
   const { result, resultSourceMap } = await sanityClient.fetch<QueryResponse>(
     query,
@@ -26,9 +36,9 @@ export async function loadQuery<QueryResponse>({
     {
       filterResponse: false,
       perspective,
-      resultSourceMap: visualEditingEnabled ? "withKeyArraySelector" : false,
-      stega: visualEditingEnabled,
-      ...(visualEditingEnabled ? { token } : {}),
+      resultSourceMap: isPreviewMode ? "withKeyArraySelector" : false,
+      stega: isPreviewMode,
+      ...(isPreviewMode ? { token } : {}),
     }
   );
 

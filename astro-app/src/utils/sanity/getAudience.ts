@@ -3,7 +3,8 @@ import { audienceQuery } from "./queries";
 
 export async function getAudience<T>(
   slug: string,
-  locale: string
+  locale: string,
+  searchParams?: URLSearchParams | Record<string, string | undefined>
 ): Promise<T | null> {
   try {
     const { data: page } = await loadQuery<T>({
@@ -12,6 +13,7 @@ export async function getAudience<T>(
         slug: slug,
         language: locale,
       },
+      searchParams,
     });
     if (!page) {
       return null;

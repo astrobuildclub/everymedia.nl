@@ -23,8 +23,13 @@ import { getPage } from "../../utils/sanity/getPage";
 // }
 
 const { slug, locale } = Astro.params;
+const searchParams = Astro.url.searchParams;
 
-const pageData = await getPage<PageType>(slug as string, locale as string);
+const pageData = await getPage<PageType>(
+  slug as string,
+  locale as string,
+  searchParams
+);
 
 const {
   pagebuilder,

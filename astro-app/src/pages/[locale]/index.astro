@@ -30,8 +30,9 @@ import Section from "../../components/commons/Section.astro";
 // }
 
 const { locale } = Astro.params;
+const searchParams = Astro.url.searchParams;
 
-const pageData = await getPage<PageType>("/", locale as string);
+const pageData = await getPage<PageType>("/", locale as string, searchParams);
 
 const {
   pagebuilder,

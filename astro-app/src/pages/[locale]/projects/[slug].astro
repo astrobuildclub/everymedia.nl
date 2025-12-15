@@ -27,8 +27,13 @@ import { getProject } from "../../../utils/sanity/getProject";
 // }
 
 const { slug, locale } = Astro.params;
+const searchParams = Astro.url.searchParams;
 
-const pageData = await getProject<ProjectType>(slug as "", locale as string);
+const pageData = await getProject<ProjectType>(
+  slug as "",
+  locale as string,
+  searchParams
+);
 
 const {
   pagebuilder,
