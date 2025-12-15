@@ -14,7 +14,8 @@ import {assist} from '@sanity/assist'
 import {presentationTool} from 'sanity/presentation'
 import {resolve} from './presentation/resolve'
 
-const previewUrl = process.env.SANITY_STUDIO_PREVIEW_URL || 'http://localhost:4321'
+const previewUrl =
+  process.env.SANITY_STUDIO_PREVIEW_URL || process.env.VITE_SITE_URL || 'http://localhost:4321'
 
 export default defineConfig({
   name: 'default',
