@@ -1,0 +1,73 @@
+---
+import type { BlockWorkSelectionType } from "../../utils";
+import ProjectGridOverview from "../ProjectGridOverview.astro";
+import SanityButton from "../commons/SanityButton.astro";
+
+interface Props {
+  data: BlockWorkSelectionType;
+}
+const { title, selectedProjects = [], intro, cta } = Astro.props.data || {};
+---
+
+{
+  (() => {
+    return (
+      <section>
+        <div class="block-work-section">
+          <div class="block-work-title">
+            {title && <span class="block-sub-title">{title}</span>}
+            {intro && <h2 class="block-main-title">{intro}</h2>}
+          </div>
+          {selectedProjects?.length > 0 && (
+            <ProjectGridOverview projects={selectedProjects} />
+          )}
+          {cta?.buttonText && (
+            <div class="cta-button">
+              <SanityButton block={cta} class="button" />
+            </div>
+          )}
+        </div>
+      </section>
+    );
+  })()
+}
+
+<style>
+  .block-work-section {
+    display: grid;
+    grid-template-columns: 1;
+    grid-column-start: 1;
+    gap: var(--space-s-m);
+    padding: var(--space-2xl) var(--space-s);
+
+    .block-work-title {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-s);
+      max-width: 66rem;
+      width: 100%;
+
+      .block-sub-title {
+        color: var(--gray-700);
+        font-weight: 500;
+        font-size: 0.75rem;
+        font-family: var(--font-mono);
+        line-height: 150%;
+        letter-spacing: 0.36px;
+        text-transform: uppercase;
+      }
+      .block-main-title {
+        color: black;
+        font-family: var(--font-body);
+        font-size: var(--fs-0);
+        font-weight: 700;
+        line-height: 112%;
+      }
+    }
+    .cta-button {
+      .button {
+        border-radius: 9999px;
+      }
+    }
+  }
+</style>

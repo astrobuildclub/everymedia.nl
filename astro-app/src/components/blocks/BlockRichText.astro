@@ -1,0 +1,113 @@
+---
+import type { BlockRichTextType } from "../../utils";
+import RichTextSimple from "../commons/RichTextSimple/RichTextSimple.astro";
+
+interface Props {
+  data: BlockRichTextType;
+}
+const { footnote, content } = Astro.props.data || {};
+---
+
+{
+  (() => {
+    return (
+      <section class="block-rich-text-section">
+        {content?.length > 0 && (
+          <div class="rich-text-about">
+            {content?.map((item) => {
+              const { content, title } = item || {};
+              return (
+                <div class="rich-text-about-list">
+                  {title && <h2 class="list-title">{title}</h2>}
+                  {content && (
+                    <div class="rich-text-desc">
+                      <RichTextSimple value={content} />
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+        {footnote && <h2 class="rich-text-footer-note">{footnote}</h2>}
+      </section>
+    );
+  })()
+}
+
+<style>
+  .block-rich-text-section {
+    padding: var(--space-xl-2xl) var(--space-s);
+
+    .rich-text-about {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.125rem;
+       @media (max-width:767px){
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+       }
+
+      .rich-text-about-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+
+        .list-title {
+          color: black;
+          font-family: var(--font-primary);
+          font-size: 2.5rem;
+          font-weight: 700;
+          line-height: 100%;
+          letter-spacing: -0.8px;
+          text-transform: uppercase;
+        }
+        .rich-text-desc {
+          p {
+            color: black;
+            font-family: var(--font-primary);
+            font-size: var(--fs--1);
+            line-height: 150%;
+            letter-spacing: 0.25px;
+
+            strong {
+              color: black;
+              font-family: var(--font-instrument);
+              font-size: var(--fs-0);
+              font-weight: 500;
+              line-height: 150%;
+            }
+          }
+          ul {
+            display: flex;
+            flex-direction: column;
+            li {
+              color: black;
+              font-family: var(--font-instrument);
+              font-size: var(--fs--1);
+              line-height: 150%;
+              letter-spacing: 0.25px;
+
+              strong {
+                color: black;
+                font-family: var(--font-instrument);
+                font-size: var(--fs--1);
+                font-weight: 700;
+                line-height: 150%;
+                display: inline;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .rich-text-footer-note {
+      margin-top: 3.125rem;
+      color: var(--dark-gray);
+      font-family: var(--font-body);
+      font-size: var(--fs--1);
+      font-weight: 700;
+      line-height: 120%;
+    }
+  }
+</style>

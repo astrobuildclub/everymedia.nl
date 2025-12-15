@@ -1,0 +1,176 @@
+---
+import type { ProjectsListingSectionType } from "../../utils";
+import { formatDynamicLayout } from "../../lib/helperFunctions";
+import ProjectOverview from "../commons/ProjectOverview.astro";
+
+interface Props {
+  data: ProjectsListingSectionType;
+}
+
+const { tagLine, allProjects = [] } = Astro.props.data || {};
+const layoutPattern = [2, 3];
+const formattedProjects = formatDynamicLayout(allProjects, layoutPattern);
+
+let gridCount = 0;
+
+const getGridClass = (pattern: number) => {
+  if (pattern === 2) {
+    gridCount++;
+    return gridCount % 2 === 1 ? "grid-two" : "grid-two-reverse";
+  }
+
+  if (pattern === 3) return "grid-three";
+
+  return "grid-one";
+};
+---
+
+<section class="projects-card-section">
+  <div class="projects-card-inner">
+    {tagLine && <h2 class="projects-card-title">{tagLine}</h2>}
+    {
+      formattedProjects?.length > 0 && (
+        <div class="projects-grid">
+          {formattedProjects?.map((projectRow, index) => {
+            const patten = layoutPattern[index % layoutPattern?.length]
+            const gridClass = getGridClass(patten);
+            return (
+              <div class={gridClass}>
+                {projectRow?.map((item) => {
+                  return <ProjectOverview project={item} />;
+                })}
+              </div>
+            );
+          })}
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .projects-card-section {
+    padding: var(--space-l-xl) var(--space-s);
+  }
+
+  .projects-card-inner {
+    .projects-card-title {
+      margin-bottom: var(--space-m);
+      color: var(--neutrals-600);
+      font-family: var(--font-mono);
+      font-size: var(--fs--2);
+      font-weight: 500;
+      line-height: 150%;
+      letter-spacing: 0.405px;
+      text-transform: uppercase;
+    }
+  }
+
+  .projects-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--grid-gutter);
+  }
+
+  .grid-two{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--grid-gutter);
+
+     @media (max-width:767px){
+      grid-template-columns: 1fr;
+     }
+
+    article {
+      .project__meta {
+        .project-details{
+            span{
+              letter-spacing: -0.36px;
+              font-family: var(--font-heading);
+            }
+        }
+        .media-container {
+          border-radius: 4px !important;
+          .media {
+            border-radius: 4px !important;
+          }
+          figure {
+            .media {
+              border-radius: 4px !important;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .grid-two-reverse {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--grid-gutter);
+
+    @media (max-width:767px){
+      grid-template-columns: 1fr;
+     }
+
+    article {
+      .project__meta {
+        .project-details{
+            span{
+              letter-spacing: -0.36px;
+              font-family: var(--font-heading);
+            }
+        }
+        .media-container {
+          border-radius: 4px !important;
+          .media {
+            border-radius: 4px !important;
+          }
+          figure {
+            .media {
+              border-radius: 4px !important;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .grid-three {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--grid-gutter);
+
+    @media (max-width:767px){
+      grid-template-columns: 1fr;
+     }
+
+    article {
+      .project__meta {
+        .project-details{
+            span{
+              letter-spacing: -0.36px;
+              font-family: var(--font-heading);
+            }
+        }
+        .media-container {
+          border-radius: 4px !important;
+          .media {
+            border-radius: 4px !important;
+          }
+          figure {
+            .media {
+              border-radius: 4px !important;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .grid-one {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--grid-gutter);
+  }
+</style>

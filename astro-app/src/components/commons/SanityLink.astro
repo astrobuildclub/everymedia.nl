@@ -1,0 +1,66 @@
+---
+import { Link, type LinkProps } from "sanity-plugin-link-field/component";
+import { resolveLink } from "../../lib/resolveLink";
+import { cn } from "../../lib/helperFunctions";
+
+interface Props {
+  href: LinkProps | string | undefined;
+  class?: string;
+  target?: React.HTMLAttributeAnchorTarget;
+}
+
+const { href, class: className, target } = Astro.props || {};
+---
+
+{
+  (() => {
+    if (!href) {
+      return null;
+    }
+    if (typeof href === "string") {
+      if (
+        href?.startsWith("http") ||
+        href?.startsWith("mailto:") ||
+        href?.startsWith("tel:")
+      ) {
+        return (
+          <a
+            href={href || "#"}
+            target={"_blank"}
+            rel="noopener noreferrer"
+            class={cn(className)}
+          >
+            <slot />
+          </a>
+        );
+      } else {
+        return (
+          <a
+            href={href || "#"}
+            target={target ?? "_self"}
+            rel={target ? "noopener noreferrer" : ""}
+            class={cn(className)}
+          >
+            <slot />
+          </a>
+        );
+      }
+    } else {
+      return (
+        <Link
+          link={href as any}
+          hrefResolver={({ internalLink }) =>
+            resolveLink({
+              type: internalLink?._type,
+              slug: internalLink?.slug?.current,
+              language: internalLink?.language,
+            })
+          }
+          className={cn(className)}
+        >
+          <slot />
+        </Link>
+      );
+    }
+  })()
+}

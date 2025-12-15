@@ -1,0 +1,228 @@
+---
+import { PortableText } from "astro-portabletext";
+import type { BlockContactType } from "../../utils";
+import SanityImage from "../commons/SanityImage.astro";
+import SanityButton from "../commons/SanityButton.astro";
+import { cn } from "../../lib/helperFunctions";
+
+interface Props {
+  data: BlockContactType;
+}
+const { title, cta, image, intro } = Astro.props.data || {};
+---
+
+{
+  (() => {
+    return (
+      <section class="blog-contact-section">
+        <div class="grid-container">
+          {image && (
+            <div class="image-container">
+              <SanityImage
+                src={image}
+                className=""
+                captionClassName="image-under-title"
+              />
+            </div>
+          )}
+          <div
+            class={cn(
+              "",
+              image?.hasCaption
+                ? "rightside-content-order"
+                : "rightside-content"
+            )}
+          >
+            {title && <h2 class="title">{title}</h2>}
+            {intro && (
+              <div class="intro">
+                <PortableText value={intro} />
+              </div>
+            )}
+            {cta?.length > 0 && (
+              <ul class="cta-list">
+                {cta?.map((i) => {
+                  return (
+                    <li>
+                      <SanityButton block={i} />
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </div>
+        </div>
+      </section>
+    );
+  })()
+}
+
+<style>
+  .blog-contact-section {
+    padding: 8rem var(--space-s) 6rem;
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+
+      @media (max-width: 767px) {
+        grid-template-columns: 1fr;
+      }
+
+      .image-container {
+        border-radius: 2rem;
+        width: 100%;
+        order: 1;
+        /* @media (max-width: 767px) {
+          order: 2;
+        } */
+
+        img {
+          border-radius: 2rem;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          margin-bottom: 1.5rem;
+        }
+        .image-under-title {
+          color: var(--gray-700);
+          font-family: var(--font-body);
+          line-height: 160%;
+          font-size: var(--fs--2);
+        }
+      }
+
+      .rightside-content {
+        padding: 4.5rem;
+        order: 2;
+
+        @media (max-width: 1023px) {
+          padding: 2rem;
+        }
+
+        @media (max-width: 767px) {
+          padding: 0rem;
+          order: 1;
+        }
+
+        .title {
+          font-size: var(--fs-4);
+          line-height: 112%;
+          /* letter-spacing: -2%; */
+          text-transform: uppercase;
+          font-weight: 700;
+          color: var(--off-black);
+          font-family: var(--font-primary);
+          margin-bottom: 1.5rem;
+        }
+
+        .intro {
+          line-height: 150%;
+          font-weight: normal;
+          letter-spacing: 0.016rem;
+          color: black;
+          font-size: var(--fs--1);
+          font-variation-settings:
+            "wdth" 100,
+            "wght" 700;
+          font-family: var(--font-primary);
+          display: flex;
+          flex-direction: column;
+          gap: 1.125rem;
+
+          p {
+            strong {
+              font-family: var(--font-body);
+              font-size: var(--fs-1);
+              line-height: 120%;
+              font-variation-settings:
+                "wdth" 400,
+                "wght" 700;
+            }
+          }
+        }
+
+        .cta-list {
+          margin-top: 1.5rem;
+          display: flex;
+          gap: 0.5rem;
+          flex-wrap: wrap;
+          padding-left: 0;
+          margin-bottom: 0;
+
+          li {
+            list-style: none;
+            a {
+              text-decoration: none;
+            }
+          }
+        }
+      }
+
+      .rightside-content-order {
+        padding: 4.5rem;
+        order: 2;
+
+        @media (max-width: 1023px) {
+          padding: 2rem;
+        }
+
+        @media (max-width: 767px) {
+          padding: 0rem;
+          order: 1;
+        }
+
+        .title {
+          font-size: var(--fs-4);
+          line-height: 112%;
+          letter-spacing: -2%;
+          text-transform: uppercase;
+          font-weight: 700;
+          color: var(--off-black);
+          font-family: var(--font-primary);
+          margin-bottom: 1.5rem;
+        }
+
+        .intro {
+          line-height: 150%;
+          font-weight: normal;
+          letter-spacing: 0.016rem;
+          color: black;
+          font-size: small;
+          font-family: var(--font-primary);
+          display: flex;
+          flex-direction: column;
+          gap: 1.125rem;
+
+          p {
+            strong {
+              font-family: var(--font-body);
+              font-size: var(--fs-1);
+              line-height: 120%;
+              font-weight: 700;
+            }
+          }
+        }
+
+        .cta-list {
+          margin-top: 1.5rem;
+          display: flex;
+          gap: 0.5rem;
+          flex-wrap: wrap;
+          padding-left: 0;
+          margin-bottom: 0;
+
+          li {
+            list-style: none;
+            a {
+              text-decoration: none;
+            }
+          }
+        }
+      }
+    }
+  }
+</style>

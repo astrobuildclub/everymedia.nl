@@ -1,0 +1,83 @@
+---
+import type { PagebuilderType } from "../../utils";
+import BlockAudiencesOverviewSection from "../blocks/BlockAudiencesOverviewSection.astro";
+import BlockCards from "../blocks/BlockCards.astro";
+import BlockContact from "../blocks/BlockContact.astro";
+import BlockEpisodes from "../blocks/BlockEpisodes.astro";
+import BlockFaqs from "../blocks/BlockFaqs.astro";
+import BlockFeetSection from "../blocks/BlockFeetSection.astro";
+import BlockImage from "../blocks/BlockImage.astro";
+import BlockImageGallery from "../blocks/BlockImageGallery.astro";
+import BlockIntro from "../blocks/BlockIntro.astro";
+import BlockLogos from "../blocks/BlockLogos.astro";
+import BlockMediaGallery from "../blocks/BlockMediaGallery.astro";
+import BlockMultiCol from "../blocks/BlockMultiCol.astro";
+import BlockRichText from "../blocks/BlockRichText.astro";
+import BlockTeamMembers from "../blocks/BlockTeamMembers.astro";
+import BlockTestimonial from "../blocks/BlockTestimonial.astro";
+import BlockText from "../blocks/BlockText.astro";
+import BlockTextMedia from "../blocks/BlockTextMedia.astro";
+import BlockVideo from "../blocks/BlockVideo.astro";
+import BlockWorkRelated from "../blocks/BlockWorkRelated.astro";
+import BlockWorkSelection from "../blocks/BlockWorkSelection.astro";
+import FeaturedProjects from "../blocks/FeaturedProjects.astro";
+import ProjectsListingSection from "../blocks/ProjectsListingSection.astro";
+
+interface Props {
+  data: PagebuilderType;
+}
+const { data } = Astro.props || {};
+---
+
+ {
+  (() => {
+    switch (data._type) {
+      case "blockAudiencesOverviewSection":
+        return <BlockAudiencesOverviewSection data={data} />;
+      case "blockFeetSection":
+        return <BlockFeetSection data={data} />;
+      case "blockContact":
+        return <BlockContact data={data} />;
+      case "blockCards":
+        return <BlockCards data={data} />;
+      case "blockFaqs":
+        return <BlockFaqs data={data} />;
+      case "blockWorkSelection":
+        return <BlockWorkSelection data={data} />;
+      case "blockText":
+        return <BlockText data={data} />;
+      case "blockImage":
+        return <BlockImage data={data} />;
+      case "blockIntro":
+        return <BlockIntro data={data} />;
+      case "blockTestimonial":
+        return <BlockTestimonial data={data} />;
+      case "blockLogos":
+        return <BlockLogos data={data} />;
+      case "blockVideo":
+        return <BlockVideo data={data} />;
+      case "blockWorkRelated":
+        return <BlockWorkRelated data={data} />;
+      case "blockTeamMembers":
+        return <BlockTeamMembers data={data} />;
+      case "blockEpisodes":
+        return <BlockEpisodes data={data} />;
+      case "blockImageGallery":
+        return <BlockImageGallery data={data} />;
+      case "blockMultiCol":
+        return <BlockMultiCol data={data} />;
+      case "blockRichText":
+        return <BlockRichText data={data} />;
+      case "featuredProjects":
+        return <FeaturedProjects data={data} />;
+      case "projectsListingSection":
+        return <ProjectsListingSection data={data} />;
+      case "blockMediaGallery":
+        return <BlockMediaGallery data={data} />;
+      case "blockTextMedia":
+        return <BlockTextMedia data={data} />;
+      default:
+        return null;
+    }
+  })()
+}

@@ -1,0 +1,28 @@
+---
+import { Vimeo } from "astro-embed";
+
+interface Props {
+  vimeoId: string;
+  className: string;
+  poster: string;
+  title: string;
+}
+
+const { className, vimeoId, title, poster } = Astro.props || {};
+---
+
+{
+  (() => {
+    return (
+      vimeoId && (
+        <Vimeo
+          id={vimeoId}
+          class={className}
+          title={title}
+          poster={poster}
+          aria-label={title}
+        />
+      )
+    );
+  })()
+}

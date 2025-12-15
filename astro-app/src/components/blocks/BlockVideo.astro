@@ -1,0 +1,200 @@
+---
+import { stegaClean } from "@sanity/client/stega";
+import { useSanityImage } from "../../lib/sanity";
+import type { BlockVideoType } from "../../utils";
+import SimpleVideo from "../commons/SimpleVideo.astro";
+import VimeoVideo from "../commons/VimeoVideo.astro";
+import YoutubeVideo from "../commons/YoutubeVideo.astro";
+
+interface Props {
+  data: BlockVideoType;
+}
+
+const {
+  title,
+  size:Size,
+  autoplay,
+  loop,
+  thumbnail,
+  videoType:VideoType,
+  videoUrl,
+  select: Select,
+  vimeoId,
+  youtubeId,
+} = Astro.props.data || {};
+const thumbnailUrl = useSanityImage(thumbnail);
+const select = stegaClean(Select || "");
+const size = stegaClean(Size || "");
+const videoType = stegaClean(VideoType || "");
+---
+
+{
+  (() => {
+    return (
+      <section class={`${size}-video-section`}>
+        {videoType === "mp4" && videoUrl && (
+          <div class={`${size}-video-wrapper`}>
+            <SimpleVideo
+              poster={thumbnailUrl?.src}
+              autoplay={autoplay}
+              loop={loop}
+              title={title}
+              className={`${size}-video`}
+              videoUrl={videoUrl}
+            />
+          </div>
+        )}
+        {videoType === "embed" && select === "vimeo" && (
+          <VimeoVideo
+            title={title || ""}
+            vimeoId={vimeoId}
+            poster={thumbnailUrl?.src || ""}
+            className={`${size}-vimeo-video`}
+          />
+        )}
+        {videoType === "embed" && select === "youtube" && (
+          <YoutubeVideo
+            title={title || ""}
+            videoId={youtubeId}
+            poster={thumbnailUrl?.src || ""}
+            className={`${size}-youtube-video`}
+          />
+        )}
+        {title && <p class="video-desc">{title}</p>}
+      </section>
+    );
+  })()
+}
+<style>
+  /* featured-video  */
+  .featured-video-section {
+    padding: var(--space-2xl) var(--space-s);
+    max-width: 66rem;
+    margin: 0 auto;
+
+    .featured-video-wrapper {
+      width: 100%;
+      height: 100%;
+
+      .featured-video {
+        aspect-ratio: 1056 / 594;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 0.313rem;
+      }
+    }
+    .featured-vimeo-video {
+      aspect-ratio: 1056 / 594;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 0.313rem;
+      max-width: 100%;
+    }
+    .featured-youtube-video {
+      aspect-ratio: 1056 / 594;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 0.313rem;
+      max-width: 100%;
+    }
+  }
+
+  /* full-video  */
+  .full-video-section {
+    padding: var(--space-2xl) 0;
+
+    .full-video-wrapper {
+      width: 100%;
+      height: 100%;
+
+      .full-video {
+        aspect-ratio: 1512 / 850;
+        width: 100%;
+        object-fit: cover;
+        max-width: 100%;
+      }
+    }
+    .full-vimeo-video {
+      aspect-ratio: 1512 / 850;
+      width: 100%;
+      object-fit: cover;
+      max-width: 100%;
+    }
+    .full-youtube-video {
+      aspect-ratio: 1512 / 850;
+      width: 100%;
+      object-fit: cover;
+      max-width: 100%;
+    }
+    .video-desc {
+      margin-left: var(--space-s);
+    }
+  }
+
+  /* inline-image  */
+  .inline-video-section {
+    padding: var(--space-2xl) var(--space-s);
+    max-width: 43.5rem;
+    margin: 0 auto;
+
+    .inline-video-wrapper {
+      .inline-video {
+        aspect-ratio: 696 / 391;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 0.313rem;
+      }
+    }
+    .inline-vimeo-video {
+      aspect-ratio: 696 / 391;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 0.313rem;
+      max-width: 100%;
+    }
+    .inline-youtube-video {
+      aspect-ratio: 696 / 391;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 0.313rem;
+      max-width: 100%;
+    }
+  }
+
+  /* page-video  */
+  .page-video-section {
+    padding: var(--space-2xl) var(--space-s);
+
+    .page-video-wrapper {
+      .page-video {
+        aspect-ratio: 1416 / 796;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 0.313rem;
+      }
+    }
+    .page-vimeo-video {
+      aspect-ratio: 1416 / 796;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 0.313rem;
+      max-width: 100%;
+    }
+
+    .page-youtube-video {
+      aspect-ratio: 1416 / 796;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 0.313rem;
+      max-width: 100%;
+    }
+  }
+
+  .video-desc {
+    color: var(--gray-700);
+    font-family: var(--font-body);
+    font-size: var(--fs--2);
+    line-height: 160%;
+    margin-top: var(--space-xs-s);
+  }
+</style>

@@ -1,0 +1,156 @@
+---
+import { stegaClean } from "@sanity/client/stega";
+import type { BlockImageType } from "../../utils";
+import SanityImage from "../commons/SanityImage.astro";
+
+interface Props {
+  data: BlockImageType;
+}
+
+const { title, image, size: Size } = Astro.props.data || {};
+const size = stegaClean(Size || "");
+---
+
+{
+  (() => {
+    return (
+      <section class={`${size}-image-section`}>
+        {image && (
+          <div class={`${size}-image-wrapper`}>
+            <SanityImage
+              src={image}
+              className={`${size}-image`}
+              captionClassName={`${size}-image-desc`}
+            />
+          </div>
+        )}
+        {title && <p class={`${size}-image-desc`}>{title}</p>}
+      </section>
+    );
+  })()
+}
+
+<style>
+  /* full-image  */
+  .full-image-section {
+    padding: var(--space-2xl) 0;
+
+    .full-image-wrapper {
+      figure {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--space-xs-s);
+        .full-image {
+          aspect-ratio: 1512 / 850;
+          width: 100%;
+          object-fit: cover;
+        }
+        .full-image-desc {
+          padding: 0 var(--space-s);
+          color: var(--gray-700) !important;
+          font-family: var(--font-body);
+          font-size: var(--fs-caption);
+          line-height: 160%;
+          max-width: 30ch;
+        }
+      }
+    }
+
+    p {
+      color: black;
+      font-family: var(--font-primary);
+      font-size: var(--fs-caption);
+      font-weight: 500;
+      line-height: 133%;
+      letter-spacing: -0.03px;
+      padding: 0 var(--space-s);
+      margin-top: 0.5rem;
+    }
+  }
+
+  /* page-image  */
+  .page-image-section {
+    padding: var(--space-2xl) var(--space-s);
+
+    .page-image-wrapper {
+      figure {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--space-xs-s);
+
+        .page-image {
+          aspect-ratio: 1416 / 796;
+          width: 100%;
+          object-fit: cover;
+          border-radius: 0.313rem;
+        }
+        .page-image-desc {
+          color: var(--gray-700);
+          font-family: var(--font-body);
+          font-size: var(--fs--2);
+          line-height: 160%;
+          max-width: 58.5rem;
+        }
+      }
+    }
+  }
+
+  /* featured-image  */
+  .featured-image-section {
+    padding: var(--space-2xl) var(--space-s);
+
+    max-width: 66rem;
+    margin: 0 auto;
+
+    .featured-image-wrapper {
+      figure {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--space-xs-s);
+        .featured-image {
+          aspect-ratio: 1056 / 594;
+          width: 100%;
+          object-fit: cover;
+          border-radius: 0.313rem;
+        }
+        .featured-image-desc {
+          color: var(--gray-700);
+          font-family: var(--font-body);
+          font-size: var(--fs--2);
+          line-height: 160%;
+        }
+      }
+    }
+  }
+
+  /* inline-image  */
+  .inline-image-section {
+    padding: var(--space-2xl) var(--space-s);
+    max-width: 58.5rem;
+    margin: 0 auto;
+
+    .inline-image-wrapper {
+      figure {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--space-xs-s);
+        .inline-image {
+          aspect-ratio: 1056 / 594;
+          width: 100%;
+          object-fit: cover;
+          border-radius: 0.313rem;
+        }
+        .inline-image-desc {
+          color: var(--gray-700);
+          font-family: var(--font-body);
+          font-size: var(--fs--2);
+          line-height: 160%;
+        }
+      }
+    }
+  }
+</style>

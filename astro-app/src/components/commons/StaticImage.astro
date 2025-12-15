@@ -1,0 +1,26 @@
+---
+import { cn } from '../../lib/helperFunctions';
+
+interface Props {
+  src: string | undefined;
+  alt?: string | undefined;
+  className?: string;
+  captionClassName?: string;
+  width?: number;
+  height?: number;
+  caption?: string;
+}
+const { src, alt, caption,captionClassName,className,height,width, ...props } = Astro.props || {};
+if (!src) {
+  return null;
+}
+---
+
+<figure>
+  <img src={src} alt={alt || "Image"} class={cn(className)} height={height} width={width} {...props} />
+  {
+    caption && (
+      <figcaption class={cn(captionClassName)}>{caption}</figcaption>
+    )
+  }
+</figure>

@@ -1,0 +1,32 @@
+---
+import type { ProjectType } from "../utils";
+import ProjectOverview from "./commons/ProjectOverview.astro";
+
+interface Props {
+  projects: ProjectType[];
+}
+const { projects = [] } = Astro.props || {};
+---
+
+{
+  (() => {
+    return (
+      <div>
+        {projects?.length > 0 && (
+          <div class="projectsinner-section">
+            {projects?.map((item) => {
+              return <ProjectOverview project={item} />;
+            })}
+          </div>
+        )}
+      </div>
+    );
+  })()
+}
+
+<style>
+  .projectsinner-section {
+    display: grid;
+    gap: var(--grid-gutter);
+  }
+</style>

@@ -1,0 +1,135 @@
+---
+import { stegaClean } from "@sanity/client/stega";
+import type { EpisodeType } from "../../utils";
+import VimeoVideo from "../commons/VimeoVideo.astro";
+import YoutubeVideo from "../commons/YoutubeVideo.astro";
+
+interface Props {
+  episodes: EpisodeType[];
+}
+
+const { episodes } = Astro.props || {};
+---
+
+{
+  (() => {
+    return (
+      <div class="swiper">
+        <div class="swiper-wrapper">
+          {episodes?.map((item) => {
+            const {
+              description,
+              thumbType,
+              title,
+              thumbnailUrl,
+              thumbnailFile,
+              vimeoId,
+              select: Select,
+              youtubeId,
+            } = item || {};
+            const poster =
+              thumbType === "file"
+                ? thumbnailFile?.asset?.url
+                : thumbType === "url"
+                  ? thumbnailUrl
+                  : "";
+            const select = stegaClean(Select || "");
+
+            return (
+              <article class="swiper-slide">
+                <div class="project__meta">
+                  {select === "vimeo" && vimeoId && (
+                    <VimeoVideo
+                      className="vimeo-video"
+                      vimeoId={vimeoId}
+                      title={title}
+                      poster={poster}
+                    />
+                  )}
+                  {select === "youtube" && youtubeId && (
+                    <YoutubeVideo
+                      className="youtube-video"
+                      videoId={youtubeId}
+                      title={title}
+                      poster={poster}
+                    />
+                  )}
+                  <div class="block-episodes-about">
+                    {title && <h3 class="episode-swiper-title">{title}</h3>}
+                    {description && (
+                      <p class="episode-swiper-subTitle">{description}</p>
+                    )}
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+    );
+  })()
+}
+
+<script>
+  import Swiper from "swiper";
+  import { Autoplay, FreeMode } from "swiper/modules";
+  import "swiper/css";
+
+  new Swiper(".swiper", {
+    slidesPerView: "auto",
+    spaceBetween: 30,
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+  });
+</script>
+
+<style>
+  .project__meta {
+    .vimeo-video {
+      border-radius: 4px;
+      aspect-ratio: 696 / 391;
+      width: 100%;
+      border: none !important;
+      max-width: 100%;
+    }
+    .youtube-video {
+      border-radius: 4px;
+      aspect-ratio: 696 / 391;
+      width: 100%;
+      border: none !important;
+      max-width: 100%;
+    }
+
+    .video-thumb {
+      .thumb-image {
+        border-radius: 4px;
+        aspect-ratio: 696 / 391;
+        width: 100%;
+      }
+    }
+
+    .block-episodes-about {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3xs);
+      margin-top: var(--space-xs);
+
+      .episode-swiper-title {
+        color: black;
+        font-family: var(--font-primary);
+        font-size: var(--fs-0);
+        font-weight: 500;
+        line-height: 133%;
+        letter-spacing: -0.03px;
+      }
+      .episode-swiper-subTitle {
+        color: var(--dark-gray);
+        font-family: var(--font-body);
+        font-size: var(--fs--2);
+        line-height: 160%;
+      }
+    }
+  }
+</style>

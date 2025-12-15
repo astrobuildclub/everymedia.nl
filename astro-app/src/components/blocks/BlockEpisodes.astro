@@ -1,0 +1,68 @@
+---
+import type { BlockEpisodesType } from "../../utils";
+import EpisodesCard from "../commons/EpisodesCard.astro";
+
+interface Props {
+  data: BlockEpisodesType;
+}
+
+const { episodes, description, title } = Astro.props.data || {};
+---
+
+{
+  (() => {
+    return (
+      <section class="block-episodes-swiper-section">
+        <div class="block-episodes-title">
+          {title && <span class="block-episodes-intro">{title}</span>}
+          {description && (
+            <h2 class="block-episodes-main-title">{description}</h2>
+          )}
+        </div>
+        {episodes?.length > 0 && <EpisodesCard episodes={episodes} />}
+      </section>
+    );
+  })()
+}
+
+
+<style>
+  .block-episodes-swiper-section {
+    padding: var(--space-2xl) var(--space-s);
+    padding-right: 0;
+    @media (max-width: 639px) {
+      padding-right: var(--space-s);
+    }
+
+    .block-episodes-title {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-s);
+      max-width: 66rem;
+      width: 100%;
+      margin-bottom: 2rem !important;
+      margin: 0 auto;
+
+      .block-episodes-intro {
+        color: var(--gray-700);
+        text-align: center;
+        font-family: var(--font-mono);
+        font-size: var(--fs--2);
+        font-weight: 500;
+        line-height: 150%;
+        letter-spacing: 0.405px;
+        text-transform: uppercase;
+      }
+
+      .block-episodes-main-title {
+        color: black;
+        text-align: center;
+        font-family: var(--font-primary);
+        font-size: var(--fs--1);
+        font-weight: 400;
+        line-height: 150%;
+        letter-spacing: 0.045px;
+      }
+    }
+  }
+</style>

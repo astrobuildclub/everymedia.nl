@@ -1,0 +1,98 @@
+---
+import type { BlockWorkRelatedType } from "../../utils";
+import SanityButton from "../commons/SanityButton.astro";
+import ProjectsCard from "../commons/ProjectsCard.astro";
+
+interface Props {
+  data: BlockWorkRelatedType;
+}
+const {
+  title,
+  intro,
+  relatedProjects: projects = [],
+  cta,
+} = Astro.props.data || {};
+---
+
+{
+  (() => {
+    return (
+      <section>
+        <div class="block-work-swiper-section">
+          <div class="block-work-title">
+            {title && <span class="block-sub-title">{title}</span>}
+            {intro && <h2 class="block-main-title">{intro}</h2>}
+          </div>
+          {projects?.length > 0 && <ProjectsCard projects={projects} />}
+          {cta?.buttonText && (
+            <div class="cta-button">
+              <SanityButton block={cta} class="project-btn" />
+            </div>
+          )}
+        </div>
+      </section>
+    );
+  })()
+}
+
+<style>
+  .block-work-swiper-section {
+    padding: var(--space-2xl) var(--space-s);
+    padding-right: 0;
+    background-color: black;
+
+    @media (max-width: 639px) {
+      padding-right: var(--space-s);
+    }
+
+    .block-work-title {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-s);
+      max-width: 66rem;
+      width: 100%;
+      margin-bottom: 2rem;
+
+      .block-sub-title {
+        color: var(--neutrals-600);
+        font-weight: 500;
+        font-size: 0.75rem;
+        font-family: var(--font-mono);
+        line-height: 150%;
+        letter-spacing: 0.36px;
+        text-transform: uppercase;
+      }
+      .block-main-title {
+        color: white;
+        font-family: var(--font-body);
+        font-size: var(--fs-0);
+        font-weight: 500;
+        line-height: 112%;
+        letter-spacing: 0.25px;
+      }
+    }
+  }
+  .cta-button {
+    margin-top: 2rem;
+    .project-btn {
+      display: block;
+      background-color: var(--jet);
+      color: white;
+      font-weight: bold;
+      text-align: center;
+      font-size: 1.125rem;
+      padding: 1.5rem 2.25rem;
+      width: fit-content;
+      line-height: 120%;
+      border: 1px solid transparent;
+      transition: all 0.2s ease-in-out;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .project-btn:hover {
+      background-color: transparent;
+      border-color: white;
+    }
+  }
+</style>

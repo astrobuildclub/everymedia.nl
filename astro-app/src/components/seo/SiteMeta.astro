@@ -1,0 +1,122 @@
+---
+import type { DefaultSeoPropsType } from "../../utils";
+import type { SeoType } from "../../utils/sanity/types/seoType";
+
+interface Props {
+  seo: SeoType;
+  currentPath: string;
+  defaultSeoProps: DefaultSeoPropsType | undefined;
+}
+
+const { currentPath, seo, defaultSeoProps } = Astro.props || {};
+
+const {
+  additionalMetaTags = [],
+  metaDescription,
+  metaTitle,
+  nofollowAttributes,
+  openGraph,
+  seoKeywords,
+  twitter,
+} = seo || {};
+const { defaultSeo, website } = defaultSeoProps || {};
+const { metaTags = [] } = website || {};
+
+const resolveUrl = (slug: string) => {
+  if (import.meta.env.VITE_SITE_URL) {
+    return (
+      (import.meta.env.VITE_SITE_URL ?? "") +
+      (slug?.startsWith("/") ? slug : `/${slug}`)
+    );
+  } else {
+    const defaultUrl = typeof window !== "undefined" ? Astro.url.href : "";
+    return defaultUrl;
+  }
+};
+
+const canonicalUrl = resolveUrl(currentPath);
+const title = metaTitle || defaultSeo?.defaultPageTitle || "";
+const description = metaDescription || defaultSeo?.defaultPageDescription || "";
+const openGraphTitle = openGraph?.title || defaultSeo?.defaultPageTitle || "";
+const openGraphDescription =
+  openGraph?.description || defaultSeo?.defaultPageDescription || "";
+const openGraphImage =
+  openGraph?.image?.asset?.url || defaultSeo?.shareImage?.asset?.url || "";
+const twitterTitle = metaTitle || defaultSeo?.defaultPageTitle || "";
+const twitterDescription =
+  metaDescription || defaultSeo?.defaultPageDescription || "";
+const twitterImage =
+  openGraph?.image?.asset?.url || defaultSeo?.shareImage?.asset?.url || "";
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8" />
+
+<!-- Canonical URL -->
+<link rel="canonical" href={canonicalUrl} />
+
+<!-- Open Graph Meta Tags -->
+<meta property="og:title" content={openGraphTitle} />
+<meta property="og:description" content={openGraphDescription} />
+<meta property="og:image" content={openGraphImage} />
+<meta property="og:site_name" content={openGraph?.siteName || ""} />
+<meta property="og:url" content={canonicalUrl} />
+
+<!-- Twitter Meta Tags -->
+<meta
+  name="twitter:card"
+  content={twitter?.cardType || "summary_large_image"}
+/>
+<meta name="twitter:creator" content={twitter?.creator || ""} />
+<meta name="twitter:site" content={twitter?.site || ""} />
+<meta name="twitter:title" content={twitterTitle} />
+<meta name="twitter:description" content={twitterDescription} />
+<meta name="twitter:image" content={twitterImage} />
+
+<!-- Keywords -->
+{
+  seoKeywords && seoKeywords?.length > 0 && (
+    <meta name="keywords" content={seoKeywords?.join(", ")} />
+  )
+}
+
+<!-- Nofollow Attributes -->
+{
+  nofollowAttributes && (
+    <meta
+      name="robots"
+      content={nofollowAttributes ? "noindex, nofollow" : "index, follow"}
+    />
+  )
+}
+
+<!-- Additional Meta Tags -->
+
+{
+  metaTags?.length > 0 &&
+    website?.metaTags?.map((tag) => (
+      <meta name={tag?.name} content={tag?.content} />
+    ))
+}
+
+{
+  additionalMetaTags?.length > 0 &&
+    additionalMetaTags?.map((tag) =>
+      tag?.metaAttributes?.map((attr) =>
+        attr?.attributeType === "string" ? (
+          <meta
+            name={attr?.attributeKey}
+            content={attr?.attributeValueString}
+          />
+        ) : attr?.attributeType === "image" &&
+          attr?.attributeValueImage?.asset?.url ? (
+          <meta
+            name={attr?.attributeKey}
+            content={attr?.attributeValueImage?.asset?.url}
+          />
+        ) : null
+      )
+    )
+}

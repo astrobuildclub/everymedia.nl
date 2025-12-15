@@ -1,0 +1,507 @@
+:root {
+  --debug: red;
+
+
+  --gray-50: #ffffffff;
+  --gray-75: #fdfdfdff;
+  --gray-100: #f8f8f8ff;
+  --gray-200: #e6e6e6ff;
+  --gray-300: #d5d5d5ff;
+  --gray-400: #b1b1b1ff;
+  --gray-500: #909090ff;
+  --gray-600: #6d6d6dff;
+  --gray-700: #464646ff;
+  --gray-800: #222222ff;
+  --gray-900: #000000ff;
+  --blue-50: #f7f7ffff;
+  --blue-100: #ededffff;
+  --blue-200: #d2d4fdff;
+  --blue-300: #a7abfbff;
+  --blue-400: #727af7ff;
+  --blue-500: #3844f3ff;
+  --blue-600: #1119d3ff;
+  --blue-700: #0e1195ff;
+  --blue-800: #0b0c65ff;
+  --blue-900: #090946ff;
+  --blue-950: #08083cff;
+  --blue-1000: #00025aff;
+  --blue-1100: #00014fff;
+  --blue-1200: #021c9dff;
+  --blue-1300: #011b8fff;
+  --blue-1400: #011a8aff;
+
+  --clr-bg: #fff;
+  --clr-text: var(--gray-900);
+  --clr-primary: var(--blue-600);
+
+  --charcoal-gray: #28252b;
+  --neutrals-black: #000000;
+  --white-clr: #ffffff1a;
+  --off-black: #111111;
+  --dim-gray: #333333;
+  --dark-blue: #1119d3;
+  --blue-gray-200: #e5e7eb;
+  --blue-gray-700: #4b5563;
+  --blue-gray-800: #374151;
+  --blue-gray-900: #111827;
+  --gray-700: #464646;
+  --gray-800: #1f2937;
+  --gray-50: #f9fafb;
+  --neutrals-600: #666;
+  --light-gray: #c4c4c4;
+  --platinum-gray: #e6e6e6;
+  --eerie-black: #191919;
+  --ash-gray: #adb0aa;
+  --light-sage: #d7dad4;
+  --rich-black: #010101;
+  --dark-gray: #222;
+  --silver: #bababa;
+  --gainsboro: #d2d2d2;
+  --jet: #262626;
+  --cool-gray: #ccc;
+  --black-gray: #171717;
+
+  /* dark */
+  --clr-primary-a50: oklch(from var(--clr-primary) l c h / calc(alpha - 0.5));
+  --clr-primary-a50: oklch(from var(--clr-primary) l c h / calc(alpha - 0.5));
+  --clr-secondary: hsl(240, 90%, 99%);
+  /* light */
+  --font-system:  Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
+  --font-heading: "Antarctica VAR", var(--font-system);
+  --font-body: "Antarctica VAR", var(--font-system);
+  --font-primary: "Antarctica VAR", var(--font-system);
+  --font-mono: "DM Mono", monospace;
+  --gutter: 1rem;
+  --grid-gutter: 1.5rem;
+  --type-size: 23vw;
+  --type-pos: var(--type-size);
+  --type-translate: 200%;
+  --leading-tight: 112.5%;
+
+  /* @link https://utopia.fyi/type/calculator?c=320,18,1.2,1920,24,1.333,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
+
+  /* Step -2: 12.5px → 13.5068px */
+  --fs--2: clamp(0.7813rem, 0.7687rem + 0.0629vw, 0.8442rem);
+  /* Step -1: 15px → 18.0045px */
+  --fs--1: clamp(0.9375rem, 0.8999rem + 0.1878vw, 1.1253rem);
+  /* Step 0: 18px → 24px */
+  --fs-0: clamp(1.125rem, 1.05rem + 0.375vw, 1.5rem);
+  /* Step 1: 21.6px → 31.992px */
+  --fs-1: clamp(1.35rem, 1.2201rem + 0.6495vw, 1.9995rem);
+  /* Step 2: 25.92px → 42.6453px */
+  --fs-2: clamp(1.62rem, 1.4109rem + 1.0453vw, 2.6653rem);
+  /* Step 3: 31.104px → 56.8462px */
+  --fs-3: clamp(1.944rem, 1.6222rem + 1.6089vw, 3.5529rem);
+  /* Step 4: 37.3248px → 75.776px */
+  --fs-4: clamp(2.3328rem, 1.8522rem + 2.4032vw, 4.736rem);
+  /* Step 5: 44.7898px → 101.0094px */
+  --fs-5: clamp(2.7994rem, 2.0966rem + 3.5137vw, 6.3131rem);
+  /* Step 6: 53.7477px → 134.6456px */
+  --fs-6: clamp(3.3592rem, 2.348rem + 5.0561vw, 8.4153rem);
+  /* Step 7: 64.4973px → 179.4826px */
+  --fs-7: clamp(4.0311rem, 2.5938rem + 7.1866vw, 11.2177rem);
+  /* Step 8: 77.3967px → 239.2503px */
+  --fs-8: clamp(4.8373rem, 2.8141rem + 10.1158vw, 14.9531rem);
+  /* Step 9: 53px → 101px */
+  --fs-9: clamp(3.313rem, 4vw + 2rem, 6.313rem);
+  /* Step 10: 64px → 350px */
+  --fs-10: clamp(4rem, 2.5rem + 9.6875vw, 21.875rem);
+
+  /* Step 11: 53.75px → 179.48px */
+  ---fs---1: clamp(53.75px, 10vw, 179.48px);
+
+  /* Step 12: 15px → 24px */
+  ---fs---2: clamp(15px, 2vw, 24px);
+
+  /* @link https://utopia.fyi/space/calculator?c=320,18,1.2,1920,24,1.333,8,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
+
+  /* Space 3xs: 5px → 6px */
+  --space-3xs: clamp(0.3125rem, 0.3rem + 0.0625vw, 0.375rem);
+  /* Space 2xs: 9px → 12px */
+  --space-2xs: clamp(0.5625rem, 0.525rem + 0.1875vw, 0.75rem);
+  /* Space xs: 14px → 18px */
+  --space-xs: clamp(0.875rem, 0.825rem + 0.25vw, 1.125rem);
+  /* Space s: 18px → 24px */
+  --space-s: clamp(1.125rem, 1.05rem + 0.375vw, 1.5rem);
+  /* Space m: 27px → 36px */
+  --space-m: clamp(1.6875rem, 1.575rem + 0.5625vw, 2.25rem);
+  /* Space l: 36px → 48px */
+  --space-l: clamp(2.25rem, 2.1rem + 0.75vw, 3rem);
+  /* Space l: 18px → 48px */
+  /* --space-em: clamp(1.125rem, 5vw, 3rem); */
+  /* Space xl: 54px → 72px */
+  --space-xl: clamp(3.375rem, 3.15rem + 1.125vw, 4.5rem);
+  /* Space 2xl: 72px → 96px */
+  --space-2xl: clamp(4.5rem, 4.2rem + 1.5vw, 6rem);
+  /* Space 3xl: 108px → 144px */
+  --space-3xl: clamp(6.75rem, 6.3rem + 2.25vw, 9rem);
+
+  /* Space sm: 12px → 25px */
+  --space-sm: clamp(0.75rem, 0.723rem + 0.0846vw, 1.5625rem);
+
+  /* One-up pairs */
+  /* Space 3xs-2xs: 5px → 12px */
+  --space-3xs-2xs: clamp(0.3125rem, 0.225rem + 0.4375vw, 0.75rem);
+  /* Space 2xs-xs: 9px → 18px */
+  --space-2xs-xs: clamp(0.5625rem, 0.45rem + 0.5625vw, 1.125rem);
+  /* Space xs-s: 14px → 24px */
+  --space-xs-s: clamp(0.875rem, 0.75rem + 0.625vw, 1.5rem);
+  /* Space s-m: 18px → 36px */
+  --space-s-m: clamp(1.125rem, 0.9rem + 1.125vw, 2.25rem);
+  /* Space m-l: 27px → 48px */
+  --space-m-l: clamp(1.6875rem, 1.425rem + 1.3125vw, 3rem);
+  /* Space l-xl: 36px → 72px */
+  --space-l-xl: clamp(2.25rem, 1.8rem + 2.25vw, 4.5rem);
+  /* Space xl-2xl: 54px → 96px */
+  --space-xl-2xl: clamp(3.375rem, 2.85rem + 2.625vw, 6rem);
+  /* Space 2xl-3xl: 72px → 144px */
+  --space-2xl-3xl: clamp(4.5rem, 3.6rem + 4.5vw, 9rem);
+
+  /* Custom pairs */
+  /* Space s-l: 18px → 48px */
+  --space-s-l: clamp(1.125rem, 0.75rem + 1.875vw, 3rem);
+
+  --spacing: 0.25rem;
+
+  /* space-xl-2xl-3xl: 54px → 144px */
+  --space-xl-2xl-3xl: clamp(54px, 54px + 5vw, 144px);
+
+--fs-caption: var(--fs--2);
+--fs-clr-caption: var(--gray-600);
+
+}
+
+a:-webkit-any-link {
+  text-decoration: none;
+}
+
+pre {
+  display: none;
+}
+/* barlow-condensed-latin-400-normal */
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src:
+    url(https://cdn.jsdelivr.net/fontsource/fonts/barlow-condensed@latest/latin-400-normal.woff2)
+      format("woff2"),
+    url(https://cdn.jsdelivr.net/fontsource/fonts/barlow-condensed@latest/latin-400-normal.woff)
+      format("woff");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* barlow-condensed-latin-500-normal */
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src:
+    url(https://cdn.jsdelivr.net/fontsource/fonts/barlow-condensed@latest/latin-500-normal.woff2)
+      format("woff2"),
+    url(https://cdn.jsdelivr.net/fontsource/fonts/barlow-condensed@latest/latin-500-normal.woff)
+      format("woff");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* barlow-condensed-latin-800-normal */
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 800;
+  src:
+    url(https://cdn.jsdelivr.net/fontsource/fonts/barlow-condensed@latest/latin-800-normal.woff2)
+      format("woff2"),
+    url(https://cdn.jsdelivr.net/fontsource/fonts/barlow-condensed@latest/latin-800-normal.woff)
+      format("woff");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Sofia Sans Extra Condensed Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 1 1000;
+  src: url(https://cdn.jsdelivr.net/fontsource/fonts/sofia-sans-extra-condensed:vf@latest/latin-wght-normal.woff2)
+    format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Antarctica VAR - normal */
+@font-face {
+  font-family: "Antarctica VAR";
+  src: url("../../public/fonts/antarcticas/Antarctica-Regular.ttf")
+    format("truetype");
+  font-weight: normal;
+  font-display: swap;
+}
+
+/* Antarctica VAR - medium */
+@font-face {
+  font-family: "Antarctica VAR";
+  src: url("../../public/fonts/antarcticas/Antarctica-Medium.ttf")
+    format("truetype");
+  font-weight: 500;
+  font-display: swap;
+}
+
+/* Antarctica VAR - semibold */
+@font-face {
+  font-family: "Antarctica VAR";
+  src: url("../../public/fonts/antarcticas/Antarctica-SemiBold.ttf")
+    format("truetype");
+  font-weight: 600;
+  font-display: swap;
+}
+
+/* Antarctica VAR - extrabold */
+@font-face {
+  font-family: "Antarctica VAR";
+  src: url("../../public/fonts/antarcticas/Antarctica-UltraCondExtBd.ttf")
+    format("truetype");
+  font-weight: 800;
+  font-display: swap;
+}
+
+/* Antarctica VAR - ExtraCondLight */
+@font-face {
+  font-family: "Antarctica VAR";
+  src: url("../../public/fonts/antarcticas/Antarctica-ExtraCondLight.ttf")
+    format("truetype");
+  font-weight: 300;
+  font-display: swap;
+}
+
+/* Antarctica VAR - ExtraCondensedBold */
+@font-face {
+  font-family: "Antarctica VAR";
+  src: url("../../public/fonts/antarcticas/Antarctica-ExtraCondensedBold.ttf")
+    format("truetype");
+  font-weight: 700;
+  font-display: swap;
+}
+
+/* Antarctica VAR - CondensedMedium */
+@font-face {
+  font-family: "Antarctica VAR";
+  src: url("../../public/fonts/antarcticas/Antarctica-CondensedMedium.ttf")
+    format("truetype");
+  font-weight: 500;
+  font-display: swap;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  /* 	background: var(--clr-secondary); */
+  color: var(--clr-primary);
+  font-size: var(--fs-0);
+  line-height: 112.5%;
+  will-change: transform;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+ul,
+ol {
+  list-style-type: none;
+}
+
+.hero {
+  background: var(--clr-primary);
+}
+
+.em-title {
+  font-family: var(--font-primary);
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 100%;
+  @media (max-width: 1279px) {
+    /* line-height: 90%; */
+}
+}
+
+.project__thumb {
+  background: var(--clr-primary);
+}
+
+pre {
+  font-size: 0.675rem;
+  padding: 0em;
+  background: var(--clr-primary);
+  color: var(--clr-secondary);
+}
+
+.white-btn {
+  font-family: var(--font-body);
+  font-size: var(--fs--1);
+  line-height: 120%;
+  font-weight: bold;
+  padding: var(--space-s);
+  padding-top: var(--space-xs);
+  padding-bottom: var(--space-xs);
+  border-radius: 9999px;
+  background-color: var(--gray-50);
+  color: var(--blue-gray-900);
+  border: 1px solid currentColor;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  width: fit-content;
+  text-decoration: none;
+}
+
+.white-btn:hover {
+  background-color: transparent;
+  border-color: var(--gray-50);
+  color: var(--gray-50);
+}
+
+.black-btn {
+  display: block;
+  background-color: var(--blue-900);
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  font-size: 1.125rem;
+  padding: 1.5rem 2.25rem;
+  width: fit-content;
+  line-height: 100%;
+  /* border: 1px solid transparent; */
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 100vw;
+}
+
+.black-btn:hover {
+  /* background-color: transparent; */
+  background-color: var(--blue-600);
+  /* border-color: var(--off-black); */
+  /* color: var(--off-black); */
+}
+
+figure {
+  margin: 0 !important;
+}
+
+/* Modern scroll-driven animatie */
+@supports (animation-timeline: --section-pin-tl) {
+  .audience {
+    position: relative;
+    min-height: 100dvh;
+  }
+
+  #sectionPin {
+    --margin: var(--space-xl);
+    --gutter: var(--space-xl);
+    --debug: green;
+
+    height: 500vh;
+    overflow: visible;
+    view-timeline-name: --section-pin-tl;
+    view-timeline-axis: block;
+    min-height: 100%;
+  }
+
+  .pin-wrap-sticky {
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    width: 100vw;
+    overflow-x: hidden;
+    /* min-height: 100dvh; */
+  }
+
+  .pin-wrap {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    animation: linear move forwards;
+    animation-timeline: --section-pin-tl;
+    animation-range: contain 0% contain 100%;
+    will-change: transform;
+    gap: var(--space-xl);
+    padding: var(--space-xl) var(--space-xl);
+    width: calc(300vmax - var(--space-xl) * 2);
+    max-width: fit-content;
+  }
+
+  .pin-wrap {
+    height: 86.5vh;
+    will-change: transform;
+    animation: linear move forwards;
+    animation-timeline: --section-pin-tl;
+    animation-range: contain 0% contain 100%;
+  }
+
+  .pin-wrap > * {
+    min-width: 100vmax;
+    min-width: calc(100vmax - var(--space-xl) * 2);
+    width: calc(100vmax - var(--space-xl) * 2);
+    padding: 0 0vmax;
+  }
+}
+
+@keyframes move {
+  to {
+    /* Move horizontally so that right edge is aligned against the viewport */
+    transform: translateX(calc(-100% + 100vw));
+  }
+}
+
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* cookies-policy  */
+
+#cc-main {
+  position: sticky !important;
+  bottom: 0 !important;
+}
+
+#cc-main .cm {
+  position: absolute !important;
+}

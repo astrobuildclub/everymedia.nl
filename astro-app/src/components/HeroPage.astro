@@ -1,0 +1,166 @@
+---
+import { PortableText } from "astro-portabletext";
+import type { HeroViewType } from "../utils";
+import SanityImage from "./commons/SanityImage.astro";
+import SimpleVideo from "./commons/SimpleVideo.astro";
+import { stegaClean } from "@sanity/client/stega";
+
+interface Props {
+  data: HeroViewType;
+}
+const {
+  title,
+  heroVideo,
+  subtitle,
+  heroImage,
+  select: Select,
+  intro,
+  pageTitle,
+  documentId,
+  documentType
+} = Astro.props.data || {};
+const select = stegaClean(Select || "");
+---
+
+{
+  (() => {
+    return (
+      <section class="page-hero-section">
+        <div class="page-hero-left">
+          {pageTitle && <span class="hero-intro">{pageTitle}</span>}
+          {title && <h1 class="hero-title">{title}</h1>}
+          {subtitle && <div class="hero-subTitle">{subtitle}</div>}
+          {intro && (
+            <div class="hero-desc">
+              <PortableText value={intro} />
+            </div>
+          )}
+        </div>
+
+        {select === "heroVideo" && heroVideo && (
+          <div class="page-hero-right">
+            <SimpleVideo
+              autoplay={true}
+              loop={true}
+              className="page-hero-video"
+              videoUrl={heroVideo}
+              documentId={documentId}
+              documentType={documentType}
+              sanityFieldName="heroVideo"
+            />
+          </div>
+        )}
+
+        {select === "heroImage" && heroImage && (
+          <div class="page-hero-right">
+            <SanityImage
+              src={heroImage}
+              className="page-hero-image"
+              documentId={documentId}
+              documentType={documentType}
+              sanityFieldName="heroImage"
+            />
+          </div>
+        )}
+      </section>
+    );
+  })()
+}
+
+<style>
+  .page-hero-section {
+    padding: var(--space-2xl-3xl) var(--space-s) var(--space-xl-2xl)
+      var(--space-s);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 5rem;
+    align-items: center;
+    justify-content: space-between;
+    @media (max-width: 1440px) {
+      gap: var(--grid-gutter);
+    }
+    @media (max-width: 767px) {
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+      padding-top: 6rem;
+    }
+
+    .page-hero-left {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-s);
+      order: 1;
+      padding-right: 6rem;
+      @media (max-width: 1440px) {
+        padding-right: 0rem;
+      }
+      @media (max-width: 767px) {
+        order: 2;
+      }
+
+      .hero-intro {
+        color: var(--neutrals-600);
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        font-weight: 500;
+        line-height: 100%;
+        letter-spacing: 0.36px;
+        text-transform: uppercase;
+        padding-bottom: 0.75rem;
+      }
+      .hero-title {
+        color: black;
+        font-size: var(--fs-2);
+        font-weight: 700;
+        line-height: 100%;
+        font-family: var(--font-instrument);
+      }
+      .hero-subTitle {
+        color: black;
+        font-size: var(--fs-0);
+        font-weight: 500;
+        line-height: 133%;
+        letter-spacing: -0.03px;
+        font-family: var(--font-primary);
+      }
+      .hero-desc {
+        color: black;
+        font-size: var(--fs--1);
+        line-height: 150%;
+        letter-spacing: 0.25px;
+        font-family: var(--font-primary);
+      }
+    }
+    .page-hero-right {
+      order: 2;
+      @media (max-width: 767px) {
+        order: 1;
+      }
+
+      .page-hero-video {
+        border-radius: var(--space-xs);
+        object-fit: cover;
+        height: 57.938rem;
+        width: 100%;
+        @media (max-width: 1279px) {
+          height: 23.438rem;
+        }
+      }
+    }
+    .page-hero-right {
+      order: 2;
+      @media (max-width: 767px) {
+        order: 1;
+      }
+
+      figure {
+        width: 100%;
+        .page-hero-image {
+          height: auto;
+          width: 100%;
+          border-radius: var(--space-xs);
+          object-fit: cover;
+        }
+      }
+    }
+  }
+</style>

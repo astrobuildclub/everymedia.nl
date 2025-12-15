@@ -1,39 +1,48 @@
-// Loading environment variables from .env files
-// https://docs.astro.build/en/guides/configuring-astro/#environment-variables
-import { loadEnv } from "vite";
-const {
-  PUBLIC_SANITY_STUDIO_PROJECT_ID,
-  PUBLIC_SANITY_STUDIO_DATASET,
-  PUBLIC_SANITY_PROJECT_ID,
-  PUBLIC_SANITY_DATASET,
-} = loadEnv(import.meta.env.MODE, process.cwd(), "");
+// @ts-check
 import { defineConfig } from "astro/config";
-
-// Different environments use different variables
-const projectId = PUBLIC_SANITY_STUDIO_PROJECT_ID || PUBLIC_SANITY_PROJECT_ID;
-const dataset = PUBLIC_SANITY_STUDIO_DATASET || PUBLIC_SANITY_DATASET;
-
-import sanity from "@sanity/astro";
 import react from "@astrojs/react";
+import { defaultLanguage, supportedLocales } from "./src/lib/helperFunctions";
+import sanityIntegration from "@sanity/astro";
+import {
+  apiVersion,
+  dataset,
+  projectId,
+  sanityStudioUrl,
+  useCdn,
+} from "./src/lib/sanity";
+import vercel from "@astrojs/vercel";
 
-// Change this depending on your hosting provider (Vercel, Netlify etc)
-// https://docs.astro.build/en/guides/server-side-rendering/#adding-an-adapter
-import netlify from "@astrojs/netlify";
+const defaultLocale = defaultLanguage.id;
 
 // https://astro.build/config
 export default defineConfig({
-  // Replaced with Netlify adapter
   output: "server",
-  adapter: netlify(),
+  adapter: vercel(),
   integrations: [
-    sanity({
-      projectId,
-      dataset,
-      // studioBasePath: "/admin",
-      useCdn: false,
-      // `false` if you want to ensure fresh data
-      apiVersion: "2024-12-08", // Set to date of setup to use the latest API version
+    react(),
+    sanityIntegration({
+      projectId: projectId,
+      dataset: dataset,
+      apiVersion: apiVersion,
+      useCdn: useCdn,
+      stega: {
+        studioUrl: sanityStudioUrl,
+      },
     }),
-    react(), // Required for Sanity Studio
   ],
+  vite: {
+    plugins: [],
+  },
+  image: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cdn.sanity.io",
+      },
+    ],
+  },
+  i18n: {
+    locales: supportedLocales,
+    defaultLocale: defaultLocale,
+  },
 });
