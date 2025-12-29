@@ -14,7 +14,7 @@
     "@astrojs/netlify": "^6.6.3",
     "@astrojs/react": "^4.4.2",
     "@sanity/astro": "^3.2.10",
-    "@sanity/client": "^6.29.0",
+    "@sanity/client": "^7.6.0",
     "@sanity/image-url": "^1.2.0",
     "@sanity/vision": "^3.99.0",
     "@sanity/visual-editing": "^2.15.4",
