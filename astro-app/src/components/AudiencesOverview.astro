@@ -105,7 +105,10 @@ const select = stegaClean(Select || "");
     overflow: hidden;
     min-height: 50vh;
     height: 100%;
+    max-height: calc(100dvh - var(--space-l) * 2);
     position: relative;
+    display: flex;
+    flex-direction: column;
     /* top: var(--space-xs); */
     min-width: calc(100vw - var(--space-xl) * 2);
     width: calc(100vw - var(--space-xl) * 2);
@@ -117,13 +120,13 @@ const select = stegaClean(Select || "");
     } */
 
     .content-wrapper {
-      padding: 1.688rem;
+      padding: 0;
       border-radius: var(--space-3xs);
       background: rgba(0, 0, 0, 0.4);
       backdrop-filter: blur(calc(var(--space-s) / 2));
       position: absolute;
-      inset-inline: calc(var(--spacing) * 9);
-      bottom: calc(var(--spacing) * 9);
+      inset-inline: var(--space-s);
+      bottom: var(--space-s);
       z-index: 2;
       display: flex;
       flex-direction: column;
@@ -163,7 +166,10 @@ const select = stegaClean(Select || "");
     figure {
       width: 100%;
       height: 100%;
+      flex: 1;
+      min-height: 0;
       border-radius: var(--space-2xs);
+      position: relative;
       .image {
         object-fit: cover;
         z-index: 1;
@@ -173,7 +179,7 @@ const select = stegaClean(Select || "");
       }
     }
 
-    .video {
+    > .video {
       autoplay: true;
       loop: true;
       playsinline: true;
@@ -181,7 +187,13 @@ const select = stegaClean(Select || "");
       preload: auto;
       width: 100%;
       height: 100%;
+      flex: 1;
+      min-height: 0;
       object-fit: cover;
+      position: absolute;
+      inset: 0;
+      border-radius: var(--space-2xs);
+      z-index: 1;
     }
   }
 </style>
