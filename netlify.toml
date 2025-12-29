@@ -1,6 +1,6 @@
 [build]
-  command = "npm run build"
-  publish = "dist"
+  command = "npm run build --workspace=astro-app"
+  publish = "astro-app/dist"
 
 [build.environment]
   NODE_VERSION = "20"
@@ -13,9 +13,4 @@
 # SANITY_API_READ_TOKEN - Optional: Sanity API read token for authenticated queries
 # VITE_SITE_URL - Optional: Site URL for sitemap generation
 # PUBLIC_SANITY_STUDIO_URL - Optional: Sanity Studio URL (default: "http://localhost:3333")
-
-
-
-
-
 
