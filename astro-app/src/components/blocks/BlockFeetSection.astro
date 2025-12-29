@@ -1,6 +1,6 @@
 ---
 import { PortableText } from "astro-portabletext";
-import type { BlockFeetSectionType } from "../../utils";
+import type { BlockFeetSectionType, ConnectWithUsType, LabelLinkType } from "../../utils";
 import ProjectGridHomepage from "../ProjectGridHomepage.astro";
 import SanityButton from "../commons/SanityButton.astro";
 import { cn } from "../../lib/helperFunctions";
@@ -42,7 +42,7 @@ const {
 
           {connectWithUs?.length > 0 && (
             <div class="connect-section">
-              {connectWithUs?.map((item) => {
+              {connectWithUs?.map((item: ConnectWithUsType) => {
                 const { body, title, select: Select, labelLinks } = item || {};
                 const select = stegaClean(Select || "");
                 return (
@@ -63,7 +63,7 @@ const {
                       )}
                       {select === "labelLinks" && labelLinks?.length > 0 && (
                         <ul class="label-links">
-                          {labelLinks?.map((item) => {
+                          {labelLinks?.map((item: LabelLinkType) => {
                             const { link, label } = item || {};
                             return (
                               <li>

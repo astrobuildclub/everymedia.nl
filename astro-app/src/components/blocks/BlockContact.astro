@@ -1,6 +1,6 @@
 ---
 import { PortableText } from "astro-portabletext";
-import type { BlockContactType } from "../../utils";
+import type { BlockContactType, ButtonType } from "../../utils";
 import SanityImage from "../commons/SanityImage.astro";
 import SanityButton from "../commons/SanityButton.astro";
 import { cn } from "../../lib/helperFunctions";
@@ -41,7 +41,7 @@ const { title, cta, image, intro } = Astro.props.data || {};
             )}
             {cta?.length > 0 && (
               <ul class="cta-list">
-                {cta?.map((i) => {
+                {cta?.map((i: ButtonType) => {
                   return (
                     <li>
                       <SanityButton block={i} />

@@ -1,5 +1,5 @@
 ---
-import type { BlockLogosType } from "../../utils";
+import type { BlockLogosType, SanityImageType } from "../../utils";
 import SanityImage from "../commons/SanityImage.astro";
 
 interface Props {
@@ -16,7 +16,7 @@ const { title, logos } = Astro.props.data || {};
         {title && <h2 class="logos-title">{title}</h2>}
         {logos?.length > 0 && (
           <ul class="logos-list">
-            {logos?.map((item) => {
+            {logos?.map((item: SanityImageType) => {
               return (
                 <li class="logos-box">
                   <SanityImage src={item} className="logos-image" />

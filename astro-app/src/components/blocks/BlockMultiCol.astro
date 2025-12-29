@@ -1,7 +1,7 @@
 ---
 import { stegaClean } from "@sanity/client/stega";
 import { cn } from "../../lib/helperFunctions";
-import type { BlockMultiColType } from "../../utils";
+import type { BlockMultiColType, BlockTextType, BlockTextMediaType } from "../../utils";
 import RichTextSimple from "../commons/RichTextSimple/RichTextSimple.astro";
 import BlockMediaGallery from "./BlockMediaGallery.astro";
 import BlockTextMedia from "./BlockTextMedia.astro";
@@ -29,7 +29,7 @@ const gridStyle = {
       <section class="multi-col-section">
         {select === "blockText" && blockText?.length > 0 && (
           <div class={cn("multi-col-cards-grid")} style={gridStyle}>
-            {blockText?.map((item) => {
+            {blockText?.map((item: BlockTextType) => {
               const { title, hideTitle, content } = item || {};
               const gridClass = hideTitle
                 ? "single-column"
@@ -54,7 +54,7 @@ const gridStyle = {
         )}
         {select === "blockTextMedia" && blockTextMedia?.length > 0 && (
           <div>
-            {blockTextMedia?.map((item) => {
+            {blockTextMedia?.map((item: BlockTextMediaType) => {
               return (
                 <div>
                   <BlockTextMedia data={item} />

@@ -2,7 +2,12 @@
 import { stegaClean } from "@sanity/client/stega";
 import { cn } from "../lib/helperFunctions";
 import { routes } from "../lib/router";
-import type { HeaderType, HeroVariantType } from "../utils";
+import type {
+  HeaderType,
+  HeroVariantType,
+  NavItemType,
+  LabelLinkType,
+} from "../utils";
 import SanityLink from "./commons/SanityLink.astro";
 
 interface Props {
@@ -147,13 +152,13 @@ const MenuClass = (heroVariants: HeroVariantType) => {
         {navItems?.length > 0 && (
           <nav id="menu" class="show-nav nav hidden">
             <div class="nav-items">
-              {navItems?.map((item) => {
+              {navItems?.map((item: NavItemType) => {
                 const { headline, labelLinks } = item || {};
                 return (
                   <div class="nav-item">
                     {headline && <div class="headline ">{headline}</div>}
                     {labelLinks?.length > 0 &&
-                      labelLinks?.map((item) => {
+                      labelLinks?.map((item: LabelLinkType) => {
                         const { label, link } = item || {};
                         return (
                           <div>

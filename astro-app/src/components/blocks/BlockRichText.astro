@@ -1,5 +1,5 @@
 ---
-import type { BlockRichTextType } from "../../utils";
+import type { BlockRichTextType, BlockIntroType } from "../../utils";
 import RichTextSimple from "../commons/RichTextSimple/RichTextSimple.astro";
 
 interface Props {
@@ -14,7 +14,7 @@ const { footnote, content } = Astro.props.data || {};
       <section class="block-rich-text-section">
         {content?.length > 0 && (
           <div class="rich-text-about">
-            {content?.map((item) => {
+            {content?.map((item: BlockIntroType) => {
               const { content, title } = item || {};
               return (
                 <div class="rich-text-about-list">

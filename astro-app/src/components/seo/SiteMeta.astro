@@ -96,7 +96,7 @@ const twitterImage =
 
 {
   metaTags?.length > 0 &&
-    website?.metaTags?.map((tag) => (
+    website?.metaTags?.map((tag: { name: string; content: string }) => (
       <meta name={tag?.name} content={tag?.content} />
     ))
 }

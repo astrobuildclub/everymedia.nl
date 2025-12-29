@@ -1,6 +1,6 @@
 ---
 import { PortableText } from "astro-portabletext";
-import type { BlockAudiencesOverviewSectionType } from "../../utils";
+import type { BlockAudiencesOverviewSectionType, AudienceType } from "../../utils";
 import AudiencesOverview from "../AudiencesOverview.astro";
 
 interface Props {
@@ -23,7 +23,7 @@ const { title, audiences } = Astro.props.data || {};
           <div class="sticky-container">
             {audiences?.length > 0 && (
               <div class="pin-wrap card-container">
-                {audiences?.map((item) => {
+                {audiences?.map((item: AudienceType) => {
                   return <AudiencesOverview audience={item} />;
                 })}
               </div>
