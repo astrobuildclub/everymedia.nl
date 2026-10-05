@@ -4,27 +4,8 @@ export const prerender = false;
 import Section from "../../../components/commons/Section.astro";
 import HeroView from "../../../components/HeroView.astro";
 import Layout from "../../../layouts/Layout.astro";
-import { loadQuery } from "../../../lib/load-query";
-import {
-  projectQuery,
-  type HeroViewType,
-  type ProjectType,
-} from "../../../utils";
+import { type HeroViewType, type ProjectType } from "../../../utils";
 import { getProject } from "../../../utils/sanity/getProject";
-
-// export async function getStaticPaths() {
-//   const { data: allSlugs } =
-//     (await loadQuery<Pick<ProjectType, "slug" | "language">[]>({
-//       query: projectQuery?.query?.projectSlugQuery,
-//     })) || [];
-
-//   const paths =
-//     allSlugs.map((item: Pick<ProjectType, "slug" | "language">) => ({
-//       params: { slug: item?.slug, locale: item?.language },
-//     })) || [];
-
-//   return paths;
-// }
 
 const { slug, locale } = Astro.params;
 const searchParams = Astro.url.searchParams;

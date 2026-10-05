@@ -16,7 +16,7 @@ interface Props {
 }
 
 const { header, heroVariants: HeroVariants } = Astro.props || {};
-const { logo, navItems = [], _type, _id } = header || {};
+const { navItems = [] } = header || {};
 const heroVariants = stegaClean(HeroVariants);
 
 const LogoClass = (heroVariants: HeroVariantType) => {

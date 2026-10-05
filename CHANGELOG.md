@@ -8,6 +8,7 @@ Categorieën: **Toegevoegd**, **Gewijzigd**, **Opgelost**, **Verwijderd**, **Bev
 ## [Unreleased]
 
 ### Onderhoud
+- Ongebruikte imports/variabelen opgeruimd (astro check hints)
 - Projectdocumentatie volgens Code-standaard: README, CHANGELOG, AGENTS, CLAUDE
 - Node 22 (`.nvmrc` + `netlify.toml`)
 - `.claude/` toegevoegd aan `.gitignore`

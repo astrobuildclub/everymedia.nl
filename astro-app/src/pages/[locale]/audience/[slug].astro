@@ -4,27 +4,8 @@ export const prerender = false;
 import Section from "../../../components/commons/Section.astro";
 import HeroView from "../../../components/HeroView.astro";
 import Layout from "../../../layouts/Layout.astro";
-import { loadQuery } from "../../../lib/load-query";
-import {
-  audienceQuery,
-  type AudienceType,
-  type HeroViewType,
-} from "../../../utils";
+import { type AudienceType, type HeroViewType } from "../../../utils";
 import { getAudience } from "../../../utils/sanity/getAudience";
-
-// export async function getStaticPaths() {
-//   const { data: allSlugs } =
-//     (await loadQuery<Pick<AudienceType, "slug" | "language">[]>({
-//       query: audienceQuery?.query?.audienceSlugQuery,
-//     })) || [];
-
-//   const paths =
-//     allSlugs.map((item: Pick<AudienceType, "slug" | "language">) => ({
-//       params: { slug: item?.slug, locale: item?.language },
-//     })) || [];
-
-//   return paths;
-// }
 
 const { slug, locale } = Astro.params;
 const searchParams = Astro.url.searchParams;
