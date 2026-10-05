@@ -15,6 +15,7 @@ Categorieën: **Toegevoegd**, **Gewijzigd**, **Opgelost**, **Verwijderd**, **Bev
 - Tokens uit `astro-app/.env.example` gehaald (placeholders)
 - Vite-alias `react/compiler-runtime` → `react-compiler-runtime` (React 18 + Sanity build)
 - `@types/react-dom` vastgezet op bestaande versie (`^18.3.7`)
+- Netlify-site `everymedia` gedocumenteerd; CD-blokkade private org-repo genoteerd
 
 ## [2025-12]
 

@@ -8,8 +8,8 @@
 | **Bedrijf** | All This |
 | **Status** | WIP · gepauzeerd |
 | **SLA** | TODO |
-| **Live** | TODO |
-| **Netlify** | team All This, site TODO |
+| **Live** | TODO (nog geen productie-deploy) |
+| **Netlify** | site [`everymedia`](https://app.netlify.com/projects/everymedia) · [![Netlify Status](https://api.netlify.com/api/v1/badges/b78e2733-4ead-4934-af45-58a77f2c8158/deploy-status)](https://app.netlify.com/projects/everymedia/deploys) |
 | **CMS** | Sanity project `mqkdg673`, dataset `production`, Studio: https://every-media.sanity.studio |
 | **Repo** | https://github.com/astrobuildclub/everymedia.nl |
 | **Notion** | TODO |
@@ -80,10 +80,12 @@ Content types o.a.: pages, projects, audiences, FAQ, team, site settings, header
 
 ## Deploy
 
-- `main` → productie (Netlify)
-- Pull requests → deploy preview
+- Netlify-site: [`everymedia`](https://app.netlify.com/projects/everymedia) (gekoppeld aan deze repo)
+- `main` → productie; pull requests → deploy preview
 - Werkwijze: branch → PR → preview checken → merge
 - Nooit direct pushen naar `main`; nooit force-push
+
+**Blokker:** continuous deployment faalt op private org-repo (`Unsupported repository type`). Netlify vraagt Pro (of repo-settings wijzigen) voor org-owned private repos. Tot dat opgelost is: geen automatische deploys.
 
 ## Beveiliging
 
@@ -92,8 +94,9 @@ Zie [docs/SECURITY_AUDIT-2025-12.md](docs/SECURITY_AUDIT-2025-12.md) (audit 2025
 ## Bekende issues en afspraken
 
 - Project lag maanden stil (WIP · gepauzeerd); `Mieras-Fixes-for-Live` bevat het meest recente onge-mergeerde werk.
+- Netlify CD geblokkeerd door private org-repo (zie Deploy hierboven).
 - `astro-app/.env.example` bevatte eerder echte tokens — die zijn vervangen door placeholders; roteer eventueel oude tokens in Sanity Manage.
-- Live URL, Netlify site-naam en Notion-link: TODO.
+- Live URL en Notion-link: TODO.
 
 ## Contact
 
