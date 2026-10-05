@@ -7,6 +7,9 @@ Categorieën: **Toegevoegd**, **Gewijzigd**, **Opgelost**, **Verwijderd**, **Bev
 
 ## [Unreleased]
 
+### Beveiliging
+- `npm audit fix` (zonder force; ~124 → ~60 issues); `ajv@8` override voor build-compatibiliteit
+
 ### Onderhoud
 - Ongebruikte imports/variabelen opgeruimd (astro check hints)
 - Projectdocumentatie volgens Code-standaard: README, CHANGELOG, AGENTS, CLAUDE
