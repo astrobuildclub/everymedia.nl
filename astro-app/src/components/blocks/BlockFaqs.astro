@@ -1,6 +1,6 @@
 ---
 import { PortableText } from "astro-portabletext";
-import type { BlockFaqsType } from "../../utils";
+import type { BlockFaqsType, FaqType } from "../../utils";
 import { PlusCircle } from "../icons/plusCircle";
 import { MinusCircle } from "../icons/minusCircle";
 
@@ -17,7 +17,7 @@ const { title, faqs } = Astro.props.data || {};
         {title && <h2 class="faq-title">{title}</h2>}
         {faqs?.length > 0 && (
           <ul class="faq-list">
-            {faqs?.map((item, index) => {
+            {faqs?.map((item: FaqType, index: number) => {
               const { question, answer } = item || {};
               const isOpen = index === 0; // open first item
               return (

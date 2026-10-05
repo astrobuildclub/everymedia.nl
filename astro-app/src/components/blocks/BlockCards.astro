@@ -1,6 +1,6 @@
 ---
 import { PortableText } from "astro-portabletext";
-import type { BlockCardsType } from "../../utils";
+import type { BlockCardsType, CardType } from "../../utils";
 import { generateFormattedIndex } from "../../lib/helperFunctions";
 
 interface Props {
@@ -24,7 +24,7 @@ const gridStyle = {
 
         {cards?.length > 0 && (
           <div class="cards-grid" style={gridStyle}>
-            {cards?.map((item, index) => {
+            {cards?.map((item: CardType, index: number) => {
               const { title, subtitle, body } = item || {};
               return (
                 <article class="card">

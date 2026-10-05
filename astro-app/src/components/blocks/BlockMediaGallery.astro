@@ -1,5 +1,5 @@
 ---
-import type { BlockMediaGalleryType } from "../../utils";
+import type { BlockMediaGalleryType, SanityImageType } from "../../utils";
 import SanityImage from "../commons/SanityImage.astro";
 
 interface Props {
@@ -15,7 +15,7 @@ const { media } = Astro.props.data || {};
       <section class="block-media-gallery-section">
         {media?.length > 0 && (
           <div class="media-gallery-inner">
-            {media?.map((item) => {
+            {media?.map((item: SanityImageType) => {
               return (
                 <div class="media-gallery-image">
                   <SanityImage src={item} />

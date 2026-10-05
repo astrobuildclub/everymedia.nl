@@ -71,12 +71,17 @@
   --font-body: "Antarctica VAR", var(--font-system);
   --font-primary: "Antarctica VAR", var(--font-system);
   --font-mono: "DM Mono", monospace;
-  --gutter: 1rem;
-  --grid-gutter: 1.5rem;
+  --gutter: var(--space-m);
+  --grid-gutter: var(--space-l);
+  --site-margin: var(--space-l);
   --type-size: 23vw;
   --type-pos: var(--type-size);
   --type-translate: 200%;
   --leading-tight: 112.5%;
+  --radius-default: var(--space-2xs);
+  --radius-large: var(--space-m);
+  --radius-xlarge: var(--space-l);
+  
 
   /* @link https://utopia.fyi/type/calculator?c=320,18,1.2,1920,24,1.333,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
 
@@ -241,7 +246,7 @@ pre {
 /* Antarctica VAR - normal */
 @font-face {
   font-family: "Antarctica VAR";
-  src: url("../../public/fonts/antarcticas/Antarctica-Regular.ttf")
+  src: url("/fonts/antarcticas/Antarctica-Regular.ttf")
     format("truetype");
   font-weight: normal;
   font-display: swap;
@@ -250,7 +255,7 @@ pre {
 /* Antarctica VAR - medium */
 @font-face {
   font-family: "Antarctica VAR";
-  src: url("../../public/fonts/antarcticas/Antarctica-Medium.ttf")
+  src: url("/fonts/antarcticas/Antarctica-Medium.ttf")
     format("truetype");
   font-weight: 500;
   font-display: swap;
@@ -259,7 +264,7 @@ pre {
 /* Antarctica VAR - semibold */
 @font-face {
   font-family: "Antarctica VAR";
-  src: url("../../public/fonts/antarcticas/Antarctica-SemiBold.ttf")
+  src: url("/fonts/antarcticas/Antarctica-SemiBold.ttf")
     format("truetype");
   font-weight: 600;
   font-display: swap;
@@ -268,7 +273,7 @@ pre {
 /* Antarctica VAR - extrabold */
 @font-face {
   font-family: "Antarctica VAR";
-  src: url("../../public/fonts/antarcticas/Antarctica-UltraCondExtBd.ttf")
+  src: url("/fonts/antarcticas/Antarctica-UltraCondExtBd.ttf")
     format("truetype");
   font-weight: 800;
   font-display: swap;
@@ -277,7 +282,7 @@ pre {
 /* Antarctica VAR - ExtraCondLight */
 @font-face {
   font-family: "Antarctica VAR";
-  src: url("../../public/fonts/antarcticas/Antarctica-ExtraCondLight.ttf")
+  src: url("/fonts/antarcticas/Antarctica-ExtraCondLight.ttf")
     format("truetype");
   font-weight: 300;
   font-display: swap;
@@ -286,7 +291,7 @@ pre {
 /* Antarctica VAR - ExtraCondensedBold */
 @font-face {
   font-family: "Antarctica VAR";
-  src: url("../../public/fonts/antarcticas/Antarctica-ExtraCondensedBold.ttf")
+  src: url("/fonts/antarcticas/Antarctica-ExtraCondensedBold.ttf")
     format("truetype");
   font-weight: 700;
   font-display: swap;
@@ -295,7 +300,7 @@ pre {
 /* Antarctica VAR - CondensedMedium */
 @font-face {
   font-family: "Antarctica VAR";
-  src: url("../../public/fonts/antarcticas/Antarctica-CondensedMedium.ttf")
+  src: url("/fonts/antarcticas/Antarctica-CondensedMedium.ttf")
     format("truetype");
   font-weight: 500;
   font-display: swap;
@@ -414,12 +419,12 @@ figure {
 @supports (animation-timeline: --section-pin-tl) {
   .audience {
     position: relative;
-    min-height: 100dvh;
+    /* max-height: calc(100dvh - var(--space-l) * 2); */
   }
 
   #sectionPin {
-    --margin: var(--space-xl);
-    --gutter: var(--space-xl);
+    --margin: var(--site-margin);
+    --gutter: var(--grid-gutter);
     --debug: green;
 
     height: 500vh;
@@ -430,7 +435,7 @@ figure {
   }
 
   .pin-wrap-sticky {
-    height: 100vh;
+    height: auto;
     position: sticky;
     top: 0;
     width: 100vw;
@@ -441,19 +446,20 @@ figure {
   .pin-wrap {
     display: flex;
     justify-content: flex-start;
-    align-items: center;
+    align-items: stretch;
     animation: linear move forwards;
     animation-timeline: --section-pin-tl;
     animation-range: contain 0% contain 100%;
     will-change: transform;
-    gap: var(--space-xl);
-    padding: var(--space-xl) var(--space-xl);
-    width: calc(300vmax - var(--space-xl) * 2);
+    height: 100%;
+    gap: var(--space-l);
+    padding: var(--space-l) var(--space-l);
+    width: calc(300vmax - var(--space-l) * 2);
     max-width: fit-content;
   }
 
   .pin-wrap {
-    height: 86.5vh;
+    height: 100%;
     will-change: transform;
     animation: linear move forwards;
     animation-timeline: --section-pin-tl;
@@ -465,6 +471,9 @@ figure {
     min-width: calc(100vmax - var(--space-xl) * 2);
     width: calc(100vmax - var(--space-xl) * 2);
     padding: 0 0vmax;
+    max-height: calc(100dvh - var(--space-l) * 2);
+    height: 100%;
+    overflow: hidden;
   }
 }
 

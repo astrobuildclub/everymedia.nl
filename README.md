@@ -1,91 +1,103 @@
-# Clean Astro + Sanity app
+# Every Media
 
-This template includes an [Astro](https://astro.build/) app with a [Sanity Studio](https://www.sanity.io/) – an open-source React application that connects to your Sanity project’s hosted dataset. The Studio is configured locally and can then be deployed for content collaboration.
+> Website voor Every Media — Astro frontend met Sanity CMS (monorepo).
 
-## Features
+| | |
+|---|---|
+| **Klant** | Every Media |
+| **Bedrijf** | All This |
+| **Status** | WIP · gepauzeerd |
+| **SLA** | TODO |
+| **Live** | TODO (nog geen productie-deploy) |
+| **Netlify** | site [`everymedia`](https://app.netlify.com/projects/everymedia) · [![Netlify Status](https://api.netlify.com/api/v1/badges/b78e2733-4ead-4934-af45-58a77f2c8158/deploy-status)](https://app.netlify.com/projects/everymedia/deploys) |
+| **CMS** | Sanity project `mqkdg673`, dataset `production`, Studio: https://every-media.sanity.studio |
+| **Repo** | https://github.com/astrobuildclub/everymedia.nl |
+| **Notion** | TODO |
 
-- Fetch content as data from [the Sanity Content Lake](https://www.sanity.io/docs/datastore)
-- Render block content with [Portable Text](https://www.sanity.io/docs/presenting-block-text)
-- Manage and create content with the intuitive [Sanity Studio](https://www.sanity.io/docs/sanity-studio).
-- Crop and render images with [Sanity Image URLs](https://www.sanity.io/docs/presenting-images)
+## Stack
 
-## Demo
+- Astro 5 · Sanity 3 · Node 22
+- Styling: CSS (custom) · Animatie: Lenis (smooth scroll); Swiper
+- Hosting: Netlify (SSR via `@astrojs/netlify`)
 
-https://template-astro-clean.sanity.build
+## Lokaal starten
 
-## Getting Started
-
-### Install the template
-
-#### 1. Initialize template with Sanity CLI
-
-Run the command in your Terminal to initialize this template on your local computer.
-
-See the documentation if you are [having issues with the CLI](https://www.sanity.io/help/cli-errors).
-
-```shell
-npm create sanity@latest -- --template sanity-io/sanity-template-astro-clean
+```bash
+nvm use          # Node 22
+npm install
+cp astro-app/.env.example astro-app/.env   # vul geheime tokens in
+cp studio/.env.example studio/.env         # optioneel
+npm run dev      # Astro :4321 + Studio :3333
 ```
 
-#### 2. Run Studio and Astro app locally
+Afzonderlijk:
 
-Navigate to the template directory using `cd <your app name>`, and start the development servers by running the following command
-
-```shell
-npm run dev
+```bash
+npm run dev --workspace=astro-app   # http://localhost:4321
+npm run dev --workspace=studio      # http://localhost:3333
 ```
 
-#### 3. Open the app and sign in to the Studio
+Build:
 
-Open the Astro app running locally in your browser on [http://localhost:4321](http://localhost:4321).
-
-Open the Studio running locally in your browser on [http://localhost:3333](http://localhost:3333). You should now see a screen prompting you to log in to the Studio. Use the same service (Google, GitHub, or email) that you used when you logged in to the CLI.
-
-### Adding content with Sanity
-
-#### 1. Publish your first document
-
-The template comes pre-defined with a schema containing a `Post` document type.
-
-From the Studio, click "+ Create" and select the `Post` document type. Go ahead and create and publish the document.
-
-Your content should now appear in your Astro app ([http://localhost:4321](http://localhost:4321))
-
-#### 2. Extending the Sanity schema
-
-The schema for the `Post` document type is defined in the `studio/src/schemaTypes/post.ts` file. You can [add more document types](https://www.sanity.io/docs/schema-types) to the schema to suit your needs.
-
-### Deploying your application and inviting editors
-
-#### 1. Deploy Sanity Studio
-
-Your Astro frontend (`/astro-app`) and Sanity Studio (`/studio`) are still only running on your local computer.
-
-Back in your Studio directory (`/studio`), run the following command to deploy your Sanity Studio.
-
-```shell
-npx sanity deploy
+```bash
+npm run build           # astro-app (Netlify)
+npm run build:studio    # Sanity Studio
 ```
 
-#### 2. Deploy Astro app to Vercel
+### Environment-variabelen
 
-You have the freedom to deploy your Astro app to your hosting provider of choice. With Vercel and GitHub being a popular choice, we'll cover the basics of that approach.
+| Naam | Waarvoor | Waar te vinden |
+|---|---|---|
+| `PUBLIC_SANITY_STUDIO_PROJECT_ID` | Sanity project (`mqkdg673`) | sanity.io/manage |
+| `PUBLIC_SANITY_STUDIO_DATASET` | Dataset (`production`) | sanity.io/manage |
+| `SANITY_API_READ_TOKEN` | Drafts / visual editing (geheim) | sanity.io/manage → API → Tokens |
+| `PUBLIC_SANITY_STUDIO_URL` | Studio-URL voor stega/preview | lokaal of deployed Studio |
+| `PUBLIC_SANITY_VISUAL_EDITING_ENABLED` | Visual editing aan/uit | `"true"` / `"false"` |
+| `VITE_SITE_URL` | Site-URL (sitemap / preview) | Netlify URL of localhost |
+| `SANITY_STUDIO_PREVIEW_URL` | Preview-URL in Studio | zelfde als site-URL |
 
-1. Create a GitHub repository from this project. [Learn more](https://docs.github.com/en/migrations/importing-source-code/using-the-command-line-to-import-source-code/adding-locally-hosted-code-to-github).
-2. Create a new Vercel project and connect it to your Github repository.
-3. Set the `Root Directory` to your Astro app.
-4. Configure your Environment Variables.
+Waarden staan nooit in git. Productiewaarden staan in Netlify → Site configuration → Environment variables.
 
-#### 3. Invite a collaborator
+## Structuur
 
-Now that you’ve deployed your Astro application and Sanity Studio, you can optionally invite a collaborator to your Studio. Open up [Manage](https://www.sanity.io/manage), select your project and click "Invite project members"
+```
+astro-app/          Astro frontend (SSR)
+  src/components/   UI en pagebuilder-blocks
+  src/layouts/      Paginalayouts
+  src/pages/        Routes (i18n: [locale]/…)
+  src/lib/          Sanity-client, router, helpers
+  src/utils/sanity/ Queries en types
+studio/             Sanity Studio
+  schemaTypes/      Content- en block-types
+  presentation/     Presentation/preview resolve
+netlify.toml        Build & Node-versie
+docs/               Audits en aanvullende docs
+```
 
-They will be able to access the deployed Studio, where you can collaborate together on creating content.
+## Content en CMS
 
-## Resources
+Content types o.a.: pages, projects, audiences, FAQ, team, site settings, header/footer. Pagebuilder-blocks (text, media, cards, gallery, logos, contact, enz.). Document-internationalization voor meertalige content.
 
-- [Sanity documentation](https://www.sanity.io/docs/)
-- [Astro documentation](https://docs.astro.build/en/getting-started/)
-- [Join the Sanity Community](https://slack.sanity.io)
-- [Learn Sanity](https://www.sanity.io/learn)
-- [Add Visual Editing (Presentation) to your project](https://www.sanity.io/guides/sanity-astro-blog)
+## Deploy
+
+- Netlify-site: [`everymedia`](https://app.netlify.com/projects/everymedia) (gekoppeld aan deze repo)
+- Build: `npm run build` → publish `astro-app/dist` (zie `netlify.toml`); Node 22
+- Geen `@netlify/plugin-astro` — SSR via `@astrojs/netlify`. In Netlify UI die plugin uitzetten als hij staat aan.
+- `main` → productie; pull requests → deploy preview
+- Werkwijze: branch → PR → preview checken → merge
+- Nooit direct pushen naar `main`; nooit force-push
+
+## Beveiliging
+
+Zie [docs/SECURITY_AUDIT-2025-12.md](docs/SECURITY_AUDIT-2025-12.md) (audit 2025-12-29).
+
+## Bekende issues en afspraken
+
+- Project lag maanden stil (WIP · gepauzeerd); `Mieras-Fixes-for-Live` bevat het meest recente onge-mergeerde werk.
+- Repo is public (nodig voor Netlify CD op het huidige plan); eerder faalde CD op private org-repo.
+- `astro-app/.env.example` bevatte eerder echte tokens — die zijn vervangen door placeholders; roteer eventueel oude tokens in Sanity Manage.
+- Live URL en Notion-link: TODO.
+
+## Contact
+
+Eigenaar: Maarten Mieras (All This) · Zie `CHANGELOG.md` voor wat er gedaan is.

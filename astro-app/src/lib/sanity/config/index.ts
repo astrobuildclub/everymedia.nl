@@ -10,4 +10,4 @@ export const readToken = import.meta.env.SANITY_API_READ_TOKEN || "";
 
 export const VITE_SITE_URL = import.meta.env.VITE_SITE_URL || "";
 
-export const sanityStudioUrl = import.meta.env.PUBLIC_SANITY_STUDIO_URL || "http://localhost:3333";
+export const sanityStudioUrl = import.meta.env.PUBLIC_SANITY_STUDIO_URL || "https://every-media.sanity.studio";
