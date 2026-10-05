@@ -10,6 +10,7 @@ Categorieën: **Toegevoegd**, **Gewijzigd**, **Opgelost**, **Verwijderd**, **Bev
 ### Beveiliging
 - `npm audit fix` (zonder force; ~124 → ~60 issues); `ajv@8` override voor build-compatibiliteit
 - Veilige bumps: studio SEO/link plugins; overrides `undici` / `@fastify/busboy`
+- Swiper 11 → 14 (critical prototype pollution)
 
 ### Onderhoud
 - Ongebruikte imports/variabelen opgeruimd (astro check hints)
