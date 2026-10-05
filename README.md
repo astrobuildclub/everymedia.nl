@@ -85,8 +85,6 @@ Content types o.a.: pages, projects, audiences, FAQ, team, site settings, header
 - Werkwijze: branch → PR → preview checken → merge
 - Nooit direct pushen naar `main`; nooit force-push
 
-**Blokker:** continuous deployment faalt op private org-repo (`Unsupported repository type`). Netlify vraagt Pro (of repo-settings wijzigen) voor org-owned private repos. Tot dat opgelost is: geen automatische deploys.
-
 ## Beveiliging
 
 Zie [docs/SECURITY_AUDIT-2025-12.md](docs/SECURITY_AUDIT-2025-12.md) (audit 2025-12-29).
@@ -94,7 +92,7 @@ Zie [docs/SECURITY_AUDIT-2025-12.md](docs/SECURITY_AUDIT-2025-12.md) (audit 2025
 ## Bekende issues en afspraken
 
 - Project lag maanden stil (WIP · gepauzeerd); `Mieras-Fixes-for-Live` bevat het meest recente onge-mergeerde werk.
-- Netlify CD geblokkeerd door private org-repo (zie Deploy hierboven).
+- Repo is public (nodig voor Netlify CD op het huidige plan); eerder faalde CD op private org-repo.
 - `astro-app/.env.example` bevatte eerder echte tokens — die zijn vervangen door placeholders; roteer eventueel oude tokens in Sanity Manage.
 - Live URL en Notion-link: TODO.
 
