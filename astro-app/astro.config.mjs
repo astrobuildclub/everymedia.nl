@@ -32,6 +32,12 @@ export default defineConfig({
   ],
   vite: {
     plugins: [],
+    resolve: {
+      // React 18 heeft geen react/compiler-runtime export; Sanity/Vite verwachten die soms wel.
+      alias: {
+        "react/compiler-runtime": "react-compiler-runtime",
+      },
+    },
   },
   image: {
     remotePatterns: [
