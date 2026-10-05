@@ -16,6 +16,9 @@ Categorieën: **Toegevoegd**, **Gewijzigd**, **Opgelost**, **Verwijderd**, **Bev
 - Vite-alias `react/compiler-runtime` → `react-compiler-runtime` (React 18 + Sanity build)
 - `@types/react-dom` vastgezet op bestaande versie (`^18.3.7`)
 - Netlify-site `everymedia` gedocumenteerd; CD-blokkade private org-repo genoteerd
+- Root `npm run build` script (workspace astro-app) voor Netlify
+- Font-paden Antarctica: `/fonts/...` i.p.v. `../../public/fonts/...`
+- Netlify: geen `@netlify/plugin-astro` (bestaat niet); publish `astro-app/dist`
 
 ## [2025-12]
 

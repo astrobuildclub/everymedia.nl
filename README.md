@@ -40,8 +40,8 @@ npm run dev --workspace=studio      # http://localhost:3333
 Build:
 
 ```bash
-npm run build --workspace=astro-app
-npm run build --workspace=studio
+npm run build           # astro-app (Netlify)
+npm run build:studio    # Sanity Studio
 ```
 
 ### Environment-variabelen
@@ -81,6 +81,8 @@ Content types o.a.: pages, projects, audiences, FAQ, team, site settings, header
 ## Deploy
 
 - Netlify-site: [`everymedia`](https://app.netlify.com/projects/everymedia) (gekoppeld aan deze repo)
+- Build: `npm run build` → publish `astro-app/dist` (zie `netlify.toml`); Node 22
+- Geen `@netlify/plugin-astro` — SSR via `@astrojs/netlify`. In Netlify UI die plugin uitzetten als hij staat aan.
 - `main` → productie; pull requests → deploy preview
 - Werkwijze: branch → PR → preview checken → merge
 - Nooit direct pushen naar `main`; nooit force-push

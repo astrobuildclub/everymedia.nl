@@ -1,9 +1,14 @@
 [build]
-  command = "npm run build --workspace=astro-app"
+  command = "npm run build"
   publish = "astro-app/dist"
 
 [build.environment]
   NODE_VERSION = "22"
+
+# Geen [[plugins]] @netlify/plugin-astro: dat pakket bestaat niet (meer).
+# SSR via @astrojs/netlify in astro-app. Zet in Netlify UI géén Astro-plugin aan.
+# Publish directory in UI moet "astro-app/dist" zijn (of leeg zodat toml wint).
+# Base directory leeg laten (repo root).
 
 # Required Environment Variables for Netlify:
 # Set these in Netlify Dashboard > Site Settings > Environment Variables
@@ -13,4 +18,3 @@
 # SANITY_API_READ_TOKEN - Optional: Sanity API read token for authenticated queries
 # VITE_SITE_URL - Optional: Site URL for sitemap generation
 # PUBLIC_SANITY_STUDIO_URL - Optional: Sanity Studio URL (default: "http://localhost:3333")
-
