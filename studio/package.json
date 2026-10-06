@@ -17,7 +17,7 @@
   "dependencies": {
     "@operationnation/sanity-plugin-schema-markup": "^2.0.0",
     "@portabletext/react": "^3.2.4",
-    "@sanity/assist": "^3.2.2",
+    "@sanity/assist": "^6.2.2",
     "@sanity/document-internationalization": "3.3.3",
     "@sanity/icons": "^3.7.4",
     "@sanity/ui": "^2.16.22",
