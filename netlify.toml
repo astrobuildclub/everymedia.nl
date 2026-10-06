@@ -1,7 +1,6 @@
 [build]
-  # SSR-output van @astrojs/netlify landt in astro-app/.netlify — Netlify
-  # zoekt die map op de repo-root in een monorepo. Kopieer na de build.
-  command = "npm run build && rm -rf .netlify && cp -R astro-app/.netlify .netlify"
+  # `npm run build` kopieert SSR naar root .netlify (zie package.json).
+  command = "npm run build"
   publish = "astro-app/dist"
 
 [build.environment]

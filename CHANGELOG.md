@@ -15,7 +15,7 @@ Categorieën: **Toegevoegd**, **Gewijzigd**, **Opgelost**, **Verwijderd**, **Bev
 - Openstaand: 1 critical `decompress` via `@sanity/document-internationalization` 6 (vereist Sanity/React major)
 
 ### Opgelost
-- Netlify productie-404: SSR `.netlify` na build naar repo-root kopiëren (monorepo)
+- Netlify productie-404: SSR `.netlify` na build naar repo-root kopiëren (in `npm run build`)
 - i18n: `prefixDefaultLocale: true` zodat `/nl/...`-routes werken (was 404 lokaal)
 
 ### Onderhoud

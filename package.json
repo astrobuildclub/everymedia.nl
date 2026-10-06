@@ -3,7 +3,7 @@
   "description": "Minimal Astro site with Sanity Studio",
   "scripts": {
     "dev": "concurrently \"npm run dev --workspace=astro-app\" \"npm run dev --workspace=studio\"",
-    "build": "npm run build --workspace=astro-app",
+    "build": "npm run build --workspace=astro-app && rm -rf .netlify && cp -R astro-app/.netlify .netlify",
     "build:studio": "npm run build --workspace=studio"
   },
   "keywords": [
