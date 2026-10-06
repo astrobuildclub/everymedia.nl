@@ -105,10 +105,12 @@ const locale = Astro.params?.locale || defaultLanguage.id;
 
 <script>
   import Swiper from "swiper";
-  // import { Autoplay , FreeMode } from "swiper/modules";
+  import { Pagination } from "swiper/modules";
   import "swiper/css";
+  import "swiper/css/pagination";
 
   new Swiper(".swiper", {
+    modules: [Pagination],
     slidesPerView: "auto",
     spaceBetween: 30,
     loop: true,
