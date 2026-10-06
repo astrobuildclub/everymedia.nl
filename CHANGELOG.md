@@ -16,6 +16,7 @@ Categorieën: **Toegevoegd**, **Gewijzigd**, **Opgelost**, **Verwijderd**, **Bev
 
 ### Opgelost
 - Netlify productie-404: SSR `.netlify` na build naar repo-root kopiëren (monorepo)
+- i18n: `prefixDefaultLocale: true` zodat `/nl/...`-routes werken (was 404 lokaal)
 
 ### Onderhoud
 - Astro 5 → 7; `@astrojs/netlify` 6 → 8

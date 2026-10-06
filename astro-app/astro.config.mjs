@@ -50,5 +50,9 @@ export default defineConfig({
   i18n: {
     locales: supportedLocales,
     defaultLocale: defaultLocale,
+    routing: {
+      // App-links en Sanity gebruiken /nl/...; zonder prefix faalt Astro op die URLs.
+      prefixDefaultLocale: true,
+    },
   },
 });
