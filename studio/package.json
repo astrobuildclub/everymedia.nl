@@ -17,17 +17,18 @@
   "dependencies": {
     "@operationnation/sanity-plugin-schema-markup": "^2.0.0",
     "@portabletext/react": "^3.2.4",
-    "@sanity/assist": "^3.2.2",
-    "@sanity/document-internationalization": "^3.3.3",
+    "@sanity/assist": "^6.2.2",
+    "@sanity/document-internationalization": "3.3.3",
     "@sanity/icons": "^3.7.4",
     "@sanity/ui": "^2.16.22",
     "@sanity/vision": "^3.99.0",
     "react": "^18.3.1",
+    "react-compiler-runtime": "^1.0.0",
     "react-dom": "^18.3.1",
     "sanity": "^3.99.0",
-    "sanity-plugin-link-field": "^1.4.2",
-    "sanity-plugin-note-field": "^2.0.2",
-    "sanity-plugin-seo": "^1.2.7-alpha",
+    "sanity-plugin-link-field": "^1.5.1",
+    "sanity-plugin-note-field": "^3.1.1",
+    "sanity-plugin-seo": "^1.4.6",
     "styled-components": "^6.1.15"
   },
   "devDependencies": {

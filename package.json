@@ -3,7 +3,7 @@
   "description": "Minimal Astro site with Sanity Studio",
   "scripts": {
     "dev": "concurrently \"npm run dev --workspace=astro-app\" \"npm run dev --workspace=studio\"",
-    "build": "npm run build --workspace=astro-app",
+    "build": "npm run build --workspace=astro-app && rm -rf .netlify && cp -R astro-app/.netlify .netlify",
     "build:studio": "npm run build --workspace=studio"
   },
   "keywords": [
@@ -23,11 +23,14 @@
     "astro-app"
   ],
   "devDependencies": {
-    "concurrently": "^9.1.1"
+    "concurrently": "^9.2.4"
   },
   "overrides": {
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "ajv": "^8.20.0",
+    "undici": "^6.29.0",
+    "@fastify/busboy": "^3.2.2"
   },
   "type": "module"
 }

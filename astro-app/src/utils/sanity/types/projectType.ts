@@ -3,7 +3,7 @@ import type { SeoType } from "./seoType";
 import type { LayoutPropsType } from "./layoutType";
 import type { PagebuilderType } from "./pagebuilderType";
 import type { RichTextSimpleType, SanityImageType } from "./global";
-import type { DefaultSeoPropsType, HeroVariantType, Slug } from "./common";
+import type { DefaultSeoPropsType, Slug } from "./common";
 
 export interface ProjectType extends SanityDocument {
   _id: string;

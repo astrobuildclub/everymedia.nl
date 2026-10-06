@@ -7,7 +7,21 @@ Categorieën: **Toegevoegd**, **Gewijzigd**, **Opgelost**, **Verwijderd**, **Bev
 
 ## [Unreleased]
 
+### Beveiliging
+- `npm audit fix` (zonder force); `ajv@8` override voor build-compatibiliteit
+- Veilige bumps: studio SEO/link plugins; overrides `undici` / `@fastify/busboy`
+- Swiper 11 → 14 (critical prototype pollution)
+- `@sanity/assist` 3 → 6; `sanity-plugin-note-field` → 3
+- Openstaand: 1 critical `decompress` via `@sanity/document-internationalization` 6 (vereist Sanity/React major)
+
+### Opgelost
+- Netlify productie-404: SSR `.netlify` na build naar repo-root kopiëren (in `npm run build`)
+- i18n: `prefixDefaultLocale: true` zodat `/nl/...`-routes werken (was 404 lokaal)
+
 ### Onderhoud
+- Astro 5 → 7; `@astrojs/netlify` 6 → 8
+- Studio: React `compiler-runtime` Vite-alias; DI gepind op 3.3.3
+- Ongebruikte imports/variabelen opgeruimd (astro check hints)
 - Projectdocumentatie volgens Code-standaard: README, CHANGELOG, AGENTS, CLAUDE
 - Node 22 (`.nvmrc` + `netlify.toml`)
 - `.claude/` toegevoegd aan `.gitignore`

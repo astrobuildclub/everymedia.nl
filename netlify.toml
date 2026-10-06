@@ -1,14 +1,14 @@
 [build]
+  # `npm run build` kopieert SSR naar root .netlify (zie package.json).
   command = "npm run build"
   publish = "astro-app/dist"
 
 [build.environment]
   NODE_VERSION = "22"
 
-# Geen [[plugins]] @netlify/plugin-astro: dat pakket bestaat niet (meer).
-# SSR via @astrojs/netlify in astro-app. Zet in Netlify UI géén Astro-plugin aan.
-# Publish directory in UI moet "astro-app/dist" zijn (of leeg zodat toml wint).
-# Base directory leeg laten (repo root).
+# Geen [[plugins]] @netlify/plugin-astro (bestaat niet). SSR via @astrojs/netlify.
+# In Netlify UI: Base directory leeg, Package directory leeg of "astro-app",
+# Publish directory "astro-app/dist" (of leeg zodat deze toml wint).
 
 # Required Environment Variables for Netlify:
 # Set these in Netlify Dashboard > Site Settings > Environment Variables
