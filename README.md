@@ -16,9 +16,10 @@
 
 ## Stack
 
-- Astro 5 · Sanity 3 · Node 22
-- Styling: CSS (custom) · Animatie: Lenis (smooth scroll); Swiper
-- Hosting: Netlify (SSR via `@astrojs/netlify`)
+- Astro 7 · Sanity 3 · Node 22
+- Styling: CSS (custom) · Animatie: Lenis (smooth scroll); Swiper 14
+- Hosting: Netlify (SSR via `@astrojs/netlify` 8; build kopieert `astro-app/.netlify` → root)
+
 
 ## Lokaal starten
 
@@ -81,8 +82,8 @@ Content types o.a.: pages, projects, audiences, FAQ, team, site settings, header
 ## Deploy
 
 - Netlify-site: [`everymedia`](https://app.netlify.com/projects/everymedia) (gekoppeld aan deze repo)
-- Build: `npm run build` → publish `astro-app/dist` (zie `netlify.toml`); Node 22
-- Geen `@netlify/plugin-astro` — SSR via `@astrojs/netlify`. In Netlify UI die plugin uitzetten als hij staat aan.
+- Build: `npm run build` + kopie `astro-app/.netlify` → `.netlify`; publish `astro-app/dist` (zie `netlify.toml`)
+- UI: Base directory leeg; Package directory leeg; Publish `astro-app/dist`; géén `@netlify/plugin-astro`
 - `main` → productie; pull requests → deploy preview
 - Werkwijze: branch → PR → preview checken → merge
 - Nooit direct pushen naar `main`; nooit force-push
@@ -91,11 +92,13 @@ Content types o.a.: pages, projects, audiences, FAQ, team, site settings, header
 
 Zie [docs/SECURITY_AUDIT-2025-12.md](docs/SECURITY_AUDIT-2025-12.md) (audit 2025-12-29).
 
+`npm audit` na cleanup: nog issues, o.a. 1 critical `decompress` via `@sanity/document-internationalization` 6 (vereist Sanity/React major — follow-up). Geen `npm audit fix --force`.
+
 ## Bekende issues en afspraken
 
-- Project lag maanden stil (WIP · gepauzeerd); `Mieras-Fixes-for-Live` bevat het meest recente onge-mergeerde werk.
-- Repo is public (nodig voor Netlify CD op het huidige plan); eerder faalde CD op private org-repo.
-- `astro-app/.env.example` bevatte eerder echte tokens — die zijn vervangen door placeholders; roteer eventueel oude tokens in Sanity Manage.
+- Status WIP · gepauzeerd; meest recente werk zat op `Mieras-Fixes-for-Live` (nu via PR #2 in `main`).
+- Repo is public (nodig voor Netlify CD op het huidige plan).
+- `@sanity/assist` 6 peer-waarschuwing op Sanity 3 — studio-build OK; Sanity 5/6 later.
 - Live URL en Notion-link: TODO.
 
 ## Contact
