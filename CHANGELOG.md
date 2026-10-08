@@ -7,6 +7,10 @@ Categorieën: **Toegevoegd**, **Gewijzigd**, **Opgelost**, **Verwijderd**, **Bev
 
 ## [Unreleased]
 
+### Gewijzigd
+- Deploy-workflow volgens `_standards/DEPLOY.md`: features via PR naar `staging` (branch deploy op `staging--everymedia.netlify.app`), gebundelde releases naar `main`. Branch protection op `staging`.
+- `netlify.toml`: geen build bij commits met alleen documentatie.
+
 ### Beveiliging
 - `npm audit fix` (zonder force); `ajv@8` override voor build-compatibiliteit
 - Veilige bumps: studio SEO/link plugins; overrides `undici` / `@fastify/busboy`
@@ -19,6 +23,7 @@ Categorieën: **Toegevoegd**, **Gewijzigd**, **Opgelost**, **Verwijderd**, **Bev
 - i18n: `prefixDefaultLocale: true` zodat `/nl/...`-routes werken (was 404 lokaal)
 
 ### Onderhoud
+- `.github/dependabot.yml`: wekelijkse updates naar `staging`, gegroepeerd (Astro, Sanity, minor/patch).
 - Astro 5 → 7; `@astrojs/netlify` 6 → 8
 - Studio: React `compiler-runtime` Vite-alias; DI gepind op 3.3.3
 - Ongebruikte imports/variabelen opgeruimd (astro check hints)
