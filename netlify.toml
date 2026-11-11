@@ -3,7 +3,11 @@
   command = "npm run build"
   publish = "astro-app/dist"
   # exit 0 = build overslaan: alleen .md, .github/ of .vscode/ gewijzigd (zie _standards/DEPLOY.md)
-  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- . ':(exclude)*.md' ':(exclude).github/' ':(exclude).vscode/'"
+  # Overslaan alleen als zowel t.o.v. de vorige build als t.o.v. de vorige commit
+  # niets buiten docs wijzigde. $CACHED_COMMIT_REF is site-breed: na een deploy
+  # preview van staging → main is die gelijk aan de main-merge en werd productie
+  # ten onrechte overgeslagen. HEAD^ (eerste parent = vorige main) vangt dat af.
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- . ':(exclude)*.md' ':(exclude).github/' ':(exclude).vscode/' && git diff --quiet HEAD^ HEAD -- . ':(exclude)*.md' ':(exclude).github/' ':(exclude).vscode/'"
 
 [build.environment]
   NODE_VERSION = "22"
