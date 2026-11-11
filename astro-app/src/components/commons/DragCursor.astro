@@ -2,14 +2,27 @@
 /**
  * Muiscursor met sleep-icoon voor carousels.
  *
- * Gebruik: zet <DragCursor /> binnen een element met `data-drag-area`.
+ * Gebruik: zet <DragCursor /> binnen een element met `data-drag-area`
+ * (bij Swiper: in `.swiper`, naast `.swiper-wrapper`; die laatste verschuift
+ * met transform en zou position: fixed breken).
  * Alleen voor muis/trackpad (hover + fine pointer); op touch en voor
  * toetsenbordgebruikers verandert er niets. Puur decoratief (aria-hidden).
  */
 import { Icon } from "astro-icon/components";
+
+interface Props {
+  /** "light": witte cirkel (donkere achtergrond), "dark": zwarte cirkel (lichte achtergrond). */
+  tone?: "light" | "dark";
+}
+
+const { tone = "light" } = Astro.props;
 ---
 
-<div class="drag-cursor" data-drag-cursor aria-hidden="true">
+<div
+  class:list={["drag-cursor", tone === "dark" && "drag-cursor--dark"]}
+  data-drag-cursor
+  aria-hidden="true"
+>
   <Icon name="ph:arrows-horizontal" size={28} />
 </div>
 
@@ -102,6 +115,11 @@ import { Icon } from "astro-icon/components";
     pointer-events: none;
     opacity: 0;
     scale: 0.6;
+  }
+
+  .drag-cursor--dark {
+    background-color: #000;
+    color: #fff;
   }
 
   @media (hover: hover) and (pointer: fine) {

@@ -14,6 +14,7 @@ Categorieën: **Toegevoegd**, **Gewijzigd**, **Opgelost**, **Verwijderd**, **Bev
 - FAQ: de hele rij van een vraag is klikbaar (padding in de knop); `aria-expanded`/`aria-controls`, `<h3>` om de knop i.p.v. erin
 - Projectcarousels: eigen muiscursor (witte cirkel met Phosphor-icoon `arrows-horizontal`) die de sleepactie aangeeft; alleen bij muis/trackpad, volgt direct bij "beperk beweging"
 - Iconen via `astro-icon` + Phosphor (`@iconify-json/ph`)
+- Alle carousels (projectoverzicht, related work, beeldgalerij, mediagalerij, afleveringen) hetzelfde gedrag via `initCarousels`: oneindig (loop, aangevuld met verborgen kopieën bij weinig slides), slepen met drag-cursor, swipen, pijlen (Phosphor) in zwart of wit; elke stop lijnt een slide uit met de content en bij slepen lopen ze door tot de vensterrand
 - Menu-animatie met GSAP: blauw vlak schuift open van boven (clip-path) met stagger-reveal van de links, sluit terug naar boven; hover laat de letters omhoog uit- en van onder inrollen (SplitText). Escape sluit, focus naar Close/Menu, pagina erachter `inert`; geen animatie bij "beperk beweging"; menuwoorden bijgesneden tot hoofdletterhoogte (`text-box: trim-both cap alphabetic`) en strak gestapeld
 
 ### Gewijzigd

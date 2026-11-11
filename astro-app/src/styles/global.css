@@ -457,3 +457,41 @@ html.lenis {
 #cc-main .cm {
   position: absolute !important;
 }
+
+/*
+ * Carousels met kaarten (projecten, afleveringen): breedte per slide.
+ * Mobiel 85% zodat de volgende kaart zichtbaar is; vanaf 640px 1,5 en vanaf
+ * 1024px 2,1 kaart in beeld (ruimte tussen kaarten: 16px / 30px, zie
+ * spaceBetween in de componenten).
+ */
+.carousel-cards .swiper-slide {
+  inline-size: 85%;
+
+  @media (min-width: 640px) {
+    inline-size: calc((100% - 30px) / 1.5);
+  }
+
+  @media (min-width: 1024px) {
+    inline-size: calc((100% - 33px) / 2.1);
+  }
+}
+
+/*
+ * Carousels lopen bij slepen tot de rand van het venster door, maar stoppen
+ * op de contentrand. De .swiper steekt met een negatieve marge uit tot de
+ * vensterrand en krijgt dezelfde ruimte terug als padding; Swiper trekt die
+ * padding af en zet de slides erbinnen.
+ * --carousel-bleed-end: hoeveel ruimte er rechts naast de carousel is (de
+ * padding van de sectie). Standaard 0 (desktop), op mobiel de zijmarge.
+ */
+[data-carousel-root] .swiper {
+  margin-inline: calc(var(--carousel-bleed-start, var(--space-s)) * -1)
+    calc(var(--carousel-bleed-end, 0px) * -1);
+  padding-inline: var(--carousel-bleed-start, var(--space-s)) var(--carousel-bleed-end, 0px);
+}
+
+@media (max-width: 639px) {
+  [data-carousel-root] {
+    --carousel-bleed-end: var(--space-s);
+  }
+}

@@ -67,11 +67,8 @@ const { intro, tagLine, projects = [] } = Astro.props.data || {};
         letter-spacing: 0.25px;
       }
     }
-    /*
-     * Eerste kaart op één lijn met de titel. Swiper trekt de padding af van
-     * de breedte; bij het slepen schuiven de kaarten nog tot de rand.
-     */
-    .project-work-about :global(.swiper) {
+    /* Carousel begint op één lijn met de titel (zelfde opzet als related work). */
+    .project-work-about {
       padding-inline-start: var(--space-s);
     }
 

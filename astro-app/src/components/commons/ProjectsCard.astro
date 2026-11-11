@@ -4,6 +4,8 @@ import type { ProjectType } from "../../utils";
 import SanityImage from "../commons/SanityImage.astro";
 import SimpleVideo from "./SimpleVideo.astro";
 import DragCursor from "./DragCursor.astro";
+import CarouselNav from "./CarouselNav.astro";
+import { getTranslation } from "../../i18n/translate";
 import { routes } from "../../lib/router";
 import { defaultLanguage } from "../../lib/helperFunctions";
 import { stegaClean } from "@sanity/client/stega";
@@ -13,13 +15,25 @@ interface Props {
 }
 const { projects = [] } = Astro.props || {};
 const locale = Astro.params?.locale || defaultLanguage.id;
+const { t } = getTranslation(locale);
 ---
 
 {
   (() => {
     return (
-      <div class="projects-carousel" data-drag-area>
-      <div class="swiper" data-projects-swiper>
+      <div
+        class="projects-carousel carousel-cards"
+        data-projects-carousel
+        data-carousel-root
+        data-autoplay="false"
+        data-first-slide-message={t("carouselFirstSlide")}
+        data-last-slide-message={t("carouselLastSlide")}
+        data-slide-label-message={t("carouselSlideLabel")}
+        aria-roledescription="carousel"
+        aria-label={t("projectsCarousel")}
+      >
+      {projects.length > 1 && <CarouselNav tone="light" class="projects-carousel-nav" />}
+      <div class="swiper" data-drag-area>
         <div class="swiper-wrapper">
           {projects?.map((item) => {
             const {
@@ -97,51 +111,26 @@ const locale = Astro.params?.locale || defaultLanguage.id;
             );
           })}
         </div>
+        <DragCursor />
       </div>
-      <DragCursor />
       </div>
     );
   })()
 }
 
 <script>
-  import Swiper from "swiper";
-  import { Pagination } from "swiper/modules";
   import "swiper/css";
-  import "swiper/css/pagination";
-  import { onPageLeave } from "../../lib/carousel";
+  import { initCarousels } from "../../lib/carousel";
 
-  const init = () => {
-    document.querySelectorAll<HTMLElement>("[data-projects-swiper]").forEach((el) => {
-      if (el.dataset.swiperReady === "true") return;
-      el.dataset.swiperReady = "true";
-      const swiper = new Swiper(el, {
-        modules: [Pagination],
-        slidesPerView: "auto",
-        spaceBetween: 30,
-        loop: true,
-        pagination: {
-          el: ".swiper-pagination",
-          clickable: true,
-        },
-        breakpoints: {
-          1024: {
-            slidesPerView: 2.1,
-          },
-          767: {
-            slidesPerView: 1.5,
-          },
-          640: {
-            slidesPerView: 1.2,
-          },
-        },
-      });
-      onPageLeave(() => swiper.destroy(true, false));
-    });
-  };
-
+  // Zelfde gedrag als de andere carousels: slepen, swipen, pijlen, links uitgelijnd.
   // Ook na navigatie met <ClientRouter /> (guard voorkomt dubbel starten).
-  document.addEventListener("astro:page-load", init);
+  document.addEventListener("astro:page-load", () =>
+    initCarousels("[data-projects-carousel]", {
+      slidesPerView: "auto",
+      spaceBetween: 16,
+      breakpoints: { 640: { spaceBetween: 30 } },
+    })
+  );
 </script>
 
 <style>
@@ -151,6 +140,15 @@ const locale = Astro.params?.locale || defaultLanguage.id;
    */
   .project-card {
     position: relative;
+  }
+
+  /* Pijlen rechtsboven; vanaf 640px loopt de carousel tot de rand van het venster. */
+  .projects-carousel :global(.projects-carousel-nav) {
+    margin-block-end: var(--space-s);
+
+    @media (min-width: 640px) {
+      padding-inline-end: var(--space-s);
+    }
   }
 
   .project-link {

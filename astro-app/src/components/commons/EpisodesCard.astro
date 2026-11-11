@@ -3,18 +3,36 @@ import { stegaClean } from "@sanity/client/stega";
 import type { EpisodeType } from "../../utils";
 import VimeoVideo from "../commons/VimeoVideo.astro";
 import YoutubeVideo from "../commons/YoutubeVideo.astro";
+import CarouselNav from "./CarouselNav.astro";
+import DragCursor from "./DragCursor.astro";
+import { getTranslation } from "../../i18n/translate";
+import { defaultLanguage } from "../../lib/helperFunctions";
 
 interface Props {
   episodes: EpisodeType[];
 }
 
 const { episodes } = Astro.props || {};
+const locale = Astro.params?.locale || defaultLanguage.id;
+const { t } = getTranslation(locale);
 ---
 
 {
   (() => {
     return (
-      <div class="swiper" data-episodes-swiper>
+      <div
+        class="episodes-carousel carousel-cards"
+        data-episodes-carousel
+        data-carousel-root
+        data-autoplay="false"
+        data-first-slide-message={t("carouselFirstSlide")}
+        data-last-slide-message={t("carouselLastSlide")}
+        data-slide-label-message={t("carouselSlideLabel")}
+        aria-roledescription="carousel"
+        aria-label={t("episodesCarousel")}
+      >
+      {episodes?.length > 1 && <CarouselNav class="episodes-carousel-nav" />}
+      <div class="swiper" data-drag-area>
         <div class="swiper-wrapper">
           {episodes?.map((item) => {
             const {
@@ -65,40 +83,37 @@ const { episodes } = Astro.props || {};
             );
           })}
         </div>
+        <DragCursor tone="dark" />
+      </div>
       </div>
     );
   })()
 }
 
 <script>
-  import Swiper from "swiper";
-  import { Pagination } from "swiper/modules";
   import "swiper/css";
-  import "swiper/css/pagination";
-  import { onPageLeave } from "../../lib/carousel";
+  import { initCarousels } from "../../lib/carousel";
 
-  const init = () => {
-    document.querySelectorAll<HTMLElement>("[data-episodes-swiper]").forEach((el) => {
-      if (el.dataset.swiperReady === "true") return;
-      el.dataset.swiperReady = "true";
-      const swiper = new Swiper(el, {
-        modules: [Pagination],
-        slidesPerView: "auto",
-        spaceBetween: 30,
-        pagination: {
-          el: ".swiper-pagination",
-          clickable: true,
-        },
-      });
-      onPageLeave(() => swiper.destroy(true, false));
-    });
-  };
-
+  // Zelfde gedrag als de andere carousels: slepen, swipen, pijlen, links uitgelijnd.
   // Ook na navigatie met <ClientRouter /> (guard voorkomt dubbel starten).
-  document.addEventListener("astro:page-load", init);
+  document.addEventListener("astro:page-load", () =>
+    initCarousels("[data-episodes-carousel]", {
+      slidesPerView: "auto",
+      spaceBetween: 16,
+      breakpoints: { 640: { spaceBetween: 30 } },
+    })
+  );
 </script>
 
 <style>
+  .episodes-carousel :global(.episodes-carousel-nav) {
+    margin-block-end: var(--space-s);
+
+    @media (min-width: 640px) {
+      padding-inline-end: var(--space-s);
+    }
+  }
+
   .project__meta {
     .vimeo-video {
       border-radius: 4px;

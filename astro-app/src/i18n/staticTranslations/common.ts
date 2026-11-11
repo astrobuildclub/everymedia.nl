@@ -35,6 +35,14 @@ const translations = {
     nl: "{{index}} van {{slidesLength}}",
     en: "{{index}} of {{slidesLength}}",
   },
+  projectsCarousel: {
+    nl: "Projecten",
+    en: "Projects",
+  },
+  episodesCarousel: {
+    nl: "Afleveringen",
+    en: "Episodes",
+  },
   mediaGallery: {
     nl: "Mediagalerij",
     en: "Media gallery",
