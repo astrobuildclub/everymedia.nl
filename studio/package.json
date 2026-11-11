@@ -29,13 +29,13 @@
     "sanity-plugin-link-field": "^1.5.1",
     "sanity-plugin-note-field": "^3.1.1",
     "sanity-plugin-seo": "^1.4.6",
-    "styled-components": "^6.1.15"
+    "styled-components": "^6.6.0"
   },
   "devDependencies": {
     "@sanity/eslint-config-studio": "^5.0.2",
     "@types/react": "^18.3.12",
     "eslint": "^9.0.0",
-    "prettier": "^3.0.2",
+    "prettier": "^3.9.10",
     "typescript": "^5.7.3"
   },
   "prettier": {
