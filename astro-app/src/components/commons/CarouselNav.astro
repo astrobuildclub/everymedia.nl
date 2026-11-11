@@ -1,0 +1,152 @@
+---
+/**
+ * Vorige/volgende-knoppen (en optioneel pauze) voor een carousel.
+ * Werkt samen met `initCarousels()` uit `lib/carousel.ts`; plaats dit
+ * binnen het element met `data-carousel-root`.
+ */
+import { getTranslation } from "../../i18n/translate";
+import { cn, defaultLanguage } from "../../lib/helperFunctions";
+
+interface Props {
+  autoplay?: boolean;
+  class?: string;
+}
+
+const { autoplay = false, class: className } = Astro.props;
+const locale = Astro.params?.locale || defaultLanguage.id;
+const { t } = getTranslation(locale);
+---
+
+<div class={cn("carousel-nav", className)} data-carousel-nav hidden>
+  {
+    autoplay && (
+      <button
+        type="button"
+        class="carousel-btn carousel-btn--toggle"
+        data-carousel-toggle
+        data-label-pause={t("carouselPause")}
+        data-label-play={t("carouselPlay")}
+        aria-label={t("carouselPause")}
+        hidden
+      >
+        <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M8 5h3v14H8zM13 5h3v14h-3z" />
+        </svg>
+        <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M8 5v14l11-7z" />
+        </svg>
+      </button>
+    )
+  }
+  <button
+    type="button"
+    class="carousel-btn"
+    data-carousel-prev
+    aria-label={t("carouselPrevious")}
+  >
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M15 5l-7 7 7 7" />
+    </svg>
+  </button>
+  <button
+    type="button"
+    class="carousel-btn"
+    data-carousel-next
+    aria-label={t("carouselNext")}
+  >
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M9 5l7 7-7 7" />
+    </svg>
+  </button>
+</div>
+
+<style>
+  .carousel-nav {
+    --carousel-btn-size: 2.75rem; /* 44px: ruim boven WCAG 2.5.8 */
+    --carousel-btn-fg: currentColor;
+    --carousel-btn-focus: var(--clr-primary, oklch(42% 0.27 268));
+
+    display: flex;
+    gap: var(--space-2xs, 0.5rem);
+    justify-content: flex-end;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .carousel-btn {
+    display: inline-grid;
+    place-items: center;
+    inline-size: var(--carousel-btn-size);
+    block-size: var(--carousel-btn-size);
+    padding: 0;
+    border: 1.5px solid var(--carousel-btn-fg);
+    border-radius: 100vw;
+    background: transparent;
+    color: var(--carousel-btn-fg);
+    cursor: pointer;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      opacity 0.2s ease;
+
+    svg {
+      inline-size: 1.25rem;
+      block-size: 1.25rem;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    &:hover:not(:disabled) {
+      background: var(--carousel-btn-fg);
+      color: var(--clr-bg, #fff);
+    }
+
+    &:focus-visible {
+      outline: 3px solid var(--carousel-btn-focus);
+      outline-offset: 3px;
+    }
+
+    &:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    /* Swiper zet deze class als alle slides al in beeld passen. */
+    &:global(.swiper-button-lock) {
+      display: none;
+    }
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .carousel-btn--toggle {
+    svg {
+      fill: currentColor;
+      stroke: none;
+    }
+    .icon-play {
+      display: none;
+    }
+    &[data-state="paused"] {
+      .icon-play {
+        display: block;
+      }
+      .icon-pause {
+        display: none;
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .carousel-btn {
+      transition: none;
+    }
+  }
+</style>

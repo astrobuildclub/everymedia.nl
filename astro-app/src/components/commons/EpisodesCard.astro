@@ -14,7 +14,7 @@ const { episodes } = Astro.props || {};
 {
   (() => {
     return (
-      <div class="swiper">
+      <div class="swiper" data-episodes-swiper>
         <div class="swiper-wrapper">
           {episodes?.map((item) => {
             const {
@@ -76,14 +76,18 @@ const { episodes } = Astro.props || {};
   import "swiper/css";
   import "swiper/css/pagination";
 
-  new Swiper(".swiper", {
-    modules: [Pagination],
-    slidesPerView: "auto",
-    spaceBetween: 30,
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true,
-    },
+  document.querySelectorAll<HTMLElement>("[data-episodes-swiper]").forEach((el) => {
+    if (el.dataset.swiperReady === "true") return;
+    el.dataset.swiperReady = "true";
+    new Swiper(el, {
+      modules: [Pagination],
+      slidesPerView: "auto",
+      spaceBetween: 30,
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+    });
   });
 </script>
 

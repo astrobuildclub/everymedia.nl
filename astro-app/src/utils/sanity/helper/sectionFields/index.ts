@@ -265,14 +265,14 @@ ${ctaFields}
 `;
 
 {
-  /* Block Text */
+  /* Block Text — hideTitle is leeg bij oudere blokken: toon de titel dan gewoon. */
 }
 
 export const blockTextFields = /* groq */ `
 _type,
 _key,
 hideTitle,
-hideTitle == false =>{
+hideTitle != true => {
 title,
 },
 content[]{
@@ -345,6 +345,7 @@ export const blockMediaGalleryFields = /* groq */ `
 _type,
 _key,
 title,
+autoplay,
 media[]{
 ${imageFields}
 }

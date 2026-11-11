@@ -25,8 +25,19 @@ Categorieën: **Toegevoegd**, **Gewijzigd**, **Opgelost**, **Verwijderd**, **Bev
 - `@sanity/assist` 3 → 6; `sanity-plugin-note-field` → 3
 - Openstaand: 1 critical `decompress` via `@sanity/document-internationalization` 6 (vereist Sanity/React major)
 
+### Toegevoegd
+- Mediablok (`blockMediaGallery`) is nu een Swiper-carousel met vorige/volgende-knoppen (echte `<button>`s met aria-label, zichtbare focus, disabled aan begin/eind) en optionele autoplay met pauzeknop; geen autoplay of slide-animatie bij `prefers-reduced-motion`
+- Image Gallery krijgt dezelfde toegankelijke pijlknoppen (gedeelde `lib/carousel.ts` + `CarouselNav.astro`)
+- Studio: uitleg en validatie bij video-URL-velden (directe Vimeo-bestandslink i.p.v. vimeo.com-paginalink)
+
 ### Opgelost
 - Studio: documenteditor crashte (`useEffectEvent is not a function`) doordat `@sanity/assist` 6 React 19.2 vereist; terug naar `@sanity/assist` 5.0.4 (React 18 + Sanity 3)
+- Doelgroepenblok: horizontale scroll werkte niet in productie (ook niet op live); lightningcss vouwde `animation` + `animation-timeline` samen tot een vorm die Chrome negeert. Nu losse longhands
+- Doelgroepenblok: werkt nu ook zonder scroll-driven animations (Firefox, oudere Safari) en bij `prefers-reduced-motion` als swipebare rij; titel uit het CMS wordt getoond; video vult de kaart; hoogte schaalt met het aantal doelgroepen; toetsenbordfocus scrolt naar de kaart
+- Swiper-carousels (galerij, afleveringen, projecten) zaten elkaar in de weg via de globale `.swiper`-selector
+- Video: autoplay-loops respecteren `prefers-reduced-motion`; MP4-video zonder autoplay krijgt player-knoppen; geen externe placeholder-poster meer; MIME-type wordt niet meer geforceerd
+- Text-blok: titel verdween als `hideTitle` nooit was aangeraakt
+- Video- en Image-blok zonder gekozen formaat vallen terug op „page” (anders ongestyled)
 - Netlify productie-404: SSR `.netlify` na build naar repo-root kopiëren (in `npm run build`)
 - i18n: `prefixDefaultLocale: true` zodat `/nl/...`-routes werken (was 404 lokaal)
 
