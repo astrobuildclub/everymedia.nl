@@ -7,6 +7,9 @@ Categorieën: **Toegevoegd**, **Gewijzigd**, **Opgelost**, **Verwijderd**, **Bev
 
 ## [Unreleased]
 
+### Toegevoegd
+- `docs/HANDLEIDING.md`: redactiehandleiding voor Every Media (Studio, blokken, Vimeo-videolinks, afbeeldingen, SEO)
+
 ### Opgelost
 - Netlify: productiebuild na release `staging → main` werd overgeslagen (`ignore` vergeleek met de site-brede `$CACHED_COMMIT_REF` = de deploy preview van dezelfde code); vergelijkt nu ook met de vorige commit
 
