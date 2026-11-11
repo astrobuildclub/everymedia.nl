@@ -26,12 +26,12 @@ const select = stegaClean(Select || "");
         <div class="hero-title">
           {title && (
             <div class="title__wrapper">
-              <h1 class="em-title">{title}</h1>
+              <h1 class="em-title" data-hero-reveal>{title}</h1>
             </div>
           )}
           {subtitle && (
             <div class="title__wrapper">
-              <h1 class="em-title">{subtitle}</h1>
+              <h1 class="em-title" data-hero-reveal>{subtitle}</h1>
             </div>
           )}
         </div>
@@ -63,7 +63,121 @@ const select = stegaClean(Select || "");
   })()
 }
 
+<script>
+  /**
+   * Hero-titel letter voor letter van onder naar boven.
+   *
+   * SplitText splitst beide titels in letters, elk in een eigen masker
+   * (mask: "chars", overflow: clip). Alle letters van "Every" en daarna
+   * "Media" schuiven als één reeks omhoog in hun masker: 35 ms na elkaar,
+   * elk 0,8 s met expo.out (snel weg, zacht landen). Daarna zet revert() de
+   * gewone tekst terug, zodat er niets gesplitst blijft staan.
+   *
+   * De titel is tot dan verborgen (CSS), zodat je hem niet eerst heel ziet.
+   * Vangnet: zonder JS verschijnt hij na 2,5 s alsnog (CSS-animatie).
+   * Bij "beperk beweging" geen verbergen en geen animatie.
+   */
+  import { gsap } from "gsap";
+  import { SplitText } from "gsap/SplitText";
+
+  gsap.registerPlugin(SplitText);
+
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  const show = (titles: HTMLElement[]) =>
+    titles.forEach((title) => {
+      title.style.animation = "none";
+      title.style.visibility = "visible";
+    });
+
+  /*
+   * Letter-reveal van de hero-titel.
+   * - SplitText knipt elke titel in losse letters; `mask: "chars"` zet om
+   *   elke letter een span met overflow: clip, zodat een letter die 100%
+   *   omlaag staat onzichtbaar is.
+   * - Een tween schuift alle letters met stagger terug naar 0 (expo.out:
+   *   snel omhoog, zacht uitlopen). Daarna revert(): de h1 bevat weer
+   *   gewone tekst.
+   * - "Echo's": het blok eronder heeft dezelfde woorden (grijs "EVERY",
+   *   en "MEDIA") precies onder de witte titels. Elke echo animeert gelijk
+   *   op met zijn titel (data-hero-echo="index"); anders zie je hem als
+   *   dubbele tekst zolang de witte letters nog onderweg zijn.
+   */
+  const init = async () => {
+    const titles = [
+      ...document.querySelectorAll<HTMLElement>(".hero-section [data-hero-reveal]"),
+    ].filter((title) => title.dataset.heroReady !== "true");
+    if (!titles.length) return;
+    const echoes = [...document.querySelectorAll<HTMLElement>("[data-hero-echo]")];
+    [...titles, ...echoes].forEach((el) => (el.dataset.heroReady = "true"));
+
+    if (reducedMotion.matches) {
+      show([...titles, ...echoes]);
+      return;
+    }
+
+    // Letters pas meten als het lettertype er is (anders verspringen ze).
+    await document.fonts.ready;
+
+    const split = (el: HTMLElement) =>
+      SplitText.create(el, {
+        type: "chars",
+        tag: "span",
+        mask: "chars",
+        charsClass: "hero-char",
+      });
+    const splits = [...titles, ...echoes].map(split);
+    gsap.set(splits.flatMap((s) => s.chars), { yPercent: 100 });
+    show([...titles, ...echoes]);
+
+    // Eén doorlopende stagger over alle titels; een echo start op hetzelfde
+    // moment als zijn titel en loopt in hetzelfde tempo mee.
+    const STAGGER = 0.035;
+    const letters = { yPercent: 0, duration: 0.8, ease: "expo.out", stagger: STAGGER };
+    const tl = gsap.timeline({
+      onComplete: () => splits.forEach((s) => s.revert()),
+    });
+    let start = 0;
+    titles.forEach((_title, index) => {
+      const titleSplit = splits[index];
+      tl.to(titleSplit.chars, letters, start);
+      echoes.forEach((echo, echoIndex) => {
+        if (echo.dataset.heroEcho === String(index)) {
+          tl.to(splits[titles.length + echoIndex].chars, letters, start);
+        }
+      });
+      start += titleSplit.chars.length * STAGGER;
+    });
+  };
+
+  // Ook na navigatie met <ClientRouter /> (guard voorkomt dubbel starten).
+  document.addEventListener("astro:page-load", init);
+</script>
+
 <style>
+  /* Verborgen tot de letter-animatie start; vangnet na 2,5 s. */
+  @media (prefers-reduced-motion: no-preference) {
+    [data-hero-reveal],
+    :global(body:has([data-hero-reveal]) [data-hero-echo]) {
+      visibility: hidden;
+      animation: hero-reveal-fallback 0s 2.5s forwards;
+    }
+  }
+
+  @keyframes hero-reveal-fallback {
+    to {
+      visibility: visible;
+    }
+  }
+
+  /* SplitText-spans (letter + masker) moeten inline-block zijn voor transform. */
+  [data-hero-reveal] :global(.hero-char),
+  [data-hero-reveal] :global(.hero-char-mask),
+  :global([data-hero-echo] .hero-char),
+  :global([data-hero-echo] .hero-char-mask) {
+    display: inline-block;
+  }
+
   .hero-section {
     position: relative;
     min-height: 100dvh;
