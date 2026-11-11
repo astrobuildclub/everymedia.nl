@@ -36,3 +36,4 @@ Lees eerst `README.md` voor context en `CHANGELOG.md` voor recente wijzigingen.
 - Toegang: GitHub-org `astrobuildclub` (Maarten = `allthis-mieras`, Ronny = `ckdt`).
 - Archiefbranch `archive/sanity-preview` bevat oude live-preview-werkzaamheden; niet mergen zonder review.
 - Security-audit: `docs/SECURITY_AUDIT-2025-12.md`.
+- Transities: laag 1 + 2 uit `~/Code/_standards/TRANSITIONS.md` (`<ClientRouter />` + `PageProgress`). Componentscripts starten op `astro:page-load` (met guard) en ruimen op bij `astro:before-swap` (`onPageLeave` in `src/lib/carousel.ts`).

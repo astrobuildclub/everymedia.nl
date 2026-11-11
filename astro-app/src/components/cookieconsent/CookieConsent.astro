@@ -9,4 +9,21 @@ import './ccElegantBlack.css';
 
     document.body.classList.add('cc--elegant-black');
     run(config);
+
+    /**
+     * <ClientRouter /> vervangt <body> en de attributen van <html> bij elke
+     * navigatie. De banner (#cc-main) en de classes die de library zet nemen
+     * we mee naar de nieuwe pagina, zodat hij met dezelfde state blijft staan.
+     */
+    document.addEventListener('astro:before-swap', (event) => {
+      const { newDocument } = event;
+      const banner = document.getElementById('cc-main');
+      if (banner) newDocument.body.append(banner);
+      newDocument.body.classList.add('cc--elegant-black');
+      document.documentElement.classList.forEach((name) => {
+        if (/^(show--|disable--|cc--)/.test(name)) {
+          newDocument.documentElement.classList.add(name);
+        }
+      });
+    });
 </script>

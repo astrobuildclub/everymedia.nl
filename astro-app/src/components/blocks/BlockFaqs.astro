@@ -72,8 +72,11 @@ const { title, faqs } = Astro.props.data || {};
 }
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll(".faq-question").forEach((button) => {
+  // astro:page-load: ook na navigatie met <ClientRouter />.
+  document.addEventListener("astro:page-load", () => {
+    document.querySelectorAll<HTMLElement>(".faq-question").forEach((button) => {
+      if (button.dataset.faqReady === "true") return;
+      button.dataset.faqReady = "true";
       button.addEventListener("click", (event) => {
         const target = event.currentTarget as HTMLButtonElement;
         const index = target?.getAttribute("data-index");

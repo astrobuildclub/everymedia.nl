@@ -66,33 +66,39 @@ const headingId = `audiences-${_key || "title"}`;
     return !!track && getComputedStyle(track).animationName !== "none";
   };
 
-  document
-    .querySelectorAll<HTMLElement>("[data-audiences-overview]")
-    .forEach((section) => {
-      const pin = section.querySelector<HTMLElement>(".audiences-pin");
-      const items = [
-        ...section.querySelectorAll<HTMLElement>(".audiences-item"),
-      ];
-      if (!pin || items.length < 2) return;
+  const init = () =>
+    document
+      .querySelectorAll<HTMLElement>("[data-audiences-overview]")
+      .forEach((section) => {
+        if (section.dataset.audiencesReady === "true") return;
+        section.dataset.audiencesReady = "true";
+        const pin = section.querySelector<HTMLElement>(".audiences-pin");
+        const items = [
+          ...section.querySelectorAll<HTMLElement>(".audiences-item"),
+        ];
+        if (!pin || items.length < 2) return;
 
-      section.addEventListener("focusin", (event) => {
-        if (!isAnimated(section)) return;
-        const item = (event.target as HTMLElement).closest<HTMLElement>(
-          ".audiences-item"
-        );
-        if (!item) return;
-        const index = items.indexOf(item);
-        // Na de eigen scroll-into-view van de browser uitvoeren.
-        requestAnimationFrame(() => {
-          const pinTop = pin.getBoundingClientRect().top + window.scrollY;
-          const travel = pin.offsetHeight - window.innerHeight;
-          window.scrollTo({
-            top: pinTop + (travel * index) / (items.length - 1),
-            behavior: "instant",
+        section.addEventListener("focusin", (event) => {
+          if (!isAnimated(section)) return;
+          const item = (event.target as HTMLElement).closest<HTMLElement>(
+            ".audiences-item"
+          );
+          if (!item) return;
+          const index = items.indexOf(item);
+          // Na de eigen scroll-into-view van de browser uitvoeren.
+          requestAnimationFrame(() => {
+            const pinTop = pin.getBoundingClientRect().top + window.scrollY;
+            const travel = pin.offsetHeight - window.innerHeight;
+            window.scrollTo({
+              top: pinTop + (travel * index) / (items.length - 1),
+              behavior: "instant",
+            });
           });
         });
       });
-    });
+
+  // Ook na navigatie met <ClientRouter />.
+  document.addEventListener("astro:page-load", init);
 </script>
 
 <style>

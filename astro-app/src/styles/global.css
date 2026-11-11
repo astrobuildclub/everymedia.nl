@@ -61,6 +61,14 @@
   --cool-gray: #ccc;
   --black-gray: #171717;
 
+  /* Knoppen (CTA's uit het CMS): zwart, hover iets lichter */
+  --btn-bg: #000;
+  --btn-bg-hover: var(--jet);
+  --btn-text: #fff;
+
+  /* Laadbalk bij navigeren (PageProgress): merkblauw, zichtbaar op licht én donker */
+  --progress-color: var(--blue-600);
+
   /* dark */
   --clr-primary-a50: oklch(from var(--clr-primary) l c h / calc(alpha - 0.5));
   --clr-primary-a50: oklch(from var(--clr-primary) l c h / calc(alpha - 0.5));
@@ -389,8 +397,8 @@ pre {
 
 .black-btn {
   display: block;
-  background-color: var(--blue-900);
-  color: white;
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
   font-weight: bold;
   text-align: center;
   font-size: 1.125rem;
@@ -405,10 +413,12 @@ pre {
 }
 
 .black-btn:hover {
-  /* background-color: transparent; */
-  background-color: var(--blue-600);
-  /* border-color: var(--off-black); */
-  /* color: var(--off-black); */
+  background-color: var(--btn-bg-hover);
+}
+
+.black-btn:focus-visible {
+  outline: 2px solid var(--btn-bg);
+  outline-offset: 3px;
 }
 
 figure {

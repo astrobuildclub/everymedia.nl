@@ -75,20 +75,27 @@ const { episodes } = Astro.props || {};
   import { Pagination } from "swiper/modules";
   import "swiper/css";
   import "swiper/css/pagination";
+  import { onPageLeave } from "../../lib/carousel";
 
-  document.querySelectorAll<HTMLElement>("[data-episodes-swiper]").forEach((el) => {
-    if (el.dataset.swiperReady === "true") return;
-    el.dataset.swiperReady = "true";
-    new Swiper(el, {
-      modules: [Pagination],
-      slidesPerView: "auto",
-      spaceBetween: 30,
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-      },
+  const init = () => {
+    document.querySelectorAll<HTMLElement>("[data-episodes-swiper]").forEach((el) => {
+      if (el.dataset.swiperReady === "true") return;
+      el.dataset.swiperReady = "true";
+      const swiper = new Swiper(el, {
+        modules: [Pagination],
+        slidesPerView: "auto",
+        spaceBetween: 30,
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+      });
+      onPageLeave(() => swiper.destroy(true, false));
     });
-  });
+  };
+
+  // Ook na navigatie met <ClientRouter /> (guard voorkomt dubbel starten).
+  document.addEventListener("astro:page-load", init);
 </script>
 
 <style>

@@ -68,6 +68,8 @@ ${imageFields}
 },
 client,
 tag,
+"categories": categories[]->{title, "slug": slug.current},
+"audiences": audiences[]->{title, "slug": slug.current},
 `;
 
 {

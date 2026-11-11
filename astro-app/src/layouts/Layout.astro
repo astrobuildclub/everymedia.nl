@@ -10,6 +10,8 @@ import type {
 } from "../utils";
 import "../styles/global.css";
 import CookieConsent from "../components/cookieconsent/CookieConsent.astro";
+import PageProgress from "../components/PageProgress.astro";
+import { ClientRouter } from "astro:transitions";
 import VisualEditing from "../lib/sanity/VisualEditing";
 
 // Alleen in de Presentation tool (ondertekende cookie + iframe), zie src/middleware.ts.
@@ -62,8 +64,6 @@ const { locale } = Astro.params || {};
     />
     <link href="https://fonts.cdnfonts.com/css/barlow" rel="stylesheet" />
 
-    <!-- ✅ Global CSS -->
-    <link rel="stylesheet" href="/src/styles/global.css" />
     <!-- ✅ Favicon and App Icons -->
     <link
       rel="icon"
@@ -80,16 +80,29 @@ const { locale } = Astro.params || {};
     />
     <meta name="apple-mobile-web-app-title" content="Every Media" />
     <link rel="manifest" href="/icons/site.webmanifest" />
-    <!-- ✅ Favicon and App Icons -->
-    <!-- ✅ Lenis Script to Bottom for Performance -->
+
+    <!-- Page transitions (~/Code/_standards/TRANSITIONS.md laag 1 + 2) -->
+    <ClientRouter />
+
     <script>
-      if (typeof window !== "undefined") {
-        import("lenis").then(({ default: Lenis }) => {
-          new Lenis({
-            autoRaf: true,
-          });
-        });
-      }
+      /**
+       * Smooth scroll (Lenis). Met <ClientRouter /> per pagina opnieuw starten:
+       * Astro vervangt <html>-attributen en <body> bij elke navigatie.
+       * Niet bij "beperk beweging".
+       */
+      import Lenis from "lenis";
+
+      let lenis: Lenis | undefined;
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+      document.addEventListener("astro:page-load", () => {
+        lenis?.destroy();
+        lenis = reducedMotion.matches ? undefined : new Lenis({ autoRaf: true });
+      });
+      document.addEventListener("astro:before-swap", () => {
+        lenis?.destroy();
+        lenis = undefined;
+      });
     </script>
     {/* Analytics */}
     {
@@ -145,6 +158,7 @@ const { locale } = Astro.params || {};
     }
   </head>
   <body>
+    <PageProgress />
     {/* Google Tag Manager (noscript) */}
     <noscript>
       <iframe
@@ -154,11 +168,26 @@ const { locale } = Astro.params || {};
         style={{ display: "none", visibility: "hidden" }}></iframe>
     </noscript>
     <Header header={header} heroVariants={heroVariants} />
-    <main>
+    <main data-page>
       <slot />
     </main>
     <Footer footer={footer} />
     <CookieConsent />
+    <script>
+      /**
+       * Pageviews bij navigatie binnen de site (ClientRouter). De eerste
+       * pageview komt uit het inline pixel-script; GA4 meet pushState zelf.
+       */
+      let firstLoad = true;
+      document.addEventListener("astro:page-load", () => {
+        if (firstLoad) {
+          firstLoad = false;
+          return;
+        }
+        const fbq = (window as any).fbq;
+        if (typeof fbq === "function") fbq("track", "PageView");
+      });
+    </script>
     {visualEditingEnabled && <VisualEditing client:only="react" />}
     {
       visualEditingEnabled && (

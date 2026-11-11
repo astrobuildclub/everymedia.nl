@@ -56,13 +56,16 @@ const items = (media || []).filter(Boolean);
   import "swiper/css";
   import { initCarousels } from "../../lib/carousel";
 
-  initCarousels("[data-media-carousel]", {
-    slidesPerView: 1,
-    spaceBetween: 16,
-    breakpoints: {
-      768: { slidesPerView: 2, spaceBetween: 24 },
-    },
-  });
+  // Ook na navigatie met <ClientRouter /> (guard voorkomt dubbel starten).
+  document.addEventListener("astro:page-load", () =>
+    initCarousels("[data-media-carousel]", {
+      slidesPerView: 1,
+      spaceBetween: 16,
+      breakpoints: {
+        768: { slidesPerView: 2, spaceBetween: 24 },
+      },
+    })
+  );
 </script>
 
 <style>

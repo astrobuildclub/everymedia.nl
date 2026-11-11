@@ -22,6 +22,23 @@ const SPEED = 400;
 const reducedMotionQuery = () =>
   window.matchMedia("(prefers-reduced-motion: reduce)");
 
+/**
+ * Met <ClientRouter /> blijft de pagina bestaan tussen navigaties. Swiper en
+ * de media-query-listeners ruimen we op vóór de swap, anders lekken ze.
+ */
+const cleanups = new Set<() => void>();
+let swapListenerAdded = false;
+
+export function onPageLeave(fn: () => void) {
+  cleanups.add(fn);
+  if (swapListenerAdded) return;
+  swapListenerAdded = true;
+  document.addEventListener("astro:before-swap", () => {
+    cleanups.forEach((cleanup) => cleanup());
+    cleanups.clear();
+  });
+}
+
 export function initCarousels(
   rootSelector: string,
   options: SwiperOptions = {}
@@ -105,10 +122,16 @@ export function initCarousels(
     syncToggle();
 
     // Reageer als de gebruiker de systeeminstelling tijdens het bezoek wijzigt.
-    mq.addEventListener("change", (event) => {
+    const onMotionChange = (event: MediaQueryListEvent) => {
       swiper.params.speed = event.matches ? 0 : SPEED;
       if (event.matches) swiper.autoplay?.stop();
       syncToggle();
+    };
+    mq.addEventListener("change", onMotionChange);
+
+    onPageLeave(() => {
+      mq.removeEventListener("change", onMotionChange);
+      swiper.destroy(true, false);
     });
 
     instances.push(swiper);

@@ -97,6 +97,46 @@ export const projectType = defineType({
       group: 'hero',
     },
     defineField({
+      name: 'categories',
+      title: 'Project type',
+      description: 'Used for the "Filter" on the projects overview. Manage the options under "Project types".',
+      type: 'array',
+      group: 'hero',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'projectCategory'}],
+          options: {
+            filter: ({document}) => ({
+              filter: 'language == $language',
+              params: {language: document?.language},
+            }),
+          },
+        },
+      ],
+      validation: (rule) => rule.unique(),
+    }),
+    defineField({
+      name: 'audiences',
+      title: 'Audiences',
+      description: 'Used for the "Doelgroep" filter on the projects overview.',
+      type: 'array',
+      group: 'hero',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'audience'}],
+          options: {
+            filter: ({document}) => ({
+              filter: 'language == $language',
+              params: {language: document?.language},
+            }),
+          },
+        },
+      ],
+      validation: (rule) => rule.unique(),
+    }),
+    defineField({
       name: 'pagebuilder',
       type: 'array',
       title: 'Pagebuilder',

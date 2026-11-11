@@ -399,35 +399,45 @@ const MenuClass = (heroVariants: HeroVariantType) => {
 </style>
 
 <script>
-  const openMenuButton = document.querySelector(".open-menu-button");
-  const closeMenuButton = document.querySelector(".close-menu-button");
-  const menu = document.querySelector("#menu");
-  const menuBackground = document.querySelector("header");
-  const logo = document.querySelector(".logo-class");
+  /**
+   * Menu open/dicht. Met <ClientRouter /> wordt de header bij elke navigatie
+   * vervangen (kleurvariant verschilt per pagina), dus opnieuw koppelen op
+   * astro:page-load. De nieuwe <body> heeft geen inline styles meer, dus het
+   * menu staat na navigeren vanzelf dicht.
+   */
+  const initMenu = () => {
+    const openMenuButton = document.querySelector(".open-menu-button");
+    const closeMenuButton = document.querySelector(".close-menu-button");
+    const menu = document.querySelector("#menu");
+    const menuBackground = document.querySelector("header");
+    const logo = document.querySelector(".logo-class");
 
-  openMenuButton?.addEventListener("click", () => {
-    menu?.classList.remove("hidden");
-    openMenuButton?.classList.add("hidden");
-    closeMenuButton?.classList.remove("hidden");
-    menuBackground?.classList.add("menu-background");
+    openMenuButton?.addEventListener("click", () => {
+      menu?.classList.remove("hidden");
+      openMenuButton?.classList.add("hidden");
+      closeMenuButton?.classList.remove("hidden");
+      menuBackground?.classList.add("menu-background");
 
-    logo?.classList.add("logo-menu-open");
+      logo?.classList.add("logo-menu-open");
 
-    document.body.style.position = "fixed";
-    document.body.style.width = "100%";
-    document.body.style.overflowY = "scroll";
-  });
+      document.body.style.position = "fixed";
+      document.body.style.width = "100%";
+      document.body.style.overflowY = "scroll";
+    });
 
-  closeMenuButton?.addEventListener("click", () => {
-    menu?.classList.add("hidden");
-    menuBackground?.classList.remove("menu-background");
-    closeMenuButton?.classList.add("hidden");
-    openMenuButton?.classList.remove("hidden");
+    closeMenuButton?.addEventListener("click", () => {
+      menu?.classList.add("hidden");
+      menuBackground?.classList.remove("menu-background");
+      closeMenuButton?.classList.add("hidden");
+      openMenuButton?.classList.remove("hidden");
 
-    logo?.classList.remove("logo-menu-open");
+      logo?.classList.remove("logo-menu-open");
 
-    document.body.style.position = "";
-    document.body.style.width = "";
-    document.body.style.overflowY = "";
-  });
+      document.body.style.position = "";
+      document.body.style.width = "";
+      document.body.style.overflowY = "";
+    });
+  };
+
+  document.addEventListener("astro:page-load", initMenu);
 </script>

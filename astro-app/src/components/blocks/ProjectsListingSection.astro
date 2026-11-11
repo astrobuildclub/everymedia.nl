@@ -1,15 +1,72 @@
 ---
 import type { ProjectsListingSectionType } from "../../utils";
-import { formatDynamicLayout } from "../../lib/helperFunctions";
+import type { ProjectFilterOption } from "../../utils/sanity/types/projectType";
+import { formatDynamicLayout, defaultLanguage } from "../../lib/helperFunctions";
+import { getTranslation } from "../../i18n/translate";
+import { stegaClean } from "@sanity/client/stega";
 import ProjectOverview from "../commons/ProjectOverview.astro";
 
 interface Props {
   data: ProjectsListingSectionType;
 }
 
-const { tagLine, allProjects = [] } = Astro.props.data || {};
+const { tagLine, allProjects = [], _key } = Astro.props.data || {};
+const locale = Astro.params?.locale || defaultLanguage.id;
+const { t } = getTranslation(locale);
+
+/*
+ * Filters (Figma 905:9274): projecttype (dropdown) en doelgroep (pillen).
+ * Server-side via URL-parameters: werkt zonder JS, de rijenlayout blijft
+ * kloppen en een gefilterde lijst is te delen.
+ */
+const TYPE_PARAM = "type";
+const AUDIENCE_PARAM = "doelgroep";
+const sectionId = `projecten-${_key || "overzicht"}`;
+
+const clean = (value?: string | null) => stegaClean(value || "").trim();
+const activeType = clean(Astro.url.searchParams.get(TYPE_PARAM));
+const activeAudience = clean(Astro.url.searchParams.get(AUDIENCE_PARAM));
+
+// Alleen opties tonen die aan minstens één project hangen.
+const collect = (key: "categories" | "audiences") => {
+  const options = new Map<string, ProjectFilterOption>();
+  for (const project of allProjects) {
+    for (const option of project?.[key] || []) {
+      const slug = clean(option?.slug);
+      if (slug && !options.has(slug)) options.set(slug, { ...option, slug });
+    }
+  }
+  return [...options.values()].sort((a, b) =>
+    clean(a.title).localeCompare(clean(b.title), locale)
+  );
+};
+const categories = collect("categories");
+const audiences = collect("audiences");
+
+const hasOption = (project: (typeof allProjects)[number], key: "categories" | "audiences", slug: string) =>
+  !slug || (project?.[key] || []).some((option) => clean(option?.slug) === slug);
+
+const filteredProjects = allProjects.filter(
+  (project) =>
+    hasOption(project, "categories", activeType) &&
+    hasOption(project, "audiences", activeAudience)
+);
+const isFiltered = Boolean(activeType || activeAudience);
+const activeCategory = categories.find((option) => option.slug === activeType);
+
+/** URL met aangepaste filters; `null` haalt een filter weg. */
+const filterUrl = (changes: Record<string, string | null>) => {
+  const url = new URL(Astro.url);
+  for (const [key, value] of Object.entries(changes)) {
+    if (value) url.searchParams.set(key, value);
+    else url.searchParams.delete(key);
+  }
+  url.hash = sectionId;
+  return `${url.pathname}${url.search}${url.hash}`;
+};
+
 const layoutPattern = [2, 3];
-const formattedProjects = formatDynamicLayout(allProjects, layoutPattern);
+const formattedProjects = formatDynamicLayout(filteredProjects, layoutPattern);
 
 let gridCount = 0;
 
@@ -25,9 +82,85 @@ const getGridClass = (pattern: number) => {
 };
 ---
 
-<section class="projects-card-section">
+<section class="projects-card-section" id={sectionId}>
   <div class="projects-card-inner">
-    {tagLine && <h2 class="projects-card-title">{tagLine}</h2>}
+    <div class="projects-toolbar">
+      {tagLine && <h2 class="projects-card-title">{tagLine}</h2>}
+      {
+        (categories.length > 0 || audiences.length > 0) && (
+          <nav class="project-filters" aria-label={t("projectFilters")}>
+            {categories.length > 0 && (
+              <div class="filter-group">
+                <span class="filter-label">{t("filterType")}</span>
+                <details class="filter-dropdown" data-filter-dropdown>
+                  <summary class="filter-pill is-active">
+                    {activeCategory?.title || t("filterAll")}
+                    <span aria-hidden="true">+</span>
+                  </summary>
+                  <ul class="filter-menu" role="list">
+                    <li>
+                      <a
+                        href={filterUrl({ [TYPE_PARAM]: null })}
+                        aria-current={!activeType ? "true" : undefined}
+                      >
+                        {t("filterAll")}
+                      </a>
+                    </li>
+                    {categories.map((option) => (
+                      <li>
+                        <a
+                          href={filterUrl({ [TYPE_PARAM]: option.slug })}
+                          aria-current={option.slug === activeType ? "true" : undefined}
+                        >
+                          {option.title}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              </div>
+            )}
+            {audiences.length > 0 && (
+              <div class="filter-group">
+                <span class="filter-label" id={`${sectionId}-audience`}>
+                  {t("filterAudience")}
+                </span>
+                <ul
+                  class="filter-pills"
+                  role="list"
+                  aria-labelledby={`${sectionId}-audience`}
+                >
+                  {audiences.map((option) => {
+                    const active = option.slug === activeAudience;
+                    return (
+                      <li>
+                        <a
+                          class:list={["filter-pill", { "is-active": active }]}
+                          href={filterUrl({ [AUDIENCE_PARAM]: active ? null : option.slug })}
+                          aria-current={active ? "true" : undefined}
+                        >
+                          {option.title}
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            )}
+          </nav>
+        )
+      }
+    </div>
+    {
+      isFiltered && filteredProjects.length === 0 && (
+        <p class="projects-empty" role="status">
+          {t("noProjectsFound")}{" "}
+          <a href={filterUrl({ [TYPE_PARAM]: null, [AUDIENCE_PARAM]: null })}>
+            {t("showAllProjects")}
+          </a>
+        </p>
+      )
+    }
     {
       formattedProjects?.length > 0 && (
         <div class="projects-grid">
@@ -48,14 +181,196 @@ const getGridClass = (pattern: number) => {
   </div>
 </section>
 
+<script>
+  /** Filter-dropdown sluiten bij klik ernaast of Escape. */
+  document.addEventListener("astro:page-load", () => {
+    document
+      .querySelectorAll<HTMLDetailsElement>("[data-filter-dropdown]")
+      .forEach((dropdown) => {
+        if (dropdown.dataset.ready === "true") return;
+        dropdown.dataset.ready = "true";
+        const close = () => {
+          if (!dropdown.open) return;
+          dropdown.open = false;
+          dropdown.querySelector("summary")?.focus();
+        };
+        document.addEventListener("click", (event) => {
+          if (dropdown.open && !dropdown.contains(event.target as Node)) dropdown.open = false;
+        });
+        dropdown.addEventListener("keydown", (event) => {
+          if (event.key === "Escape") close();
+        });
+      });
+  });
+</script>
+
 <style>
   .projects-card-section {
     padding: var(--space-l-xl) var(--space-s);
+    scroll-margin-block-start: var(--space-xl);
+  }
+
+  .projects-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-s) var(--space-m);
+    margin-bottom: var(--space-m);
+  }
+
+  .project-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-xs) var(--space-m);
+  }
+
+  .filter-group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs, 0.5rem);
+    min-inline-size: 0;
+  }
+
+  .filter-label,
+  .filter-pill,
+  .filter-menu a {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .filter-label {
+    color: var(--neutrals-600);
+  }
+
+  .filter-pills {
+    display: flex;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .filter-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    min-block-size: 1.75rem;
+    padding-inline: 1.25em;
+    border: 1px solid var(--gainsboro);
+    border-radius: 9999px;
+    background: #fff;
+    color: var(--neutrals-600, #555);
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      border-color 0.2s ease;
+
+    &:hover {
+      border-color: #000;
+      color: #000;
+    }
+
+    &.is-active {
+      border-color: var(--btn-bg);
+      background: var(--btn-bg);
+      color: var(--btn-text);
+    }
+
+    &.is-active:hover {
+      background: var(--btn-bg-hover);
+    }
+
+    &:focus-visible {
+      outline: 2px solid #000;
+      outline-offset: 2px;
+    }
+  }
+
+  .filter-dropdown {
+    position: relative;
+
+    summary {
+      list-style: none;
+
+      &::-webkit-details-marker {
+        display: none;
+      }
+    }
+
+    &[open] summary span {
+      transform: rotate(45deg);
+    }
+
+    summary span {
+      display: inline-block;
+      transition: transform 0.2s ease;
+    }
+  }
+
+  .filter-menu {
+    position: absolute;
+    inset-block-start: calc(100% + 0.375rem);
+    inset-inline-start: 0;
+    z-index: 5;
+    min-inline-size: 12rem;
+    margin: 0;
+    padding: 0.375rem;
+    list-style: none;
+    background: #fff;
+    border: 1px solid var(--gainsboro);
+    border-radius: 0.75rem;
+    box-shadow: 0 8px 24px rgb(0 0 0 / 0.08);
+
+    a {
+      display: block;
+      padding: 0.625rem 0.75rem;
+      border-radius: 0.5rem;
+      color: #000;
+      text-decoration: none;
+
+      &:hover,
+      &:focus-visible {
+        background: var(--cool-gray);
+        outline: none;
+      }
+
+      &[aria-current="true"] {
+        background: var(--btn-bg);
+        color: var(--btn-text);
+      }
+    }
+  }
+
+  .projects-empty {
+    margin-block: var(--space-l);
+    font-size: var(--fs-0, 1rem);
+
+    a {
+      color: inherit;
+      font-weight: 700;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .filter-pill,
+    .filter-dropdown summary span {
+      transition: none;
+    }
   }
 
   .projects-card-inner {
     .projects-card-title {
-      margin-bottom: var(--space-m);
       color: var(--neutrals-600);
       font-family: var(--font-mono);
       font-size: var(--fs--2);

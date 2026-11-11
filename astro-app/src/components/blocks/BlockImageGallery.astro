@@ -45,10 +45,13 @@ const items = (images || []).filter(Boolean);
   import "swiper/css";
   import { initCarousels } from "../../lib/carousel";
 
-  initCarousels("[data-image-gallery-carousel]", {
-    slidesPerView: "auto",
-    spaceBetween: 30,
-  });
+  // Ook na navigatie met <ClientRouter /> (guard voorkomt dubbel starten).
+  document.addEventListener("astro:page-load", () =>
+    initCarousels("[data-image-gallery-carousel]", {
+      slidesPerView: "auto",
+      spaceBetween: 30,
+    })
+  );
 </script>
 
 <style>

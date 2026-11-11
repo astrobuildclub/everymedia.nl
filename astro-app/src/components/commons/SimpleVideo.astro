@@ -94,6 +94,7 @@ const decorative = autoplay && !controls;
       });
   };
 
-  syncAutoplay();
+  // astro:page-load: ook na navigatie met <ClientRouter />.
+  document.addEventListener("astro:page-load", syncAutoplay);
   motionQuery.addEventListener("change", syncAutoplay);
 </script>
