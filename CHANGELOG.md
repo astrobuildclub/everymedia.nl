@@ -14,6 +14,7 @@ Categorieën: **Toegevoegd**, **Gewijzigd**, **Opgelost**, **Verwijderd**, **Bev
 - FAQ: de hele rij van een vraag is klikbaar (padding in de knop); `aria-expanded`/`aria-controls`, `<h3>` om de knop i.p.v. erin
 - Projectcarousels: eigen muiscursor (witte cirkel met Phosphor-icoon `arrows-horizontal`) die de sleepactie aangeeft; alleen bij muis/trackpad, volgt direct bij "beperk beweging"
 - Iconen via `astro-icon` + Phosphor (`@iconify-json/ph`)
+- Menu-animatie met GSAP: blauw vlak schuift open van boven (clip-path) met stagger-reveal van de links, sluit terug naar boven; hover laat de letters omhoog uit- en van onder inrollen (SplitText). Escape sluit, focus naar Close/Menu, pagina erachter `inert`; geen animatie bij "beperk beweging"
 
 ### Gewijzigd
 - Blauwe knoppen (`.black-btn`) zijn nu zwart via tokens `--btn-bg` / `--btn-bg-hover` / `--btn-text`
@@ -22,6 +23,7 @@ Categorieën: **Toegevoegd**, **Gewijzigd**, **Opgelost**, **Verwijderd**, **Bev
 - Audience-pagina's: Cards- en Work Selection-blok stonden in een kolom van 1px; `grid-template-columns: 1` (ongeldig) werd door lightningcss sinds Astro 7 omgezet naar `1px`
 - Console-fout over `/src/styles/global.css` (dubbele stylesheet-link) en ongeldige `font-weight: medium`
 - Projectoverzicht toonde projecten uit alle talen
+- Menu: scroll-lock zette `body` op `position: fixed` (pagina sprong naar boven); nu `overflow: hidden` op `html` + `data-lenis-prevent`. Focusring op de menuknoppen
 - `will-change: transform` op `body` verwijderd: maakte de body het referentiekader voor `position: fixed`, waardoor laadbalk en cookiebanner meescrolden
 - Projectcarousel (Featured projects): eerste kaart stond tegen de rand van het venster, lijnt nu uit met de titel; horizontale scroll op mobiel door `width: 100%` + padding
 - Projectkaarten: thumbnail werd bij hover hoger; vaste 16:9-uitsnede (`object-fit: cover`), zoom blijft binnen de container
