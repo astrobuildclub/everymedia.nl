@@ -20,6 +20,7 @@ Categorieën: **Toegevoegd**, **Gewijzigd**, **Opgelost**, **Verwijderd**, **Bev
 - Audience-pagina's: Cards- en Work Selection-blok stonden in een kolom van 1px; `grid-template-columns: 1` (ongeldig) werd door lightningcss sinds Astro 7 omgezet naar `1px`
 - Console-fout over `/src/styles/global.css` (dubbele stylesheet-link) en ongeldige `font-weight: medium`
 - Projectoverzicht toonde projecten uit alle talen
+- Projectcarousel (Featured projects): eerste kaart stond tegen de rand van het venster, lijnt nu uit met de titel; horizontale scroll op mobiel door `width: 100%` + padding
 - Projectkaarten: thumbnail werd bij hover hoger; vaste 16:9-uitsnede (`object-fit: cover`), zoom blijft binnen de container
 - Netlify: productiebuild na release `staging → main` werd overgeslagen (`ignore` vergeleek met de site-brede `$CACHED_COMMIT_REF` = de deploy preview van dezelfde code); vergelijkt nu ook met de vorige commit
 
