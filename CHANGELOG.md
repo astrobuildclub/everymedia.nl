@@ -26,6 +26,7 @@ Categorieën: **Toegevoegd**, **Gewijzigd**, **Opgelost**, **Verwijderd**, **Bev
 - Openstaand: 1 critical `decompress` via `@sanity/document-internationalization` 6 (vereist Sanity/React major)
 
 ### Opgelost
+- Studio: documenteditor crashte (`useEffectEvent is not a function`) doordat `@sanity/assist` 6 React 19.2 vereist; terug naar `@sanity/assist` 5.0.4 (React 18 + Sanity 3)
 - Netlify productie-404: SSR `.netlify` na build naar repo-root kopiëren (in `npm run build`)
 - i18n: `prefixDefaultLocale: true` zodat `/nl/...`-routes werken (was 404 lokaal)
 
