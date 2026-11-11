@@ -442,6 +442,16 @@ const MenuClass = (heroVariants: HeroVariantType) => {
               inset: 0;
             }
 
+            /*
+             * SplitText maakt hier <span>s (een <div> mag niet in een link).
+             * Spans zijn inline, en transform werkt niet op inline-elementen:
+             * zonder inline-block bewegen de letters niet.
+             */
+            :global(.split-word),
+            :global(.split-char) {
+              display: inline-block;
+            }
+
             @media (prefers-reduced-motion: reduce) {
               transition: opacity 0.2s ease;
 
@@ -463,9 +473,9 @@ const MenuClass = (heroVariants: HeroVariantType) => {
    * Openen (één timeline):
    * 1. Het blauwe vlak schuift van boven naar beneden open: clip-path van
    *    inset(0 0 100% 0) (alleen een lijn bovenaan) naar inset(0 0 0 0).
-   * 2. Terwijl het vlak nog loopt, komen de koppen in beeld en rollen de
-   *    letters van elke link van onder omhoog. Elke link start 60 ms na de
-   *    vorige (stagger per link) en binnen een link 12 ms per letter.
+   * 2. Als het vlak grotendeels open is, komen de koppen in beeld en rollen
+   *    de letters van elke link van onder omhoog. Elke link start 90 ms na de
+   *    vorige (stagger per link) en binnen een link 30 ms per letter.
    *
    * Sluiten: de links vervagen kort omhoog en het vlak trekt zich terug naar
    * boven (clip-path terug naar 100% onderaan).
@@ -535,8 +545,20 @@ const MenuClass = (heroVariants: HeroVariantType) => {
         const back = span("label-clone", text, true);
         link.replaceChildren(span("sr-only", text), front, back);
 
-        const frontSplit = SplitText.create(front, { type: "words,chars", tag: "span", aria: "none" });
-        const backSplit = SplitText.create(back, { type: "words,chars", tag: "span", aria: "none" });
+        const frontSplit = SplitText.create(front, {
+          type: "words,chars",
+          tag: "span",
+          wordsClass: "split-word",
+          charsClass: "split-char",
+          aria: "none",
+        });
+        const backSplit = SplitText.create(back, {
+          type: "words,chars",
+          tag: "span",
+          wordsClass: "split-word",
+          charsClass: "split-char",
+          aria: "none",
+        });
         linkLetters.push(frontSplit.chars);
         gsap.set(backSplit.chars, { yPercent: 100 });
 
@@ -585,14 +607,16 @@ const MenuClass = (heroVariants: HeroVariantType) => {
         headlines,
         { autoAlpha: 0, y: 12 },
         { autoAlpha: 1, y: 0, duration: 0.5, ease: "power2.out", stagger: 0.08 },
-        0.45
+        0.5
       );
+      // Letters starten als het vlak grotendeels open is (0,55 s), zodat de
+      // stagger zichtbaar is: 90 ms tussen links, 30 ms tussen letters.
       linkLetters.forEach((chars, index) => {
         tl.fromTo(
           chars,
-          { yPercent: 100 },
-          { yPercent: 0, duration: 0.9, ease: "expo.out", stagger: 0.012 },
-          0.4 + index * 0.06
+          { yPercent: 110 },
+          { yPercent: 0, duration: 0.8, ease: "power3.out", stagger: 0.03 },
+          0.55 + index * 0.09
         );
       });
       current = tl;
