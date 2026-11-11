@@ -81,11 +81,21 @@ Content types o.a.: pages, projects, audiences, FAQ, team, site settings, header
 
 ## Deploy
 
+### Branches
+
+| Branch | Deploy | URL |
+|---|---|---|
+| `main` | Productie | https://everymedia.netlify.app |
+| `staging` | Branch deploy (goedgekeurde features, nog niet live) | https://staging--everymedia.netlify.app |
+| PR's | Deploy preview | link in de PR |
+
+Features gaan via een PR naar `staging`. Naar `main` alleen gebundelde releases (PR `staging → main`) en hotfixes. Commits met alleen documentatie (`*.md`, `.github/`) starten geen build. Zie `~/Code/_standards/DEPLOY.md`.
+
+### Netlify
+
 - Netlify-site: [`everymedia`](https://app.netlify.com/projects/everymedia) (gekoppeld aan deze repo)
 - Build: `npm run build` + kopie `astro-app/.netlify` → `.netlify`; publish `astro-app/dist` (zie `netlify.toml`)
 - UI: Base directory leeg; Package directory leeg; Publish `astro-app/dist`; géén `@netlify/plugin-astro`
-- `main` → productie; pull requests → deploy preview
-- Werkwijze: branch → PR → preview checken → merge
 - Nooit direct pushen naar `main`; nooit force-push
 
 ## Beveiliging
