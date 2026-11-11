@@ -171,7 +171,16 @@ const headingId = `audiences-${_key || "title"}`;
           overflow: visible;
           scroll-snap-type: none;
           will-change: transform;
-          animation: audiences-move linear both;
+          /*
+           * Bewust losse longhands, géén `animation`-shorthand: lightningcss
+           * (CSS-minifier van de build) vouwt shorthand + animation-timeline
+           * samen tot `animation: … --audiences-pin`. Die vorm kent Chrome
+           * niet, waardoor de hele animatie in productie wegviel.
+           */
+          animation-name: audiences-move;
+          animation-duration: auto;
+          animation-timing-function: linear;
+          animation-fill-mode: both;
           animation-timeline: --audiences-pin;
           animation-range: contain 0% contain 100%;
         }

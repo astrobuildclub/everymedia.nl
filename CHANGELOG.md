@@ -20,6 +20,7 @@ Categorieën: **Toegevoegd**, **Gewijzigd**, **Opgelost**, **Verwijderd**, **Bev
 - Studio: uitleg en validatie bij video-URL-velden (directe Vimeo-bestandslink i.p.v. vimeo.com-paginalink)
 
 ### Opgelost
+- Doelgroepenblok: horizontale scroll werkte niet in productie (ook niet op live); lightningcss vouwde `animation` + `animation-timeline` samen tot een vorm die Chrome negeert. Nu losse longhands
 - Doelgroepenblok: werkt nu ook zonder scroll-driven animations (Firefox, oudere Safari) en bij `prefers-reduced-motion` als swipebare rij; titel uit het CMS wordt getoond; video vult de kaart; hoogte schaalt met het aantal doelgroepen; toetsenbordfocus scrolt naar de kaart
 - Swiper-carousels (galerij, afleveringen, projecten) zaten elkaar in de weg via de globale `.swiper`-selector
 - Video: autoplay-loops respecteren `prefers-reduced-motion`; MP4-video zonder autoplay krijgt player-knoppen; geen externe placeholder-poster meer; MIME-type wordt niet meer geforceerd
