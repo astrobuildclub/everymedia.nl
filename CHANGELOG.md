@@ -7,6 +7,8 @@ Categorieën: **Toegevoegd**, **Gewijzigd**, **Opgelost**, **Verwijderd**, **Bev
 
 ## [Unreleased]
 
+## [2026-11-11]
+
 ### Toegevoegd
 - `/admin` en `/studio`: korte link (302) naar de Sanity Studio.
 - Visual Editing volgens `_standards/SANITY.md` §3: `/api/preview` (secret uit de Presentation tool) zet een ondertekende cookie; drafts alleen in de Studio-iframe (`src/middleware.ts`). Eigen `VisualEditing.tsx` met history-adapter.
