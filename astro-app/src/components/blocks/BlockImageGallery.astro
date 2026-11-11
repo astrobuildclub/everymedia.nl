@@ -1,48 +1,53 @@
 ---
 import type { BlockImageGalleryType, SanityImageType } from "../../utils";
 import SanityImage from "../commons/SanityImage.astro";
+import CarouselNav from "../commons/CarouselNav.astro";
+import { getTranslation } from "../../i18n/translate";
+import { defaultLanguage } from "../../lib/helperFunctions";
 
 interface Props {
   data: BlockImageGalleryType;
 }
 const { images } = Astro.props.data || {};
+const locale = Astro.params?.locale || defaultLanguage.id;
+const { t } = getTranslation(locale);
+const items = (images || []).filter(Boolean);
 ---
 
 {
-  (() => {
-    return (
-      <section class="image-gallery-carousel">
-        {images?.length > 0 && (
-          <div class="swiper">
-            <div class="swiper-wrapper">
-              {images?.map((item: SanityImageType) => {
-                return (
-                  <div class="swiper-slide">
-                    <SanityImage src={item} className="swiper-image" />
-                  </div>
-                );
-              })}
+  items.length > 0 && (
+    <section
+      class="image-gallery-carousel"
+      data-image-gallery-carousel
+      data-carousel-root
+      data-autoplay="false"
+      data-first-slide-message={t("carouselFirstSlide")}
+      data-last-slide-message={t("carouselLastSlide")}
+      data-slide-label-message={t("carouselSlideLabel")}
+      aria-roledescription="carousel"
+      aria-label={t("mediaGallery")}
+    >
+      {items.length > 1 && <CarouselNav class="image-gallery-nav" />}
+      <div class="swiper">
+        <div class="swiper-wrapper">
+          {items.map((item: SanityImageType) => (
+            <div class="swiper-slide">
+              <SanityImage src={item} className="swiper-image" />
             </div>
-          </div>
-        )}
-      </section>
-    );
-  })()
+          ))}
+        </div>
+      </div>
+    </section>
+  )
 }
 
 <script>
-  import Swiper from "swiper";
-  // import { Autoplay, FreeMode } from "swiper/modules";
   import "swiper/css";
+  import { initCarousels } from "../../lib/carousel";
 
-  new Swiper(".swiper", {
+  initCarousels("[data-image-gallery-carousel]", {
     slidesPerView: "auto",
     spaceBetween: 30,
-    loop: true,
-    // pagination: {
-    //   el: ".swiper-pagination",
-    //   clickable: true,
-    // },
   });
 </script>
 
@@ -55,8 +60,13 @@ const { images } = Astro.props.data || {};
       padding-right: var(--space-s);
     }
 
+    :global(.image-gallery-nav) {
+      padding-inline-end: var(--space-s);
+      margin-block-end: var(--space-s);
+    }
+
     .swiper-wrapper {
-      align-items: top;
+      align-items: flex-start;
       padding-left: 0;
       .swiper-slide {
         width: 696px !important;
@@ -64,8 +74,8 @@ const { images } = Astro.props.data || {};
           /* aspect-ratio: 4 / 3; */
           width: 100% !important;
         }
-        figure {
-          .swiper-image {
+        :global(figure) {
+          :global(.swiper-image) {
             width: 696px;
             height: auto;
             border-radius: 5px;

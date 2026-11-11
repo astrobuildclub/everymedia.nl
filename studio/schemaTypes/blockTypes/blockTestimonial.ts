@@ -11,6 +11,7 @@ export const blockTestimonial = defineType({
             name: 'title',
             title: 'Title',
             type: 'string',
+            description: 'Only used in the CMS to recognise this block; not shown on the website.',
         }),
         defineField({
             name: 'testimonial',

@@ -1,70 +1,202 @@
 ---
 import type { BlockAudiencesOverviewSectionType, AudienceType } from "../../utils";
 import AudiencesOverview from "../AudiencesOverview.astro";
+import { getTranslation } from "../../i18n/translate";
+import { defaultLanguage } from "../../lib/helperFunctions";
 
 interface Props {
   data: BlockAudiencesOverviewSectionType;
 }
-const { audiences } = Astro.props.data || {};
+
+const { title, audiences, _key } = Astro.props.data || {};
+const locale = Astro.params?.locale || defaultLanguage.id;
+const { t } = getTranslation(locale);
+
+// Referenties naar verwijderde/ongepubliceerde doelgroepen komen als null terug.
+const items = (audiences || []).filter(Boolean);
+// Titel is rich text; als kop tonen we alleen de platte tekst.
+const heading = (Array.isArray(title) ? title : [])
+  .map((block: any) =>
+    (block?.children || []).map((child: any) => child?.text || "").join("")
+  )
+  .join(" ")
+  .trim();
+const headingId = `audiences-${_key || "title"}`;
 ---
 
 {
-  () => {
-    return (
-      <section class="audiences-overview">
-        <div id="sectionPin" class="section-pin">
-          <div class="sticky-container">
-            {audiences?.length > 0 && (
-              <div class="pin-wrap card-container">
-                {audiences?.map((item: AudienceType) => {
-                  return <AudiencesOverview audience={item} />;
-                })}
-              </div>
-            )}
-          </div>
+  items.length > 0 && (
+    <section
+      class="audiences-overview"
+      data-audiences-overview
+      data-pinned={items.length > 1 ? "true" : "false"}
+      style={`--audience-count: ${items.length}`}
+      {...(heading
+        ? { "aria-labelledby": headingId }
+        : { "aria-label": t("audiences") })}
+    >
+      {heading && (
+        <h2 id={headingId} class="audiences-title">
+          {heading}
+        </h2>
+      )}
+      <div class="audiences-pin">
+        <div class="audiences-sticky">
+          <ul class="audiences-track" role="list">
+            {items.map((item: AudienceType) => (
+              <li class="audiences-item">
+                <AudiencesOverview audience={item} />
+              </li>
+            ))}
+          </ul>
         </div>
-      </section>
-    );
-  }
+      </div>
+    </section>
+  )
 }
+
+<script>
+  /**
+   * Bij de horizontale scroll-animatie staan kaarten buiten beeld. Krijgt een
+   * link in zo'n kaart toetsenbordfocus, dan scrollen we de pagina naar het
+   * punt waarop die kaart in beeld staat (WCAG 2.4.11 Focus Not Obscured).
+   */
+  const isAnimated = (section: HTMLElement) => {
+    const track = section.querySelector<HTMLElement>(".audiences-track");
+    return !!track && getComputedStyle(track).animationName !== "none";
+  };
+
+  document
+    .querySelectorAll<HTMLElement>("[data-audiences-overview]")
+    .forEach((section) => {
+      const pin = section.querySelector<HTMLElement>(".audiences-pin");
+      const items = [
+        ...section.querySelectorAll<HTMLElement>(".audiences-item"),
+      ];
+      if (!pin || items.length < 2) return;
+
+      section.addEventListener("focusin", (event) => {
+        if (!isAnimated(section)) return;
+        const item = (event.target as HTMLElement).closest<HTMLElement>(
+          ".audiences-item"
+        );
+        if (!item) return;
+        const index = items.indexOf(item);
+        // Na de eigen scroll-into-view van de browser uitvoeren.
+        requestAnimationFrame(() => {
+          const pinTop = pin.getBoundingClientRect().top + window.scrollY;
+          const travel = pin.offsetHeight - window.innerHeight;
+          window.scrollTo({
+            top: pinTop + (travel * index) / (items.length - 1),
+            behavior: "instant",
+          });
+        });
+      });
+    });
+</script>
 
 <style>
   .audiences-overview {
-    min-height: 100dvh;
+    --audience-gap: var(--space-l);
+    --audience-pad: var(--space-l);
+
+    container-type: inline-size;
     color: var(--clr-secondary);
     background-color: black;
+  }
 
-    .audiences-title {
-      font-family: var(--font-primary);
-      font-weight: bold;
-      line-height: 112%;
-      letter-spacing: -2%;
-      text-transform: uppercase;
-      color: var(--color-gray-50);
-      font-size: var(--fs-4);
-      padding-left: var(--space-xl);
-      /* margin-bottom: 1.5rem; */
+  .audiences-title {
+    font-family: var(--font-primary);
+    font-weight: bold;
+    line-height: 112%;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--color-gray-50);
+    font-size: var(--fs-4);
+    padding-block-start: var(--space-xl);
+    padding-inline: var(--audience-pad);
+  }
 
-      @media (max-width: 767px) {
-        margin-bottom: 0.5rem;
+  /*
+   * Basis (alle browsers, en altijd bij prefers-reduced-motion):
+   * een horizontale rij die je kunt swipen/scrollen, met scroll-snap.
+   */
+  .audiences-track {
+    box-sizing: border-box;
+    display: flex;
+    gap: var(--audience-gap);
+    margin: 0;
+    padding: var(--audience-pad);
+    list-style: none;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: inline mandatory;
+    scroll-padding-inline: var(--audience-pad);
+    scrollbar-width: thin;
+  }
+
+  .audiences-item {
+    flex: 0 0 auto;
+    inline-size: calc(100cqi - var(--space-xl) * 2);
+    block-size: calc(100dvh - var(--audience-pad) * 2);
+    min-block-size: 28rem;
+    scroll-snap-align: start;
+  }
+
+  /*
+   * Verbetering: horizontale scroll gekoppeld aan verticaal scrollen
+   * (scroll-driven animation). Alleen als de browser het ondersteunt én de
+   * bezoeker geen beperkte beweging heeft ingesteld.
+   */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .audiences-overview[data-pinned="true"] {
+        .audiences-pin {
+          /* Eén schermhoogte scrollen per kaart. */
+          block-size: calc(var(--audience-count) * 100dvh);
+          view-timeline: --audiences-pin block;
+        }
+
+        .audiences-sticky {
+          position: sticky;
+          inset-block-start: 0;
+          block-size: 100dvh;
+          overflow: clip;
+          container-type: inline-size;
+        }
+
+        .audiences-track {
+          inline-size: max-content;
+          block-size: 100%;
+          overflow: visible;
+          scroll-snap-type: none;
+          will-change: transform;
+          /*
+           * Bewust losse longhands, géén `animation`-shorthand: lightningcss
+           * (CSS-minifier van de build) vouwt shorthand + animation-timeline
+           * samen tot `animation: … --audiences-pin`. Die vorm kent Chrome
+           * niet, waardoor de hele animatie in productie wegviel.
+           */
+          animation-name: audiences-move;
+          animation-duration: auto;
+          animation-timing-function: linear;
+          animation-fill-mode: both;
+          animation-timeline: --audiences-pin;
+          animation-range: contain 0% contain 100%;
+        }
+
+        .audiences-item {
+          block-size: 100%;
+          min-block-size: 0;
+        }
       }
     }
+  }
 
-    #sectionPin {
-      min-height: 100%;
-
-      .sticky-container {
-        min-height: 100dvh;
-        height: 100dvh;
-        width: 100%;
-        position: sticky;
-        top: 0;
-        overflow-x: hidden;
-
-        /* .card-container {
-          min-height: 100%;
-        } */
-      }
+  @keyframes audiences-move {
+    to {
+      /* Rechterrand van de rij tegen de rechterrand van het scherm. */
+      transform: translateX(calc(-100% + 100cqi));
     }
   }
 </style>

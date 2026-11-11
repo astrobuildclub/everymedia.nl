@@ -14,8 +14,13 @@ import {assist} from '@sanity/assist'
 import {presentationTool} from 'sanity/presentation'
 import {resolve} from './presentation/resolve'
 
-const previewUrl =
-  process.env.SANITY_STUDIO_PREVIEW_URL || process.env.VITE_SITE_URL || 'http://localhost:4321'
+// De Studio draait los van de site (every-media.sanity.studio), dus de site-URL
+// komt uit de env, met de Netlify-URL als standaard voor `sanity deploy`.
+const previewOrigin =
+  process.env.SANITY_STUDIO_PREVIEW_URL ||
+  (process.env.NODE_ENV === 'production'
+    ? 'https://everymedia.netlify.app'
+    : 'http://localhost:4321')
 
 export default defineConfig({
   name: 'default',
@@ -40,7 +45,15 @@ export default defineConfig({
     }),
     presentationTool({
       resolve: resolve,
-      previewUrl: previewUrl,
+      // Visual Editing volgens ~/Code/_standards/SANITY.md §3: de site zet via
+      // /api/preview een ondertekende cookie (alleen met geldig secret).
+      previewUrl: {
+        initial: previewOrigin,
+        previewMode: {
+          enable: '/api/preview',
+          disable: '/api/preview/disable',
+        },
+      },
     }),
     schemaMarkup(),
     seoMetaFields(),

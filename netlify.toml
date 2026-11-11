@@ -2,6 +2,8 @@
   # `npm run build` kopieert SSR naar root .netlify (zie package.json).
   command = "npm run build"
   publish = "astro-app/dist"
+  # exit 0 = build overslaan: alleen .md, .github/ of .vscode/ gewijzigd (zie _standards/DEPLOY.md)
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- . ':(exclude)*.md' ':(exclude).github/' ':(exclude).vscode/'"
 
 [build.environment]
   NODE_VERSION = "22"
@@ -17,4 +19,5 @@
 # PUBLIC_SANITY_STUDIO_DATASET - Your Sanity dataset (default: "production")
 # SANITY_API_READ_TOKEN - Optional: Sanity API read token for authenticated queries
 # VITE_SITE_URL - Optional: Site URL for sitemap generation
-# PUBLIC_SANITY_STUDIO_URL - Optional: Sanity Studio URL (default: "http://localhost:3333")
+# PUBLIC_SANITY_STUDIO_URL - Optional: Sanity Studio URL voor stega en /admin (default: "https://every-media.sanity.studio")
+# Niet meer gebruiken: PUBLIC_SANITY_VISUAL_EDITING_ENABLED (verwijderen in Netlify)

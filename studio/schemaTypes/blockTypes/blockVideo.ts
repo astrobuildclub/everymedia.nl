@@ -1,4 +1,5 @@
 import {defineType, defineField} from 'sanity'
+import {directVideoUrlDescription, directVideoUrlValidation} from '../options/videoUrl'
 import {VideoIcon} from '@sanity/icons'
 import {mediaSizes} from '../options/mediaSizes'
 
@@ -13,6 +14,7 @@ export const blockVideo = defineType({
       name: 'size',
       type: 'string',
       title: 'Size',
+      initialValue: 'page',
       options: {
         list: mediaSizes,
         layout: 'radio',
@@ -37,8 +39,8 @@ export const blockVideo = defineType({
       name: 'videoUrl',
       type: 'string',
       title: 'MP4 Video URL',
-      description:
-        'Example: https://videos.pexels.com/video-files/3578881/3578881-uhd_2560_1440_30fps.mp4.',
+      description: directVideoUrlDescription,
+      validation: directVideoUrlValidation,
       hidden: ({parent}) => parent?.videoType !== 'mp4',
     }),
     defineField({
