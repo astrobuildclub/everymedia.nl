@@ -3,6 +3,7 @@ import { PortableText } from "astro-portabletext";
 import type { ProjectType } from "../../utils";
 import SanityImage from "../commons/SanityImage.astro";
 import SimpleVideo from "./SimpleVideo.astro";
+import DragCursor from "./DragCursor.astro";
 import { routes } from "../../lib/router";
 import { defaultLanguage } from "../../lib/helperFunctions";
 import { stegaClean } from "@sanity/client/stega";
@@ -17,6 +18,7 @@ const locale = Astro.params?.locale || defaultLanguage.id;
 {
   (() => {
     return (
+      <div class="projects-carousel" data-drag-area>
       <div class="swiper" data-projects-swiper>
         <div class="swiper-wrapper">
           {projects?.map((item) => {
@@ -95,6 +97,8 @@ const locale = Astro.params?.locale || defaultLanguage.id;
             );
           })}
         </div>
+      </div>
+      <DragCursor />
       </div>
     );
   })()

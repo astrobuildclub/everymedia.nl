@@ -324,7 +324,9 @@ body {
   color: var(--clr-primary);
   font-size: var(--fs-0);
   line-height: 112.5%;
-  will-change: transform;
+  /* Geen will-change: transform op body: dat maakt body het referentiekader
+     voor position: fixed (laadbalk, drag-cursor, cookiebanner) en laat die
+     elementen meescrollen. */
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;

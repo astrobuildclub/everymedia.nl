@@ -11,6 +11,7 @@ import {
   useCdn,
 } from "./src/lib/sanity";
 import netlify from "@astrojs/netlify";
+import icon from "astro-icon";
 
 const defaultLocale = defaultLanguage.id;
 
@@ -19,6 +20,8 @@ export default defineConfig({
   output: "server",
   adapter: netlify(),
   integrations: [
+    // Iconen via Iconify; Phosphor-set: <Icon name="ph:…" /> (https://phosphoricons.com)
+    icon(),
     react(),
     sanityIntegration({
       projectId: projectId,

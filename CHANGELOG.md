@@ -12,6 +12,8 @@ Categorieën: **Toegevoegd**, **Gewijzigd**, **Opgelost**, **Verwijderd**, **Bev
 - Projectoverzicht: filters op projecttype (dropdown) en doelgroep (pillen) via URL-parameters (`?type=…&doelgroep=…`); Studio: documenttype *Project type* en velden *Project type* + *Audiences* op projecten
 - Projectkaarten (home, overzicht, related work) zijn in hun geheel klikbaar (stretched link) met focusring op de kaart
 - FAQ: de hele rij van een vraag is klikbaar (padding in de knop); `aria-expanded`/`aria-controls`, `<h3>` om de knop i.p.v. erin
+- Projectcarousels: eigen muiscursor (witte cirkel met Phosphor-icoon `arrows-horizontal`) die de sleepactie aangeeft; alleen bij muis/trackpad, volgt direct bij "beperk beweging"
+- Iconen via `astro-icon` + Phosphor (`@iconify-json/ph`)
 
 ### Gewijzigd
 - Blauwe knoppen (`.black-btn`) zijn nu zwart via tokens `--btn-bg` / `--btn-bg-hover` / `--btn-text`
@@ -20,6 +22,7 @@ Categorieën: **Toegevoegd**, **Gewijzigd**, **Opgelost**, **Verwijderd**, **Bev
 - Audience-pagina's: Cards- en Work Selection-blok stonden in een kolom van 1px; `grid-template-columns: 1` (ongeldig) werd door lightningcss sinds Astro 7 omgezet naar `1px`
 - Console-fout over `/src/styles/global.css` (dubbele stylesheet-link) en ongeldige `font-weight: medium`
 - Projectoverzicht toonde projecten uit alle talen
+- `will-change: transform` op `body` verwijderd: maakte de body het referentiekader voor `position: fixed`, waardoor laadbalk en cookiebanner meescrolden
 - Projectcarousel (Featured projects): eerste kaart stond tegen de rand van het venster, lijnt nu uit met de titel; horizontale scroll op mobiel door `width: 100%` + padding
 - Projectkaarten: thumbnail werd bij hover hoger; vaste 16:9-uitsnede (`object-fit: cover`), zoom blijft binnen de container
 - Netlify: productiebuild na release `staging → main` werd overgeslagen (`ignore` vergeleek met de site-brede `$CACHED_COMMIT_REF` = de deploy preview van dezelfde code); vergelijkt nu ook met de vorige commit
