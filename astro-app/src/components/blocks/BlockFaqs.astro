@@ -25,40 +25,51 @@ const { title, faqs } = Astro.props.data || {};
                   class={`faq-item ${isOpen ? "faq-item-active" : ""}`}
                   id={`faq-item-${index}`}
                 >
-                  <button class="faq-question" data-index={index}>
-                    <h3
-                      class={`faq-question-title ${
-                        isOpen ? "faq-question-title-active" : ""
-                      }`}
-                    >
-                      {question}
-                    </h3>
-                    <span
-                      class="faq-icon open"
+                  <h3 class="faq-heading">
+                    <button
+                      class="faq-question"
                       data-index={index}
-                      style={
-                        isOpen ? "display: none;" : "display: inline-block;"
-                      }
+                      aria-expanded={isOpen ? "true" : "false"}
+                      aria-controls={answer ? `faq-answer-${index}` : undefined}
                     >
-                      <PlusCircle />
-                    </span>
-                    <span
-                      class="faq-icon close"
-                      data-index={index}
-                      style={
-                        isOpen ? "display: inline-block;" : "display: none;"
-                      }
-                    >
-                      <MinusCircle />
-                    </span>
-                  </button>
+                      <span
+                        class={`faq-question-title ${
+                          isOpen ? "faq-question-title-active" : ""
+                        }`}
+                      >
+                        {question}
+                      </span>
+                      <span
+                        class="faq-icon open"
+                        data-index={index}
+                        aria-hidden="true"
+                        style={
+                          isOpen ? "display: none;" : "display: inline-block;"
+                        }
+                      >
+                        <PlusCircle />
+                      </span>
+                      <span
+                        class="faq-icon close"
+                        data-index={index}
+                        aria-hidden="true"
+                        style={
+                          isOpen ? "display: inline-block;" : "display: none;"
+                        }
+                      >
+                        <MinusCircle />
+                      </span>
+                    </button>
+                  </h3>
                   {answer && (
                     <div
                       id={`faq-answer-${index}`}
                       class={`faq-answer ${isOpen ? "open" : ""}`}
                       style={isOpen ? "height: auto;" : ""}
                     >
-                      <PortableText value={answer} />
+                      <div class="faq-answer-inner">
+                        <PortableText value={answer} />
+                      </div>
                     </div>
                   )}
                 </li>
@@ -102,6 +113,9 @@ const { title, faqs } = Astro.props.data || {};
 
             (openAnswer as HTMLElement).style.height = "0px";
             openAnswer.classList.remove("open");
+            openItem
+              ?.querySelector(".faq-question")
+              ?.setAttribute("aria-expanded", "false");
 
             if (openPlusIcon)
               (openPlusIcon as HTMLElement).style.display = "inline-block";
@@ -122,6 +136,7 @@ const { title, faqs } = Astro.props.data || {};
 
           plusIcon.style.display = "inline-block";
           minusIcon.style.display = "none";
+          target.setAttribute("aria-expanded", "false");
           parentItem?.classList.remove("faq-item-active");
           questionTitle?.classList.remove("faq-question-title-active");
         } else {
@@ -135,6 +150,7 @@ const { title, faqs } = Astro.props.data || {};
 
           plusIcon.style.display = "none";
           minusIcon.style.display = "inline-block";
+          target.setAttribute("aria-expanded", "true");
           parentItem?.classList.add("faq-item-active");
           questionTitle?.classList.add("faq-question-title-active");
         }
@@ -166,9 +182,13 @@ const { title, faqs } = Astro.props.data || {};
     margin: 0;
   }
 
+  /* De padding zit in de knop, zodat de hele rij klikbaar is. */
   .faq-item {
-    padding: var(--space-s-m);
     border-bottom: 1px solid black;
+  }
+
+  .faq-heading {
+    margin: 0;
   }
 
   .faq-item:nth-last-child(1) {
@@ -177,6 +197,7 @@ const { title, faqs } = Astro.props.data || {};
 
   .faq-item-active {
     background-color: black;
+    color: white;
   }
 
   .faq-question {
@@ -184,10 +205,23 @@ const { title, faqs } = Astro.props.data || {};
     justify-content: space-between;
     align-items: center;
     background-color: transparent;
+    gap: var(--space-s);
     border: none;
     width: 100%;
-    padding: 0;
+    padding: var(--space-s-m);
     cursor: pointer;
+    color: inherit;
+    font: inherit;
+
+    &:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: -4px;
+    }
+  }
+
+  .faq-item:not(.faq-item-active) .faq-question:hover .faq-question-title {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
   }
 
   .faq-question-title {
@@ -223,7 +257,8 @@ const { title, faqs } = Astro.props.data || {};
     text-align: left;
   }
 
-  .faq-answer.open {
-    margin-top: 0.75rem;
+  /* Padding op de binnenkant: de buitenkant animeert van hoogte 0. */
+  .faq-answer-inner {
+    padding: 0 var(--space-s-m) var(--space-s-m);
   }
 </style>

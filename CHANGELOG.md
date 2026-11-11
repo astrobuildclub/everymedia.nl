@@ -11,6 +11,7 @@ Categorieën: **Toegevoegd**, **Gewijzigd**, **Opgelost**, **Verwijderd**, **Bev
 - Page transitions (Astro `<ClientRouter />`, standaard-fade) en laadbalk bij navigeren volgens `_standards/TRANSITIONS.md` laag 1 + 2; alle componentscripts starten per pagina (`astro:page-load`) en ruimen Swiper/Lenis op bij het wisselen
 - Projectoverzicht: filters op projecttype (dropdown) en doelgroep (pillen) via URL-parameters (`?type=…&doelgroep=…`); Studio: documenttype *Project type* en velden *Project type* + *Audiences* op projecten
 - Projectkaarten (home, overzicht, related work) zijn in hun geheel klikbaar (stretched link) met focusring op de kaart
+- FAQ: de hele rij van een vraag is klikbaar (padding in de knop); `aria-expanded`/`aria-controls`, `<h3>` om de knop i.p.v. erin
 
 ### Gewijzigd
 - Blauwe knoppen (`.black-btn`) zijn nu zwart via tokens `--btn-bg` / `--btn-bg-hover` / `--btn-text`
