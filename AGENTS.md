@@ -7,7 +7,7 @@ Lees eerst `README.md` voor context en `CHANGELOG.md` voor recente wijzigingen.
 - Klant: Every Media · Bedrijf: All This · SLA: TODO
 - Stack: Astro 5, Sanity 3, Node 22 (zie `.nvmrc`)
 - Monorepo: `astro-app/` (frontend) + `studio/` (Sanity Studio)
-- Status: WIP · gepauzeerd — meest recente werk op `Mieras-Fixes-for-Live`
+- Status: Actief · Every Media vult content (nov 2026); plan van aanpak in Notion (project Every Media)
 
 ## Werkwijze
 - Werk nooit direct op `main`. Branch vanaf `staging` → PR naar `staging` → deploy preview → merge. Naar `main` alleen gebundelde releases en hotfixes, volgens `~/Code/_standards/DEPLOY.md` (elke productiedeploy kost Netlify-credits).
@@ -31,5 +31,8 @@ Lees eerst `README.md` voor context en `CHANGELOG.md` voor recente wijzigingen.
 - Sanity project ID: `mqkdg673`, dataset: `production`.
 - Netlify SSR (`output: "server"`, `@astrojs/netlify`).
 - Studio presentation/preview: `studio/presentation/resolve.ts`.
+- Visual Editing volgens `~/Code/_standards/SANITY.md` §3; content altijd via `loadQuery()`. Nooit een URL-parameter of env-vlag die drafts aanzet.
+- Studio op Sanity-hosting (`every-media.sanity.studio`); `/admin` en `/studio` redirecten daarheen. Ingebouwde Studio pas na upgrade naar Sanity 4+.
+- Toegang: GitHub-org `astrobuildclub` (Maarten = `allthis-mieras`, Ronny = `ckdt`).
 - Archiefbranch `archive/sanity-preview` bevat oude live-preview-werkzaamheden; niet mergen zonder review.
 - Security-audit: `docs/SECURITY_AUDIT-2025-12.md`.

@@ -7,6 +7,13 @@ Categorieën: **Toegevoegd**, **Gewijzigd**, **Opgelost**, **Verwijderd**, **Bev
 
 ## [Unreleased]
 
+### Toegevoegd
+- `/admin` en `/studio`: korte link (302) naar de Sanity Studio.
+- Visual Editing volgens `_standards/SANITY.md` §3: `/api/preview` (secret uit de Presentation tool) zet een ondertekende cookie; drafts alleen in de Studio-iframe (`src/middleware.ts`). Eigen `VisualEditing.tsx` met history-adapter.
+
+### Beveiliging
+- `?preview=true` en `PUBLIC_SANITY_VISUAL_EDITING_ENABLED` verwijderd: daarmee kon iedereen drafts zien.
+
 ### Gewijzigd
 - Deploy-workflow volgens `_standards/DEPLOY.md`: features via PR naar `staging` (branch deploy op `staging--everymedia.netlify.app`), gebundelde releases naar `main`. Branch protection op `staging`.
 - `netlify.toml`: geen build bij commits met alleen documentatie.
