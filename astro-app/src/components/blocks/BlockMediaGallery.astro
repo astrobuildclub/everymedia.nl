@@ -1,67 +1,121 @@
 ---
 import type { BlockMediaGalleryType, SanityImageType } from "../../utils";
 import SanityImage from "../commons/SanityImage.astro";
+import CarouselNav from "../commons/CarouselNav.astro";
+import { getTranslation } from "../../i18n/translate";
+import { defaultLanguage } from "../../lib/helperFunctions";
 
 interface Props {
   data: BlockMediaGalleryType;
 }
 
-const { media } = Astro.props.data || {};
+const { title, media, autoplay = false, _key } = Astro.props.data || {};
+const locale = Astro.params?.locale || defaultLanguage.id;
+const { t } = getTranslation(locale);
+const headingId = `media-gallery-${_key || "title"}`;
+const items = (media || []).filter(Boolean);
 ---
 
 {
-  (() => {
-    return (
-      <section class="block-media-gallery-section">
-        {media?.length > 0 && (
-          <div class="media-gallery-inner">
-            {media?.map((item: SanityImageType) => {
-              return (
-                <div class="media-gallery-image">
-                  <SanityImage src={item} />
-                </div>
-              );
-            })}
-          </div>
+  items.length > 0 && (
+    <section
+      class="block-media-gallery-section"
+      data-media-carousel
+      data-carousel-root
+      data-autoplay={autoplay ? "true" : "false"}
+      data-first-slide-message={t("carouselFirstSlide")}
+      data-last-slide-message={t("carouselLastSlide")}
+      data-slide-label-message={t("carouselSlideLabel")}
+      aria-roledescription="carousel"
+      {...(title
+        ? { "aria-labelledby": headingId }
+        : { "aria-label": t("mediaGallery") })}
+    >
+      <div class="media-gallery-header">
+        {title && (
+          <h2 id={headingId} class="media-gallery-title">
+            {title}
+          </h2>
         )}
-      </section>
-    );
-  })()
+        {items.length > 1 && <CarouselNav autoplay={autoplay} />}
+      </div>
+      <div class="swiper">
+        <div class="swiper-wrapper">
+          {items.map((item: SanityImageType) => (
+            <div class="swiper-slide media-gallery-image">
+              <SanityImage src={item} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
 }
+
+<script>
+  import "swiper/css";
+  import { initCarousels } from "../../lib/carousel";
+
+  initCarousels("[data-media-carousel]", {
+    slidesPerView: 1,
+    spaceBetween: 16,
+    breakpoints: {
+      768: { slidesPerView: 2, spaceBetween: 24 },
+    },
+  });
+</script>
 
 <style>
   .block-media-gallery-section {
     padding: var(--space-2xl) var(--space-s);
+  }
 
-    .media-gallery-inner {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: var(--grid-gutter);
+  .media-gallery-header {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--space-s);
+    margin-block-end: var(--space-s);
 
-      @media (max-width: 767px) {
-        grid-template-columns: repeat(1, minmax(0, 1fr));
-      }
+    /* Zonder titel staan de knoppen rechts. */
+    &:not(:has(.media-gallery-title)) {
+      justify-content: flex-end;
+    }
 
-      .media-gallery-image {
-        figure {
-          display: flex;
-          flex-direction: column;
-          gap: var(--grid-gutter);
+    &:not(:has(*)) {
+      display: none;
+    }
+  }
 
-          img {
-            aspect-ratio: 696 / 696;
-            object-fit: cover;
-            border-radius: 5px;
-          }
-          figcaption {
-            font-size: var(--fs-caption);
-            color: var(--gray-700);
-            font-weight: 500;
-            line-height: 150%;
-            letter-spacing: 0.25px;
-          }
-        }
-      }
+  .media-gallery-title {
+    font-family: var(--font-primary);
+    font-size: var(--fs-1);
+    font-weight: 700;
+    line-height: 112%;
+  }
+
+  .media-gallery-image {
+    block-size: auto;
+
+    :global(figure) {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2xs);
+    }
+
+    :global(img) {
+      inline-size: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    :global(figcaption) {
+      font-size: var(--fs-caption);
+      color: var(--gray-700);
+      font-weight: 500;
+      line-height: 150%;
+      letter-spacing: 0.25px;
     }
   }
 </style>

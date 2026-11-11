@@ -2,6 +2,7 @@
 import { createDataAttribute } from "@sanity/visual-editing";
 import { getTranslation } from "../../i18n/translate";
 import { defaultLanguage } from "../../lib/helperFunctions";
+import { resolveVideoSource } from "../../lib/video";
 
 interface Props {
   videoUrl: string;
@@ -10,6 +11,8 @@ interface Props {
   poster?: string;
   autoplay: boolean;
   loop: boolean;
+  /** Toon de browser-player (play/pauze, geluid). Standaard aan als er geen autoplay is. */
+  controls?: boolean;
   documentId?: string;
   documentType?: string;
   sanityFieldName?: string;
@@ -19,13 +22,16 @@ const {
   videoUrl = "",
   className = "",
   title = "",
-  poster = "https://placehold.co/1600x900/F4F4F4/fff",
+  poster,
   autoplay = false,
   loop = false,
+  controls = !autoplay,
   documentId,
   documentType,
   sanityFieldName = "",
 } = Astro.props || {};
+
+const source = resolveVideoSource(videoUrl);
 
 const sanityAttr =
   documentId && documentType
@@ -38,27 +44,56 @@ const sanityAttr =
 
 const locale = Astro.params?.locale || defaultLanguage.id;
 const { t } = getTranslation(locale);
+
+// Een loop zonder player is decoratief: niet voorlezen.
+const decorative = autoplay && !controls;
 ---
 
 {
-  (() => {
-    return (
-      videoUrl && (
-        <video
-          class={className}
-          poster={poster}
-          autoplay={autoplay}
-          muted={autoplay}
-          loop={loop}
-          title={title}
-          playsinline
-          preload="auto"
-          {...(sanityAttr ? { "data-sanity": sanityAttr } : {})}
-        >
-          <source src={videoUrl} type="video/mp4" />
-          {t("yourbrowserdoesnotsupportthevideotag")}
-        </video>
-      )
-    );
-  })()
+  source && (
+    <video
+      class={className}
+      poster={poster || undefined}
+      muted={autoplay}
+      loop={loop}
+      controls={controls}
+      title={title || undefined}
+      playsinline
+      preload={autoplay ? "auto" : "metadata"}
+      data-autoplay={autoplay ? "" : undefined}
+      aria-hidden={decorative ? "true" : undefined}
+      {...(sanityAttr ? { "data-sanity": sanityAttr } : {})}
+    >
+      <source src={source.src} type={source.type} />
+      {t("yourbrowserdoesnotsupportthevideotag")}
+    </video>
+  )
 }
+
+<script>
+  /**
+   * Autoplay via JS i.p.v. het autoplay-attribuut, zodat bezoekers met
+   * "beperk beweging" (prefers-reduced-motion) geen bewegende video krijgen.
+   * Zij zien het eerste frame of de poster.
+   */
+  const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  const syncAutoplay = () => {
+    document
+      .querySelectorAll<HTMLVideoElement>("video[data-autoplay]")
+      .forEach((video) => {
+        if (motionQuery.matches) {
+          video.pause();
+          return;
+        }
+        // Muted moet als property gezet zijn voor autoplay-beleid van browsers.
+        video.muted = true;
+        video.play().catch(() => {
+          /* Autoplay geblokkeerd (bijv. energiebesparing): poster blijft staan. */
+        });
+      });
+  };
+
+  syncAutoplay();
+  motionQuery.addEventListener("change", syncAutoplay);
+</script>

@@ -1,4 +1,5 @@
 import {defineType, defineField} from 'sanity'
+import {directVideoUrlDescription, directVideoUrlValidation} from '../options/videoUrl'
 import {UsersIcon} from '@sanity/icons'
 import {richTextSimple} from '../options/richTextOptions'
 import {isUniqueWithinLocale} from '../utils/IsUniqueWithinLocale'
@@ -73,8 +74,8 @@ export const audienceType = defineType({
       type: 'url',
       group: 'hero',
       hidden: ({parent}) => parent?.select !== 'heroVideo',
-      description:
-        'Example: https://videos.pexels.com/video-files/3578881/3578881-uhd_2560_1440_30fps.mp4',
+      description: directVideoUrlDescription,
+      validation: directVideoUrlValidation,
     }),
     defineField({
       name: 'heroImage',

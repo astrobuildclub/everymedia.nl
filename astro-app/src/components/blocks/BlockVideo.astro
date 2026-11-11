@@ -24,7 +24,8 @@ const {
 } = Astro.props.data || {};
 const thumbnailUrl = useSanityImage(thumbnail);
 const select = stegaClean(Select || "");
-const size = stegaClean(Size || "");
+// Zonder gekozen formaat zou er geen styling zijn; val terug op "page".
+const size = stegaClean(Size || "") || "page";
 const videoType = stegaClean(VideoType || "");
 ---
 
@@ -38,6 +39,7 @@ const videoType = stegaClean(VideoType || "");
               poster={thumbnailUrl?.src}
               autoplay={autoplay}
               loop={loop}
+              controls={!autoplay}
               title={title}
               className={`${size}-video`}
               videoUrl={videoUrl}
@@ -47,7 +49,7 @@ const videoType = stegaClean(VideoType || "");
         {videoType === "embed" && select === "vimeo" && (
           <VimeoVideo
             title={title || ""}
-            vimeoId={vimeoId}
+            vimeoId={stegaClean(vimeoId || "")}
             poster={thumbnailUrl?.src || ""}
             className={`${size}-vimeo-video`}
           />
@@ -55,7 +57,7 @@ const videoType = stegaClean(VideoType || "");
         {videoType === "embed" && select === "youtube" && (
           <YoutubeVideo
             title={title || ""}
-            videoId={youtubeId}
+            videoId={stegaClean(youtubeId || "")}
             poster={thumbnailUrl?.src || ""}
             className={`${size}-youtube-video`}
           />

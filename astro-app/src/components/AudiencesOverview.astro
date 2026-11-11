@@ -103,24 +103,16 @@ const select = stegaClean(Select || "");
   .audience {
     border-radius: var(--space-2xs);
     overflow: hidden;
-    min-height: 50vh;
-    height: 100%;
-    max-height: calc(100dvh - var(--space-l) * 2);
     position: relative;
     display: flex;
     flex-direction: column;
-    /* top: var(--space-xs); */
-    min-width: calc(100vw - var(--space-xl) * 2);
-    width: calc(100vw - var(--space-xl) * 2);
-    /* min-width: calc(100vmax - var(--space-xl) * 2); */
-    /* width: calc(100vmax - var(--space-x) * 2); */
-
-    /* @media (max-width: 767px) {
-      min-height: 50vh;
-    } */
+    /* Breedte en hoogte bepaalt de parent (BlockAudiencesOverviewSection). */
+    inline-size: 100%;
+    block-size: 100%;
+    background-color: var(--off-black, #111);
 
     .content-wrapper {
-      padding: 0;
+      padding: var(--space-s);
       border-radius: var(--space-3xs);
       background: rgba(0, 0, 0, 0.4);
       backdrop-filter: blur(calc(var(--space-s) / 2));
@@ -163,37 +155,22 @@ const select = stegaClean(Select || "");
       }
     }
 
-    figure {
-      width: 100%;
-      height: 100%;
-      flex: 1;
-      min-height: 0;
-      border-radius: var(--space-2xs);
-      position: relative;
-      .image {
-        object-fit: cover;
-        z-index: 1;
-        width: 100%;
-        height: 100%;
-        border-radius: var(--space-2xs);
-      }
-    }
-
-    > .video {
-      autoplay: true;
-      loop: true;
-      playsinline: true;
-      muted: true;
-      preload: auto;
-      width: 100%;
-      height: 100%;
-      flex: 1;
-      min-height: 0;
-      object-fit: cover;
+    /* figure en video komen uit child-componenten, dus :global(). */
+    :global(figure),
+    :global(video.video) {
       position: absolute;
       inset: 0;
-      border-radius: var(--space-2xs);
+      inline-size: 100%;
+      block-size: 100%;
       z-index: 1;
+    }
+
+    :global(.image),
+    :global(video.video) {
+      inline-size: 100%;
+      block-size: 100%;
+      object-fit: cover;
+      border-radius: var(--space-2xs);
     }
   }
 </style>
