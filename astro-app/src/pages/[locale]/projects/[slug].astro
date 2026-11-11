@@ -8,12 +8,10 @@ import { type HeroViewType, type ProjectType } from "../../../utils";
 import { getProject } from "../../../utils/sanity/getProject";
 
 const { slug, locale } = Astro.params;
-const searchParams = Astro.url.searchParams;
 
 const pageData = await getProject<ProjectType>(
   slug as "",
-  locale as string,
-  searchParams
+  locale as string
 );
 
 const {

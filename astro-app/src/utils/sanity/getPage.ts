@@ -3,8 +3,7 @@ import { pageQuery } from "./queries";
 
 export async function getPage<T>(
   slug: string,
-  locale: string,
-  searchParams?: URLSearchParams | Record<string, string | undefined>
+  locale: string
 ): Promise<T | null> {
   try {
     const { data: page } = await loadQuery<T>({
@@ -13,7 +12,6 @@ export async function getPage<T>(
         slug: slug,
         language: locale,
       },
-      searchParams,
     });
     if (!page) {
       return null;

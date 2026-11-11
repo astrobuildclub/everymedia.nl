@@ -6,13 +6,13 @@
 |---|---|
 | **Klant** | Every Media |
 | **Bedrijf** | All This |
-| **Status** | WIP · gepauzeerd |
+| **Status** | Actief · content vullen door Every Media (nov 2026) |
 | **SLA** | TODO |
-| **Live** | TODO (nog geen productie-deploy) |
+| **Live** | https://everymedia.netlify.app (domein everymedia.nl draait nog op Wix) |
 | **Netlify** | site [`everymedia`](https://app.netlify.com/projects/everymedia) · [![Netlify Status](https://api.netlify.com/api/v1/badges/b78e2733-4ead-4934-af45-58a77f2c8158/deploy-status)](https://app.netlify.com/projects/everymedia/deploys) |
-| **CMS** | Sanity project `mqkdg673`, dataset `production`, Studio: https://every-media.sanity.studio |
+| **CMS** | Studio: https://every-media.sanity.studio (kort: `/admin` op de site) · Sanity project `mqkdg673`, dataset `production` |
 | **Repo** | https://github.com/astrobuildclub/everymedia.nl |
-| **Notion** | TODO |
+| **Notion** | [Repo](https://app.notion.com/p/allthis/everymedia-nl-3f3a146292448182b100ceee18bda0da) · [Project](https://app.notion.com/p/allthis/Every-Media-15aa146292448068af77e3b879b56b28) |
 
 ## Stack
 
@@ -51,11 +51,10 @@ npm run build:studio    # Sanity Studio
 |---|---|---|
 | `PUBLIC_SANITY_STUDIO_PROJECT_ID` | Sanity project (`mqkdg673`) | sanity.io/manage |
 | `PUBLIC_SANITY_STUDIO_DATASET` | Dataset (`production`) | sanity.io/manage |
-| `SANITY_API_READ_TOKEN` | Drafts / visual editing (geheim) | sanity.io/manage → API → Tokens |
-| `PUBLIC_SANITY_STUDIO_URL` | Studio-URL voor stega/preview | lokaal of deployed Studio |
-| `PUBLIC_SANITY_VISUAL_EDITING_ENABLED` | Visual editing aan/uit | `"true"` / `"false"` |
+| `SANITY_API_READ_TOKEN` | Visual Editing: drafts + ondertekende preview-cookie (server-only, rol Viewer) | sanity.io/manage → API → Tokens |
+| `PUBLIC_SANITY_STUDIO_URL` | Studio-URL voor stega en de `/admin`-redirect | lokaal of https://every-media.sanity.studio |
 | `VITE_SITE_URL` | Site-URL (sitemap / preview) | Netlify URL of localhost |
-| `SANITY_STUDIO_PREVIEW_URL` | Preview-URL in Studio | zelfde als site-URL |
+| `SANITY_STUDIO_PREVIEW_URL` | Site-URL voor de Presentation tool (Studio) | standaard `https://everymedia.netlify.app` bij `sanity deploy`, lokaal `http://localhost:4321` |
 
 Waarden staan nooit in git. Productiewaarden staan in Netlify → Site configuration → Environment variables.
 
@@ -76,6 +75,10 @@ docs/               Audits en aanvullende docs
 ```
 
 ## Content en CMS
+
+- **Studio:** https://every-media.sanity.studio, of `/admin` (en `/studio`) op de site: 302 naar `PUBLIC_SANITY_STUDIO_URL`.
+- **Live preview (Visual Editing)** volgens `~/Code/_standards/SANITY.md` §3: de Presentation tool roept `/api/preview` aan met een secret, de site zet een ondertekende cookie en toont alleen in de Studio-iframe drafts. Bezoekers zien altijd de gepubliceerde versie. Content altijd via `loadQuery()` (`astro-app/src/lib/load-query.ts`).
+- Na een wijziging in `studio/`: `npx sanity deploy` (vanuit `studio/`) om de gehoste Studio bij te werken.
 
 Content types o.a.: pages, projects, audiences, FAQ, team, site settings, header/footer. Pagebuilder-blocks (text, media, cards, gallery, logos, contact, enz.). Document-internationalization voor meertalige content.
 
@@ -106,10 +109,10 @@ Zie [docs/SECURITY_AUDIT-2025-12.md](docs/SECURITY_AUDIT-2025-12.md) (audit 2025
 
 ## Bekende issues en afspraken
 
-- Status WIP · gepauzeerd; meest recente werk zat op `Mieras-Fixes-for-Live` (nu via PR #2 in `main`).
+- Sinds nov 2026 weer actief: Every Media vult content; plan van aanpak in Notion (project Every Media).
 - Repo is public (nodig voor Netlify CD op het huidige plan).
 - `@sanity/assist` 6 peer-waarschuwing op Sanity 3 — studio-build OK; Sanity 5/6 later.
-- Live URL en Notion-link: TODO.
+- Studio draait op Sanity-hosting; ingebouwd op `/admin` volgt na de upgrade naar Sanity 4+/React 19 (`SANITY.md` §0).
 
 ## Contact
 

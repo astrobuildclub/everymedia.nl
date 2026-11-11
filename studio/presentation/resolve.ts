@@ -1,8 +1,6 @@
 import {defineLocations} from 'sanity/presentation'
 import type {PresentationPluginOptions} from 'sanity/presentation'
 
-const previewUrl =
-  process.env.SANITY_STUDIO_PREVIEW_URL || process.env.VITE_SITE_URL || 'http://localhost:4321'
 export const resolveLink = ({
   slug,
   type,
@@ -43,7 +41,7 @@ export const resolve: PresentationPluginOptions['resolve'] = {
           locations: [
             {
               title: doc?.title || 'Untitled',
-              href: `${previewUrl}${resolveLink({slug: doc.slug, language: doc.language, type: doc.type})}`,
+              href: resolveLink({slug: doc.slug, language: doc.language, type: doc.type}),
             },
           ],
         }
@@ -61,7 +59,7 @@ export const resolve: PresentationPluginOptions['resolve'] = {
           locations: [
             {
               title: doc?.title || 'Untitled',
-              href: `${previewUrl}${resolveLink({slug: doc.slug, language: doc.language, type: doc.type})}`,
+              href: resolveLink({slug: doc.slug, language: doc.language, type: doc.type}),
             },
           ],
         }
@@ -79,7 +77,7 @@ export const resolve: PresentationPluginOptions['resolve'] = {
           locations: [
             {
               title: doc?.title || 'Untitled',
-              href: `${previewUrl}${resolveLink({slug: doc.slug, language: doc.language, type: doc.type})}`,
+              href: resolveLink({slug: doc.slug, language: doc.language, type: doc.type}),
             },
           ],
         }
