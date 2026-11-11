@@ -111,7 +111,7 @@ Zie [docs/SECURITY_AUDIT-2025-12.md](docs/SECURITY_AUDIT-2025-12.md) (audit 2025
 
 - Sinds nov 2026 weer actief: Every Media vult content; plan van aanpak in Notion (project Every Media).
 - Repo is public (nodig voor Netlify CD op het huidige plan).
-- `@sanity/assist` 6 peer-waarschuwing op Sanity 3 — studio-build OK; Sanity 5/6 later.
+- `@sanity/assist` staat op 5.x: versie 6 vereist React 19.2 en laat de documenteditor crashen. Pas na de upgrade naar Sanity 5+ weer bijwerken.
 - Studio draait op Sanity-hosting; ingebouwd op `/admin` volgt na de upgrade naar Sanity 4+/React 19 (`SANITY.md` §0).
 
 ## Contact

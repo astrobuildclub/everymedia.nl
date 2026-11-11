@@ -31,6 +31,7 @@ Categorieën: **Toegevoegd**, **Gewijzigd**, **Opgelost**, **Verwijderd**, **Bev
 - Studio: uitleg en validatie bij video-URL-velden (directe Vimeo-bestandslink i.p.v. vimeo.com-paginalink)
 
 ### Opgelost
+- Studio: documenteditor crashte (`useEffectEvent is not a function`) doordat `@sanity/assist` 6 React 19.2 vereist; terug naar `@sanity/assist` 5.0.4 (React 18 + Sanity 3)
 - Doelgroepenblok: horizontale scroll werkte niet in productie (ook niet op live); lightningcss vouwde `animation` + `animation-timeline` samen tot een vorm die Chrome negeert. Nu losse longhands
 - Doelgroepenblok: werkt nu ook zonder scroll-driven animations (Firefox, oudere Safari) en bij `prefers-reduced-motion` als swipebare rij; titel uit het CMS wordt getoond; video vult de kaart; hoogte schaalt met het aantal doelgroepen; toetsenbordfocus scrolt naar de kaart
 - Swiper-carousels (galerij, afleveringen, projecten) zaten elkaar in de weg via de globale `.swiper`-selector
