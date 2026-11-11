@@ -390,13 +390,19 @@ const MenuClass = (heroVariants: HeroVariantType) => {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 0.5rem;
+        /* Strak op elkaar: de woorden zijn bijgesneden tot de hoofdletterhoogte. */
+        gap: var(--space-3xs);
         padding: 1.125rem;
 
         .nav-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: var(--space-3xs);
           text-align: center;
 
           .headline {
+            margin-block: var(--space-xs) var(--space-3xs);
             color: white;
             font-size: 0.75rem;
             line-height: 150%;
@@ -422,9 +428,8 @@ const MenuClass = (heroVariants: HeroVariantType) => {
              * (twee lagen, opgebouwd in het script). De link is het masker.
              */
             position: relative;
-            display: inline-block;
+            display: block;
             overflow: hidden;
-            vertical-align: top;
 
             &:focus-visible {
               outline: 2px solid white;
@@ -434,7 +439,6 @@ const MenuClass = (heroVariants: HeroVariantType) => {
             :global(.label-text),
             :global(.label-clone) {
               display: block;
-              padding-block: 0.08em;
             }
 
             :global(.label-clone) {
@@ -450,6 +454,18 @@ const MenuClass = (heroVariants: HeroVariantType) => {
             :global(.split-word),
             :global(.split-char) {
               display: inline-block;
+            }
+
+            /*
+             * Elke letter precies zo hoog als een hoofdletter (text-box-trim),
+             * dus het masker (de link) ook: niets steekt uit en de woorden
+             * staan strak op elkaar. Zonder ondersteuning (Firefox) blijft
+             * line-height 0.9 en schuiven de letters iets verder (105%).
+             */
+            :global(.label-text),
+            :global(.label-clone),
+            :global(.split-char) {
+              text-box: trim-both cap alphabetic;
             }
 
             @media (prefers-reduced-motion: reduce) {
@@ -560,14 +576,14 @@ const MenuClass = (heroVariants: HeroVariantType) => {
           aria: "none",
         });
         linkLetters.push(frontSplit.chars);
-        gsap.set(backSplit.chars, { yPercent: 100 });
+        gsap.set(backSplit.chars, { yPercent: 105 });
 
         if (reducedMotion.matches) return;
 
         const hover = gsap
           .timeline({ paused: true, defaults: { duration: 0.5, ease: "power3.inOut", stagger: 0.018 } })
-          .fromTo(frontSplit.chars, { yPercent: 0 }, { yPercent: -100, immediateRender: false }, 0)
-          .fromTo(backSplit.chars, { yPercent: 100 }, { yPercent: 0, immediateRender: false }, 0);
+          .fromTo(frontSplit.chars, { yPercent: 0 }, { yPercent: -105, immediateRender: false }, 0)
+          .fromTo(backSplit.chars, { yPercent: 105 }, { yPercent: 0, immediateRender: false }, 0);
         hovers.push(hover);
 
         link.addEventListener("pointerenter", (event) => {
