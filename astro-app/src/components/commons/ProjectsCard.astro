@@ -18,7 +18,7 @@ const locale = Astro.params?.locale || defaultLanguage.id;
 {
   (() => {
     return (
-      <div class="swiper">
+      <div class="swiper" data-projects-swiper>
         <div class="swiper-wrapper">
           {projects?.map((item) => {
             const {
@@ -109,26 +109,30 @@ const locale = Astro.params?.locale || defaultLanguage.id;
   import "swiper/css";
   import "swiper/css/pagination";
 
-  new Swiper(".swiper", {
-    modules: [Pagination],
-    slidesPerView: "auto",
-    spaceBetween: 30,
-    loop: true,
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true,
-    },
-    breakpoints: {
-      1024: {
-        slidesPerView: 2.1,
+  document.querySelectorAll<HTMLElement>("[data-projects-swiper]").forEach((el) => {
+    if (el.dataset.swiperReady === "true") return;
+    el.dataset.swiperReady = "true";
+    new Swiper(el, {
+      modules: [Pagination],
+      slidesPerView: "auto",
+      spaceBetween: 30,
+      loop: true,
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
       },
-      767: {
-        slidesPerView: 1.5,
+      breakpoints: {
+        1024: {
+          slidesPerView: 2.1,
+        },
+        767: {
+          slidesPerView: 1.5,
+        },
+        640: {
+          slidesPerView: 1.2,
+        },
       },
-      640: {
-        slidesPerView: 1.2,
-      },
-    },
+    });
   });
 </script>
 

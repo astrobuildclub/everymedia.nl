@@ -8,7 +8,7 @@ interface Props {
 }
 
 const { title, image, size: Size } = Astro.props.data || {};
-const size = stegaClean(Size || "");
+const size = stegaClean(Size || "") || "page";
 ---
 
 {

@@ -275,6 +275,7 @@ export interface BlockMediaGalleryType {
   _type: "blockMediaGallery";
   _key:string
   title:string
+  autoplay?: boolean;
   media: Array<SanityImageType>;
 }
 

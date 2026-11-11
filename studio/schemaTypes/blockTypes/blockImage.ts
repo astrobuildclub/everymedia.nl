@@ -22,6 +22,7 @@ export const blockImage = defineType({
       name: 'size',
       title: 'Size',
       type: 'string',
+      initialValue: 'page',
       options: {
         list: mediaSizes,
         layout: 'radio',
