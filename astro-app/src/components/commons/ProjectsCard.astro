@@ -187,19 +187,32 @@ const locale = Astro.params?.locale || defaultLanguage.id;
     }
   }
 
-  .project__meta {
-    .media-container {
-      border-radius: 4px;
-      margin-bottom: 0.75rem;
-      width: 100%;
-      overflow: hidden;
+  /*
+   * Vaste 16:9-uitsnede: video's en beelden hebben verschillende
+   * verhoudingen. Het beeld vult de container (cover) en zoomt bij hover
+   * binnen de container; de kaart zelf verandert niet van maat.
+   */
+  .media-container {
+    aspect-ratio: 16 / 9;
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
+    width: 100%;
+    overflow: hidden;
+
+    :global(figure) {
+      height: 100%;
+      margin: 0;
     }
 
-    .media {
-      border-radius: 4px;
-      /* aspect-ratio: 696 / 391; */
+    :global(.media) {
+      display: block;
       width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
+  }
+
+  .project__meta {
 
     .meta {
       display: flex;
