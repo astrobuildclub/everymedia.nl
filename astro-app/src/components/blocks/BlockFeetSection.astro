@@ -41,8 +41,8 @@ const {
           )}
 
           {connectWithUs?.length > 0 && (
-            <div class="connect-section">
-              {connectWithUs?.map((item: ConnectWithUsType) => {
+            <div class="connect-section" data-connect-reveal>
+              {connectWithUs?.map((item: ConnectWithUsType, index: number) => {
                 const { body, title, select: Select, labelLinks } = item || {};
                 const select = stegaClean(Select || "");
                 return (
@@ -53,6 +53,7 @@ const {
                         ? "connect-item full-span"
                         : "connect-item half-span"
                     )}
+                    style={`--reveal-index: ${index}`}
                   >
                     <div>
                       {title && <div class="connect-title">{title}</div>}
@@ -111,6 +112,44 @@ const {
     );
   })()
 }
+<script>
+  import { onPageLeave } from "../../lib/carousel";
+
+  /*
+   * "About / Contact / Social" staat sticky onderin het scherm, achter de
+   * hero. Zolang de hero-video laadt, is de hero doorzichtig en zie je deze
+   * tekst erdoorheen. Daarom: verborgen tot de hero een kwart weggescrold is,
+   * daarna komen de kolommen met stagger op (CSS-transition, zie hieronder).
+   * Scroll je terug naar boven, dan verdwijnen ze weer achter de hero.
+   *
+   * IntersectionObserver met rootMargin "-75% 0px 0px 0px": het meetvak is
+   * het onderste kwart van het venster. Zolang de hero daarin valt, blijft
+   * het blok verborgen.
+   */
+  const init = () => {
+    document.querySelectorAll<HTMLElement>("[data-connect-reveal]").forEach((section) => {
+      if (section.dataset.revealReady === "true") return;
+      section.dataset.revealReady = "true";
+
+      const hero = document.querySelector(".hero-section");
+      if (!hero) {
+        section.classList.add("is-revealed");
+        return;
+      }
+
+      const observer = new IntersectionObserver(
+        ([entry]) => section.classList.toggle("is-revealed", !entry.isIntersecting),
+        { rootMargin: "-75% 0px 0px 0px" }
+      );
+      observer.observe(hero);
+      onPageLeave(() => observer.disconnect());
+    });
+  };
+
+  // Ook na navigatie met <ClientRouter /> (guard voorkomt dubbel starten).
+  document.addEventListener("astro:page-load", init);
+</script>
+
 <style>
   section {
     margin-top: calc(-1 * var(--type-pos));
@@ -170,6 +209,35 @@ const {
         gap: var(--space-xs);
         padding-bottom: var(--space-xs);
         z-index: -1;
+
+        .connect-item {
+          transition:
+            opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+            translate 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        &.is-revealed .connect-item {
+          transition-delay: calc(var(--reveal-index, 0) * 80ms);
+        }
+
+        /*
+         * Alleen met JavaScript verbergen (anders zou de tekst nooit
+         * verschijnen). :focus-within houdt het zichtbaar voor wie er met
+         * Tab naartoe gaat.
+         */
+        @media (scripting: enabled) {
+          &:not(.is-revealed):not(:focus-within) .connect-item {
+            opacity: 0;
+            translate: 0 1.5rem;
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .connect-item {
+            translate: none !important;
+            transition: opacity 0.3s linear;
+          }
+        }
 
         .connect-item {
           &.full-span {

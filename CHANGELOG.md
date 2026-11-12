@@ -8,6 +8,7 @@ Categorieën: **Toegevoegd**, **Gewijzigd**, **Opgelost**, **Verwijderd**, **Bev
 ## [Unreleased]
 
 ### Toegevoegd
+- Home: blok "About / Contact / Social" is verborgen achter de hero en komt met stagger in beeld zodra de hero een kwart is weggescrold (IntersectionObserver + CSS-transition; zichtbaar bij toetsenbordfocus en zonder JavaScript)
 - Home-hero: titel "Every Media" komt letter voor letter van onder in beeld (GSAP SplitText, `expo.out`); de grijze sticky titels van het blok eronder animeren gelijk mee, zodat er geen dubbele tekst zichtbaar is. Respecteert `prefers-reduced-motion`
 - Page transitions (Astro `<ClientRouter />`, standaard-fade) en laadbalk bij navigeren volgens `_standards/TRANSITIONS.md` laag 1 + 2; alle componentscripts starten per pagina (`astro:page-load`) en ruimen Swiper/Lenis op bij het wisselen
 - Projectoverzicht: filters op projecttype (dropdown) en doelgroep (pillen) via URL-parameters (`?type=…&doelgroep=…`); Studio: documenttype *Project type* en velden *Project type* + *Audiences* op projecten
