@@ -12,15 +12,70 @@ import type { SwiperOptions } from "swiper/types";
  *   </div>
  *
  * - Vorige/volgende zijn echte <button>s; Swiper zet `disabled` aan begin en eind.
+ * - Slepen met muis en swipen op touch (Swiper); de drag-cursor staat in
+ *   `components/commons/DragCursor.astro`.
+ * - Oneindig (loop). Elke stop zet een slide links, uitgelijnd met de content.
+ *   Zonder loop geldt dat ook voor de laatste slide (zie `alignEnd`).
  * - Bij `prefers-reduced-motion: reduce` geen autoplay en geen slide-animatie.
  * - Autoplay heeft altijd een pauzeknop (WCAG 2.2.2).
  */
 
 const AUTOPLAY_DELAY = 5000;
+/** Minimaal aantal slides voor een soepele loop (bij ~2 slides in beeld). */
+const MIN_LOOP_SLIDES = 6;
 const SPEED = 400;
 
 const reducedMotionQuery = () =>
   window.matchMedia("(prefers-reduced-motion: reduce)");
+
+/**
+ * Loop heeft genoeg slides nodig: met 3 slides en 2,1 in beeld kan Swiper niet
+ * rondlopen. Vul dan aan met kopieën van de hele reeks (zelfde volgorde).
+ * Kopieën zijn voor schermlezers verborgen en niet met Tab bereikbaar, zodat
+ * elk item maar één keer wordt voorgelezen; met muis/touch zijn ze klikbaar.
+ */
+function fillForLoop(el: HTMLElement) {
+  const wrapper = el.querySelector<HTMLElement>(".swiper-wrapper");
+  if (!wrapper) return;
+  const originals = [...wrapper.children] as HTMLElement[];
+  if (originals.length < 2 || originals.length >= MIN_LOOP_SLIDES) return;
+
+  const sets = Math.ceil(MIN_LOOP_SLIDES / originals.length) - 1;
+  const playVideos = !reducedMotionQuery().matches;
+  for (let set = 0; set < sets; set++) {
+    originals.forEach((slide) => {
+      const clone = slide.cloneNode(true) as HTMLElement;
+      clone.setAttribute("aria-hidden", "true");
+      clone.dataset.carouselClone = "";
+      clone
+        .querySelectorAll<HTMLElement>("a, button, iframe, video, [tabindex]")
+        .forEach((node) => node.setAttribute("tabindex", "-1"));
+      if (playVideos) {
+        clone
+          .querySelectorAll<HTMLVideoElement>("video[data-autoplay]")
+          .forEach((video) => video.play().catch(() => {}));
+      }
+      wrapper.append(clone);
+    });
+  }
+}
+
+/**
+ * Met <ClientRouter /> blijft de pagina bestaan tussen navigaties. Swiper en
+ * de media-query-listeners ruimen we op vóór de swap, anders lekken ze.
+ */
+const cleanups = new Set<() => void>();
+let swapListenerAdded = false;
+
+export function onPageLeave(fn: () => void) {
+  cleanups.add(fn);
+  if (swapListenerAdded) return;
+  swapListenerAdded = true;
+  document.addEventListener("astro:before-swap", () => {
+    cleanups.forEach((cleanup) => cleanup());
+    cleanups.clear();
+  });
+}
 
 export function initCarousels(
   rootSelector: string,
@@ -43,10 +98,13 @@ export function initCarousels(
 
     const mq = reducedMotionQuery();
     const wantsAutoplay = root.dataset.autoplay === "true";
+    const loop = el.querySelectorAll(".swiper-slide").length > 1;
+    if (loop) fillForLoop(el);
 
     const swiper = new Swiper(el, {
       modules: [Navigation, A11y, Keyboard, Autoplay],
-      loop: false,
+      // Oneindig doorlopen; met één slide heeft dat geen zin.
+      loop,
       rewind: false,
       speed: mq.matches ? 0 : SPEED,
       watchOverflow: true,
@@ -70,6 +128,28 @@ export function initCarousels(
           : false,
       ...options,
     });
+
+    /*
+     * Altijd links uitlijnen. Swiper stopt standaard aan het eind zodra de
+     * laatste slide rechts in beeld is; de voorste slide staat dan half.
+     * Met ruimte na de laatste slide (breedte carousel - breedte laatste
+     * slide) kan die laatste slide ook links stoppen, dus elke stop lijnt
+     * een slide uit met de content. Passen alle slides al, dan geen ruimte.
+     */
+    const alignEnd = () => {
+      if (swiper.params.loop) return;
+      if (swiper.params.slidesPerView !== "auto" || !swiper.slides.length) return;
+      const lastIndex = swiper.slides.length - 1;
+      // Exacte (fractionele) breedte uit Swiper, geen offsetWidth: anders 1px mis.
+      const lastWidth = swiper.slidesSizesGrid[lastIndex] ?? 0;
+      const contentEnd = (swiper.slidesGrid[lastIndex] ?? 0) + lastWidth;
+      const offset = contentEnd > swiper.width ? Math.max(0, swiper.width - lastWidth) : 0;
+      if (Math.abs((swiper.params.slidesOffsetAfter ?? 0) - offset) < 0.5) return;
+      swiper.params.slidesOffsetAfter = offset;
+      swiper.update();
+    };
+    alignEnd();
+    swiper.on("resize", alignEnd);
 
     // Navigatie pas tonen als JS draait (zonder JS doen de knoppen niets).
     if (nav) nav.hidden = false;
@@ -105,10 +185,16 @@ export function initCarousels(
     syncToggle();
 
     // Reageer als de gebruiker de systeeminstelling tijdens het bezoek wijzigt.
-    mq.addEventListener("change", (event) => {
+    const onMotionChange = (event: MediaQueryListEvent) => {
       swiper.params.speed = event.matches ? 0 : SPEED;
       if (event.matches) swiper.autoplay?.stop();
       syncToggle();
+    };
+    mq.addEventListener("change", onMotionChange);
+
+    onPageLeave(() => {
+      mq.removeEventListener("change", onMotionChange);
+      swiper.destroy(true, false);
     });
 
     instances.push(swiper);

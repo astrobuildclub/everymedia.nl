@@ -1,0 +1,152 @@
+---
+/**
+ * Muiscursor met sleep-icoon voor carousels.
+ *
+ * Gebruik: zet <DragCursor /> binnen een element met `data-drag-area`
+ * (bij Swiper: in `.swiper`, naast `.swiper-wrapper`; die laatste verschuift
+ * met transform en zou position: fixed breken).
+ * Alleen voor muis/trackpad (hover + fine pointer); op touch en voor
+ * toetsenbordgebruikers verandert er niets. Puur decoratief (aria-hidden).
+ */
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  /** "light": witte cirkel (donkere achtergrond), "dark": zwarte cirkel (lichte achtergrond). */
+  tone?: "light" | "dark";
+}
+
+const { tone = "light" } = Astro.props;
+---
+
+<div
+  class:list={["drag-cursor", tone === "dark" && "drag-cursor--dark"]}
+  data-drag-cursor
+  aria-hidden="true"
+>
+  <Icon name="ph:arrows-horizontal" size={28} />
+</div>
+
+<script>
+  import { onPageLeave } from "../../lib/carousel";
+
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  const init = () => {
+    if (!finePointer.matches) return;
+
+    document.querySelectorAll<HTMLElement>("[data-drag-area]").forEach((area) => {
+      if (area.dataset.dragReady === "true") return;
+      const cursor = area.querySelector<HTMLElement>("[data-drag-cursor]");
+      if (!cursor) return;
+      area.dataset.dragReady = "true";
+      area.classList.add("has-drag-cursor");
+
+      // Doelpositie (muis) en huidige positie (cirkel). De cirkel loopt
+      // met een kleine vertraging achter de muis aan (lerp per frame);
+      // bij "beperk beweging" springt hij direct naar de muis.
+      let targetX = 0;
+      let targetY = 0;
+      let x = 0;
+      let y = 0;
+      let frame = 0;
+
+      const render = () => {
+        const ease = reducedMotion.matches ? 1 : 0.25;
+        x += (targetX - x) * ease;
+        y += (targetY - y) * ease;
+        cursor.style.translate = `${x}px ${y}px`;
+        frame =
+          Math.abs(targetX - x) > 0.1 || Math.abs(targetY - y) > 0.1
+            ? requestAnimationFrame(render)
+            : 0;
+      };
+
+      const move = (event: PointerEvent) => {
+        if (event.pointerType !== "mouse") return;
+        targetX = event.clientX;
+        targetY = event.clientY;
+        if (!cursor.classList.contains("is-visible")) {
+          // Eerste beweging: meteen op de muis, niet vanaf (0,0) invliegen.
+          x = targetX;
+          y = targetY;
+          cursor.classList.add("is-visible");
+        }
+        if (!frame) frame = requestAnimationFrame(render);
+      };
+
+      const hide = () => {
+        cursor.classList.remove("is-visible", "is-pressed");
+      };
+      const press = () => cursor.classList.add("is-pressed");
+      const release = () => cursor.classList.remove("is-pressed");
+
+      area.addEventListener("pointermove", move);
+      area.addEventListener("pointerleave", hide);
+      area.addEventListener("pointerdown", press);
+      window.addEventListener("pointerup", release);
+
+      onPageLeave(() => {
+        cancelAnimationFrame(frame);
+        window.removeEventListener("pointerup", release);
+      });
+    });
+  };
+
+  // Ook na navigatie met <ClientRouter /> (guard voorkomt dubbel starten).
+  document.addEventListener("astro:page-load", init);
+</script>
+
+<style>
+  .drag-cursor {
+    --drag-cursor-size: 5.5rem;
+
+    position: fixed;
+    inset-block-start: calc(var(--drag-cursor-size) / -2);
+    inset-inline-start: calc(var(--drag-cursor-size) / -2);
+    z-index: 50;
+    display: none;
+    place-items: center;
+    inline-size: var(--drag-cursor-size);
+    block-size: var(--drag-cursor-size);
+    border-radius: 50%;
+    background-color: #fff;
+    color: #000;
+    pointer-events: none;
+    opacity: 0;
+    scale: 0.6;
+  }
+
+  .drag-cursor--dark {
+    background-color: #000;
+    color: #fff;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .drag-cursor {
+      display: grid;
+    }
+
+    :global(.has-drag-cursor),
+    :global(.has-drag-cursor *) {
+      cursor: none;
+    }
+  }
+
+  .drag-cursor.is-visible {
+    opacity: 1;
+    scale: 1;
+  }
+
+  .drag-cursor.is-visible.is-pressed {
+    scale: 0.8;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .drag-cursor {
+      transition:
+        opacity 0.2s ease,
+        scale 0.25s ease;
+    }
+  }
+</style>

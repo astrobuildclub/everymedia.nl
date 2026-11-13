@@ -1,5 +1,5 @@
 import { StructureBuilder, StructureResolverContext } from 'sanity/structure'
-import { CaseIcon, CogIcon, DocumentIcon, UserIcon, UsersIcon } from '@sanity/icons'
+import { CaseIcon, CogIcon, DocumentIcon, TagIcon, UserIcon, UsersIcon } from '@sanity/icons'
 import { supportedLanguages } from '../schemaTypes/utils/supportedLanguage';
 
 
@@ -71,6 +71,28 @@ export const deskStructure = (S: StructureBuilder, context: StructureResolverCon
                       .schemaType("project")
                       .title(`Project (${language.title})`)
                       .filter('_type == "project" && language == $language')
+                      .params({language: language.id}),
+                  ),
+              ),
+            ]),
+        ),
+      S.listItem()
+        .title("Project types")
+        .icon(TagIcon)
+        .child(
+          S.list()
+            .title('Project types')
+            .items([
+              ...supportedLanguages.map((language) =>
+                S.listItem()
+                  .title(`${language.title.toLocaleUpperCase()}`)
+                  .icon(TagIcon)
+                  .schemaType("projectCategory")
+                  .child(
+                    S.documentList()
+                      .schemaType("projectCategory")
+                      .title(`Project types (${language.title})`)
+                      .filter('_type == "projectCategory" && language == $language')
                       .params({language: language.id}),
                   ),
               ),

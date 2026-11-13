@@ -35,6 +35,14 @@ const translations = {
     nl: "{{index}} van {{slidesLength}}",
     en: "{{index}} of {{slidesLength}}",
   },
+  projectsCarousel: {
+    nl: "Projecten",
+    en: "Projects",
+  },
+  episodesCarousel: {
+    nl: "Afleveringen",
+    en: "Episodes",
+  },
   mediaGallery: {
     nl: "Mediagalerij",
     en: "Media gallery",
@@ -42,6 +50,30 @@ const translations = {
   audiences: {
     nl: "Doelgroepen",
     en: "Audiences",
+  },
+  projectFilters: {
+    nl: "Projecten filteren",
+    en: "Filter projects",
+  },
+  filterType: {
+    nl: "Filter",
+    en: "Filter",
+  },
+  filterAudience: {
+    nl: "Doelgroep",
+    en: "Audience",
+  },
+  filterAll: {
+    nl: "Alles",
+    en: "All",
+  },
+  noProjectsFound: {
+    nl: "Geen projecten gevonden met dit filter.",
+    en: "No projects match this filter.",
+  },
+  showAllProjects: {
+    nl: "Toon alle projecten",
+    en: "Show all projects",
   },
 };
 

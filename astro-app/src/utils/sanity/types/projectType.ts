@@ -5,6 +5,12 @@ import type { PagebuilderType } from "./pagebuilderType";
 import type { RichTextSimpleType, SanityImageType } from "./global";
 import type { DefaultSeoPropsType, Slug } from "./common";
 
+/** Projecttype of doelgroep zoals gebruikt in de projectfilters. */
+export interface ProjectFilterOption {
+  title: string;
+  slug: string;
+}
+
 export interface ProjectType extends SanityDocument {
   _id: string;
   _type: string;
@@ -23,4 +29,6 @@ export interface ProjectType extends SanityDocument {
   heroImage: SanityImageType;
   tag: string;
   client: string;
+  categories?: ProjectFilterOption[] | null;
+  audiences?: ProjectFilterOption[] | null;
 }

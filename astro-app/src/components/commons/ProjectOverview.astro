@@ -3,7 +3,6 @@ import { PortableText } from "astro-portabletext";
 import type { ProjectType } from "../../utils";
 import SanityImage from "./SanityImage.astro";
 import SimpleVideo from "./SimpleVideo.astro";
-import SanityLink from "./SanityLink.astro";
 import { routes } from "../../lib/router";
 import { defaultLanguage } from "../../lib/helperFunctions";
 import { stegaClean } from "@sanity/client/stega";
@@ -26,12 +25,16 @@ const {
 } = Astro.props.project || {};
 const locale = Astro.params?.locale || defaultLanguage.id;
 const select = stegaClean(Select || "");
+const href =
+  typeof slug === "object" && slug?.current
+    ? routes?.project({ language: locale ?? "", slug: slug.current })
+    : null;
 ---
 
 {
   (() => {
     return (
-      <article>
+      <article class="project-card">
         <div class="project__meta">
           <div>
             {select === "heroImage" && heroImage && (
@@ -66,20 +69,14 @@ const select = stegaClean(Select || "");
               {tag && <p>{tag}</p>}
             </div>
             <div class="project-details">
-              {title && (
-                <SanityLink
-                  href={
-                    typeof slug === "object" && slug?.current
-                      ? routes?.project({
-                          language: locale ?? "",
-                          slug: slug?.current,
-                        })
-                      : "#"
-                  }
-                >
+              {title &&
+                (href ? (
+                  <a class="project-link" href={href}>
+                    <h3>{title}</h3>
+                  </a>
+                ) : (
                   <h3>{title}</h3>
-                </SanityLink>
-              )}
+                ))}
               {subtitle && <span>{subtitle}</span>}
               {intro && (
                 <div class="intro-text">
@@ -95,18 +92,78 @@ const select = stegaClean(Select || "");
 }
 
 <style>
+  /*
+   * Hele kaart klikbaar (stretched link). De link zelf blijft om de titel,
+   * zodat screenreaders een duidelijke linktekst hebben.
+   */
+  .project-card {
+    position: relative;
+  }
+
+  .project-link {
+    color: inherit;
+    text-decoration: none;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  .project-card:has(.project-link:focus-visible) {
+    outline: 2px solid var(--card-focus, #000);
+    outline-offset: 4px;
+    border-radius: 0.75rem;
+  }
+
+  .project-card:hover h3 {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.12em;
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .project-card :global(.media) {
+      transition: transform 0.5s ease;
+    }
+
+    .project-card:hover :global(.media) {
+      transform: scale(1.03);
+    }
+  }
+
+  /*
+   * Vaste 16:9-uitsnede: video's en beelden hebben verschillende
+   * verhoudingen. Het beeld vult de container (cover) en zoomt bij hover
+   * binnen de container; de kaart zelf verandert niet van maat.
+   */
+  .media-container {
+    aspect-ratio: 16 / 9;
+    border-radius: 0.75rem;
+    margin-bottom: 0.75rem;
+    width: 100%;
+    overflow: hidden;
+
+    :global(figure) {
+      height: 100%;
+      margin: 0;
+    }
+
+    :global(.media) {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
   .project__meta {
-    .media-container {
-      border-radius: 0.75rem;
-      margin-bottom: 0.75rem;
-      width: 100%;
-      overflow: hidden;
-    }
-    .media {
-      border-radius: 0.75rem;
-      /* aspect-ratio: 696 / 391; */
-      width: 100%;
-    }
 
     .meta {
       display: flex;

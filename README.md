@@ -17,7 +17,8 @@
 ## Stack
 
 - Astro 7 · Sanity 3 · Node 22
-- Styling: CSS (custom) · Animatie: Lenis (smooth scroll); Swiper 14
+- Styling: CSS (custom) · Animatie: Lenis (smooth scroll); Swiper 14; GSAP 3 + SplitText (menu, home-hero)
+- Iconen: `astro-icon` met de Phosphor-set (`@iconify-json/ph`): `<Icon name="ph:arrows-horizontal" />`, namen op [phosphoricons.com](https://phosphoricons.com)
 - Hosting: Netlify (SSR via `@astrojs/netlify` 8; build kopieert `astro-app/.netlify` → root)
 
 

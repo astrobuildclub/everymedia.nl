@@ -7,7 +7,29 @@ Categorieën: **Toegevoegd**, **Gewijzigd**, **Opgelost**, **Verwijderd**, **Bev
 
 ## [Unreleased]
 
+### Toegevoegd
+- Home: blok "About / Contact / Social" is verborgen achter de hero en komt met stagger in beeld zodra de hero een kwart is weggescrold (IntersectionObserver + CSS-transition; zichtbaar bij toetsenbordfocus en zonder JavaScript)
+- Home-hero: titel "Every Media" komt letter voor letter van onder in beeld (GSAP SplitText, `expo.out`); de grijze sticky titels van het blok eronder animeren gelijk mee, zodat er geen dubbele tekst zichtbaar is. Respecteert `prefers-reduced-motion`
+- Page transitions (Astro `<ClientRouter />`, standaard-fade) en laadbalk bij navigeren volgens `_standards/TRANSITIONS.md` laag 1 + 2; alle componentscripts starten per pagina (`astro:page-load`) en ruimen Swiper/Lenis op bij het wisselen
+- Projectoverzicht: filters op projecttype (dropdown) en doelgroep (pillen) via URL-parameters (`?type=…&doelgroep=…`); Studio: documenttype *Project type* en velden *Project type* + *Audiences* op projecten
+- Projectkaarten (home, overzicht, related work) zijn in hun geheel klikbaar (stretched link) met focusring op de kaart
+- FAQ: de hele rij van een vraag is klikbaar (padding in de knop); `aria-expanded`/`aria-controls`, `<h3>` om de knop i.p.v. erin
+- Projectcarousels: eigen muiscursor (witte cirkel met Phosphor-icoon `arrows-horizontal`) die de sleepactie aangeeft; alleen bij muis/trackpad, volgt direct bij "beperk beweging"
+- Iconen via `astro-icon` + Phosphor (`@iconify-json/ph`)
+- Alle carousels (projectoverzicht, related work, beeldgalerij, mediagalerij, afleveringen) hetzelfde gedrag via `initCarousels`: oneindig (loop, aangevuld met verborgen kopieën bij weinig slides), slepen met drag-cursor, swipen, pijlen (Phosphor) in zwart of wit; elke stop lijnt een slide uit met de content en bij slepen lopen ze door tot de vensterrand
+- Menu-animatie met GSAP: blauw vlak schuift open van boven (clip-path) met stagger-reveal van de links, sluit terug naar boven; hover laat de letters omhoog uit- en van onder inrollen (SplitText). Escape sluit, focus naar Close/Menu, pagina erachter `inert`; geen animatie bij "beperk beweging"; menuwoorden bijgesneden tot hoofdletterhoogte (`text-box: trim-both cap alphabetic`) en strak gestapeld
+
+### Gewijzigd
+- Blauwe knoppen (`.black-btn`) zijn nu zwart via tokens `--btn-bg` / `--btn-bg-hover` / `--btn-text`
+
 ### Opgelost
+- Audience-pagina's: Cards- en Work Selection-blok stonden in een kolom van 1px; `grid-template-columns: 1` (ongeldig) werd door lightningcss sinds Astro 7 omgezet naar `1px`
+- Console-fout over `/src/styles/global.css` (dubbele stylesheet-link) en ongeldige `font-weight: medium`
+- Projectoverzicht toonde projecten uit alle talen
+- Menu: scroll-lock zette `body` op `position: fixed` (pagina sprong naar boven); nu `overflow: hidden` op `html` + `data-lenis-prevent`. Focusring op de menuknoppen
+- `will-change: transform` op `body` verwijderd: maakte de body het referentiekader voor `position: fixed`, waardoor laadbalk en cookiebanner meescrolden
+- Projectcarousel (Featured projects): eerste kaart stond tegen de rand van het venster, lijnt nu uit met de titel; horizontale scroll op mobiel door `width: 100%` + padding
+- Projectkaarten: thumbnail werd bij hover hoger; vaste 16:9-uitsnede (`object-fit: cover`), zoom blijft binnen de container
 - Netlify: productiebuild na release `staging → main` werd overgeslagen (`ignore` vergeleek met de site-brede `$CACHED_COMMIT_REF` = de deploy preview van dezelfde code); vergelijkt nu ook met de vorige commit
 
 ## [2026-11-11]

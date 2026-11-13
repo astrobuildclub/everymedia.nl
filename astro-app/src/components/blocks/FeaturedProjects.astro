@@ -44,6 +44,7 @@ const { intro, tagLine, projects = [] } = Astro.props.data || {};
       gap: var(--space-s);
       max-width: 66rem;
       width: 100%;
+      box-sizing: border-box;
       margin-bottom: 3rem;
       padding-left: var(--space-s);
       padding-right: var(--space-s);
@@ -66,6 +67,11 @@ const { intro, tagLine, projects = [] } = Astro.props.data || {};
         letter-spacing: 0.25px;
       }
     }
+    /* Carousel begint op één lijn met de titel (zelfde opzet als related work). */
+    .project-work-about {
+      padding-inline-start: var(--space-s);
+    }
+
     .project-work-about .project-details {
       display: flex;
       flex-direction: column;

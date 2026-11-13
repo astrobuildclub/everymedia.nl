@@ -136,6 +136,8 @@ const MenuClass = (heroVariants: HeroVariantType) => {
                 "menu-buttons open-menu open-menu-button",
                 MenuClass(heroVariants)
               )}
+              aria-controls="menu"
+              aria-expanded="false"
             >
               {`Menu`}
             </button>
@@ -144,13 +146,15 @@ const MenuClass = (heroVariants: HeroVariantType) => {
                 "close-menu close-button close-menu-button hidden",
                 MenuClass(heroVariants)
               )}
+              aria-controls="menu"
+              aria-expanded="true"
             >
               {`Close`}
             </button>
           </div>
         </div>
         {navItems?.length > 0 && (
-          <nav id="menu" class="show-nav nav hidden">
+          <nav id="menu" class="show-nav nav hidden" data-lenis-prevent>
             <div class="nav-items">
               {navItems?.map((item: NavItemType) => {
                 const { headline, labelLinks } = item || {};
@@ -180,6 +184,22 @@ const MenuClass = (heroVariants: HeroVariantType) => {
 }
 
 <style>
+  :global(html.menu-open) {
+    overflow: hidden;
+  }
+
+  :global(.sr-only) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
   header {
     position: absolute;
     top: 0;
@@ -297,6 +317,12 @@ const MenuClass = (heroVariants: HeroVariantType) => {
       width: 5rem;
     }
 
+    .menu-buttons:focus-visible,
+    .close-menu:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 3px;
+    }
+
     .menu-cta-audience {
       background-color: var(--ash-gray);
       color: black;
@@ -342,18 +368,21 @@ const MenuClass = (heroVariants: HeroVariantType) => {
       display: none !important;
     }
 
+    /*
+     * Menuvlak: vast over het hele venster. GSAP animeert clip-path
+     * (van boven naar beneden open, terug naar boven dicht).
+     */
     .nav {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
+      position: fixed;
+      inset: 0;
       height: 100vh;
+      height: 100dvh;
       display: flex;
       justify-content: center;
       align-items: center;
       background-color: var(--dark-blue);
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
       overflow-y: auto;
+      overscroll-behavior: contain;
       z-index: 1;
 
       .nav-items {
@@ -361,13 +390,19 @@ const MenuClass = (heroVariants: HeroVariantType) => {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 0.5rem;
+        /* Strak op elkaar: de woorden zijn bijgesneden tot de hoofdletterhoogte. */
+        gap: var(--space-3xs);
         padding: 1.125rem;
 
         .nav-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: var(--space-3xs);
           text-align: center;
 
           .headline {
+            margin-block: var(--space-xs) var(--space-3xs);
             color: white;
             font-size: 0.75rem;
             line-height: 150%;
@@ -386,10 +421,59 @@ const MenuClass = (heroVariants: HeroVariantType) => {
             font-weight: 800;
             text-transform: uppercase;
             cursor: pointer;
-            transition: opacity 0.3s ease-in-out;
             text-decoration: none;
-            &:hover {
-              opacity: 0.5;
+
+            /*
+             * Hover: letters rollen omhoog weg en komen van onder terug
+             * (twee lagen, opgebouwd in het script). De link is het masker.
+             */
+            position: relative;
+            display: block;
+            overflow: hidden;
+
+            &:focus-visible {
+              outline: 2px solid white;
+              outline-offset: 4px;
+            }
+
+            :global(.label-text),
+            :global(.label-clone) {
+              display: block;
+            }
+
+            :global(.label-clone) {
+              position: absolute;
+              inset: 0;
+            }
+
+            /*
+             * SplitText maakt hier <span>s (een <div> mag niet in een link).
+             * Spans zijn inline, en transform werkt niet op inline-elementen:
+             * zonder inline-block bewegen de letters niet.
+             */
+            :global(.split-word),
+            :global(.split-char) {
+              display: inline-block;
+            }
+
+            /*
+             * Elke letter precies zo hoog als een hoofdletter (text-box-trim),
+             * dus het masker (de link) ook: niets steekt uit en de woorden
+             * staan strak op elkaar. Zonder ondersteuning (Firefox) blijft
+             * line-height 0.9 en schuiven de letters iets verder (105%).
+             */
+            :global(.label-text),
+            :global(.label-clone),
+            :global(.split-char) {
+              text-box: trim-both cap alphabetic;
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+              transition: opacity 0.2s ease;
+
+              &:hover {
+                opacity: 0.6;
+              }
             }
           }
         }
@@ -399,35 +483,202 @@ const MenuClass = (heroVariants: HeroVariantType) => {
 </style>
 
 <script>
-  const openMenuButton = document.querySelector(".open-menu-button");
-  const closeMenuButton = document.querySelector(".close-menu-button");
-  const menu = document.querySelector("#menu");
-  const menuBackground = document.querySelector("header");
-  const logo = document.querySelector(".logo-class");
+  /**
+   * Menu met GSAP.
+   *
+   * Openen (één timeline):
+   * 1. Het blauwe vlak schuift van boven naar beneden open: clip-path van
+   *    inset(0 0 100% 0) (alleen een lijn bovenaan) naar inset(0 0 0 0).
+   * 2. Als het vlak grotendeels open is, komen de koppen in beeld en rollen
+   *    de letters van elke link van onder omhoog. Elke link start 90 ms na de
+   *    vorige (stagger per link) en binnen een link 30 ms per letter.
+   *
+   * Sluiten: de links vervagen kort omhoog en het vlak trekt zich terug naar
+   * boven (clip-path terug naar 100% onderaan).
+   *
+   * Hover: elke link heeft twee lagen met dezelfde tekst, in letters
+   * gesplitst met SplitText. De link is het masker (overflow: hidden). Bij
+   * hover gaan de letters van de bovenste laag omhoog uit beeld en komen die
+   * van de onderste laag van onder binnen; bij verlaten precies andersom
+   * (dezelfde timeline in reverse).
+   *
+   * "Beperk beweging": geen animaties, menu verschijnt en verdwijnt direct;
+   * hover wordt een kleine opacity-wissel (CSS).
+   *
+   * Met <ClientRouter /> wordt de header per pagina vervangen, dus alles
+   * start opnieuw op astro:page-load en ruimt op bij astro:before-swap.
+   */
+  import { gsap } from "gsap";
+  import { SplitText } from "gsap/SplitText";
+  import { onPageLeave } from "../lib/carousel";
 
-  openMenuButton?.addEventListener("click", () => {
-    menu?.classList.remove("hidden");
-    openMenuButton?.classList.add("hidden");
-    closeMenuButton?.classList.remove("hidden");
-    menuBackground?.classList.add("menu-background");
+  gsap.registerPlugin(SplitText);
 
-    logo?.classList.add("logo-menu-open");
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const CLOSED = "inset(0% 0% 100% 0%)";
+  const OPEN = "inset(0% 0% 0% 0%)";
 
-    document.body.style.position = "fixed";
-    document.body.style.width = "100%";
-    document.body.style.overflowY = "scroll";
-  });
+  const span = (className: string, text: string, hidden = false) => {
+    const el = document.createElement("span");
+    el.className = className;
+    el.textContent = text;
+    if (hidden) el.setAttribute("aria-hidden", "true");
+    return el;
+  };
 
-  closeMenuButton?.addEventListener("click", () => {
-    menu?.classList.add("hidden");
-    menuBackground?.classList.remove("menu-background");
-    closeMenuButton?.classList.add("hidden");
-    openMenuButton?.classList.remove("hidden");
+  const initMenu = () => {
+    const header = document.getElementById("site-header");
+    const menu = document.getElementById("menu");
+    const openButton = header?.querySelector<HTMLButtonElement>(".open-menu-button");
+    const closeButton = header?.querySelector<HTMLButtonElement>(".close-menu-button");
+    if (!header || !menu || !openButton || !closeButton) return;
+    if (header.dataset.menuReady === "true") return;
+    header.dataset.menuReady = "true";
 
-    logo?.classList.remove("logo-menu-open");
+    const logo = header.querySelector(".logo-class");
+    const navItems = menu.querySelector(".nav-items");
+    const headlines = menu.querySelectorAll(".headline");
+    const links = [...menu.querySelectorAll<HTMLAnchorElement>(".label")].filter(
+      (link) => link.textContent?.trim()
+    );
+    // Achter het menu: niet bereikbaar met Tab zolang het open is.
+    const background = [document.querySelector("main"), document.querySelector("footer")].filter(
+      (el): el is HTMLElement => el instanceof HTMLElement
+    );
 
-    document.body.style.position = "";
-    document.body.style.width = "";
-    document.body.style.overflowY = "";
-  });
+    const linkLetters: Element[][] = [];
+    const hovers: gsap.core.Timeline[] = [];
+    let current: gsap.core.Timeline | undefined;
+    let isOpen = false;
+
+    const ctx = gsap.context(() => {
+      gsap.set(menu, { clipPath: CLOSED });
+
+      links.forEach((link) => {
+        const text = link.textContent?.trim() ?? "";
+        // Screenreaders lezen de verborgen tekst; de letterlagen zijn decoratief.
+        const front = span("label-text", text, true);
+        const back = span("label-clone", text, true);
+        link.replaceChildren(span("sr-only", text), front, back);
+
+        const frontSplit = SplitText.create(front, {
+          type: "words,chars",
+          tag: "span",
+          wordsClass: "split-word",
+          charsClass: "split-char",
+          aria: "none",
+        });
+        const backSplit = SplitText.create(back, {
+          type: "words,chars",
+          tag: "span",
+          wordsClass: "split-word",
+          charsClass: "split-char",
+          aria: "none",
+        });
+        linkLetters.push(frontSplit.chars);
+        gsap.set(backSplit.chars, { yPercent: 105 });
+
+        if (reducedMotion.matches) return;
+
+        const hover = gsap
+          .timeline({ paused: true, defaults: { duration: 0.5, ease: "power3.inOut", stagger: 0.018 } })
+          .fromTo(frontSplit.chars, { yPercent: 0 }, { yPercent: -105, immediateRender: false }, 0)
+          .fromTo(backSplit.chars, { yPercent: 105 }, { yPercent: 0, immediateRender: false }, 0);
+        hovers.push(hover);
+
+        link.addEventListener("pointerenter", (event) => {
+          if (event.pointerType === "mouse") hover.play();
+        });
+        link.addEventListener("pointerleave", () => hover.reverse());
+        link.addEventListener("focus", () => hover.play());
+        link.addEventListener("blur", () => hover.reverse());
+      });
+    });
+
+    const open = () => {
+      if (isOpen) return;
+      isOpen = true;
+      current?.kill();
+      hovers.forEach((hover) => hover.pause(0));
+
+      menu.classList.remove("hidden");
+      openButton.classList.add("hidden");
+      closeButton.classList.remove("hidden");
+      closeButton.focus();
+      logo?.classList.add("logo-menu-open");
+      document.documentElement.classList.add("menu-open");
+      background.forEach((el) => (el.inert = true));
+      gsap.set(navItems, { autoAlpha: 1, y: 0 });
+
+      if (reducedMotion.matches) {
+        gsap.set(menu, { clipPath: OPEN });
+        gsap.set(headlines, { autoAlpha: 1, y: 0 });
+        gsap.set(linkLetters.flat(), { yPercent: 0 });
+        return;
+      }
+
+      const tl = gsap.timeline();
+      tl.to(menu, { clipPath: OPEN, duration: 0.8, ease: "expo.inOut" });
+      tl.fromTo(
+        headlines,
+        { autoAlpha: 0, y: 12 },
+        { autoAlpha: 1, y: 0, duration: 0.5, ease: "power2.out", stagger: 0.08 },
+        0.5
+      );
+      // Letters starten als het vlak grotendeels open is (0,55 s), zodat de
+      // stagger zichtbaar is: 90 ms tussen links, 30 ms tussen letters.
+      linkLetters.forEach((chars, index) => {
+        tl.fromTo(
+          chars,
+          { yPercent: 110 },
+          { yPercent: 0, duration: 0.8, ease: "power3.out", stagger: 0.03 },
+          0.55 + index * 0.09
+        );
+      });
+      current = tl;
+    };
+
+    const close = (returnFocus = true) => {
+      if (!isOpen) return;
+      isOpen = false;
+      current?.kill();
+
+      closeButton.classList.add("hidden");
+      openButton.classList.remove("hidden");
+      if (returnFocus) openButton.focus();
+      logo?.classList.remove("logo-menu-open");
+      document.documentElement.classList.remove("menu-open");
+      background.forEach((el) => (el.inert = false));
+
+      const done = () => menu.classList.add("hidden");
+
+      if (reducedMotion.matches) {
+        gsap.set(menu, { clipPath: CLOSED });
+        done();
+        return;
+      }
+
+      current = gsap
+        .timeline({ onComplete: done })
+        .to(navItems, { autoAlpha: 0, y: -24, duration: 0.3, ease: "power2.in" })
+        .to(menu, { clipPath: CLOSED, duration: 0.7, ease: "expo.inOut" }, 0.1);
+    };
+
+    const onKeydown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && isOpen) close();
+    };
+
+    openButton.addEventListener("click", open);
+    closeButton.addEventListener("click", () => close());
+    document.addEventListener("keydown", onKeydown);
+
+    onPageLeave(() => {
+      document.removeEventListener("keydown", onKeydown);
+      document.documentElement.classList.remove("menu-open");
+      current?.kill();
+      ctx.revert();
+    });
+  };
+
+  document.addEventListener("astro:page-load", initMenu);
 </script>

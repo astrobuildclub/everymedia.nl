@@ -2,6 +2,7 @@
 import type { BlockMediaGalleryType, SanityImageType } from "../../utils";
 import SanityImage from "../commons/SanityImage.astro";
 import CarouselNav from "../commons/CarouselNav.astro";
+import DragCursor from "../commons/DragCursor.astro";
 import { getTranslation } from "../../i18n/translate";
 import { defaultLanguage } from "../../lib/helperFunctions";
 
@@ -39,7 +40,7 @@ const items = (media || []).filter(Boolean);
         )}
         {items.length > 1 && <CarouselNav autoplay={autoplay} />}
       </div>
-      <div class="swiper">
+      <div class="swiper" data-drag-area>
         <div class="swiper-wrapper">
           {items.map((item: SanityImageType) => (
             <div class="swiper-slide media-gallery-image">
@@ -47,6 +48,7 @@ const items = (media || []).filter(Boolean);
             </div>
           ))}
         </div>
+        {items.length > 1 && <DragCursor tone="dark" />}
       </div>
     </section>
   )
@@ -56,18 +58,23 @@ const items = (media || []).filter(Boolean);
   import "swiper/css";
   import { initCarousels } from "../../lib/carousel";
 
-  initCarousels("[data-media-carousel]", {
-    slidesPerView: 1,
-    spaceBetween: 16,
-    breakpoints: {
-      768: { slidesPerView: 2, spaceBetween: 24 },
-    },
-  });
+  // Ook na navigatie met <ClientRouter /> (guard voorkomt dubbel starten).
+  document.addEventListener("astro:page-load", () =>
+    initCarousels("[data-media-carousel]", {
+      slidesPerView: 1,
+      spaceBetween: 16,
+      breakpoints: {
+        768: { slidesPerView: 2, spaceBetween: 24 },
+      },
+    })
+  );
 </script>
 
 <style>
   .block-media-gallery-section {
     padding: var(--space-2xl) var(--space-s);
+    /* Zijmarge aan beide kanten: carousel loopt links en rechts tot de rand. */
+    --carousel-bleed-end: var(--space-s);
   }
 
   .media-gallery-header {

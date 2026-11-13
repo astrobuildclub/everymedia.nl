@@ -35,7 +35,7 @@ const { title, selectedProjects = [], intro, cta } = Astro.props.data || {};
 <style>
   .block-work-section {
     display: grid;
-    grid-template-columns: 1;
+    grid-template-columns: minmax(0, 1fr);
     grid-column-start: 1;
     gap: var(--space-s-m);
     padding: var(--space-2xl) var(--space-s);

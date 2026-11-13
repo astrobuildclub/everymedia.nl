@@ -229,7 +229,7 @@ export const projectsListingSectionFields = /* groq */ `
 _type,
 tagLine,
 _key,
-"allProjects":*[_type in ["project"] && defined(slug.current)]| order(_updatedAt desc){
+"allProjects":*[_type == "project" && defined(slug.current) && language == ^.^.language]| order(_updatedAt desc){
 ${projectFields}
 },
 `;

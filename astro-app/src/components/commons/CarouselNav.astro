@@ -6,18 +6,25 @@
  */
 import { getTranslation } from "../../i18n/translate";
 import { cn, defaultLanguage } from "../../lib/helperFunctions";
+import { Icon } from "astro-icon/components";
 
 interface Props {
   autoplay?: boolean;
   class?: string;
+  /** "dark": zwarte knoppen (lichte achtergrond), "light": witte knoppen (donkere achtergrond). */
+  tone?: "dark" | "light";
 }
 
-const { autoplay = false, class: className } = Astro.props;
+const { autoplay = false, class: className, tone = "dark" } = Astro.props;
 const locale = Astro.params?.locale || defaultLanguage.id;
 const { t } = getTranslation(locale);
 ---
 
-<div class={cn("carousel-nav", className)} data-carousel-nav hidden>
+<div
+  class={cn("carousel-nav", tone === "light" && "carousel-nav--light", className)}
+  data-carousel-nav
+  hidden
+>
   {
     autoplay && (
       <button
@@ -44,9 +51,7 @@ const { t } = getTranslation(locale);
     data-carousel-prev
     aria-label={t("carouselPrevious")}
   >
-    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d="M15 5l-7 7 7 7" />
-    </svg>
+    <Icon name="ph:caret-left-bold" aria-hidden="true" />
   </button>
   <button
     type="button"
@@ -54,17 +59,19 @@ const { t } = getTranslation(locale);
     data-carousel-next
     aria-label={t("carouselNext")}
   >
-    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d="M9 5l7 7-7 7" />
-    </svg>
+    <Icon name="ph:caret-right-bold" aria-hidden="true" />
   </button>
 </div>
 
 <style>
+  /*
+   * Zwart op licht, wit op donker (tone="light"). Hover keert om:
+   * gevulde cirkel met het icoon in de achtergrondkleur.
+   */
   .carousel-nav {
     --carousel-btn-size: 2.75rem; /* 44px: ruim boven WCAG 2.5.8 */
-    --carousel-btn-fg: currentColor;
-    --carousel-btn-focus: var(--clr-primary, oklch(42% 0.27 268));
+    --carousel-btn-fg: #000;
+    --carousel-btn-contrast: #fff;
 
     display: flex;
     gap: var(--space-2xs, 0.5rem);
@@ -73,6 +80,11 @@ const { t } = getTranslation(locale);
     &[hidden] {
       display: none;
     }
+  }
+
+  .carousel-nav--light {
+    --carousel-btn-fg: #fff;
+    --carousel-btn-contrast: #000;
   }
 
   .carousel-btn {
@@ -94,20 +106,16 @@ const { t } = getTranslation(locale);
     svg {
       inline-size: 1.25rem;
       block-size: 1.25rem;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+      fill: currentColor;
     }
 
     &:hover:not(:disabled) {
       background: var(--carousel-btn-fg);
-      color: var(--clr-bg, #fff);
+      color: var(--carousel-btn-contrast);
     }
 
     &:focus-visible {
-      outline: 3px solid var(--carousel-btn-focus);
+      outline: 2px solid var(--carousel-btn-fg);
       outline-offset: 3px;
     }
 
@@ -127,10 +135,6 @@ const { t } = getTranslation(locale);
   }
 
   .carousel-btn--toggle {
-    svg {
-      fill: currentColor;
-      stroke: none;
-    }
     .icon-play {
       display: none;
     }

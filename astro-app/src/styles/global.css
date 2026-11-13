@@ -61,6 +61,14 @@
   --cool-gray: #ccc;
   --black-gray: #171717;
 
+  /* Knoppen (CTA's uit het CMS): zwart, hover iets lichter */
+  --btn-bg: #000;
+  --btn-bg-hover: var(--jet);
+  --btn-text: #fff;
+
+  /* Laadbalk bij navigeren (PageProgress): merkblauw, zichtbaar op licht én donker */
+  --progress-color: var(--blue-600);
+
   /* dark */
   --clr-primary-a50: oklch(from var(--clr-primary) l c h / calc(alpha - 0.5));
   --clr-primary-a50: oklch(from var(--clr-primary) l c h / calc(alpha - 0.5));
@@ -316,7 +324,9 @@ body {
   color: var(--clr-primary);
   font-size: var(--fs-0);
   line-height: 112.5%;
-  will-change: transform;
+  /* Geen will-change: transform op body: dat maakt body het referentiekader
+     voor position: fixed (laadbalk, drag-cursor, cookiebanner) en laat die
+     elementen meescrollen. */
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
@@ -389,8 +399,8 @@ pre {
 
 .black-btn {
   display: block;
-  background-color: var(--blue-900);
-  color: white;
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
   font-weight: bold;
   text-align: center;
   font-size: 1.125rem;
@@ -405,10 +415,12 @@ pre {
 }
 
 .black-btn:hover {
-  /* background-color: transparent; */
-  background-color: var(--blue-600);
-  /* border-color: var(--off-black); */
-  /* color: var(--off-black); */
+  background-color: var(--btn-bg-hover);
+}
+
+.black-btn:focus-visible {
+  outline: 2px solid var(--btn-bg);
+  outline-offset: 3px;
 }
 
 figure {
@@ -444,4 +456,42 @@ html.lenis {
 
 #cc-main .cm {
   position: absolute !important;
+}
+
+/*
+ * Carousels met kaarten (projecten, afleveringen): breedte per slide.
+ * Mobiel 85% zodat de volgende kaart zichtbaar is; vanaf 640px 1,5 en vanaf
+ * 1024px 2,1 kaart in beeld (ruimte tussen kaarten: 16px / 30px, zie
+ * spaceBetween in de componenten).
+ */
+.carousel-cards .swiper-slide {
+  inline-size: 85%;
+
+  @media (min-width: 640px) {
+    inline-size: calc((100% - 30px) / 1.5);
+  }
+
+  @media (min-width: 1024px) {
+    inline-size: calc((100% - 33px) / 2.1);
+  }
+}
+
+/*
+ * Carousels lopen bij slepen tot de rand van het venster door, maar stoppen
+ * op de contentrand. De .swiper steekt met een negatieve marge uit tot de
+ * vensterrand en krijgt dezelfde ruimte terug als padding; Swiper trekt die
+ * padding af en zet de slides erbinnen.
+ * --carousel-bleed-end: hoeveel ruimte er rechts naast de carousel is (de
+ * padding van de sectie). Standaard 0 (desktop), op mobiel de zijmarge.
+ */
+[data-carousel-root] .swiper {
+  margin-inline: calc(var(--carousel-bleed-start, var(--space-s)) * -1)
+    calc(var(--carousel-bleed-end, 0px) * -1);
+  padding-inline: var(--carousel-bleed-start, var(--space-s)) var(--carousel-bleed-end, 0px);
+}
+
+@media (max-width: 639px) {
+  [data-carousel-root] {
+    --carousel-bleed-end: var(--space-s);
+  }
 }
