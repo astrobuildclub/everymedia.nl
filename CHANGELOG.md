@@ -23,6 +23,7 @@ Categorieën: **Toegevoegd**, **Gewijzigd**, **Opgelost**, **Verwijderd**, **Bev
 - Blauwe knoppen (`.black-btn`) zijn nu zwart via tokens `--btn-bg` / `--btn-bg-hover` / `--btn-text`
 
 ### Opgelost
+- Home: ondertitel "MEDIA" in het blok onder de hero was rood (testwaarde); nu `--charcoal-gray`, gelijk aan "EVERY"
 - Audience-pagina's: Cards- en Work Selection-blok stonden in een kolom van 1px; `grid-template-columns: 1` (ongeldig) werd door lightningcss sinds Astro 7 omgezet naar `1px`
 - Console-fout over `/src/styles/global.css` (dubbele stylesheet-link) en ongeldige `font-weight: medium`
 - Projectoverzicht toonde projecten uit alle talen
